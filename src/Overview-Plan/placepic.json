@@ -1,0 +1,11 @@
+[
+  {
+    "key": 1,
+    "name": "Cox's Bazar",
+    "start_date": "05 July 2023" ,
+    "end_date": "10 July 2023",
+    "description": "5 days, 2 adults, fancy tour ",
+    "image": "../Images/cox1.jpg",
+    "map": "../Images/map cox.PNG"
+  }
+]
