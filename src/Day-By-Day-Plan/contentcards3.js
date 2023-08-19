@@ -4,7 +4,7 @@ import { Controller, useFormContext } from "react-hook-form";
 
 import CardActions from "@mui/material/CardActions";
 import { Grid, Card, CardContent, Typography } from "@mui/material";
-import PlaceCard from "./placeCard";
+import PlaceCard from "./placecard4";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 

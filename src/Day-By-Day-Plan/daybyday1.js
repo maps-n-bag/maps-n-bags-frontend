@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import DayCards from "./daycards";
+import DayCards from "./daycards2";
 import CardActions from "@mui/material/CardActions";
 import { Grid, Card, CardContent, Typography } from "@mui/material";
 
@@ -38,10 +38,10 @@ const useStyles = makeStyles({
 });
 
 const DaybyDay = () => {
-  const [itemBasic, setItemBasic] = useState([]);
 
   const classes = useStyles();
 
+  const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
     fetch(`http://localhost:8080/event/?plan_id=1`)
       .then((resp) => resp.json())
@@ -56,14 +56,15 @@ const DaybyDay = () => {
       });
   }, []);
 
+  
   return (
     <div className={classes.places}>
       <SideBar />
 
       <div className={classes.postcard}>
-        {itemBasic.map((subArray, index) => (
+        {daydata.map((subArray, index) => (
           <div key={index} className={classes.cardHeader}>
-            {subArray.map((item) => (
+            
               <div className={classes.day}>
                 <Typography
                   variant="head"
@@ -75,12 +76,12 @@ const DaybyDay = () => {
                     // textAlign: "center",
                   }}
                 >
-                  Day {item.id}
+                  Day {subArray.event.id}
                 </Typography>
-                <DayCards key={item.id} item={item} />
+                <DayCards key={subArray.event.id} item={subArray.event} />
                 {/* <Button className={classes.btn}>Next day</Button> */}
               </div>
-            ))}
+            
           </div>
         ))}
       </div>

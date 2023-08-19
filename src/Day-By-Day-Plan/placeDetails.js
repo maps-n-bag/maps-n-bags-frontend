@@ -9,7 +9,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 
 import axios from "axios";
-import ContentCards from "./contentCards";
+
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 

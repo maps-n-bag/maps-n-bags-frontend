@@ -1,0 +1,17 @@
+{
+    "id": 5,
+    "region_id": "1",
+    "title": "Gol Dighi - গোল দিঘি",
+    "type": 1,
+    "latitude": "21.44013335724268000000",
+    "longitude": "91.97964258623468000000",
+    "rating": "4.2",
+    "description": "Tourist Attraction",
+    "rating_count": 800,
+    "address": "Cox's Bazar",
+    "contact": null,
+    "website": "https://gol-dighi.business.site/?utm_source=gmb&utm_medium=referral",
+    "images": [
+        "https://lh5.googleusercontent.com/p/AF1QipPd5EMZITpGwrMQwF_w1XATL85z0zgu13xT-9Z5=w408-h306-k-no"
+    ]
+}

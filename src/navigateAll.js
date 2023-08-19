@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import FullTour from "./Overview-Plan/fulltour";
-import DaybyDay from "./Day-By-Day-Plan/daybyday";
+import DaybyDay from "./Day-By-Day-Plan/daybyday1";
 import Tour_overview from "./Overview-Plan/tour_overview";
-import PlaceDetails from "./Day-By-Day-Plan/placeDetails";
+//import PlaceDetails from "./Day-By-Day-Plan/placedetails";
 // import LoginPage from "./login/loginPage";
 export class NavigateAll extends React.Component {
   constructor(props) {
@@ -28,12 +28,12 @@ export class NavigateAll extends React.Component {
           <Route path="/FullTour">
             <FullTour />
           </Route>
-          <Route path="/DayByDay">
+          {/* <Route path="/DayByDay">
             <DaybyDay />
           </Route>
           <Route path="/PlaceDetails/:id">
             <PlaceDetails />
-          </Route>
+          </Route> */}
           {/* <Route path="/LoginPage/:id">
             <LoginPage />
           </Route> */}

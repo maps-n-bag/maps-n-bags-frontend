@@ -12,13 +12,13 @@ import axios from "axios";
 import SouthIcon from "@mui/icons-material/South";
 import plane from "../photos/icon/plane.png";
 import beach from "../photos/icon/um.png";
-import placepic from "./placepic.json";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 
 import noteIcon from "../photos/icon/note.png";
 
 const dateformat = require("../formateDate");
+const baseURL = "https://maps-n-bags.onrender.com/api/";
 const useStyles = makeStyles({
   places: {
     height: "100%",
@@ -42,15 +42,7 @@ const useStyles = makeStyles({
     backgroundColor: "#ff5722",
     overflow: "hidden",
   },
-  //   divider: {
-  //     // width: "100%",
-  //     //  borderTop: "3px solid #ccc",
-  //     marginLeft: "30%",
-
-  //     borderLeft: `1px solid #fffff`,
-  //     height: "100%", // Adjust the height as needed
-  //     // margin: theme.spacing(0, 2), // Add margin for spacing
-  //   },
+  
 
   img: {
     height: "100%",
@@ -66,42 +58,23 @@ const FullTour = () => {
 
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:8080/plan?id=1`)
+    fetch(`${baseURL}plan?id=1`)
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp.plan);
-        const plan_arr = [resp.plan];
-        setItemBasic(plan_arr);
-        console.log(String(itemBasic[0].start_date));
-        itemBasic.start_date = dateformat.formateDate(
-          String(itemBasic[0].start_date)
-        );
+        console.log(resp);
+        setItemBasic(resp);
       })
       .catch((rejected) => {
         console.log(rejected);
       });
   }, []);
-  const name_arr = itemBasic.map((place, index) => place.name);
-  const date_st = itemBasic.map((place, index) =>
-    dateformat.formateDate(String(place.start_date))
-  );
-  const date_end = itemBasic.map((place, index) =>
-    dateformat.formateDate(String(place.end_date))
-  );
-  const des_arr = itemBasic.map((place, index) => place.description);
-  // //const img_arr = itemBasic.map((place, index) => place.image);
 
-  //const items = Object.values(this.props.items);
-  const map_arr = "../Images/map cox.PNG";
+  const name_arr = itemBasic.title;
+  const date_st = dateformat.formateDate(itemBasic.start_date);
+  const date_end = dateformat.formateDate(itemBasic.end_date);
+  const des_arr = itemBasic.description;
+  const img_arr = itemBasic.image;
   const classes = useStyles();
-  // useEffect(() => {
-  //   fetch(`http://localhost:8080/api/staff/${id}`)
-  //     .then((resp) => resp.json())
-  //     .then((resp) => {
-  //       setItemBasic(resp.data[0]);
-  //       console.log(resp.data[0]);
-  //     });
-  // }, []);
 
   return (
     <div className={classes.places}>
@@ -151,13 +124,13 @@ const FullTour = () => {
                   {des_arr}
                 </Typography>
                 <img
-                  src={map_arr}
+                  src={img_arr}
                   alt={name_arr}
                   style={{
-                    width: "80%",
-                    height: "80%",
-                    marginLeft: "15%",
-                    marginTop: "5%",
+                    width: "90%",
+                    height: "70%",
+                    marginLeft: "14%",
+                    marginTop: "7%",
                   }}
                 />
               </Grid>

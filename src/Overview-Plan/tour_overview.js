@@ -8,11 +8,10 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-
-import placepic from "./placepic.json";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 
+const baseURL = "https://maps-n-bags.onrender.com/api/";
 const dateformat = require("../formateDate");
 
 const useStyles = makeStyles({
@@ -56,28 +55,25 @@ const Tour_overview = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/plan?id=1`)
+    fetch(`${baseURL}plan?id=1`)
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp.plan);
-        const plan_arr = [resp.plan];
-        setItemBasic(plan_arr);
+        setItemBasic(resp);
       })
       .catch((rejected) => {
         console.log(rejected);
       });
   }, []);
 
-  const name_arr = itemBasic.map((place, index) => place.name);
-  const date_st = itemBasic.map((place, index) =>
-    dateformat.formateDate(String(place.start_date))
-  );
-  const date_end = itemBasic.map((place, index) =>
-    dateformat.formateDate(String(place.end_date))
-  );
-  const des_arr = itemBasic.map((place, index) => place.description);
+  console.log(dateformat.formateDate(String(itemBasic.start_date)));
 
-  const img_arr = "../Images/cox1.jpg";
+
+
+  const name_arr = itemBasic.title;
+  const date_st = dateformat.formateDate(itemBasic.start_date);
+  const date_end = dateformat.formateDate(itemBasic.end_date);
+  const des_arr = itemBasic.description;
+  const img_arr = itemBasic.image;
 
   return (
     <div className={classes.places}>
@@ -151,7 +147,7 @@ const Tour_overview = () => {
             </a>
           </CardContent>
           <CardActions>
-            {/* <Button size="small">Learn More</Button> */}
+
           </CardActions>
         </Card>
       </div>
