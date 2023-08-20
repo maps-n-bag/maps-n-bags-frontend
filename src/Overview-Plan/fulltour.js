@@ -14,10 +14,12 @@ import plane from "../photos/icon/plane.png";
 import beach from "../photos/icon/um.png";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
-
+import { Link } from "react-router-dom";
 import noteIcon from "../photos/icon/note.png";
 
 const dateformat = require("../formateDate");
+// require("dotenv").config();
+// const baseURL = process.env.BASE_URL;
 const baseURL = "https://maps-n-bags.onrender.com/api/";
 const useStyles = makeStyles({
   places: {
@@ -42,7 +44,6 @@ const useStyles = makeStyles({
     backgroundColor: "#ff5722",
     overflow: "hidden",
   },
-  
 
   img: {
     height: "100%",
@@ -55,13 +56,13 @@ const useStyles = makeStyles({
 
 const FullTour = () => {
   // const id = localStorage.getItem("id");
-
+  const day = 1;
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
     fetch(`${baseURL}plan?id=1`)
       .then((resp) => resp.json())
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
         setItemBasic(resp);
       })
       .catch((rejected) => {
@@ -75,6 +76,11 @@ const FullTour = () => {
   const des_arr = itemBasic.description;
   const img_arr = itemBasic.image;
   const classes = useStyles();
+
+  const timeDifference = Math.abs(new Date(date_end) - new Date(date_st));
+  const daysdifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+  const daysTotal = parseInt(daysdifference)+1;
+  console.log(daysTotal);
 
   return (
     <div className={classes.places}>
@@ -232,7 +238,9 @@ const FullTour = () => {
                 </Typography>
               </Grid>
             </Grid>
-            <a href="\DaybyDay">
+            {/* <a href="\DaybyDay"> */}
+
+            <Link to={`/DaywisePlan/${daysTotal}/${day}`}>
               <Button
                 size="small"
                 className={classes.btn}
@@ -243,7 +251,8 @@ const FullTour = () => {
               >
                 View Day By Day Plan
               </Button>
-            </a>
+              {/* </a> */}
+            </Link>
           </CardContent>
           <CardActions>
             {/* <Button size="small">Learn More</Button> */}

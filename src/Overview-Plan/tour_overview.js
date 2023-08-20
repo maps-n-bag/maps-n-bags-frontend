@@ -11,6 +11,9 @@ import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 
+// require("dotenv").config();
+
+// const baseURL = process.env.BASE_URL;
 const baseURL = "https://maps-n-bags.onrender.com/api/";
 const dateformat = require("../formateDate");
 
@@ -66,8 +69,6 @@ const Tour_overview = () => {
   }, []);
 
   console.log(dateformat.formateDate(String(itemBasic.start_date)));
-
-
 
   const name_arr = itemBasic.title;
   const date_st = dateformat.formateDate(itemBasic.start_date);
@@ -146,9 +147,7 @@ const Tour_overview = () => {
               </Button>
             </a>
           </CardContent>
-          <CardActions>
-
-          </CardActions>
+          <CardActions></CardActions>
         </Card>
       </div>
     </div>

@@ -52,7 +52,7 @@ const PlaceCard = (props) => {
 
   //const id = cardsData;
   console.log(cardsData);
-  // const [itemBasic, setItemBasic] = useState([]);
+  const [itemBasic, setItemBasic] = useState([]);
   // useEffect(() => {
   //   fetch(`http://localhost:8080/place/?id=${cardsData}`)
   //     .then((resp) => resp.json())
