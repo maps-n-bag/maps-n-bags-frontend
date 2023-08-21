@@ -49,7 +49,7 @@ const useStyles = makeStyles({
 const DayCards = (props) => {
   const classes = useStyles();
   const cardsData = props.item;
-  console.log(cardsData);
+  // console.log(cardsData);
 
   return (
     <div className={classes.places}>

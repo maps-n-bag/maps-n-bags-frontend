@@ -36,7 +36,7 @@ const View_Gallery = () => {
   // console.log(props);
   const classes = useStyles();
   // useEffect(() => {
-  //   fetch(`http://localhost:8080/api/staff/${id}`)
+  //   fetch(`https://maps-n-bags.onrender.com/api/staff/${id}`)
   //     .then((resp) => resp.json())
   //     .then((resp) => {
   //       setItemBasic(resp.data[0]);
