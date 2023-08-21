@@ -63,7 +63,6 @@ const ContentCards = (props) => {
   let eventID = null;
   if (props.item.event != null) {
     eventID = props.item.event.id;
-    console.log(eventID);
   }
   const [checked, setChecked] = useState(false);
   const handleChange = (e) => {
@@ -72,7 +71,7 @@ const ContentCards = (props) => {
   //const [isEditingBasic, setIsEditingBasic] = useState(false);
   const defaultImages = [
     {
-      url: " ",
+      url: "",
     },
   ];
   const [Images, setImages] = useState(defaultImages);
@@ -92,24 +91,33 @@ const ContentCards = (props) => {
 
   const { handleSubmit, register, getValues, setValue } = useForm();
 
-  const handleAddValue = () => {
-    // Manually add a value to the form
+  // const handleAddValue = () => {
+  //   // Manually add a value to the form
+  //   if (props.item.event != null) {
+  //     setValue("checked", checked);
+  //     setValue("images" , Images.map((item) => item.name));
+  //     //setValue("id", 1);
+  //     //setValue("event_id", eventID);
+  //   }
+  // };
+
+  const onSubmit = (data, e) => {
     if (props.item.event != null) {
       setValue("checked", checked);
-      setValue("images" , Images)
+      setValue("images" , Images.map((item) => item.name));
       //setValue("id", 1);
       //setValue("event_id", eventID);
     }
-  };
 
-  const onSubmit = (data, e) => {
     e.preventDefault();
     console.log(data, e);
     const values = getValues();
     console.log(values);
-    if (cardsData.event != null) {
+
+    // if (cardsData.event != null) {
+      console.log('axios will run');
       axios
-        .put(`${baseURL}event/detail?event_id=${cardsData.event.id}`, values)
+        .put(`${baseURL}event/detail?event_id=${props.item.event.id}`, values)
         .then((response) => {
           // if (response.data.accessToken) {
           //   localStorage.setItem("accessToken", response.data.accessToken);
@@ -120,8 +128,12 @@ const ContentCards = (props) => {
         })
         .catch((error) => {
           console.log(error);
+        }).then(() => {
+          console.log("sent");
         });
-    }
+    // } else {
+    //   console.log("no axios");
+    // }
   };
   const onError = (errors, e) => console.log(errors, e);
   //console.log(cardsData);
@@ -384,7 +396,7 @@ const ContentCards = (props) => {
                                         }}
                                         variant="outlined"
                                         halfWidth
-                                        onClick={handleAddValue}
+                                        // onClick={handleAddValue}
                                       >
                                         <Typography
                                           color="black"
