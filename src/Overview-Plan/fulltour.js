@@ -240,7 +240,7 @@ const FullTour = () => {
             </Grid>
             {/* <a href="\DaybyDay"> */}
 
-            <Link to={`/DaywisePlan/${daysTotal}/${day}`}>
+            <Link to={`/DaywisePlan2/${itemBasic.start_date}/${daysTotal}/${day}`}>
               <Button
                 size="small"
                 className={classes.btn}

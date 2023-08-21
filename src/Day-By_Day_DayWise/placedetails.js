@@ -50,9 +50,6 @@ const useStyles = makeStyles({
 const PlaceDetails = () => {
   const classes = useStyles();
   const { id } = useParams();
-  // const cardsData = props.item;
-
-  //const id = cardsData;
   console.log(id);
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {

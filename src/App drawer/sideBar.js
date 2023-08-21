@@ -27,6 +27,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import { OpenInFullRounded } from "@mui/icons-material";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import BookIcon from "@mui/icons-material/Book";
+import { Link } from "react-router-dom";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 const drawerWidth = 240;
@@ -106,12 +107,6 @@ const Drawer = styled(MuiDrawer, {
 export default function SideBar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const icons = [
-    HomeIcon,
-    TravelExploreIcon,
-    PermContactCalendarIcon,
-    BookIcon,
-  ];
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -186,17 +181,19 @@ export default function SideBar() {
                   px: 2.5,
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <icons.icon />
+                <Link to={`/${icons.name}`}>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <icons.icon />
 
-                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
-                </ListItemIcon>
+                    {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
+                  </ListItemIcon>
+                </Link>
                 <ListItemText
                   primary={icons.name}
                   sx={{ opacity: open ? 1 : 0 }}

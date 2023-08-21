@@ -49,7 +49,15 @@ const useStyles = makeStyles({
 
 const PlanDayOne = () => {
   const classes = useStyles();
-  const { totalDays, id } = useParams();
+  const { dayStart, totalDays, id } = useParams();
+  // const day_start = dateformat.formateDate(dayStart);
+  // const today = new Date(day_start)+ parseInt(id) -1;
+  // console.log(today)
+
+  const day_start = dateformat.formateDate(dayStart);
+  const today = new Date(day_start);
+  today.setDate(today.getDate() + (parseInt(id) - 1));
+  console.log(today);
 
   const next_id = parseInt(id) + 1;
 
@@ -65,7 +73,8 @@ const PlanDayOne = () => {
         console.log(rejected);
       });
   }, []);
-  console.log(itemBasic);
+  console.log(day_start);
+  //const nextDay = new Date(dayStart) + id
 
   return (
     <div className={classes.places}>
@@ -83,7 +92,7 @@ const PlanDayOne = () => {
               // textAlign: "center",
             }}
           >
-            Day {id}
+            Day {id} : {today.toLocaleDateString()}
           </Typography>
 
           {itemBasic.map((item, index) => (
@@ -106,30 +115,26 @@ const PlanDayOne = () => {
                 <Typography
                   variant="head"
                   style={{
-                   
                     fontSize: "200%",
                     color: "black",
-                    marginLeft: "30%",
-                    textAlign: "center",
+                    marginLeft: "6%",
+                    // textAlign: "center",
                   }}
                 >
-                  Going Back
+                  {/* Going Back */}
                 </Typography>
               )}
-              {/* {item.Event != null ? (
-                <EventCards item={item} className={classes.cardday} />
-              ) : (
-                "going back "
-              )} */}
             </Grid>
           ))}
 
           {parseInt(id) < parseInt(totalDays) ? (
-            <Link to={`/DaywisePlan2/${totalDays}/${next_id}`}>
+            <Link to={`/DaywisePlan/${dayStart}/${totalDays}/${next_id}`}>
               <Button className={classes.btn}>Next day</Button>
             </Link>
           ) : (
-            <Button className={classes.btn}>Finish</Button>
+            <Link to={`/Blog`}>
+              <Button className={classes.btn}>Write your Blog</Button>
+            </Link>
           )}
         </div>
       </div>

@@ -48,14 +48,19 @@ const useStyles = makeStyles({
 
 const DayCards = (props) => {
   const classes = useStyles();
-  const cardsData = [props.item];
+  const cardsData = props.item;
   console.log(cardsData);
 
   return (
     <div className={classes.places}>
       <div className={classes.postcard}>
-        {cardsData.map((item) => (
-          <ContentCards key={item.place_id} item={item} />
+        {/* event will be divided here */}
+      
+        {cardsData.map((item, index) => (
+          <div>
+          
+            <ContentCards key={index} item={item} />
+          </div>
         ))}
       </div>
     </div>

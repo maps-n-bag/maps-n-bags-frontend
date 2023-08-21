@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import FullTour from "./Overview-Plan/fulltour";
-import DaybyDay from "./Day-By-Day-Plan/daybyday1";
 import Tour_overview from "./Overview-Plan/tour_overview";
-// import PlaceDetails from "./Day-By-Day-Plan/placedetails";
+
 import DaywisePlan from "./Day-By_Day_DayWise/daywiseplan";
 
 import PlanDayOne from "./Day-By_Day_DayWise/daywiseplan2";
 import PlaceDetails from "./Day-By_Day_DayWise/placedetails";
+import DaybyDay from "./Blog-all-event/daybyday1";
 // import LoginPage from "./login/loginPage";
 export class NavigateAll extends React.Component {
   constructor(props) {
@@ -32,19 +32,27 @@ export class NavigateAll extends React.Component {
           <Route path="/FullTour">
             <FullTour />
           </Route>
-          
-          <Route path="/DaywisePlan/:totalDays/:id">
-            <PlanDayOne/>
+
+          <Route path="/DaywisePlan/:dayStart/:totalDays/:id">
+            <DaywisePlan />
           </Route>
 
-          <Route path="/DaywisePlan2/:totalDays/:id">
-            <DaywisePlan />
+          <Route path="/Blog">
+            <DaybyDay />
+          </Route>
+
+
+          <Route path="/DaywisePlan2/:dayStart/:totalDays/:id">
+            <PlanDayOne />
           </Route>
 
           <Route path="/PlaceDetails/:id">
             <PlaceDetails />
           </Route>
 
+          <Route path="/DaybyDay">
+            <DaybyDay />
+          </Route>
 
           {/* <Route path="/LoginPage/:id">
             <LoginPage />

@@ -45,15 +45,25 @@ const useStyles = makeStyles({
   cardday: {
     maxWidth: "100%",
   },
+  btn: {
+    height: "70%",
+    marginTop: "10%",
+  },
 });
 
 const DaywisePlan = () => {
   const classes = useStyles();
-  const { totalDays, id } = useParams();
-
+  const { dayStart, totalDays, id } = useParams();
+  // const day_start = dateformat.formateDate(dayStart);
+  // const today = new Date(day_start) + parseInt(id) - 1;
+  const day_start = dateformat.formateDate(dayStart);
+  const today = new Date(day_start);
+  today.setDate(today.getDate() + (parseInt(id) - 1));
+  console.log(today);
   const next_id = parseInt(id) + 1;
 
   const [itemBasic, setItemBasic] = useState([]);
+
   useEffect(() => {
     fetch(`${baseURL}event?plan_id=1&day=${id}`)
       .then((resp) => resp.json())
@@ -83,7 +93,7 @@ const DaywisePlan = () => {
               // textAlign: "center",
             }}
           >
-            Day {id}
+            Day {id} : {today.toLocaleDateString()}
           </Typography>
 
           {itemBasic.map((item, index) => (
@@ -103,13 +113,15 @@ const DaywisePlan = () => {
               {item.event != null ? (
                 <EventCards item={item} className={classes.cardday} />
               ) : (
-                "Going back"
+                {
+                  /* "Going back" */
+                }
               )}
             </Grid>
           ))}
 
           {parseInt(id) < parseInt(totalDays) ? (
-            <Link to={`/DaywisePlan/${totalDays}/${next_id}`}>
+            <Link to={`/DaywisePlan2/${dayStart}/${totalDays}/${next_id}`}>
               <Button className={classes.btn}>Next day</Button>
             </Link>
           ) : (

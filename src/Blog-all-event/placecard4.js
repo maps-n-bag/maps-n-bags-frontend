@@ -12,7 +12,7 @@ import axios from "axios";
 
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
-
+const baseURL = "https://maps-n-bags.onrender.com/api/";
 const useStyles = makeStyles({
   places: {
     // height: "90%",
@@ -51,21 +51,18 @@ const PlaceCard = (props) => {
   const cardsData = props.item;
 
   //const id = cardsData;
-  console.log(cardsData);
+  //console.log(cardsData);
   const [itemBasic, setItemBasic] = useState([]);
-  // useEffect(() => {
-  //   fetch(`http://localhost:8080/place/?id=${cardsData}`)
-  //     .then((resp) => resp.json())
-  //     .then((resp) => {
-  //       //console.log(resp.place);
-  //       const plan_arr = resp.place.data;
-  //       setItemBasic(plan_arr);
-  //       //console.log(plan_arr);
-  //     })
-  //     .catch((rejected) => {
-  //       console.log(rejected);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch(`${baseURL}public/place?id=${cardsData}`)
+      .then((resp) => resp.json())
+      .then((resp) => {
+        setItemBasic(resp);
+      })
+      .catch((rejected) => {
+        console.log(rejected);
+      });
+  }, []);
 
   return (
     <div className={classes.places}>
@@ -75,15 +72,16 @@ const PlaceCard = (props) => {
           <img
             src={itemBasic.images}
             // alt={name_arr}
-            style={{ width: "100%", height: "60%", marginTop: "5%" }}
+            style={{ width: "95%", marginTop: "5%" }}
             // Adjust the percentage value as needed
           />{" "}
+          <br/>
           {/* </a> */}
         </Link>
         <Typography
           variant="head"
           style={{
-            fontFamily: "Special Elite",
+           // fontFamily: "Special Elite",
             fontSize: "100%",
             color: "black",
             marginTop: "8%",
@@ -91,12 +89,13 @@ const PlaceCard = (props) => {
           }}
         >
           {" "}
-          <b> {itemBasic.name} </b>
+          <b> {itemBasic.title} </b>
+          <br />
         </Typography>
         <Typography
           variant="head"
           style={{
-            fontFamily: "Special Elite",
+            //fontFamily: "Special Elite",
             fontSize: "100%",
             color: "black",
             marginTop: "8%",

@@ -188,7 +188,7 @@ export default function LoginPage() {
     //   .catch((error) => {
     //     console.log(error);
     //   });
-  };
+  }; 
   const onError = (errors, e) => console.log(errors, e);
 
   return (

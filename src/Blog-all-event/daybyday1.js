@@ -4,7 +4,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import DayCards from "./daycards2";
 import CardActions from "@mui/material/CardActions";
 import { Grid, Card, CardContent, Typography } from "@mui/material";
-
+import { Link } from "react-router-dom";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 
@@ -13,7 +13,7 @@ import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 
-const baseURL = "maps-n-bags.onrender.com/api/";
+const baseURL = "https://maps-n-bags.onrender.com/api/";
 // require("dotenv").config();
 
 // const baseURL = process.env.BASE_URL;
@@ -47,9 +47,10 @@ const DaybyDay = () => {
   // const { id } = useParams();
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
-    fetch(`${baseURL}event/?plan_id=1`)
+    fetch(`${baseURL}event?plan_id=1`)
       .then((resp) => resp.json())
       .then((resp) => {
+        // console.log(resp);
         setItemBasic(resp);
       })
       .catch((rejected) => {
@@ -57,6 +58,9 @@ const DaybyDay = () => {
       });
   }, []);
 
+  // {
+  //   itemBasic.map((sub, index) => sub.map((sub2, index) => console.log(sub2.journey)));
+  // }
   return (
     <div className={classes.places}>
       <SideBar />
@@ -65,19 +69,9 @@ const DaybyDay = () => {
         {itemBasic.map((subArray, index) => (
           <div key={index} className={classes.cardHeader}>
             <div className={classes.day}>
-              {/* <Typography
-                variant="head"
-                style={{
-                  fontFamily: "Special Elite",
-                  fontSize: "200%",
-                  color: "black",
-                  //marginLeft: "6%",
-                  // textAlign: "center",
-                }}
-              >
-                Day {subArray.event.id}
-              </Typography> */}
-              <DayCards key={subArray.event.id} item={subArray.event} />
+              {/* day will be divided here */}
+              Day {index +1 } 
+              <DayCards key={index} item={subArray} />
               {/* <Button className={classes.btn}>Next day</Button> */}
             </div>
           </div>
