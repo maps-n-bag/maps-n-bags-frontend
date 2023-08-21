@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import FullTour from "./Overview-Plan/fulltour";
 import Tour_overview from "./Overview-Plan/tour_overview";
-
+import CreatePlan from "./Create Plan/createPlan";
 import DaywisePlan from "./Day-By_Day_DayWise/daywiseplan";
 
 import PlanDayOne from "./Day-By_Day_DayWise/daywiseplan2";
@@ -21,8 +21,7 @@ export class NavigateAll extends React.Component {
           {/* <Route path="/" element={<HomeAni />}></Route>
           <Route path="/HomeAni" element={<HomeAni />}></Route> */}
           <Route exact path="/">
-            {" "}
-            <Tour_overview />
+            <CreatePlan />
           </Route>
           <Route path="/TourOverview">
             {" "}
@@ -40,7 +39,6 @@ export class NavigateAll extends React.Component {
           <Route path="/Blog">
             <DaybyDay />
           </Route>
-
 
           <Route path="/DaywisePlan2/:dayStart/:totalDays/:id">
             <PlanDayOne />
