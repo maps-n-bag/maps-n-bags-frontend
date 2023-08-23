@@ -10,6 +10,7 @@ import { Typography } from "@mui/material";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import HouseOutlinedIcon from "@mui/icons-material/HouseOutlined";
 import ConnectWithoutContactOutlinedIcon from "@mui/icons-material/ConnectWithoutContactOutlined";
+import { useParams } from "react-router-dom";
 
 const baseURL = "https://maps-n-bags.onrender.com/api/";
 const RowOfBoxes = () => {
@@ -167,6 +168,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage() {
   const classes = useStyles();
+  //const {id} =useParams();
 
   const { handleSubmit, register, getValues } = useForm();
 
@@ -176,8 +178,9 @@ export default function LoginPage() {
     const values = getValues();
     console.log(values);
     axios
-      .post(`${baseURL}user?id=1`, values)
+      .post(`${baseURL}user/login`, values)
       .then((response) => {
+        console.log( "login successful");
         // if (response.data.accessToken) {
         //   localStorage.setItem("accessToken", response.data.accessToken);
         //   if (response.data.id) localStorage.setItem("id", response.data.id);

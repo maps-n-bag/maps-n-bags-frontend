@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import FullTour from "./Overview-Plan/fulltour";
 import Tour_overview from "./Overview-Plan/tour_overview";
 import CreatePlan from "./Create Plan/createPlan";
@@ -20,61 +20,32 @@ export class NavigateAll extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Switch>
-          {/* <Route path="/" element={<HomeAni />}></Route>
-          <Route path="/HomeAni" element={<HomeAni />}></Route> */}
-          <Route exact path="/">
-            {/* <CreatePlan /> */}
-            {/* <Tour_overview /> */}
-            <Landingpage />
-          </Route>
-          <Route path="/TourOverview">
-            {" "}
-            <Tour_overview />
-          </Route>
+        <Routes>
+          <Route exact path="/" element={<Landingpage />} />
 
-          {/* <Route path="/Profile">
-            {" "}
-            <Timeline />
-          </Route> */}
+          <Route path="/TourOverview" element={<Tour_overview />} />
 
-          {/* <Route path="/BlogGenerated">
-            {" "}
-            <BlogGenerated />
-          </Route> */}
-          {/* <Route path="/target/:id" component={TargetPage} /> */}
-          <Route path="/FullTour">
-            <FullTour />
-          </Route>
+          <Route path="/FullTour" element={<FullTour />} />
+          <Route
+            path="/DaywisePlan/:dayStart/:totalDays/:id"
+            element={<DaywisePlan />}
+          />
 
-          <Route path="/DaywisePlan/:dayStart/:totalDays/:id">
-            <DaywisePlan />
-          </Route>
+          <Route path="/Register" element={<Register />} />
 
-          <Route path="/Blog">
-            <DaybyDay />
-          </Route>
+          <Route
+            path="/DaywisePlan2/:dayStart/:totalDays/:id"
+            element={<PlanDayOne />}
+          />
 
-          <Route path="/Register">
-            <Register />
-          </Route>
+          <Route path="/PlaceDetails/:id" element={<PlaceDetails />} />
 
-          <Route path="/DaywisePlan2/:dayStart/:totalDays/:id">
-            <PlanDayOne />
-          </Route>
+          <Route path="/DaybyDay" element={<DaybyDay />} />
 
-          <Route path="/PlaceDetails/:id">
-            <PlaceDetails />
-          </Route>
+          <Route path="/Login" element={<LoginPage />} />
 
-          <Route path="/DaybyDay">
-            <DaybyDay />
-          </Route>
-
-          <Route path="/Login">
-            <LoginPage />
-          </Route>
-        </Switch>
+          <Route path="/Login/:id" element={<LoginPage />} />
+        </Routes>
       </BrowserRouter>
     );
   }

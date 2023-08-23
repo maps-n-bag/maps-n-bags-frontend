@@ -9,7 +9,7 @@ import axios from "axios";
 import LoginPage from "../login/loginPage";
 import { useState } from "react";
 import { Typography } from "@mui/material";
-// import {useNavigate}  from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const baseURL = "https://maps-n-bags.onrender.com/api/";
 const useStyles = makeStyles((theme) => ({
@@ -66,15 +66,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Register() {
   const classes = useStyles();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { handleSubmit, register, getValues } = useForm();
-  const [nextRoute, setNextRoute] = useState(false);
+ // const [nextRoute, setNextRoute] = useState(false);
 
-  const routeToLogin = () => {
-    // if (nextRoute == true) <LoginPage />;
-    // else <Register />;
-  };
-  const onSubmit = async(data, e) => {
+  const onSubmit = (data, e) => {
     e.preventDefault();
     console.log(data, e);
     const values = getValues();
@@ -83,8 +79,8 @@ export default function Register() {
       .post(`${baseURL}user`, values)
       .then((response) => {
         console.log(response);
-        <LoginPage />
-        // if (response.status == "201") <LoginPage />;
+        // <LoginPage />
+        if (response.status == "201") navigate("/Login");
         // else <Register />;
         //window.location.reload(false);
 
@@ -93,7 +89,7 @@ export default function Register() {
         //   if (response.data.id) localStorage.setItem("id", response.data.id);
         //   console.log(localStorage.getItem("accessToken"));
 
-        //   window.location.reload(false);
+       // window.location.reload(false);
         // }
       })
       .catch((error) => {
