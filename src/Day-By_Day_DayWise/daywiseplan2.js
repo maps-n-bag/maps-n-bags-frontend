@@ -11,6 +11,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
+import RestaurantCard from "./restaurant";
 const dateformat = require("../formateDate");
 const timeformat = require("../formateTime");
 // require("dotenv").config();
@@ -110,7 +111,15 @@ const PlanDayOne = () => {
               }}
             >
               {item.event != null ? (
-                <EventCards item={item} className={classes.cardday} />
+                <Grid item container spacing={10}>
+                {/* Use Grid items to contain each card */}
+                <Grid item>
+                  <EventCards item={item} className={classes.cardday} />
+                </Grid>
+                <Grid item>
+                  <RestaurantCard item={item} className={classes.cardrestaurant} />
+                </Grid>
+              </Grid>
               ) : (
                 <Typography
                   variant="head"
