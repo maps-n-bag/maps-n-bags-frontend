@@ -50,7 +50,7 @@ const useStyles = makeStyles({
 const PlaceDetails = () => {
   const classes = useStyles();
   const { id } = useParams();
-  console.log(id);
+  //console.log(id);
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
     fetch(`${baseURL}public/place?id=${id}`)

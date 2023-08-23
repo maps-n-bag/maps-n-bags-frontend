@@ -4,7 +4,7 @@ import FullTour from "./Overview-Plan/fulltour";
 import Tour_overview from "./Overview-Plan/tour_overview";
 import CreatePlan from "./Create Plan/createPlan";
 import DaywisePlan from "./Day-By_Day_DayWise/daywiseplan";
-// import TimeLine from "./Profile/timeline";
+import Profile from "./Profile/timeline";
 import PlanDayOne from "./Day-By_Day_DayWise/daywiseplan2";
 import PlaceDetails from "./Day-By_Day_DayWise/placedetails";
 import DaybyDay from "./Blog-all-event/daybyday1";
@@ -24,6 +24,7 @@ export class NavigateAll extends React.Component {
           <Route exact path="/" element={<Landingpage />} />
 
           <Route path="/TourOverview" element={<Tour_overview />} />
+          <Route path="/Blog" element={<DaybyDay />} />
 
           <Route path="/FullTour" element={<FullTour />} />
           <Route
@@ -41,6 +42,8 @@ export class NavigateAll extends React.Component {
           <Route path="/PlaceDetails/:id" element={<PlaceDetails />} />
 
           <Route path="/DaybyDay" element={<DaybyDay />} />
+
+          <Route path="/Profile/:user_id" element={<Profile />} />
 
           <Route path="/Login" element={<LoginPage />} />
 

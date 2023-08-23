@@ -10,90 +10,97 @@ import { Typography } from "@mui/material";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import HouseOutlinedIcon from "@mui/icons-material/HouseOutlined";
 import ConnectWithoutContactOutlinedIcon from "@mui/icons-material/ConnectWithoutContactOutlined";
-import { useParams } from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import TimeLine from "../Profile/timeline";
 const baseURL = "https://maps-n-bags.onrender.com/api/";
 const RowOfBoxes = () => {
   return (
     <Box display="flex" justifyContent="center">
-      <Box
-        width={200}
-        height={100}
-        bgcolor="rgba(245, 230, 83, 0.15)"
-        m={4}
-        p={5}
-      >
-        <HouseOutlinedIcon
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "100px",
-            marginLeft: "3rem",
-            color: "white",
-          }}
-        />
-        <Typography
-          color="white"
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "20px",
-            textAlign: "center",
-          }}
+      <Link to={`/`}>
+        <Box
+          width={200}
+          height={100}
+          bgcolor="rgba(245, 230, 83, 0.15)"
+          m={4}
+          p={5}
         >
-          Back To Home
-        </Typography>
-      </Box>
-      <Box
-        width={200}
-        height={100}
-        bgcolor="rgba(216, 37, 37, 0.2)"
-        m={4}
-        p={5}
-      >
-        <DescriptionOutlinedIcon
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "100px",
-            marginLeft: "3rem",
-            color: "white",
-          }}
-        />
-        <Typography
-          color="white"
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "20px",
-            textAlign: "center",
-          }}
+          <HouseOutlinedIcon
+            style={{
+              fontFamily: "Special Elite",
+              fontSize: "100px",
+              marginLeft: "3rem",
+              color: "white",
+            }}
+          />
+          <Typography
+            color="white"
+            style={{
+              fontFamily: "Special Elite",
+              fontSize: "20px",
+              textAlign: "center",
+            }}
+          >
+            Back To Home
+          </Typography>
+        </Box>
+      </Link>
+      <Link to={`/Register`}>
+        <Box
+          width={200}
+          height={100}
+          bgcolor="rgba(216, 37, 37, 0.2)"
+          m={4}
+          p={5}
         >
-          Register
-        </Typography>
-      </Box>
-      <Box
-        width={200}
-        height={100}
-        bgcolor="rgba(0, 255, 255, 0.1)"
-        m={4}
-        p={5}
-      >
-        <ConnectWithoutContactOutlinedIcon
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "100px",
-            marginLeft: "3rem",
-            color: "white",
-          }}
-        />
-        <Typography
-          color="white"
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "20px",
-            textAlign: "center",
-          }}
+          <DescriptionOutlinedIcon
+            style={{
+              fontFamily: "Special Elite",
+              fontSize: "100px",
+              marginLeft: "3rem",
+              color: "white",
+            }}
+          />
+          <Typography
+            color="white"
+            style={{
+              fontFamily: "Special Elite",
+              fontSize: "20px",
+              textAlign: "center",
+            }}
+          >
+            Register
+          </Typography>
+        </Box>
+      </Link>
+      <Link to={`/`}>
+        <Box
+          width={200}
+          height={100}
+          bgcolor="rgba(0, 255, 255, 0.1)"
+          m={4}
+          p={5}
         >
-          Contact Us
-        </Typography>
-      </Box>
+          <ConnectWithoutContactOutlinedIcon
+            style={{
+              fontFamily: "Special Elite",
+              fontSize: "100px",
+              marginLeft: "3rem",
+              color: "white",
+            }}
+          />
+          <Typography
+            color="white"
+            style={{
+              fontFamily: "Special Elite",
+              fontSize: "20px",
+              textAlign: "center",
+            }}
+          >
+            Contact Us
+          </Typography>
+        </Box>
+      </Link>
     </Box>
   );
 };
@@ -169,6 +176,7 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginPage() {
   const classes = useStyles();
   //const {id} =useParams();
+  const navigate = useNavigate();
 
   const { handleSubmit, register, getValues } = useForm();
 
@@ -180,7 +188,9 @@ export default function LoginPage() {
     axios
       .post(`${baseURL}user/login`, values)
       .then((response) => {
-        console.log( "login successful");
+        console.log(response);
+        console.log("login successful");
+        if (response.status == "200") navigate(`/Profile/${response.data.user_id}`);
         // if (response.data.accessToken) {
         //   localStorage.setItem("accessToken", response.data.accessToken);
         //   if (response.data.id) localStorage.setItem("id", response.data.id);
