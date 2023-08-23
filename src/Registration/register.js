@@ -1,183 +1,93 @@
 import React from "react";
-import loginImg from "../photos/login.jpg";
+import RegImg from "../photos/regimg.jpg";
 import { makeStyles } from "@mui/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import LoginPage from "../login/loginPage";
+import { useState } from "react";
 import { Typography } from "@mui/material";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import HouseOutlinedIcon from "@mui/icons-material/HouseOutlined";
-import ConnectWithoutContactOutlinedIcon from "@mui/icons-material/ConnectWithoutContactOutlined";
+// import {useNavigate}  from "react-router-dom";
 
 const baseURL = "https://maps-n-bags.onrender.com/api/";
-const RowOfBoxes = () => {
-  return (
-    <Box display="flex" justifyContent="center">
-      <Box
-        width={200}
-        height={100}
-        bgcolor="rgba(245, 230, 83, 0.15)"
-        m={4}
-        p={5}
-      >
-        <HouseOutlinedIcon
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "100px",
-            marginLeft: "3rem",
-            color: "white",
-          }}
-        />
-        <Typography
-          color="white"
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "20px",
-            textAlign: "center",
-          }}
-        >
-          Back To Home
-        </Typography>
-      </Box>
-      <Box
-        width={200}
-        height={100}
-        bgcolor="rgba(216, 37, 37, 0.2)"
-        m={4}
-        p={5}
-      >
-        <DescriptionOutlinedIcon
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "100px",
-            marginLeft: "3rem",
-            color: "white",
-          }}
-        />
-        <Typography
-          color="white"
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "20px",
-            textAlign: "center",
-          }}
-        >
-          Register
-        </Typography>
-      </Box>
-      <Box
-        width={200}
-        height={100}
-        bgcolor="rgba(0, 255, 255, 0.1)"
-        m={4}
-        p={5}
-      >
-        <ConnectWithoutContactOutlinedIcon
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "100px",
-            marginLeft: "3rem",
-            color: "white",
-          }}
-        />
-        <Typography
-          color="white"
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "20px",
-            textAlign: "center",
-          }}
-        >
-          Contact Us
-        </Typography>
-      </Box>
-    </Box>
-  );
-};
-
 const useStyles = makeStyles((theme) => ({
   bx: {
     alignContent: "center",
-    marginTop: "-20rem",
-    //marginBottom: "50rem",
-  },
-  boxrow: {
-    // justifyContent: "left",
-    marginTop: "50rem",
-    marginLeft: "-64rem",
+    marginTop: "2%",
+    marginBottom: "5%",
   },
 
   root: {
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    backgroundImage: `url(${loginImg})`,
+    backgroundImage: `url(${RegImg})`,
     backgroundPosition: "center center",
     backgroundAttachment: "fixed",
     alignContent: "center",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "-1rem",
-    marginLeft: "-1rem",
-    marginRight: "-2rem",
-    height: "150vh",
+
+    height: "200%",
     fontFamily: "Special Elite",
   },
 
   input: {
-    height: "100vh",
-    maxWidth: "100vh",
+    height: "100%",
+    maxWidth: "100%",
     alignContent: "center",
 
-    // marginLeft: "500px",
+    marginLeft: "30%",
     // marginBottom: "50px",
   },
   Title1: {
-    marginTop: "5rem",
+    marginTop: "2%",
     //marginLeft: "15rem",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: "1rem",
-    fontSize: "3rem",
+    marginBottom: "1%",
+    fontSize: "200%",
   },
 
-  Title2: {
-    // marginLeft: "15rem",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: "1rem",
-    fontSize: "3rem",
-  },
   wrap: {
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: "20px",
-    marginLeft: "15rem",
+    // marginBottom: "2%",
+    marginLeft: "8%",
   },
 
-  content1: {
-    marginBottom: "20px",
-  },
   btn: {
-    marginTop: "2rem",
+    marginTop: "2%",
+    marginBottom: "8%",
   },
 }));
 
-export default function LoginPage() {
+export default function Register() {
   const classes = useStyles();
-
+  // const navigate = useNavigate();
   const { handleSubmit, register, getValues } = useForm();
+  const [nextRoute, setNextRoute] = useState(false);
 
-  const onSubmit = (data, e) => {
+  const routeToLogin = () => {
+    // if (nextRoute == true) <LoginPage />;
+    // else <Register />;
+  };
+  const onSubmit = async(data, e) => {
     e.preventDefault();
     console.log(data, e);
     const values = getValues();
     console.log(values);
     axios
-      .post(`${baseURL}user?id=1`, values)
+      .post(`${baseURL}user`, values)
       .then((response) => {
+        console.log(response);
+        <LoginPage />
+        // if (response.status == "201") <LoginPage />;
+        // else <Register />;
+        //window.location.reload(false);
+
         // if (response.data.accessToken) {
         //   localStorage.setItem("accessToken", response.data.accessToken);
         //   if (response.data.id) localStorage.setItem("id", response.data.id);
@@ -196,9 +106,9 @@ export default function LoginPage() {
     <div className={classes.root}>
       <Box
         className={classes.bx}
-        width={1000}
-        height={500}
-        bgcolor="rgba(255, 255, 255, 0.3)" // 60% transparent black
+        width="50%"
+        // height={500}
+        bgcolor="rgba(7, 73, 155, 0.4)"
       >
         <form onSubmit={handleSubmit(onSubmit, onError)}>
           <div className={classes.input}>
@@ -211,13 +121,60 @@ export default function LoginPage() {
                   label="Username"
                   color="secondary"
                   placeholder="Enter username"
-                  fullWidth
+                  halfWidth
                   required
                 />
               </div>
             </div>
+
             <div className={classes.wrap}>
-              <h1 className={classes.Title2}>Password</h1>
+              <h1 className={classes.Title1}>First Name</h1>
+              <div className={classes.content1}>
+                <TextField
+                  {...register("first_name")}
+                  className="firstname"
+                  label="Firstname"
+                  color="secondary"
+                  //borderWidth="10px"
+                  placeholder="Enter firstname"
+                  halfWidth
+                  required
+                />
+              </div>
+            </div>
+
+            <div className={classes.wrap}>
+              <h1 className={classes.Title1}>Last Name</h1>
+              <div className={classes.content1}>
+                <TextField
+                  {...register("last_name")}
+                  className="lastname"
+                  label="Lastname"
+                  color="secondary"
+                  placeholder="Enter lastname"
+                  halfWidth
+                  required
+                />
+              </div>
+            </div>
+
+            <div className={classes.wrap}>
+              <h1 className={classes.Title1}>Email</h1>
+              <div className={classes.content1}>
+                <TextField
+                  {...register("email")}
+                  className="email"
+                  label="Email"
+                  color="secondary"
+                  placeholder="Enter your email"
+                  halfWidth
+                  required
+                />
+              </div>
+            </div>
+
+            <div className={classes.wrap}>
+              <h1 className={classes.Title1}>Password</h1>
               <div className={classes.content2}>
                 <TextField
                   {...register("password")}
@@ -226,7 +183,7 @@ export default function LoginPage() {
                   color="secondary"
                   placeholder="Enter password"
                   type="password"
-                  fullWidth
+                  halfWidth
                   required
                 />
               </div>
@@ -236,23 +193,24 @@ export default function LoginPage() {
                 <Button
                   className="btn"
                   type="submit"
+                  // onClick={routeToLogin}
                   style={{
-                    backgroundColor: "transparent",
+                    backgroundColor: "rgba(0,0,0,0.2)",
                     borderWidth: "5px",
-                    borderColor: "white",
+                    borderColor: "black",
                   }}
                   variant="outlined"
-                  fullWidth
+                  halfWidth
                 >
                   <Typography
-                    color="white"
+                    color="black"
                     style={{
                       fontFamily: "Special Elite",
                       fontSize: "20px",
                       textAlign: "center",
                     }}
                   >
-                    Log in to your account
+                    <b> Create Account </b>
                   </Typography>
                 </Button>
               </div>
@@ -261,9 +219,9 @@ export default function LoginPage() {
         </form>
       </Box>
 
-      <div className={classes.boxrow}>
+      {/* <div className={classes.boxrow}>
         <RowOfBoxes />
-      </div>
+      </div> */}
     </div>
   );
 }

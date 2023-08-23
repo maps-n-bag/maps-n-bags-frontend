@@ -6,7 +6,7 @@ import SideBar from "./App drawer/sideBar";
 import FullTour from "./Overview-Plan/fulltour";
 import { NavigateAll } from "./navigateAll";
 import { makeStyles } from "@mui/styles";
-import ImageUpload from "./Blog/imageUpload";
+
 const useStyles = makeStyles({});
 function App() {
   const classes = useStyles();

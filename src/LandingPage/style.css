@@ -1,0 +1,44 @@
+.bg {
+    background-color: rgb( 0, 0 ,0),
+  }
+  .gg {
+    margin-left: "40%",
+  }
+  .btn1 {
+    width: 50px;
+    height: 15px;
+    margin-bottom: 10 rem;
+    padding: "0";
+  
+    background-color: rgba(196, 238, 74 ,0.8),
+  }
+  .boxdp {
+    background-color: rgba(246, 193, 70 ,0.7);
+    background-size: cover;
+    
+    align-items: normal;
+    background-position: center center;
+    
+    border-radius: 100%;
+    display: flex;
+  
+    margin-top: "15rem";
+    margin-left: "15rem";
+    
+    align-items: "center";
+  }
+  .place {
+   
+    
+    font-size: 10px;
+    margin-left: "58rem";
+    margin-top: "27rem";
+    align-items: "center";
+  }
+ 
+  .text {
+    pointer-events: auto;
+    justify-content: start !important;
+    font-family: 'Kanit', sans-serif;
+   
+  }
