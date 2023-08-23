@@ -113,7 +113,7 @@ const ContentCards = (props) => {
     console.log(data, e);
     const values = getValues();
     console.log(values);
-
+    console.log(values.images);
     // if (cardsData.event != null) {
       console.log('axios will run');
       axios

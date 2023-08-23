@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import EventCards from "./eventCards";
+import RestaurantCard from "./restaurant";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
@@ -44,6 +45,9 @@ const useStyles = makeStyles({
   },
   cardday: {
     maxWidth: "100%",
+  },
+  cardrestaurant: {
+    maxWidth: "50%",
   },
   btn: {
     height: "70%",
@@ -111,7 +115,15 @@ const DaywisePlan = () => {
               }}
             >
               {item.event != null ? (
-                <EventCards item={item} className={classes.cardday} />
+                <Grid item container spacing={10}>
+                {/* Use Grid items to contain each card */}
+                <Grid item>
+                  <EventCards item={item} className={classes.cardday} />
+                </Grid>
+                <Grid item>
+                  <RestaurantCard item={item} className={classes.cardrestaurant} />
+                </Grid>
+              </Grid>
               ) : (
                 {
                   /* "Going back" */
