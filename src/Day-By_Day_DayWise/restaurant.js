@@ -10,6 +10,7 @@ import {
 
 
 import { makeStyles } from "@mui/styles";
+import { ca } from "date-fns/locale";
 
 const baseURL = "https://maps-n-bags.onrender.com/api/";
 const timeformat = require("../formateTime");
@@ -50,9 +51,6 @@ const RestaurantCard = (props) => {
   const classes = useStyles();
   const cardsData = props.item;
   const [placeItem, setPlaceItem] = useState({});
-  console.log('this comment is added by azgor');
-  console.log(cardsData);
-
   useEffect(() => {
       fetch(`${baseURL}public/nearby/restaurant?place_id=${cardsData.event.place_id}`)
         .then((resp) => resp.json())
@@ -62,7 +60,7 @@ const RestaurantCard = (props) => {
         .catch((rejected) => {
           console.log(rejected);
         });
-  }, []);
+  }, [cardsData.event.place_id]);
 
   //console.log(placeItem);
 

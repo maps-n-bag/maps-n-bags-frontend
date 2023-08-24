@@ -58,7 +58,7 @@ const useStyles = makeStyles({
 const EventCards = (props) => {
   const classes = useStyles();
   const cardsData = props.item;
-
+  console.log(cardsData);
   //console.log(cardsData.event.place_id);
   const [placeItem, setPlaceItem] = useState([]);
 
@@ -67,13 +67,14 @@ const EventCards = (props) => {
       fetch(`${baseURL}public/place?id=${cardsData.event.place_id}`)
         .then((resp) => resp.json())
         .then((resp) => {
+          console.log("this is called with place id: ", cardsData.event.place_id);
           setPlaceItem(resp);
         })
         .catch((rejected) => {
           console.log(rejected);
         });
     }
-  }, []);
+  }, [cardsData.event.place_id]);
 
   //console.log(placeItem);
 
@@ -149,6 +150,7 @@ const EventCards = (props) => {
                     <br /> (total votes: {placeItem.rating_count})
                   </Typography>
                 </Grid>
+                {cardsData.journey && (
                 <Grid item>
                   <Typography
                     variant="body2"
@@ -176,8 +178,8 @@ const EventCards = (props) => {
                     {timeformat.formateTime(cardsData.event.start_time)} to{" "}
                     {timeformat.formateTime(cardsData.event.end_time)}
                   </Typography>
-                </Grid>
-
+                </Grid> )}
+                
                 <Grid item>
                   <Typography
                     variant="body2"

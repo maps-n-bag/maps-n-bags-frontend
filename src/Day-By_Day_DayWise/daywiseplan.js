@@ -12,6 +12,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
+import { da } from "date-fns/locale";
 const dateformat = require("../formateDate");
 const timeformat = require("../formateTime");
 // require("dotenv").config();
@@ -56,29 +57,36 @@ const useStyles = makeStyles({
 });
 
 const DaywisePlan = () => {
-  const classes = useStyles();
   const { dayStart, totalDays, id } = useParams();
+  const classes = useStyles((parseInt(id) - 1));
+  const [day_int, setDay] = useState(1);
   // const day_start = dateformat.formateDate(dayStart);
   // const today = new Date(day_start) + parseInt(id) - 1;
   const day_start = dateformat.formateDate(dayStart);
-  const today = new Date(day_start);
-  today.setDate(today.getDate() + (parseInt(id) - 1));
-  console.log(today);
+  const today = new Date(day_start+(+day_int - 1));
   const next_id = parseInt(id) + 1;
 
   const [itemBasic, setItemBasic] = useState([]);
+  const dayChangeHandler = (event) => {
+    if(event.target.id==="nextday"){
+      console.log("Next day added by azgor");
+      setDay((prevDay) => prevDay + 1);
+    }
+  }
 
   useEffect(() => {
-    fetch(`${baseURL}event?plan_id=1&day=${id}`)
+    fetch(`${baseURL}event?plan_id=1&day=${day_int}`)
       .then((resp) => resp.json())
       .then((resp) => {
         console.log(resp);
+        console.log("Day int is: ", day_int);
         setItemBasic(resp);
       })
       .catch((rejected) => {
         console.log(rejected);
       });
-  }, []);
+  }, [day_int]);
+  console.log("this has been called")
   console.log(itemBasic);
 
   return (
@@ -133,9 +141,10 @@ const DaywisePlan = () => {
           ))}
 
           {parseInt(id) < parseInt(totalDays) ? (
-            <Link to={`/DaywisePlan2/${dayStart}/${totalDays}/${next_id}`}>
-              <Button className={classes.btn}>Next day</Button>
-            </Link>
+            // <Link to={`/DaywisePlan2/${dayStart}/${totalDays}/${next_id}`}>
+            //   <Button className={classes.btn}>Next day</Button>
+            // </Link>
+            <Button id="nextday" onClick={dayChangeHandler} className={classes.btn}>Next day</Button>
           ) : (
             <Button className={classes.btn}>Finish</Button>
           )}
