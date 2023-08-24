@@ -150,15 +150,19 @@ const Profile = () => {
                 className={classes.btns}
                 onClick={(e) => {
                   setIsEditingBasic(false);
+                  console.log(itemBasic.id);
                   axios
                     .patch(
-                      `${baseURL}user?id=${user_id}`,
+                      `${baseURL}user?id=${itemBasic.id}`,
 
                       itemBasic
                     )
                     .then((res) => {
-                      // window.location.reload(false);
+                     // window.location.reload(false);
                       console.log(itemBasic);
+                    })
+                    .catch((error) => {
+                      console.error("An error occurred:", error);
                     });
                 }}
               >
