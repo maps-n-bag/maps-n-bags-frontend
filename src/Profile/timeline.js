@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@mui/styles";
 import coverimg from "../photos/coverimg.jpg";
 import List from "@mui/material/List";
-//import axios from "axios";
+import Button from "@mui/material/Button";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { useEffect, useState } from "react";
@@ -27,20 +27,20 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     //justifyContent: "center",
     display: "flex",
-    marginTop: "25rem",
-    marginLeft: "-80rem",
+    //marginTop: "25rem",
+    //marginLeft: "-80rem",
     // marginRight: "-800px",
     alignItems: "center",
   },
   root: {
     backgroundColor: "rgba(246, 193, 70 ,0.7)",
-    height: "300vh",
-    width: "215.5vh",
-    marginLeft: "-2rem",
+    height: "100%",
+    width: "100%",
+    // marginLeft: "-2rem",
   },
   header: {
-    marginLeft: "-57rem",
-    marginTop: "-22rem",
+    // marginLeft: "-57rem",
+    //  marginTop: "-22rem",
     backgroundAttachment: "fixed",
   },
   coverpic: {
@@ -53,15 +53,17 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "-7rem",
-    marginLeft: "-1rem",
-    marginRight: "-5rem",
-    height: "90vh",
-    width: "218vh",
+    // marginTop: "-7rem",
+    //  marginLeft: "-1rem",
+    // marginRight: "-5rem",
+    // height: "100%",
+    width: "100%",
     fontFamily: "Special Elite",
   },
-  btns: {
-    marginTop: "70%",
+  btn: {
+    marginTop: "300%",
+    marginLeft: "30%",
+    marginBottom: "20%",
   },
 }));
 
@@ -88,12 +90,14 @@ const Profile = () => {
       <div className={classes.coverpic}>
         <img
           src={itemBasic.cover_pic}
-          width="40%"
+          width="30%"
           alt="Profile"
-          style={{
-            marginTop: "5%",
-            //   marginLeft: "60%",
-          }}
+          style={
+            {
+              //marginTop: "5%",
+              //   marginLeft: "60%",
+            }
+          }
         />
         <div className={classes.boxdp}>
           <Grid>
@@ -103,10 +107,10 @@ const Profile = () => {
               alt="Profile"
               style={{
                 marginTop: "20%",
-                marginLeft: "80%",
+                marginLeft: "20%",
               }}
             />
-
+            <br />
             <Typography
               color="black"
               style={{
@@ -114,7 +118,7 @@ const Profile = () => {
                 fontSize: "150%",
                 textAlign: "center",
                 // marginTop: "80%",
-                marginLeft: "85%",
+                marginLeft: "28%",
                 display: "inline-block",
               }}
             >
@@ -143,54 +147,84 @@ const Profile = () => {
               {/* {itemBasic.first_name} {itemBasic.last_name} */}
             </Typography>
           </Grid>
-
-          {isEditingBasic === true ? (
-            <div>
-              <button
-                className={classes.btns}
-                onClick={(e) => {
-                  setIsEditingBasic(false);
-                  console.log(itemBasic.id);
-                  axios
-                    .patch(
-                      `${baseURL}user?id=${itemBasic.id}`,
-
-                      itemBasic
-                    )
-                    .then((res) => {
-                     // window.location.reload(false);
+        </div>
+        <div>
+          <Grid>
+            <div className={classes.btn}>
+              {isEditingBasic === true ? (
+                <div>
+                  <Button
+                    //className={classes.btns}
+                    onClick={(e) => {
+                      setIsEditingBasic(false);
                       console.log(itemBasic);
-                    })
-                    .catch((error) => {
-                      console.error("An error occurred:", error);
-                    });
-                }}
-              >
-                Save
-              </button>
-              <button
-                className={classes.btnc}
-                onClick={(e) => {
-                  {
-                    setIsEditingBasic(false);
-                  }
-                }}
-              >
-                cancel
-              </button>
+                      axios
+                        .put(`${baseURL}user?id=${itemBasic.id}`, itemBasic)
+                        .then((res) => {
+                          // window.location.reload(false);
+                          console.log(itemBasic);
+                          console.log("sent");
+                        })
+                        .catch((error) => {
+                          console.error("An error occurred:", error);
+                        });
+                    }}
+                  >
+                    <Typography
+                      color="black"
+                      style={{
+                        fontFamily: "Special Elite",
+                        fontSize: "20px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Save
+                    </Typography>
+                  </Button>
+                  <Button
+                    // className={classes.btnc}
+                    onClick={(e) => {
+                      {
+                        setIsEditingBasic(false);
+                      }
+                    }}
+                  >
+                    {" "}
+                    <Typography
+                      color="black"
+                      style={{
+                        fontFamily: "Special Elite",
+                        fontSize: "20px",
+                        textAlign: "center",
+                      }}
+                    >
+                      cancel
+                    </Typography>
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  //className={classes.btn}
+                  onClick={(e) => {
+                    {
+                      setIsEditingBasic(true);
+                    }
+                  }}
+                >
+                  <Typography
+                    color="black"
+                    style={{
+                      fontFamily: "Special Elite",
+                      fontSize: "20px",
+                      textAlign: "center",
+                    }}
+                  >
+                    Edit Your Profile
+                  </Typography>
+                </Button>
+              )}
             </div>
-          ) : (
-            <button
-              className={classes.btn}
-              onClick={(e) => {
-                {
-                  setIsEditingBasic(true);
-                }
-              }}
-            >
-              Edit
-            </button>
-          )}
+          </Grid>
         </div>
       </div>
     </div>

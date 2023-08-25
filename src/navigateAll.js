@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import FullTour from "./Overview-Plan/fulltour";
 import Tour_overview from "./Overview-Plan/tour_overview";
-import CreatePlan from "./Create Plan/createPlan";
+import CreateAPlan from "./Create Plan/createPlan";
 import DaywisePlan from "./Day-By_Day_DayWise/daywiseplan";
 import Profile from "./Profile/timeline";
 import PlanDayOne from "./Day-By_Day_DayWise/daywiseplan2";
@@ -27,6 +27,7 @@ export class NavigateAll extends React.Component {
           <Route path="/Blog" element={<DaybyDay />} />
 
           <Route path="/FullTour" element={<FullTour />} />
+          <Route path="/createPlan" element={<CreateAPlan />} />
           <Route
             path="/DaywisePlan/:dayStart/:totalDays/:id"
             element={<DaywisePlan />}

@@ -11,7 +11,7 @@ import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 import { Box, Grid } from "@mui/material";
-// require("dotenv").config();
+import planbg from "../photos/toad.jpg";
 import { useForm } from "react-hook-form";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -23,23 +23,26 @@ const dateformat = require("../formateDate");
 
 const useStyles = makeStyles({
   places: {
-    height: "90%",
-    width: "112%",
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
-
+    //height: "90%",
+    width: "100%",
+    //backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundImage: `url(${planbg})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
   },
   btn: {
     minWidth: "100%",
   },
+  tgtxt: {
+    marginTop: "10%",
+  },
 
   form: {
     width: "25%",
-    Height: "50%",
+    Height: "40%",
     marginLeft: "15%",
-    marginTop: "5%",
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    marginTop: "10%",
+    //backgroundColor: "rgba(255, 255, 255, 0.5)",
     // textAlign: "center",
   },
 
@@ -50,10 +53,10 @@ const useStyles = makeStyles({
     marginLeft: "15%",
     // marginRight: "20%",
   },
-  cardimg: {
-    backgroundColor: "#ff5722",
-    overflow: "hidden",
-  },
+  // cardimg: {
+  //   backgroundColor: "#ff5722",
+  //   overflow: "hidden",
+  // },
 
   img: {
     height: "100%",
@@ -61,14 +64,14 @@ const useStyles = makeStyles({
   },
   tg: {
     height: "10%",
-    marginTop: "3%",
+    marginTop: "10%",
   },
   cardimg: {
     height: "100%",
   },
 });
 
-const CreatePlan = () => {
+const CreateAPlan = () => {
   // const id = localStorage.getItem("id");
   const [regions, setRegions] = useState([]);
   const [tags, setTags] = useState([]);
@@ -91,7 +94,6 @@ const CreatePlan = () => {
     }, {})
   );
   console.log(checkedItems);
- 
 
   const handleCheckboxChange = (event) => {
     const { name } = event.target;
@@ -130,20 +132,20 @@ const CreatePlan = () => {
     <div className={classes.places}>
       <SideBar />
       <div className={classes.postcard}>
-        <Card
-          className={classes.cardimg}
-          style={{
-            width: "60%",
-            marginLeft: "7%",
-            color: "ffffff",
-            marginTop: "4.5%",
-          }}
+        <Box
+          className={classes.bx}
+          width="80%"
+          // height={500}
+          bgcolor="rgba(255, 255, 255, 0.5)"
         >
           <Grid Container>
             <Grid item xs>
               <form onSubmit={handleSubmit(onSubmit, onError)}>
                 <FormGroup className={classes.form}>
-                  <Typography> Choose Tag:</Typography>
+                  <Typography className={classes.tgtxt}>
+                    {" "}
+                    Choose Tag:
+                  </Typography>
                   {tags.map((tag) => (
                     <FormControlLabel
                       key={tag.id}
@@ -192,10 +194,10 @@ const CreatePlan = () => {
 
             <Grid item xs></Grid>
           </Grid>
-        </Card>
+        </Box>
       </div>
     </div>
   );
 };
 
-export default CreatePlan;
+export default CreateAPlan;

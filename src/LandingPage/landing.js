@@ -16,15 +16,22 @@ import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import LoginPage from "../login/loginPage";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import "./style.css";
+import { BorderBottomOutlined } from "@mui/icons-material";
 const useStyles = makeStyles(() => ({}));
 
-const navigateToLogin = () => {
-  <LoginPage />;
-};
+// const navigateToLogin = () => {
+//   <LoginPage />;
+// };
 const Landingpage = () => {
   const classes = useStyles();
   const ref = useRef();
+  const buttonRef = useRef();
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/Login");
+  };
   return (
     <div className={classes.bg}>
       <Parallax pages={3} ref={ref}>
@@ -95,22 +102,40 @@ const Landingpage = () => {
             </Box>
             <Grid container>
               <Grid item xs>
-                <Box
-                  className="btn1"
-                  m={3}
-                  p={3}
-                 
-                >
-                  <Button onClick={navigateToLogin}>
+                <Box className="btn1" m={3} p={3}>
+                  <Button
+                    style={{
+                      fontSize: "20px",
+                      color: "black",
+                      marginLeft: "5%",
+                      backgroundColor: "lightblue",
+
+                      borderWidth: "5px",
+                      borderColor: "black",
+                    }}
+                    // onClick={() =>
+                    //   buttonRef.current.addEventListener("click", handleClick)
+                    // }
+                  >
                     <AccountCircleOutlinedIcon
                       style={{
                         fontFamily: "Special Elite",
                         fontSize: "200%",
-                        marginTop: "-3rem",
+                        //marginLeft: "100%",
+                        // marginTop: "-3rem",
                         color: "black",
                       }}
                     />
-                    <div className="text">Log In</div>
+                    <Typography
+                      color="black"
+                      style={{
+                        fontFamily: "Special Elite",
+                        fontSize: "100%",
+                        textAlign: "center",
+                      }}
+                    >
+                      Login
+                    </Typography>
                   </Button>
                 </Box>
               </Grid>
@@ -137,7 +162,16 @@ const Landingpage = () => {
                       color: "black",
                     }}
                   />
-                  Sign Up
+                  <Typography
+                    color="black"
+                    style={{
+                      fontFamily: "Special Elite",
+                      fontSize: "20px",
+                      textAlign: "center",
+                    }}
+                  >
+                    Sign Up
+                  </Typography>
                 </Box>
               </Grid>
             </Grid>

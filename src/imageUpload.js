@@ -17,16 +17,23 @@ const ImageUpload = () => {
 
   const handleUpload = () => {
     //ekhane code korbo
+    console.log(`url${selectedImage}`);
   };
 
   return (
     <div>
-      <Typography variant="h6">Upload an Image</Typography>
-      <Input type="file" onChange={handleImageChange} />
-      <Button variant="contained" color="primary" onClick={handleUpload}>
-        Upload
-      </Button>
-      {selectedImage && <img src={selectedImage} alt="Uploaded" />}
+      <div>
+        <Typography variant="h6">Upload an Image</Typography>
+        <Input type="file" onChange={handleImageChange} />
+        <Button variant="contained" color="primary" onClick={handleUpload}>
+          Upload
+        </Button>
+      </div>
+      <div>
+        {selectedImage && (
+          <img src={selectedImage} alt="Uploaded" width={"30%"} />
+        )}
+      </div>
     </div>
   );
 };

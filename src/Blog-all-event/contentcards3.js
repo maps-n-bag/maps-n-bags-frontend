@@ -61,12 +61,13 @@ const ContentCards = (props) => {
   const cardsData = [props.item];
   const [isEditingBasic, setIsEditingBasic] = useState(false);
   const [itemBasic, setItemBasic] = useState([]);
-
+  // console.log("isedit check" + isEditingBasic);
   let eventID = null;
   if (props.item.event != null) {
     eventID = props.item.event.id;
   }
-
+  console.log("check" + itemBasic.checked);
+  console.log(cardsData);
   useEffect(() => {
     fetch(`${baseURL}event/detail?event_id=${eventID}`)
       .then((resp) => resp.json())
@@ -76,18 +77,31 @@ const ContentCards = (props) => {
       });
   }, []);
 
-  const [checked, setChecked] = useState(false);
-  const handleChange = (e) => {
-    setChecked(e.target.checked);
+  // const handleChange = (e) => {
+  //   //itemBasic.checked = e.target.checked;
+
+  //   setChecked(e.target.checked);
+  //   //console.log(e.target.checked);
+  //   //itemBasic.checked = checked;
+  // };
+
+  const handleEdit = (e) => {
+    setIsEditingBasic(true);
   };
-  //const [isEditingBasic, setIsEditingBasic] = useState(false);
+
+  // const handleSave = (e) => {
+  //   setIsEditingBasic(false);
+  //   //itemBasic.checked= true;
+  // };
+
   const defaultImages = [
     {
       url: "",
     },
   ];
   const [Images, setImages] = useState(defaultImages);
-
+  // const [checked, setChecked] = useState(itemBasic.checked);
+  console.log(itemBasic.checked);
   const handleImageChange = (event) => {
     event.preventDefault();
     const tempImages = [...Images];
@@ -115,7 +129,11 @@ const ContentCards = (props) => {
 
   const onSubmit = (data, e) => {
     if (props.item.event != null) {
-      setValue("checked", checked);
+      setValue("note", itemBasic.note);
+      setValue("generated_details", itemBasic.generated_details);
+      setValue("expenditure", itemBasic.expenditure);
+      setValue("checked", true);
+
       setValue(
         "images",
         Images.map((item) => item.name)
@@ -131,15 +149,18 @@ const ContentCards = (props) => {
     console.log(values.images);
     // if (cardsData.event != null) {
     console.log("axios will run");
+    setIsEditingBasic(false);
     axios
       .put(`${baseURL}event/detail?event_id=${props.item.event.id}`, values)
       .then((response) => {
         setIsEditingBasic(false);
+
+        setItemBasic(values);
         // if (response.data.accessToken) {
         //   localStorage.setItem("accessToken", response.data.accessToken);
         //   if (response.data.id) localStorage.setItem("id", response.data.id);
         //   console.log(localStorage.getItem("accessToken"));
-        //   window.location.reload(false);
+        //window.location.reload(false);
         // }
       })
       .catch((error) => {
@@ -221,22 +242,6 @@ const ContentCards = (props) => {
                           {isEditingBasic === true ? (
                             <form onSubmit={handleSubmit(onSubmit, onError)}>
                               <div className={classes.input}>
-                                <br />
-                                <Checkbox
-                                  checked={checked}
-                                  onChange={handleChange}
-                                  inputProps={{ "aria-label": "controlled" }}
-                                  style={{
-                                    //fontFamily: "Special Elite",
-                                    fontSize: "100%",
-                                    color: "black",
-                                    marginBottom: "2%",
-                                    marginTop: "3%",
-
-                                    // textAlign: "center",
-                                  }}
-                                />{" "}
-                                Visited the place
                                 <div className={classes.wrap}>
                                   <Typography
                                     variant="head"
@@ -253,7 +258,7 @@ const ContentCards = (props) => {
                                     How was your day?
                                   </Typography>
                                   <div className={classes.content1}>
-                                    <TextField
+                                    {/* <TextField
                                       {...register("note")}
                                       className="note"
                                       label="note"
@@ -270,6 +275,16 @@ const ContentCards = (props) => {
 
                                         // textAlign: "center",
                                       }}
+                                    /> */}
+
+                                    <input
+                                      type="text"
+                                      defaultValue={itemBasic.note}
+                                      name="note"
+                                      placeholder={itemBasic.note}
+                                      onChange={(e) =>
+                                        (itemBasic.note = e.target.value)
+                                      }
                                     />
                                   </div>
                                 </div>
@@ -286,7 +301,7 @@ const ContentCards = (props) => {
                                     Write your Whole experience
                                   </Typography>
                                   <div className={classes.content1}>
-                                    <TextField
+                                    {/* <TextField
                                       {...register("generated_details")}
                                       className="details"
                                       label="details"
@@ -303,6 +318,16 @@ const ContentCards = (props) => {
 
                                         // textAlign: "center",
                                       }}
+                                    /> */}
+                                    <input
+                                      type="text"
+                                      defaultValue={itemBasic.generated_details}
+                                      name="note"
+                                      placeholder={itemBasic.generated_details}
+                                      onChange={(e) =>
+                                        (itemBasic.generated_details =
+                                          e.target.value)
+                                      }
                                     />
                                   </div>
                                 </div>
@@ -321,7 +346,7 @@ const ContentCards = (props) => {
                                     How much was the whole cost?
                                   </Typography>
                                   <div className={classes.content1}>
-                                    <TextField
+                                    {/* <TextField
                                       {...register("expenditure")}
                                       className="expenditure"
                                       label="expenditure"
@@ -338,6 +363,16 @@ const ContentCards = (props) => {
 
                                         // textAlign: "center",
                                       }}
+                                    /> */}
+
+                                    <input
+                                      type="currency"
+                                      defaultValue={itemBasic.expenditure}
+                                      name="expenditure"
+                                      placeholder={itemBasic.expenditure}
+                                      onChange={(e) =>
+                                        (itemBasic.expenditure = e.target.value)
+                                      }
                                     />
                                   </div>
                                 </div>
@@ -389,6 +424,13 @@ const ContentCards = (props) => {
                                         }}
                                         variant="outlined"
                                         halfWidth
+                                        onClick={(e) => {
+                                          {
+                                            itemBasic.checked= true;
+                                          }
+                                        }
+                                        }
+                                        //onClick={handleSave}
                                       >
                                         <Typography
                                           color="black"
@@ -401,6 +443,34 @@ const ContentCards = (props) => {
                                           Save
                                         </Typography>
                                       </Button>
+                                      <Button
+                                        className="btn"
+                                        type="submit"
+                                        style={{
+                                          backgroundColor: "transparent",
+                                          borderWidth: "2px",
+                                          borderColor: "black",
+                                        }}
+                                        variant="outlined"
+                                        halfWidth
+                                        onClick={(e) => {
+                                          {
+                                            setIsEditingBasic(false);
+                                          }
+                                        }}
+                                      >
+                                        {" "}
+                                        <Typography
+                                          color="black"
+                                          style={{
+                                            fontFamily: "Special Elite",
+                                            fontSize: "20px",
+                                            textAlign: "center",
+                                          }}
+                                        >
+                                          Cancel
+                                        </Typography>
+                                      </Button>
                                     </div>
                                   </div>
                                 </div>
@@ -409,65 +479,59 @@ const ContentCards = (props) => {
                           ) : (
                             <div>
                               <div className={classes.input}>
-                                {checked == true ? (
+                                {itemBasic.checked == true ? (
                                   <div>
                                     <CheckCircleOutlineRoundedIcon /> Visited
                                     The Place{" "}
-                                  </div>
-                                ) : (
-                                  <div> Didn't visit The Place </div>
-                                )}
-                                <div className={classes.wrap}>
-                                  <Typography
-                                    variant="head"
-                                    style={{
-                                      //fontFamily: "Special Elite",
-                                      fontSize: "100%",
-                                      color: "black",
-                                      // marginLeft: "3%",
-                                      marginTop: "3%",
+                                    <div className={classes.wrap}>
+                                      <Typography
+                                        variant="head"
+                                        style={{
+                                          //fontFamily: "Special Elite",
+                                          fontSize: "100%",
+                                          color: "black",
+                                          // marginLeft: "3%",
+                                          marginTop: "3%",
 
-                                      // textAlign: "center",
-                                    }}
-                                  >
-                                    <b>{itemBasic.note}</b>
-                                  </Typography>
-                                </div>
+                                          // textAlign: "center",
+                                        }}
+                                      >
+                                        Note:<b> {itemBasic.note}</b>
+                                      </Typography>
+                                    </div>
+                                    <div className={classes.wrap}>
+                                      <Typography
+                                        variant="head"
+                                        style={{
+                                          //fontFamily: "Special Elite",
+                                          fontSize: "100%",
+                                          color: "black",
+                                          // marginLeft: "3%",
+                                          marginTop: "5%",
 
-                                <div className={classes.wrap}>
-                                  <Typography
-                                    variant="head"
-                                    style={{
-                                      //fontFamily: "Special Elite",
-                                      fontSize: "100%",
-                                      color: "black",
-                                      // marginLeft: "3%",
-                                      marginTop: "3%",
+                                          // textAlign: "center",
+                                        }}
+                                      >
+                                        {itemBasic.generated_details}
+                                      </Typography>
+                                    </div>
+                                    <div className={classes.wrap}>
+                                      <Typography
+                                        variant="head"
+                                        style={{
+                                          //fontFamily: "Special Elite",
+                                          fontSize: "100%",
+                                          color: "black",
+                                          // marginLeft: "3%",
+                                          marginTop: "3%",
 
-                                      // textAlign: "center",
-                                    }}
-                                  >
-                                    {itemBasic.generated_details}
-                                  </Typography>
-                                </div>
-
-                                <div className={classes.wrap}>
-                                  <Typography
-                                    variant="head"
-                                    style={{
-                                      //fontFamily: "Special Elite",
-                                      fontSize: "100%",
-                                      color: "black",
-                                      // marginLeft: "3%",
-                                      marginTop: "3%",
-
-                                      // textAlign: "center",
-                                    }}
-                                  >
-                                    {itemBasic.expenditure}
-                                  </Typography>
-                                </div>
-                                {/* <div className={classes.wrap}>
+                                          // textAlign: "center",
+                                        }}
+                                      >
+                                        Total Cost: {itemBasic.expenditure}
+                                      </Typography>
+                                    </div>
+                                    {/* <div className={classes.wrap}>
                                     (
                                     {(itemBasic.images).map((img,index) => (
                                       <img
@@ -482,6 +546,10 @@ const ContentCards = (props) => {
                                     ))}
                                     )
                                   </div> */}
+                                  </div>
+                                ) : (
+                                  <div> Didn't visit The Place </div>
+                                )}
                                 <div className={classes.wrap}>
                                   <Button
                                     className="btn"
@@ -493,7 +561,7 @@ const ContentCards = (props) => {
                                     }}
                                     variant="outlined"
                                     halfWidth
-                                    onClick={setIsEditingBasic(true)}
+                                    onClick={handleEdit}
                                   >
                                     <Typography
                                       color="black"
@@ -516,7 +584,6 @@ const ContentCards = (props) => {
                   </CardContent>
                 </Card>
               </div>
-              
             </Grid>
           ))}
         </Grid>
