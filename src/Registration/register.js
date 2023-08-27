@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import LoginPage from "../login/loginPage";
 import { useState } from "react";
@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Special Elite",
   },
 
+  content3: {
+    fontColor: "red",
+  },
   input: {
     height: "100%",
     maxWidth: "100%",
@@ -67,7 +70,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Register() {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { handleSubmit, register, getValues } = useForm();
+  const {
+    handleSubmit,
+    register,
+    getValues,
+    control,
+    formState: { errors },
+  } = useForm();
   // const [nextRoute, setNextRoute] = useState(false);
 
   const onSubmit = (data, e) => {
@@ -171,17 +180,67 @@ export default function Register() {
 
             <div className={classes.wrap}>
               <h1 className={classes.Title1}>Password</h1>
-              <div className={classes.content2}>
+              <div className={classes.content3}>
                 <TextField
-                  {...register("password")}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters long",
+                    },
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      message:
+                        "Password must meet have one uppercase ,one lowercase, one number and one special character",
+                    },
+                    // Add more validation rules as needed
+                  })}
                   className="password"
                   label="Password"
                   color="secondary"
-                  placeholder="Enter password"
-                  type="password"
+                  placeholder="Enter your password"
                   halfWidth
                   required
                 />
+                {errors.password && (
+                  <p style={{ color: "red", fontSize: "14px" }}>
+                    {errors.password.message}
+                  </p>
+                )}
+
+                {/* <Controller
+                  name="password"
+                  control={control}
+                  rules={{
+                    required: "Password is required",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters long",
+                    },
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      message:
+                        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+                    },
+                  }}
+                  render={({ password, fieldState }) => (
+                    <div className={classes.content2}>
+                      <TextField
+                        {...password}
+                        label="Password"
+                        color="secondary"
+                        placeholder="Enter password"
+                        type="password"
+                        halfWidth
+                        required
+                        error={!!fieldState.error?.message}
+                        helperText={fieldState.error?.message || " "}
+                      />
+                    </div>
+                  )}
+                /> */}
               </div>
             </div>
             <div className={classes.wrap}>
@@ -213,33 +272,33 @@ export default function Register() {
             </div>
           </div>
           <Link to="/login">
-          <Button
-                  className="btn"
-                  type="submit"
-                  // onClick={routeToLogin}
+            <Button
+              className="btn"
+              type="button"
+              // onClick={routeToLogin}
+              style={{
+                backgroundColor: "rgba(0,0,33,0.6)",
+                borderWidth: "5px",
+                borderColor: "black",
+                marginLeft: "100px",
+              }}
+              // variant="outlined"
+              halfWidth
+            >
+              <div>
+                <Typography
+                  color="white"
                   style={{
-                    backgroundColor: "rgba(0,0,33,0.6)",
-                    borderWidth: "5px",
-                    borderColor: "black",
-                    marginLeft: "100px"
+                    fontFamily: "Special Elite",
+                    fontSize: "25px",
+                    textAlign: "center",
+                    marginTop: "10px",
                   }}
-                 // variant="outlined"
-                  halfWidth
                 >
-            <div>
-              <Typography
-                color="white"
-                style={{
-                  fontFamily: "Special Elite",
-                  fontSize: "25px",
-                  textAlign: "center",
-                  marginTop: "10px",
-                }}
-              >
-                {" "}
-                Already Have An Account? Login here{" "}
-              </Typography>
-            </div>
+                  {" "}
+                  Already Have An Account? Login here{" "}
+                </Typography>
+              </div>
             </Button>
           </Link>
         </form>
