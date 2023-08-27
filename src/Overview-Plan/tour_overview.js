@@ -62,6 +62,7 @@ const Tour_overview = () => {
       .then((resp) => resp.json())
       .then((resp) => {
         setItemBasic(resp);
+        console.log(resp);
       })
       .catch((rejected) => {
         console.log(rejected);

@@ -85,7 +85,7 @@ const EventCards = (props) => {
           className={classes.cardimg}
           style={{
             width: "120%",
-            marginLeft: "10%",
+            marginLeft: "2%",
             marginTop: "5%",
             color: "fffff",
           }}

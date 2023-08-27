@@ -22,8 +22,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import { OpenInFullRounded } from "@mui/icons-material";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import BookIcon from "@mui/icons-material/Book";
@@ -204,7 +203,8 @@ export default function SideBar() {
         </List>
         <Divider />
         <List>
-          {["Back"].map((text, index) => (
+        <Link to={`/createplan`}>
+          {["Create Plan"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
@@ -220,12 +220,14 @@ export default function SideBar() {
                     justifyContent: "center",
                   }}
                 >
-                  <KeyboardReturnIcon />
+                  <EditCalendarIcon/>
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
+
           ))}
+          </Link>
         </List>
       </Drawer>
       {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
