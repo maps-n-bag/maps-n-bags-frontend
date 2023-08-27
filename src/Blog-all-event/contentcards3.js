@@ -257,7 +257,7 @@ const ContentCards = (props) => {
                                     />
                                   </div>
                                 </div>
-                                <div className={classes.wrap}>
+                                {/* <div className={classes.wrap}>
                                   <Typography
                                     variant="head"
                                     style={{
@@ -293,7 +293,7 @@ const ContentCards = (props) => {
                                       }}
                                     />
                                   </div>
-                                </div>
+                                </div> */}
                                 <div className={classes.wrap}>
                                   <Typography
                                     variant="head"
