@@ -9,7 +9,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
-
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import Box from "@mui/material/Box";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -59,23 +59,49 @@ const useStyles = makeStyles({
 const ContentCards = (props) => {
   const classes = useStyles();
   const cardsData = [props.item];
-
+  const [isEditingBasic, setIsEditingBasic] = useState(false);
+  const [itemBasic, setItemBasic] = useState([]);
+  // console.log("isedit check" + isEditingBasic);
   let eventID = null;
   if (props.item.event != null) {
     eventID = props.item.event.id;
   }
-  const [checked, setChecked] = useState(false);
-  const handleChange = (e) => {
-    setChecked(e.target.checked);
+  console.log("check" + itemBasic.checked);
+  console.log(cardsData);
+  useEffect(() => {
+    fetch(`${baseURL}event/detail?event_id=${eventID}`)
+      .then((resp) => resp.json())
+      .then((resp) => {
+        setItemBasic(resp);
+        console.log(resp);
+      });
+  }, []);
+
+  // const handleChange = (e) => {
+  //   //itemBasic.checked = e.target.checked;
+
+  //   setChecked(e.target.checked);
+  //   //console.log(e.target.checked);
+  //   //itemBasic.checked = checked;
+  // };
+
+  const handleEdit = (e) => {
+    setIsEditingBasic(true);
   };
-  //const [isEditingBasic, setIsEditingBasic] = useState(false);
+
+  // const handleSave = (e) => {
+  //   setIsEditingBasic(false);
+  //   //itemBasic.checked= true;
+  // };
+
   const defaultImages = [
     {
       url: "",
     },
   ];
   const [Images, setImages] = useState(defaultImages);
-
+  // const [checked, setChecked] = useState(itemBasic.checked);
+  console.log(itemBasic.checked);
   const handleImageChange = (event) => {
     event.preventDefault();
     const tempImages = [...Images];
@@ -103,8 +129,15 @@ const ContentCards = (props) => {
 
   const onSubmit = (data, e) => {
     if (props.item.event != null) {
-      setValue("checked", checked);
-      setValue("images" , Images.map((item) => item.name));
+      setValue("note", itemBasic.note);
+      setValue("generated_details", itemBasic.generated_details);
+      setValue("expenditure", itemBasic.expenditure);
+      setValue("checked", true);
+
+      setValue(
+        "images",
+        Images.map((item) => item.name)
+      );
       //setValue("id", 1);
       //setValue("event_id", eventID);
     }
@@ -113,24 +146,29 @@ const ContentCards = (props) => {
     console.log(data, e);
     const values = getValues();
     console.log(values);
-
+    console.log(values.images);
     // if (cardsData.event != null) {
-      console.log('axios will run');
-      axios
-        .put(`${baseURL}event/detail?event_id=${props.item.event.id}`, values)
-        .then((response) => {
-          // if (response.data.accessToken) {
-          //   localStorage.setItem("accessToken", response.data.accessToken);
-          //   if (response.data.id) localStorage.setItem("id", response.data.id);
-          //   console.log(localStorage.getItem("accessToken"));
-          //   window.location.reload(false);
-          // }
-        })
-        .catch((error) => {
-          console.log(error);
-        }).then(() => {
-          console.log("sent");
-        });
+    console.log("axios will run");
+    setIsEditingBasic(false);
+    axios
+      .put(`${baseURL}event/detail?event_id=${props.item.event.id}`, values)
+      .then((response) => {
+        setIsEditingBasic(false);
+
+        setItemBasic(values);
+        // if (response.data.accessToken) {
+        //   localStorage.setItem("accessToken", response.data.accessToken);
+        //   if (response.data.id) localStorage.setItem("id", response.data.id);
+        //   console.log(localStorage.getItem("accessToken"));
+        //window.location.reload(false);
+        // }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .then(() => {
+        console.log("sent");
+      });
     // } else {
     //   console.log("no axios");
     // }
@@ -142,7 +180,6 @@ const ContentCards = (props) => {
   return (
     <div className={classes.places}>
       <div className={classes.postcard}>
-        {/* <img src={img_arr} alt="Image" className={classes.img} /> */}
         <Grid
           container
           spacing={2}
@@ -155,72 +192,56 @@ const ContentCards = (props) => {
         >
           {cardsData.map((card, index) => (
             <Grid item key={index} xs={12} sm={6} md={5} lg={5}>
-              {card.event != null ? (
-                <div>
-                  <Card className={classes.cardSetup}>
-                    <CardContent>
-                      <Grid
-                        container
-                        spacing={1}
-                        style={{
-                          width: "100%",
-                          marginLeft: "7%",
-                          color: "ffffff",
-                          marginTop: "1%",
-                        }}
-                      >
-                        <Grid item xs>
-                          <ScheduleOutlined
-                            style={{
-                              color: "black",
-                              marginTop: "6%",
-                              // textAlign: "center",
-                            }}
-                          />
+              <div>
+                <Card className={classes.cardSetup}>
+                  <CardContent>
+                    <Grid
+                      container
+                      spacing={1}
+                      style={{
+                        width: "100%",
+                        marginLeft: "7%",
+                        color: "ffffff",
+                        marginTop: "1%",
+                      }}
+                    >
+                      <Grid item xs>
+                        <ScheduleOutlined
+                          style={{
+                            color: "black",
+                            marginTop: "6%",
+                            // textAlign: "center",
+                          }}
+                        />
 
-                          <Typography
-                            variant="head"
-                            style={{
-                              //fontFamily: "Special Elite",
-                              fontSize: "100%",
-                              color: "black",
-                              marginTop: "6%",
-                              marginRight: "10%",
-                              // textAlign: "center",
-                            }}
-                          >
-                            {" "}
-                            {timeformat.formateTime(
-                              card.event.start_time
-                            )} to {timeformat.formateTime(card.event.end_time)}
-                          </Typography>
+                        <Typography
+                          variant="head"
+                          style={{
+                            //fontFamily: "Special Elite",
+                            fontSize: "100%",
+                            color: "black",
+                            marginTop: "6%",
+                            marginRight: "10%",
+                            // textAlign: "center",
+                          }}
+                        >
+                          {" "}
+                          {timeformat.formateTime(
+                            card.event.start_time
+                          )} to {timeformat.formateTime(card.event.end_time)}
+                        </Typography>
 
-                          <PlaceCard item={card.event.place_id} />
-                        </Grid>
-                        <Grid item xs>
-                          <Box
-                            className={classes.bx}
-                            width="100%"
-                            bgcolor="rgba(255, 255, 255, 0.2)" // 60% transparent black
-                          >
+                        <PlaceCard item={card.event.place_id} />
+                      </Grid>
+                      <Grid item xs>
+                        <Box
+                          className={classes.bx}
+                          width="100%"
+                          bgcolor="rgba(255, 255, 255, 0.2)" // 60% transparent black
+                        >
+                          {isEditingBasic === true ? (
                             <form onSubmit={handleSubmit(onSubmit, onError)}>
                               <div className={classes.input}>
-                                <br />
-                                <Checkbox
-                                  checked={checked}
-                                  onChange={handleChange}
-                                  inputProps={{ "aria-label": "controlled" }}
-                                  style={{
-                                    //fontFamily: "Special Elite",
-                                    fontSize: "100%",
-                                    color: "black",
-                                    marginBottom: "2%",
-                                    marginTop: "3%",
-
-                                    // textAlign: "center",
-                                  }}
-                                />{" "}
-                                Visited the place
                                 <div className={classes.wrap}>
                                   <Typography
                                     variant="head"
@@ -237,7 +258,7 @@ const ContentCards = (props) => {
                                     How was your day?
                                   </Typography>
                                   <div className={classes.content1}>
-                                    <TextField
+                                    {/* <TextField
                                       {...register("note")}
                                       className="note"
                                       label="note"
@@ -254,6 +275,16 @@ const ContentCards = (props) => {
 
                                         // textAlign: "center",
                                       }}
+                                    /> */}
+
+                                    <input
+                                      type="text"
+                                      defaultValue={itemBasic.note}
+                                      name="note"
+                                      placeholder={itemBasic.note}
+                                      onChange={(e) =>
+                                        (itemBasic.note = e.target.value)
+                                      }
                                     />
                                   </div>
                                 </div>
@@ -265,15 +296,12 @@ const ContentCards = (props) => {
                                       fontSize: "100%",
                                       color: "black",
                                       marginTop: "3%",
-                                      // marginLeft: "3%",
-
-                                      // textAlign: "center",
                                     }}
                                   >
                                     Write your Whole experience
                                   </Typography>
                                   <div className={classes.content1}>
-                                    <TextField
+                                    {/* <TextField
                                       {...register("generated_details")}
                                       className="details"
                                       label="details"
@@ -285,12 +313,21 @@ const ContentCards = (props) => {
                                         fontSize: "100%",
                                         color: "black",
                                         marginTop: "3%",
-                                        // marginLeft: "3%",
-                                        //marginBottom: "6%",
+
                                         marginRight: "10%",
 
                                         // textAlign: "center",
                                       }}
+                                    /> */}
+                                    <input
+                                      type="text"
+                                      defaultValue={itemBasic.generated_details}
+                                      name="note"
+                                      placeholder={itemBasic.generated_details}
+                                      onChange={(e) =>
+                                        (itemBasic.generated_details =
+                                          e.target.value)
+                                      }
                                     />
                                   </div>
                                 </div> */}
@@ -309,7 +346,7 @@ const ContentCards = (props) => {
                                     How much was the whole cost?
                                   </Typography>
                                   <div className={classes.content1}>
-                                    <TextField
+                                    {/* <TextField
                                       {...register("expenditure")}
                                       className="expenditure"
                                       label="expenditure"
@@ -326,6 +363,16 @@ const ContentCards = (props) => {
 
                                         // textAlign: "center",
                                       }}
+                                    /> */}
+
+                                    <input
+                                      type="currency"
+                                      defaultValue={itemBasic.expenditure}
+                                      name="expenditure"
+                                      placeholder={itemBasic.expenditure}
+                                      onChange={(e) =>
+                                        (itemBasic.expenditure = e.target.value)
+                                      }
                                     />
                                   </div>
                                 </div>
@@ -344,25 +391,6 @@ const ContentCards = (props) => {
                                     Upload an Image
                                   </Typography>
                                   <div className={classes.content1}>
-                                    {/* <TextField
-                                      {...register("images")}
-                                      className="image"
-                                      label="image"
-                                      color="secondary"
-                                      placeholder="Give a link of your image"
-                                      halfWidth
-                                      style={{
-                                        //fontFamily: "Special Elite",
-                                        fontSize: "100%",
-                                        color: "black",
-                                        //marginLeft: "3%",
-                                        marginBottom: "6%",
-                                        marginTop: "3%",
-
-                                        // textAlign: "center",
-                                      }}
-                                    /> */}
-
                                     {Images.map((item, index) => (
                                       <div className="table-row" key={index}>
                                         <div className="table-data">
@@ -396,7 +424,13 @@ const ContentCards = (props) => {
                                         }}
                                         variant="outlined"
                                         halfWidth
-                                        // onClick={handleAddValue}
+                                        onClick={(e) => {
+                                          {
+                                            itemBasic.checked= true;
+                                          }
+                                        }
+                                        }
+                                        //onClick={handleSave}
                                       >
                                         <Typography
                                           color="black"
@@ -409,31 +443,147 @@ const ContentCards = (props) => {
                                           Save
                                         </Typography>
                                       </Button>
+                                      <Button
+                                        className="btn"
+                                        type="submit"
+                                        style={{
+                                          backgroundColor: "transparent",
+                                          borderWidth: "2px",
+                                          borderColor: "black",
+                                        }}
+                                        variant="outlined"
+                                        halfWidth
+                                        onClick={(e) => {
+                                          {
+                                            setIsEditingBasic(false);
+                                          }
+                                        }}
+                                      >
+                                        {" "}
+                                        <Typography
+                                          color="black"
+                                          style={{
+                                            fontFamily: "Special Elite",
+                                            fontSize: "20px",
+                                            textAlign: "center",
+                                          }}
+                                        >
+                                          Cancel
+                                        </Typography>
+                                      </Button>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </form>
-                          </Box>
-                        </Grid>
+                          ) : (
+                            <div>
+                              <div className={classes.input}>
+                                {itemBasic.checked == true ? (
+                                  <div>
+                                    <CheckCircleOutlineRoundedIcon /> Visited
+                                    The Place{" "}
+                                    <div className={classes.wrap}>
+                                      <Typography
+                                        variant="head"
+                                        style={{
+                                          //fontFamily: "Special Elite",
+                                          fontSize: "100%",
+                                          color: "black",
+                                          // marginLeft: "3%",
+                                          marginTop: "3%",
+
+                                          // textAlign: "center",
+                                        }}
+                                      >
+                                        Note:<b> {itemBasic.note}</b>
+                                      </Typography>
+                                    </div>
+                                    <div className={classes.wrap}>
+                                      <Typography
+                                        variant="head"
+                                        style={{
+                                          //fontFamily: "Special Elite",
+                                          fontSize: "100%",
+                                          color: "black",
+                                          // marginLeft: "3%",
+                                          marginTop: "5%",
+
+                                          // textAlign: "center",
+                                        }}
+                                      >
+                                        {itemBasic.generated_details}
+                                      </Typography>
+                                    </div>
+                                    <div className={classes.wrap}>
+                                      <Typography
+                                        variant="head"
+                                        style={{
+                                          //fontFamily: "Special Elite",
+                                          fontSize: "100%",
+                                          color: "black",
+                                          // marginLeft: "3%",
+                                          marginTop: "3%",
+
+                                          // textAlign: "center",
+                                        }}
+                                      >
+                                        Total Cost: {itemBasic.expenditure}
+                                      </Typography>
+                                    </div>
+                                    {/* <div className={classes.wrap}>
+                                    (
+                                    {(itemBasic.images).map((img,index) => (
+                                      <img
+                                        src={`url${img}`}
+                                        // alt={name_arr}
+                                        style={{
+                                          width: "95%",
+                                          marginTop: "5%",
+                                        }}
+                                        // Adjust the percentage value as needed
+                                      />
+                                    ))}
+                                    )
+                                  </div> */}
+                                  </div>
+                                ) : (
+                                  <div> Didn't visit The Place </div>
+                                )}
+                                <div className={classes.wrap}>
+                                  <Button
+                                    className="btn"
+                                    type="submit"
+                                    style={{
+                                      backgroundColor: "transparent",
+                                      borderWidth: "2px",
+                                      borderColor: "black",
+                                    }}
+                                    variant="outlined"
+                                    halfWidth
+                                    onClick={handleEdit}
+                                  >
+                                    <Typography
+                                      color="black"
+                                      style={{
+                                        fontFamily: "Special Elite",
+                                        fontSize: "20px",
+                                        textAlign: "center",
+                                      }}
+                                    >
+                                      Edit
+                                    </Typography>
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </Box>
                       </Grid>
-                    </CardContent>
-                  </Card>
-                </div>
-              ) : (
-                <Typography
-                  variant="head"
-                  style={{
-                    // fontFamily: "Special Elite",
-                    fontSize: "100%",
-                    color: "black",
-                    //marginLeft: "6%",
-                    // textAlign: "center",
-                  }}
-                >
-                  {" "}
-                </Typography>
-              )}
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </div>
             </Grid>
           ))}
         </Grid>
