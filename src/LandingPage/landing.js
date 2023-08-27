@@ -17,6 +17,8 @@ import { Link } from "react-router-dom";
 import LoginPage from "../login/loginPage";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+// import { useState } from "react";
+import {  useEffect } from "react";
 import "./style.css";
 import { BorderBottomOutlined } from "@mui/icons-material";
 const useStyles = makeStyles(() => ({}));
@@ -24,14 +26,32 @@ const useStyles = makeStyles(() => ({}));
 // const navigateToLogin = () => {
 //   <LoginPage />;
 // };
+
 const Landingpage = () => {
   const classes = useStyles();
   const ref = useRef();
   const buttonRef = useRef();
   const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("/Login");
-  };
+  // const [horizontalPosition, setHorizontalPosition] = useState(0);
+
+  // const moveHorizontally = (distance) => {
+  //   setHorizontalPosition(horizontalPosition + distance);
+  // };
+
+  // const handleLoginClick = () => {
+  //   navigate("/Login");
+  // };
+
+  useEffect(() => {
+    const navigationTimer = setTimeout(() => {
+      navigate("/Register"); // Replace '/destination' with the desired URL
+    }, 10000); // 5000 milliseconds = 5 seconds
+
+    return () => {
+      clearTimeout(navigationTimer); // Clear the timer if the component unmounts
+    };
+  }, [navigate]);
+
   return (
     <div className={classes.bg}>
       <Parallax pages={3} ref={ref}>
@@ -46,15 +66,16 @@ const Landingpage = () => {
         <ParallaxLayer
           offset={0}
           speed={1}
-          factor={2}
+          // factor={2}
           style={{
             backgroundImage: `url(${road})`,
             backgroundSize: "cover",
 
             height: "100vh",
           }}
+          onClick={() => ref.current.scrollTo(2)}
         >
-          <img
+          {/* <img
             src={car}
             alt="Car"
             style={{
@@ -62,7 +83,7 @@ const Landingpage = () => {
               top: "25rem",
               left: "50px",
             }}
-          />
+          /> */}
           <img
             src={logo}
             alt="logo"
@@ -78,7 +99,7 @@ const Landingpage = () => {
         <ParallaxLayer
           offset={2}
           speed={1}
-          factor={4}
+          // factor={4}
           style={{
             backgroundImage: `url(${tr})`,
             backgroundSize: "cover",
@@ -101,18 +122,19 @@ const Landingpage = () => {
               </Box>
             </Box>
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Box className="btn1" m={3} p={3}>
                   <Button
                     style={{
                       fontSize: "20px",
                       color: "black",
-                      marginLeft: "5%",
+                      marginLeft: "70%",
                       backgroundColor: "lightblue",
 
                       borderWidth: "5px",
                       borderColor: "black",
                     }}
+                    // onClick={handleLoginClick}
                     // onClick={() =>
                     //   buttonRef.current.addEventListener("click", handleClick)
                     // }
@@ -138,42 +160,46 @@ const Landingpage = () => {
                     </Typography>
                   </Button>
                 </Box>
-              </Grid>
+              </Grid> */}
 
-              <Grid item xs spacing={2} className={classes.gg}>
-                <Box
-                  className="btn1"
-                  m={3}
-                  p={3}
-                  style={{
-                    height: "40%",
-                    fontFamily: "Special Elite",
-                    fontSize: "150%",
-                    //marginLeft: "30%",
-
-                    color: "black",
-                  }}
-                >
-                  <AccountCircleOutlinedIcon
+              {/* <Grid item xs spacing={2} className={classes.gg}>
+                <Box className="btn1" m={3} p={3}>
+                  <Button
                     style={{
-                      fontFamily: "Special Elite",
-                      fontSize: "200%",
-                      marginTop: "-3rem",
-                      color: "black",
-                    }}
-                  />
-                  <Typography
-                    color="black"
-                    style={{
-                      fontFamily: "Special Elite",
                       fontSize: "20px",
-                      textAlign: "center",
+                      color: "black",
+                      marginLeft: "70%",
+                      backgroundColor: "lightblue",
+
+                      borderWidth: "5px",
+                      borderColor: "black",
                     }}
+                    // onClick={handleLoginClick}
+                    // onClick={() =>
+                    //   buttonRef.current.addEventListener("click", handleClick)
+                    // }
                   >
-                    Sign Up
-                  </Typography>
+                    <AccountCircleOutlinedIcon
+                      style={{
+                        fontFamily: "Special Elite",
+                        fontSize: "200%",
+                        // marginTop: "-3rem",
+                        color: "black",
+                      }}
+                    />
+                    <Typography
+                      color="black"
+                      style={{
+                        fontFamily: "Special Elite",
+                        fontSize: "20px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Signup
+                    </Typography>
+                  </Button>
                 </Box>
-              </Grid>
+              </Grid> */}
             </Grid>
           </div>
         </ParallaxLayer>
@@ -187,12 +213,16 @@ const Landingpage = () => {
             backgroundSize: "cover",
             height: "100vh",
           }}
-        ></ParallaxLayer>
+        >
+          {/* <button onClick={() => moveHorizontally(100)}>Move Right</button> */}
+        </ParallaxLayer>
 
         <ParallaxLayer
-          sticky={{ start: 1.0, end: 4.5 }}
+          sticky={{ start: 0.2, end: 4.5 }}
           style={{
             textAlign: "center",
+           // transform: `translateX(${horizontalPosition}px)`,
+           // transition: "transform 0.3s ease",
           }}
         >
           <img
@@ -206,21 +236,21 @@ const Landingpage = () => {
           />
         </ParallaxLayer>
 
-        <ParallaxLayer
+        {/* <ParallaxLayer
           offset={0}
           speed={0.005}
           onClick={() => ref.current.scrollTo(2)}
         >
           <h2></h2>
-        </ParallaxLayer>
+        </ParallaxLayer> */}
 
-        <ParallaxLayer
-          offset={4}
+        {/* <ParallaxLayer
+          offset={2}
           speed={0.005}
-          onClick={() => ref.current.scrollTo(0)}
+          onClick={() => handleLayerClick(2)}
         >
           <h2></h2>
-        </ParallaxLayer>
+        </ParallaxLayer> */}
       </Parallax>
     </div>
   );

@@ -9,7 +9,7 @@ import axios from "axios";
 import LoginPage from "../login/loginPage";
 import { useState } from "react";
 import { Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const baseURL = "https://maps-n-bags.onrender.com/api/";
 const useStyles = makeStyles((theme) => ({
@@ -68,7 +68,7 @@ export default function Register() {
   const classes = useStyles();
   const navigate = useNavigate();
   const { handleSubmit, register, getValues } = useForm();
- // const [nextRoute, setNextRoute] = useState(false);
+  // const [nextRoute, setNextRoute] = useState(false);
 
   const onSubmit = (data, e) => {
     e.preventDefault();
@@ -89,7 +89,7 @@ export default function Register() {
         //   if (response.data.id) localStorage.setItem("id", response.data.id);
         //   console.log(localStorage.getItem("accessToken"));
 
-       // window.location.reload(false);
+        // window.location.reload(false);
         // }
       })
       .catch((error) => {
@@ -212,6 +212,36 @@ export default function Register() {
               </div>
             </div>
           </div>
+          <Link to="/login">
+          <Button
+                  className="btn"
+                  type="submit"
+                  // onClick={routeToLogin}
+                  style={{
+                    backgroundColor: "rgba(0,0,33,0.6)",
+                    borderWidth: "5px",
+                    borderColor: "black",
+                    marginLeft: "100px"
+                  }}
+                 // variant="outlined"
+                  halfWidth
+                >
+            <div>
+              <Typography
+                color="white"
+                style={{
+                  fontFamily: "Special Elite",
+                  fontSize: "25px",
+                  textAlign: "center",
+                  marginTop: "10px",
+                }}
+              >
+                {" "}
+                Already Have An Account? Login here{" "}
+              </Typography>
+            </div>
+            </Button>
+          </Link>
         </form>
       </Box>
 
