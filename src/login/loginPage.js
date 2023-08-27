@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import loginImg from "../photos/login.jpg";
 import { makeStyles } from "@mui/styles";
 import TextField from "@mui/material/TextField";
@@ -13,6 +14,7 @@ import ConnectWithoutContactOutlinedIcon from "@mui/icons-material/ConnectWithou
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import TimeLine from "../Profile/timeline";
+import Alert from "@mui/material/Alert";
 const baseURL = "https://maps-n-bags.onrender.com/api/";
 const RowOfBoxes = () => {
   return (
@@ -177,7 +179,7 @@ export default function LoginPage() {
   const classes = useStyles();
   //const {id} =useParams();
   const navigate = useNavigate();
-
+  const [loginFailed, setLoginFailed] = useState(false);
   const { handleSubmit, register, getValues } = useForm();
 
   const onSubmit = (data, e) => {
@@ -190,7 +192,11 @@ export default function LoginPage() {
       .then((response) => {
         console.log(response);
         console.log("login successful");
-        if (response.status == "200") navigate(`/Profile/${response.data.user_id}`);
+        if (response.status == "200")
+          navigate(`/Profile/${response.data.user_id}`);
+        else if (response.status == "401") {
+          setLoginFailed(true);
+        }
         // if (response.data.accessToken) {
         //   localStorage.setItem("accessToken", response.data.accessToken);
         //   if (response.data.id) localStorage.setItem("id", response.data.id);
@@ -213,6 +219,11 @@ export default function LoginPage() {
         height={500}
         bgcolor="rgba(255, 255, 255, 0.3)" // 60% transparent black
       >
+        {loginFailed && (
+          <Alert variant="filled" severity="error">
+            Account wasn't found. Make Sure You Typed Correctly!
+          </Alert>
+        )}
         <form onSubmit={handleSubmit(onSubmit, onError)}>
           <div className={classes.input}>
             <div className={classes.wrap}>
@@ -272,6 +283,7 @@ export default function LoginPage() {
             </div>
           </div>
         </form>
+        {/* Conditional rendering of Alert based on loginFailed state */}
       </Box>
 
       <div className={classes.boxrow}>
