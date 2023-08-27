@@ -330,7 +330,7 @@ const ContentCards = (props) => {
                                       }
                                     />
                                   </div>
-                                </div> */}
+                                
                                 <div className={classes.wrap}>
                                   <Typography
                                     variant="head"
@@ -474,7 +474,7 @@ const ContentCards = (props) => {
                                     </div>
                                   </div>
                                 </div>
-                              </div>
+                             
                             </form>
                           ) : (
                             <div>
@@ -585,7 +585,7 @@ const ContentCards = (props) => {
                 </Card>
               </div>
             </Grid>
-          ))}
+     )     )}
         </Grid>
       </div>
     </div>
