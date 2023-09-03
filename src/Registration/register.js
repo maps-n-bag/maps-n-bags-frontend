@@ -190,9 +190,9 @@ export default function Register() {
                     },
                     pattern: {
                       value:
-                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+/,
                       message:
-                        "Password must meet have one uppercase ,one lowercase, one number and one special character",
+                        "Password must meet have one uppercase ,one lowercase, one number",
                     },
                     // Add more validation rules as needed
                   })}
