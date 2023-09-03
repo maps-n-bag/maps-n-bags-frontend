@@ -54,52 +54,47 @@ const Landingpage = () => {
 
   return (
     <div className={classes.bg}>
-      <Parallax pages={3} ref={ref}>
-        {/* <ParallaxLayer speed={1}>
-              <h2>Welcome to my website</h2>
-          </ParallaxLayer>
-  
-          <ParallaxLayer offset={1} speed={0.5}>
-              <h2>Web development is fun!</h2>
-          </ParallaxLayer> */}
+      <Parallax pages={3} ref={ref} style={{ backgroundColor: "black", top: "0", left: "0" }}>
 
         <ParallaxLayer
           offset={0}
-          speed={1}
-          // factor={2}
+          speed={0}
           style={{
             backgroundImage: `url(${road})`,
             backgroundSize: "cover",
 
             height: "100vh",
           }}
-          onClick={() => ref.current.scrollTo(2)}
+        onClick={() => ref.current.scrollTo(2)}
         >
-          {/* <img
-            src={car}
-            alt="Car"
-            style={{
-              position: "absolute",
-              top: "25rem",
-              left: "50px",
-            }}
-          /> */}
-          <img
-            src={logo}
-            alt="logo"
-            style={{
-              position: "absolute",
-              top: "5rem",
-              left: "60rem",
-              height: "50vh",
-            }}
-          />
+          <div className="place">
+            <img
+              src={logo}
+              alt="logo"
+              style={{
+                position: "absolute",
+                top: "5rem",
+                right: "10rem",
+                width: "50vh",
+              }}
+            />
+          </div>
+        </ParallaxLayer>
+
+        <ParallaxLayer
+          offset={1}
+          speed={0}
+          style={{
+            backgroundImage: `url(${cave})`,
+            backgroundSize: "cover",
+            height: "100vh",
+          }}
+        >
         </ParallaxLayer>
 
         <ParallaxLayer
           offset={2}
-          speed={1}
-          // factor={4}
+          speed={0}
           style={{
             backgroundImage: `url(${tr})`,
             backgroundSize: "cover",
@@ -107,22 +102,18 @@ const Landingpage = () => {
           }}
         >
           <div className="place">
-            <Box className="box">
-              <Box className="boxdp">
-                <img
-                  src={logo}
-                  alt="logo"
-                  style={{
-                    position: "absolute",
-                    top: "3rem",
-                    left: "65rem",
-                    height: "50vh",
-                  }}
-                />
-              </Box>
-            </Box>
-            <Grid container>
-              {/* <Grid item xs>
+            <img
+              src={logo}
+              alt="logo"
+              style={{
+                position: "absolute",
+                top: "3rem",
+                right: "10rem",
+                width: "50vh",
+              }}
+            />  
+            {/* <Grid container> */}
+            {/* <Grid item xs>
                 <Box className="btn1" m={3} p={3}>
                   <Button
                     style={{
@@ -162,7 +153,7 @@ const Landingpage = () => {
                 </Box>
               </Grid> */}
 
-              {/* <Grid item xs spacing={2} className={classes.gg}>
+            {/* <Grid item xs spacing={2} className={classes.gg}>
                 <Box className="btn1" m={3} p={3}>
                   <Button
                     style={{
@@ -200,21 +191,8 @@ const Landingpage = () => {
                   </Button>
                 </Box>
               </Grid> */}
-            </Grid>
+            {/* </Grid> */}
           </div>
-        </ParallaxLayer>
-
-        <ParallaxLayer
-          offset={1}
-          speed={1}
-          //factor={4}
-          style={{
-            backgroundImage: `url(${cave})`,
-            backgroundSize: "cover",
-            height: "100vh",
-          }}
-        >
-          {/* <button onClick={() => moveHorizontally(100)}>Move Right</button> */}
         </ParallaxLayer>
 
         <ParallaxLayer
@@ -236,21 +214,6 @@ const Landingpage = () => {
           />
         </ParallaxLayer>
 
-        {/* <ParallaxLayer
-          offset={0}
-          speed={0.005}
-          onClick={() => ref.current.scrollTo(2)}
-        >
-          <h2></h2>
-        </ParallaxLayer> */}
-
-        {/* <ParallaxLayer
-          offset={2}
-          speed={0.005}
-          onClick={() => handleLayerClick(2)}
-        >
-          <h2></h2>
-        </ParallaxLayer> */}
       </Parallax>
     </div>
   );
