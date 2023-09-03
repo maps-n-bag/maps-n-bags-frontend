@@ -12,7 +12,7 @@ import {
 import { makeStyles } from "@mui/styles";
 import { ca } from "date-fns/locale";
 
-const baseURL = "https://maps-n-bags.onrender.com/api/";
+const baseURL = process.env.REACT_APP_BASE_URL;
 const timeformat = require("../formateTime");
 const useStyles = makeStyles({
   places: {

@@ -11,7 +11,7 @@ import { useState } from "react";
 import { Typography } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 
-const baseURL = "https://maps-n-bags.onrender.com/api/";
+const baseURL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles((theme) => ({
   bx: {
     alignContent: "center",

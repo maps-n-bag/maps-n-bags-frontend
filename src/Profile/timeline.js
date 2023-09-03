@@ -13,7 +13,7 @@ import Box from "@mui/material/Box";
 import { useParams } from "react-router-dom";
 import { Grid } from "@mui/material";
 import axios from "axios";
-const baseURL = "https://maps-n-bags.onrender.com/api/";
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 const useStyles = makeStyles((theme) => ({
   boxdp: {

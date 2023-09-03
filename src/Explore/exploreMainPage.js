@@ -17,7 +17,7 @@ import TimeLine from "../Profile/timeline";
 import cp from "../photos/c.png";
 import pp from "../photos/para.png";
 import cr from "../photos/cr.png";
-const baseURL = "https://maps-n-bags.onrender.com/api/";
+const baseURL = process.env.REACT_APP_BASE_URL;
 const RowOfBoxes = () => {
   return (
     <Box display="flex" justifyContent="center">

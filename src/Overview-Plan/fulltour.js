@@ -20,7 +20,7 @@ import noteIcon from "../photos/icon/note.png";
 const dateformat = require("../formateDate");
 // require("dotenv").config();
 // const baseURL = process.env.BASE_URL;
-const baseURL = "https://maps-n-bags.onrender.com/api/";
+const baseURL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles({
   places: {
     height: "100%",

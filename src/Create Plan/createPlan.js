@@ -20,7 +20,7 @@ import FormGroup from "@mui/material/FormGroup";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
-const baseURL = "https://maps-n-bags.onrender.com/api/";
+const baseURL = process.env.REACT_APP_BASE_URL;
 const formattedDate = require("./dateformat");
 
 const useStyles = makeStyles({
