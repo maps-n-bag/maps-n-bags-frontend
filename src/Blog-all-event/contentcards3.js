@@ -59,6 +59,7 @@ const useStyles = makeStyles({
 const ContentCards = (props) => {
   const classes = useStyles();
   const cardsData = [props.item];
+  const [inputError, setInputError] = useState(false);
   const [isEditingBasic, setIsEditingBasic] = useState(false);
   const [itemBasic, setItemBasic] = useState([]);
   // console.log("isedit check" + isEditingBasic);
@@ -319,34 +320,34 @@ const ContentCards = (props) => {
                                         // textAlign: "center",
                                       }}
                                     /> */}
-                                    <input
-                                      type="text"
-                                      defaultValue={itemBasic.generated_details}
-                                      name="note"
-                                      placeholder={itemBasic.generated_details}
-                                      onChange={(e) =>
-                                        (itemBasic.generated_details =
-                                          e.target.value)
-                                      }
-                                    />
-                                  </div>
-                                
-                                <div className={classes.wrap}>
-                                  <Typography
-                                    variant="head"
-                                    style={{
-                                      //fontFamily: "Special Elite",
-                                      fontSize: "100%",
-                                      color: "black",
-                                      // marginLeft: "3%",
+                                <input
+                                  type="text"
+                                  defaultValue={itemBasic.generated_details}
+                                  name="note"
+                                  placeholder={itemBasic.generated_details}
+                                  onChange={(e) =>
+                                    (itemBasic.generated_details =
+                                      e.target.value)
+                                  }
+                                />
+                              </div>
 
-                                      // textAlign: "center",
-                                    }}
-                                  >
-                                    How much was the whole cost?
-                                  </Typography>
-                                  <div className={classes.content1}>
-                                    {/* <TextField
+                              <div className={classes.wrap}>
+                                <Typography
+                                  variant="head"
+                                  style={{
+                                    //fontFamily: "Special Elite",
+                                    fontSize: "100%",
+                                    color: "black",
+                                    // marginLeft: "3%",
+
+                                    // textAlign: "center",
+                                  }}
+                                >
+                                  How much was the whole cost?
+                                </Typography>
+                                <div className={classes.content1}>
+                                  {/* <TextField
                                       {...register("expenditure")}
                                       className="expenditure"
                                       label="expenditure"
@@ -365,7 +366,7 @@ const ContentCards = (props) => {
                                       }}
                                     /> */}
 
-                                    <input
+                                  {/* <input
                                       type="currency"
                                       defaultValue={itemBasic.expenditure}
                                       name="expenditure"
@@ -373,108 +374,130 @@ const ContentCards = (props) => {
                                       onChange={(e) =>
                                         (itemBasic.expenditure = e.target.value)
                                       }
-                                    />
+                                    /> */}
+
+                                  <input
+                                    type="text" // Use "text" type for input
+                                    defaultValue={itemBasic.expenditure}
+                                    name="expenditure"
+                                    placeholder={itemBasic.expenditure}
+                                    onChange={(e) => {
+                                      const inputValue = e.target.value;
+                                      const parsedValue =
+                                        parseFloat(inputValue);
+
+                                      if (!isNaN(parsedValue)) {
+                                        // Only assign if parsedValue is a valid number
+                                        itemBasic.expenditure = parsedValue;
+                                        setInputError(false); // Reset error state
+                                      } else {
+                                        setInputError(true); // Show error
+                                      }
+                                    }}
+                                  />
+
+                                  {inputError && (
+                                    <p style={{ color: "red" }}>
+                                      Please enter a valid number
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                              <div className={classes.wrap}>
+                                <Typography
+                                  variant="head"
+                                  style={{
+                                    //fontFamily: "Special Elite",
+                                    fontSize: "100%",
+                                    color: "black",
+                                    // marginLeft: "3%",
+
+                                    // textAlign: "center",
+                                  }}
+                                >
+                                  Upload an Image
+                                </Typography>
+                                <div className={classes.content1}>
+                                  {Images.map((item, index) => (
+                                    <div className="table-row" key={index}>
+                                      <div className="table-data">
+                                        <input
+                                          name="name"
+                                          data-id={index}
+                                          type="text"
+                                          value={item.name}
+                                          onChange={handleImageChange}
+                                        />
+                                      </div>
+                                    </div>
+                                  ))}
+                                  <div className="table-row">
+                                    <div className="table-data">
+                                      <button onClick={addNewImages}>+</button>
+                                    </div>
                                   </div>
                                 </div>
                                 <div className={classes.wrap}>
-                                  <Typography
-                                    variant="head"
-                                    style={{
-                                      //fontFamily: "Special Elite",
-                                      fontSize: "100%",
-                                      color: "black",
-                                      // marginLeft: "3%",
-
-                                      // textAlign: "center",
-                                    }}
-                                  >
-                                    Upload an Image
-                                  </Typography>
-                                  <div className={classes.content1}>
-                                    {Images.map((item, index) => (
-                                      <div className="table-row" key={index}>
-                                        <div className="table-data">
-                                          <input
-                                            name="name"
-                                            data-id={index}
-                                            type="text"
-                                            value={item.name}
-                                            onChange={handleImageChange}
-                                          />
-                                        </div>
-                                      </div>
-                                    ))}
-                                    <div className="table-row">
-                                      <div className="table-data">
-                                        <button onClick={addNewImages}>
-                                          +
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className={classes.wrap}>
-                                    <div className={classes.btn}>
-                                      <Button
-                                        className="btn"
-                                        type="submit"
-                                        style={{
-                                          backgroundColor: "transparent",
-                                          borderWidth: "2px",
-                                          borderColor: "black",
-                                        }}
-                                        variant="outlined"
-                                        halfWidth
-                                        onClick={(e) => {
-                                          {
-                                            itemBasic.checked= true;
-                                          }
+                                  <div className={classes.btn}>
+                                    <Button
+                                      className="btn"
+                                      type="submit"
+                                      style={{
+                                        backgroundColor: "transparent",
+                                        borderWidth: "2px",
+                                        borderColor: "black",
+                                      }}
+                                      variant="outlined"
+                                      halfWidth
+                                      onClick={(e) => {
+                                        {
+                                          itemBasic.checked = true;
                                         }
-                                        }
-                                        //onClick={handleSave}
-                                      >
-                                        <Typography
-                                          color="black"
-                                          style={{
-                                            fontFamily: "Special Elite",
-                                            fontSize: "20px",
-                                            textAlign: "center",
-                                          }}
-                                        >
-                                          Save
-                                        </Typography>
-                                      </Button>
-                                      <Button
-                                        className="btn"
-                                        type="submit"
+                                      }}
+                                      //onClick={handleSave}
+                                    >
+                                      <Typography
+                                        color="black"
                                         style={{
-                                          backgroundColor: "transparent",
-                                          borderWidth: "2px",
-                                          borderColor: "black",
-                                        }}
-                                        variant="outlined"
-                                        halfWidth
-                                        onClick={(e) => {
-                                          {
-                                            setIsEditingBasic(false);
-                                          }
+                                          fontFamily: "Special Elite",
+                                          fontSize: "20px",
+                                          textAlign: "center",
                                         }}
                                       >
-                                        {" "}
-                                        <Typography
-                                          color="black"
-                                          style={{
-                                            fontFamily: "Special Elite",
-                                            fontSize: "20px",
-                                            textAlign: "center",
-                                          }}
-                                        >
-                                          Cancel
-                                        </Typography>
-                                      </Button>
-                                    </div>
+                                        Save
+                                      </Typography>
+                                    </Button>
+                                    <Button
+                                      className="btn"
+                                      type="submit"
+                                      style={{
+                                        backgroundColor: "transparent",
+                                        borderWidth: "2px",
+                                        borderColor: "black",
+                                      }}
+                                      variant="outlined"
+                                      halfWidth
+                                      onClick={(e) => {
+                                        {
+                                          setIsEditingBasic(false);
+                                        }
+                                      }}
+                                    >
+                                      {" "}
+                                      <Typography
+                                        color="black"
+                                        style={{
+                                          fontFamily: "Special Elite",
+                                          fontSize: "20px",
+                                          textAlign: "center",
+                                        }}
+                                      >
+                                        Cancel
+                                      </Typography>
+                                    </Button>
                                   </div>
                                 </div>
-                             
+                              </div>
                             </form>
                           ) : (
                             <div>
@@ -585,7 +608,7 @@ const ContentCards = (props) => {
                 </Card>
               </div>
             </Grid>
-     )     )}
+          ))}
         </Grid>
       </div>
     </div>

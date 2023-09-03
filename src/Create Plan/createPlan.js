@@ -45,6 +45,7 @@ const useStyles = makeStyles({
   },
   tgtxt: {
     marginTop: "10%",
+    marginLeft: "20%",
   },
 
   form: {
@@ -56,6 +57,9 @@ const useStyles = makeStyles({
     // textAlign: "center",
   },
 
+  tagd: {
+    marginLeft: "20%",
+  },
   postcard: {
     //height: "100%",
     width: "95%",
@@ -195,122 +199,126 @@ const CreateAPlan = () => {
 
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <div>
-          <div className={classes.blk}>
-            <Box
-              width="20%"
-              marginTop="40%"
-              marginLeft="40%"
-              // height={100}
-              bgcolor="rgba(245, 0, 83, 0.5)"
-              m={4}
-              p={5}
-            >
-              <Typography className={classes.tgtxt}> Choose Tag:</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <Box
+                width="80%"
+                marginTop="40%"
+                marginLeft="50%"
+                textAlign="left"
+                bgcolor="rgba(200, 30, 83, 0.5)"
+                m={4}
+                p={5}
+              >
+                <Typography> Choose Tag:</Typography>
 
-              {tags.map((tag) => (
-                <div>
+                {tags.map((tag) => (
+                  <div className={classes.tagd}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          marginLeft="50%"
+                          textAlign="left"
+                          checked={checkedItemsTag[tag.id]}
+                          onChange={handleCheckboxChangeTag}
+                          name={tag.title}
+                          value={tag.id}
+                        />
+                      }
+                      label={tag.title}
+                    />
+
+                    <br />
+                  </div>
+                ))}
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box
+                width="80%"
+                marginTop="40%"
+                marginLeft="50%"
+                textAlign="left"
+                bgcolor="rgba(20, 200, 83, 0.5)"
+                m={4}
+                p={5}
+              >
+                <Typography className={classes.tgtxt}>
+                  {" "}
+                  Choose Region:
+                </Typography>
+
+                {regions.map((rgn) => (
                   <FormControlLabel
                     control={
                       <Checkbox
                         marginLeft="10%"
                         textAlign="left"
-                        checked={checkedItemsTag[tag.id]}
-                        onChange={handleCheckboxChangeTag}
-                        name={tag.title}
-                        value={tag.id}
+                        checked={checkedItemsRgn[rgn.id]}
+                        onChange={handleCheckboxChangeRgn}
+                        name={rgn.title}
+                        value={rgn.id}
                       />
                     }
-                    label={tag.title}
+                    label={rgn.title}
                   />
-
-                  <br />
-                </div>
-              ))}
-            </Box>
-          </div>
-          <div className={classes.blk}>
-            <Box
-              width="20%"
-              marginTop="40%"
-              marginLeft="80%"
-              // height={100}
-              bgcolor="rgba(245, 0, 83, 0.5)"
-              m={4}
-              p={5}
-            >
-              <Typography className={classes.tgtxt}> Choose Region:</Typography>
-
-              {regions.map((rgn) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      marginLeft="10%"
-                      textAlign="left"
-                      checked={checkedItemsRgn[rgn.id]}
-                      onChange={handleCheckboxChangeRgn}
-                      name={rgn.title}
-                      value={rgn.id}
-                    />
-                  }
-                  label={rgn.title}
-                />
-              ))}
-            </Box>
-          </div>
-          <div className={classes.blk}>
-            <Box
-              width="60%"
-              marginTop="40%"
-              marginLeft="40%"
-              // height={100}
-              bgcolor="rgba(245, 230, 83, 0.15)"
-              m={4}
-              p={5}
-            >
-              <FormGroup className={classes.form}>
-                <Typography fontSize="100%">Start Date:</Typography>
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                />
-              </FormGroup>
-              <FormGroup className={classes.form}>
-                <Typography fontSize="100%">End Date:</Typography>
-                <DatePicker
-                  selected={endDate}
-                  onChange={(date) => setEndDate(date)}
-                />
-              </FormGroup>
-            </Box>
-          </div>
-
-          <div className={classes.btn}>
-            <Button
-              className="btn"
-              type="submit"
-              style={{
-                backgroundColor: "transparent",
-                borderWidth: "5px",
-                // borderColor: "white",
-                marginLeft: "80%",
-                marginTop: "5%",
-                marginBottom: "20%",
-              }}
-              variant="outlined"
-              halfWidth
-            >
-              <Typography
-                //color="white"
-                style={{
-                  //fontFamily: "Special Elite",
-                  fontSize: "20px",
-                  textAlign: "center",
-                }}
+                ))}
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box
+                width="80%"
+                marginTop="40%"
+                marginLeft="50%"
+                textAlign="left"
+                bgcolor="rgba(77, 100, 600, 0.5)"
+                m={4}
+                p={5}
               >
-                Search
-              </Typography>
-            </Button>
-          </div>
+                <FormGroup className={classes.form}>
+                  <Typography fontSize="100%">Start Date:</Typography>
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                  />
+                </FormGroup>
+                <FormGroup className={classes.form}>
+                  <Typography fontSize="100%">End Date:</Typography>
+                  <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                  />
+                </FormGroup>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Button
+                className="btn"
+                type="submit"
+                style={{
+                   backgroundColor: "transparent",
+                  borderWidth: "5px",
+                   borderColor: "black",
+                  marginLeft: "220%",
+                  marginTop: "5%",
+                  marginBottom: "20%",
+                }}
+                variant="outlined"
+                halfWidth
+              >
+                <Typography
+                  //color="white"
+                  style={{
+                    //fontFamily: "Special Elite",
+                    fontSize: "20px",
+                    textAlign: "center",
+                  }}
+                >
+                  Search
+                </Typography>
+              </Button>
+            </Grid>
+          </Grid>
         </div>
       </form>
 

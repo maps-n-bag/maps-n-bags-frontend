@@ -18,7 +18,7 @@ import LoginPage from "../login/loginPage";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 // import { useState } from "react";
-import {  useEffect } from "react";
+import { useEffect } from "react";
 import "./style.css";
 import { BorderBottomOutlined } from "@mui/icons-material";
 const useStyles = makeStyles(() => ({}));
@@ -45,7 +45,7 @@ const Landingpage = () => {
   useEffect(() => {
     const navigationTimer = setTimeout(() => {
       navigate("/Register"); // Replace '/destination' with the desired URL
-    }, 10000); // 5000 milliseconds = 5 seconds
+    }, 5000); // 5000 milliseconds = 5 seconds
 
     return () => {
       clearTimeout(navigationTimer); // Clear the timer if the component unmounts
@@ -221,8 +221,8 @@ const Landingpage = () => {
           sticky={{ start: 0.2, end: 4.5 }}
           style={{
             textAlign: "center",
-           // transform: `translateX(${horizontalPosition}px)`,
-           // transition: "transform 0.3s ease",
+            // transform: `translateX(${horizontalPosition}px)`,
+            // transition: "transform 0.3s ease",
           }}
         >
           <img

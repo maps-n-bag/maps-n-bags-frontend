@@ -23,7 +23,7 @@ export class NavigateAll extends React.Component {
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Landingpage />} />
-
+          <Route path="/Home" element={<Landingpage />} />
           <Route path="/TourOverview" element={<Tour_overview />} />
           <Route path="/Blog" element={<DaybyDay />} />
           <Route path="/Explore" element={<ExploreMain />} />

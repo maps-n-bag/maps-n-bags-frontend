@@ -58,21 +58,28 @@ const useStyles = makeStyles({
 
 const DaywisePlan = () => {
   const { dayStart, totalDays, id } = useParams();
-  const classes = useStyles((parseInt(id) - 1));
+  const classes = useStyles(parseInt(id) - 1);
   const [day_int, setDay] = useState(1);
   // const day_start = dateformat.formateDate(dayStart);
   // const today = new Date(day_start) + parseInt(id) - 1;
   const day_start = dateformat.formateDate(dayStart);
-  const today = new Date(day_start+(+day_int - 1));
-  const next_id = parseInt(id) + 1;
+  // const today = new Date(day_start + (day_int - 1));
+  // const next_id = parseInt(id) + 1;
+  const  dayStartObj=new Date(day_start)
+  const today = new Date();
+  today.setDate(dayStartObj.getDate() + (day_int - 1));
+  console.log("today" + today);
+
+  const dateString = today.toLocaleDateString();
+  //let dateStringWithoutLastCharacter = dateString.slice(0, -1);
 
   const [itemBasic, setItemBasic] = useState([]);
   const dayChangeHandler = (event) => {
-    if(event.target.id==="nextday"){
+    if (event.target.id === "nextday") {
       console.log("Next day added by azgor");
       setDay((prevDay) => prevDay + 1);
     }
-  }
+  };
 
   useEffect(() => {
     fetch(`${baseURL}event?plan_id=1&day=${day_int}`)
@@ -86,8 +93,15 @@ const DaywisePlan = () => {
         console.log(rejected);
       });
   }, [day_int]);
-  console.log("this has been called")
+  console.log("this has been called");
   console.log(itemBasic);
+
+  // useEffect(() => {
+  //   const dayStartFormatted = dateformat.formateDate(dayStart);
+  //   const newToday = new Date(dayStartFormatted);
+  //   newToday.setDate(newToday.getDate() + (day_int - 1));
+  //   setDay(newToday);
+  // }, [day_int, dayStart]);
 
   return (
     <div className={classes.places}>
@@ -105,7 +119,7 @@ const DaywisePlan = () => {
               // textAlign: "center",
             }}
           >
-            Day {id} : {today.toLocaleDateString()}
+            Day {day_int} : {dateString}
           </Typography>
 
           {itemBasic.map((item, index) => (
@@ -124,14 +138,17 @@ const DaywisePlan = () => {
             >
               {item.event != null ? (
                 <Grid item container spacing={10}>
-                {/* Use Grid items to contain each card */}
-                <Grid item>
-                  <EventCards item={item} className={classes.cardday} />
+                  {/* Use Grid items to contain each card */}
+                  <Grid item>
+                    <EventCards item={item} className={classes.cardday} />
+                  </Grid>
+                  <Grid item>
+                    <RestaurantCard
+                      item={item}
+                      className={classes.cardrestaurant}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <RestaurantCard item={item} className={classes.cardrestaurant} />
-                </Grid>
-              </Grid>
               ) : (
                 {
                   /* "Going back" */
@@ -139,12 +156,17 @@ const DaywisePlan = () => {
               )}
             </Grid>
           ))}
-
-          {parseInt(id) < parseInt(totalDays) ? (
+          {day_int < parseInt(totalDays) ? (
             // <Link to={`/DaywisePlan2/${dayStart}/${totalDays}/${next_id}`}>
             //   <Button className={classes.btn}>Next day</Button>
             // </Link>
-            <Button id="nextday" onClick={dayChangeHandler} className={classes.btn}>Next day</Button>
+            <Button
+              id="nextday"
+              onClick={dayChangeHandler}
+              className={classes.btn}
+            >
+              Next day
+            </Button>
           ) : (
             <Button className={classes.btn}>Finish</Button>
           )}

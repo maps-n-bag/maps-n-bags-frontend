@@ -70,9 +70,9 @@ const RestaurantCard = (props) => {
         <Card
           className={classes.cardimg}
           style={{
-            width: "120%",
-            marginLeft: "10%",
-            marginTop: "5%",
+            width: "40%",
+           // marginLeft: "10%",
+            marginTop: "2%",
             color: "fffff",
           }}
         >
@@ -146,10 +146,10 @@ const RestaurantCard = (props) => {
                 <ButtonBase sx={{ width: "70%", height: "70%" }}>
                   <img
                     style={{
-                      width: "150%",
-                      height: "100%",
-                      //marginLeft: "14%",
-                      marginTop: "45%",
+                      width: "100%",
+                     // height: "100%",
+                      marginLeft: "35%",
+                      //marginTop: "45%",
                       //textAlign: "right",
                     }}
                     alt="place_image"
