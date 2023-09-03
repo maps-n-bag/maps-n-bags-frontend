@@ -44,7 +44,7 @@ const Landingpage = () => {
 
   useEffect(() => {
     const navigationTimer = setTimeout(() => {
-      navigate("/Register"); // Replace '/destination' with the desired URL
+      navigate("/Login"); // Replace '/destination' with the desired URL
     }, 5000); // 5000 milliseconds = 5 seconds
 
     return () => {
