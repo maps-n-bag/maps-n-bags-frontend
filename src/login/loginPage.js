@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import TimeLine from "../Profile/timeline";
 import Alert from "@mui/material/Alert";
-const baseURL = "https://maps-n-bags.onrender.com/api/";
+const baseURL = process.env.REACT_APP_BASE_URL;
 const RowOfBoxes = () => {
   return (
     <Box display="flex" justifyContent="center">

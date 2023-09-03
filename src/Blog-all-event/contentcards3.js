@@ -19,7 +19,7 @@ import SideBar from "../App drawer/sideBar";
 import { ScheduleOutlined } from "@mui/icons-material";
 const dateformat = require("../formateDate");
 const timeformat = require("../formateTime");
-const baseURL = "https://maps-n-bags.onrender.com/api/";
+const baseURL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles({
   places: {
     // height: "90%",

@@ -14,7 +14,7 @@ import SideBar from "../App drawer/sideBar";
 // require("dotenv").config();
 
 // const baseURL = process.env.BASE_URL;
-const baseURL = "https://maps-n-bags.onrender.com/api/";
+const baseURL = process.env.REACT_APP_BASE_URL;
 const dateformat = require("../formateDate");
 
 const useStyles = makeStyles({
