@@ -17,8 +17,12 @@ import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 import { ScheduleOutlined } from "@mui/icons-material";
+import { storage } from "../firebase";
+import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
+
 const dateformat = require("../formateDate");
 const timeformat = require("../formateTime");
+
 const baseURL = "https://maps-n-bags.onrender.com/api/";
 const useStyles = makeStyles({
   places: {
@@ -62,71 +66,57 @@ const ContentCards = (props) => {
   const [inputError, setInputError] = useState(false);
   const [isEditingBasic, setIsEditingBasic] = useState(false);
   const [itemBasic, setItemBasic] = useState([]);
-  // console.log("isedit check" + isEditingBasic);
+
   let eventID = null;
   if (props.item.event != null) {
     eventID = props.item.event.id;
   }
-  console.log("check" + itemBasic.checked);
-  console.log(cardsData);
+
+  const [Images, setImages] = useState([]);
+
   useEffect(() => {
+
     fetch(`${baseURL}event/detail?event_id=${eventID}`)
       .then((resp) => resp.json())
       .then((resp) => {
         setItemBasic(resp);
-        console.log(resp);
       });
+
   }, []);
 
-  // const handleChange = (e) => {
-  //   //itemBasic.checked = e.target.checked;
-
-  //   setChecked(e.target.checked);
-  //   //console.log(e.target.checked);
-  //   //itemBasic.checked = checked;
-  // };
+  // useEffect(() => {
+  //   if (props.item.event != null) {
+  //     const user_id = localStorage.getItem("id");
+  //     const plan_id = itemBasic.plan_id;
+  //     const directory = (user_id && plan_id) ? `blog-images/${user_id}/${plan_id}` : `blog-images`
+  //     setImages([]);
+  //     listAll(ref(storage, directory)).then(images => {
+  //       images.items.forEach(image => {
+  //         getDownloadURL(image).then(url => {
+  //           setImages(data => [...data, url])
+  //         })
+  //       })
+  //     })
+  //   }
+  // }, [])
 
   const handleEdit = (e) => {
     setIsEditingBasic(true);
   };
 
-  // const handleSave = (e) => {
-  //   setIsEditingBasic(false);
-  //   //itemBasic.checked= true;
-  // };
-
-  const defaultImages = [
-    {
-      url: "",
-    },
-  ];
-  const [Images, setImages] = useState(defaultImages);
-  // const [checked, setChecked] = useState(itemBasic.checked);
-  console.log(itemBasic.checked);
   const handleImageChange = (event) => {
     event.preventDefault();
-    const tempImages = [...Images];
-    tempImages[event.target.dataset.id][event.target.name] = event.target.value;
-
-    setImages(tempImages);
+    let images = [...Images];
+    images[event.target.dataset.id] = event.target.files[0];
+    setImages(images);
   };
 
   const addNewImages = (event) => {
     event.preventDefault();
-    setImages((prevImages) => [...prevImages, { url: "" }]);
+    setImages((prevImages) => [...prevImages, ""]);
   };
 
   const { handleSubmit, register, getValues, setValue } = useForm();
-
-  // const handleAddValue = () => {
-  //   // Manually add a value to the form
-  //   if (props.item.event != null) {
-  //     setValue("checked", checked);
-  //     setValue("images" , Images.map((item) => item.name));
-  //     //setValue("id", 1);
-  //     //setValue("event_id", eventID);
-  //   }
-  // };
 
   const onSubmit = (data, e) => {
     if (props.item.event != null) {
@@ -135,21 +125,22 @@ const ContentCards = (props) => {
       setValue("expenditure", itemBasic.expenditure);
       setValue("checked", true);
 
-      setValue(
-        "images",
-        Images.map((item) => item.name)
-      );
-      //setValue("id", 1);
-      //setValue("event_id", eventID);
+      // upload image to firebase
+      const user_id = localStorage.getItem("id");
+      const plan_id = itemBasic.plan_id;
+      const directory = (user_id && plan_id) ? `blog-images/${user_id}/${plan_id}` : `blog-images`
+      Images.forEach((image) => {
+        const imageRef = ref(storage, directory + `/${image.name}`);
+        uploadBytes(imageRef, image);
+      });
+
     }
 
     e.preventDefault();
-    console.log(data, e);
+    // console.log(data, e);
     const values = getValues();
     console.log(values);
-    console.log(values.images);
-    // if (cardsData.event != null) {
-    console.log("axios will run");
+
     setIsEditingBasic(false);
     axios
       .put(`${baseURL}event/detail?event_id=${props.item.event.id}`, values)
@@ -326,8 +317,8 @@ const ContentCards = (props) => {
                                   name="note"
                                   placeholder={itemBasic.generated_details}
                                   onChange={(e) =>
-                                    (itemBasic.generated_details =
-                                      e.target.value)
+                                  (itemBasic.generated_details =
+                                    e.target.value)
                                   }
                                 />
                               </div>
@@ -418,16 +409,21 @@ const ContentCards = (props) => {
                                   Upload an Image
                                 </Typography>
                                 <div className={classes.content1}>
-                                  {Images.map((item, index) => (
-                                    <div className="table-row" key={index}>
-                                      <div className="table-data">
-                                        <input
-                                          name="name"
-                                          data-id={index}
-                                          type="text"
-                                          value={item.name}
-                                          onChange={handleImageChange}
-                                        />
+                                  {Images.map((image, index) => (
+                                    <div className="table" key={index}>
+                                      <div className="table-row">
+                                        <div className="table-data">
+                                          {
+                                            <img src={image} width="100px" />
+                                          }
+                                          <input
+                                            type="file"
+                                            name="images"
+                                            data-id={index}
+                                            className="images"
+                                            onChange={handleImageChange}
+                                          />
+                                        </div>
                                       </div>
                                     </div>
                                   ))}
@@ -454,7 +450,7 @@ const ContentCards = (props) => {
                                           itemBasic.checked = true;
                                         }
                                       }}
-                                      //onClick={handleSave}
+                                    //onClick={handleSave}
                                     >
                                       <Typography
                                         color="black"
@@ -561,7 +557,7 @@ const ContentCards = (props) => {
                                         src={`url${img}`}
                                         // alt={name_arr}
                                         style={{
-                                          width: "95%",
+                                          width: "20%",
                                           marginTop: "5%",
                                         }}
                                         // Adjust the percentage value as needed
