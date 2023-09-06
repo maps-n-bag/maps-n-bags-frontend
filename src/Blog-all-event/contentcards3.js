@@ -1,7 +1,13 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { v4 } from "uuid";
 
+// components
+import SideBar from "../App drawer/sideBar";
+
+// material ui
 import CardActions from "@mui/material/CardActions";
 import { Grid, Card, CardContent, Typography } from "@mui/material";
 import PlaceCard from "./placecard4";
@@ -11,14 +17,12 @@ import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import Box from "@mui/material/Box";
-import { useForm } from "react-hook-form";
-import axios from "axios";
-
 import { makeStyles } from "@mui/styles";
-import SideBar from "../App drawer/sideBar";
 import { ScheduleOutlined } from "@mui/icons-material";
+
+// firebase
 import { storage } from "../firebase";
-import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, listAll, ref, uploadBytes, deleteObject } from "firebase/storage";
 
 const dateformat = require("../formateDate");
 const timeformat = require("../formateTime");
@@ -55,26 +59,28 @@ const useStyles = makeStyles({
     height: "100%",
   },
   cardSetup: {
-    width: "100%",
+    width: "70vw",
   },
 });
 
 const ContentCards = (props) => {
+  // console.log("content card props", props);
+
+  const eventID = props.item.event.id;
   const classes = useStyles();
   const cardsData = [props.item];
   const [inputError, setInputError] = useState(false);
   const [isEditingBasic, setIsEditingBasic] = useState(false);
   const [itemBasic, setItemBasic] = useState([]);
 
-  let eventID = null;
-  if (props.item.event != null) {
-    eventID = props.item.event.id;
-  }
+  const blogImages = {};
+  const [blogImageUrls, setBlogImageUrls] = useState([]);
 
-  const [Images, setImages] = useState([]);
+  const planId = props.item.event.plan_id;
+  const userId = 27; // localStorage.getItem("id");
+  const directory = `blog-images/plan-${planId}/event-${eventID}/`;
 
   useEffect(() => {
-
     fetch(`${baseURL}event/detail?event_id=${eventID}`)
       .then((resp) => resp.json())
       .then((resp) => {
@@ -83,90 +89,84 @@ const ContentCards = (props) => {
 
   }, []);
 
-  // useEffect(() => {
-  //   if (props.item.event != null) {
-  //     const user_id = localStorage.getItem("id");
-  //     const plan_id = itemBasic.plan_id;
-  //     const directory = (user_id && plan_id) ? `blog-images/${user_id}/${plan_id}` : `blog-images`
-  //     setImages([]);
-  //     listAll(ref(storage, directory)).then(images => {
-  //       images.items.forEach(image => {
-  //         getDownloadURL(image).then(url => {
-  //           setImages(data => [...data, url])
-  //         })
-  //       })
-  //     })
-  //   }
-  // }, [])
-
-  const handleEdit = (e) => {
-    setIsEditingBasic(true);
-  };
+  useEffect(() => {
+    listAll(ref(storage, directory)).then(images => {
+      images.items.forEach(image => {
+        getDownloadURL(image).then(url => {
+          // console.log(url);
+          if (!blogImageUrls.includes(url)) {
+            const newImages = [...blogImageUrls];
+            newImages.push(url);
+            setBlogImageUrls(newImages);
+          }
+        })
+      })
+    })
+  }, [isEditingBasic])
 
   const handleImageChange = (event) => {
     event.preventDefault();
-    let images = [...Images];
-    images[event.target.dataset.id] = event.target.files[0];
-    setImages(images);
+    // let images = [...blogImageUrls];
+    // images[event.target.dataset.id] = event.target.files[0];
+    // setBlogImageUrls(images);
+
+    blogImages[event.target.dataset.id] = event.target.files[0];
   };
 
   const addNewImages = (event) => {
     event.preventDefault();
-    setImages((prevImages) => [...prevImages, ""]);
+    setBlogImageUrls((prevImages) => [...prevImages, null]);
   };
 
   const { handleSubmit, register, getValues, setValue } = useForm();
 
   const onSubmit = (data, e) => {
-    if (props.item.event != null) {
-      setValue("note", itemBasic.note);
-      setValue("generated_details", itemBasic.generated_details);
-      setValue("expenditure", itemBasic.expenditure);
-      setValue("checked", true);
 
-      // upload image to firebase
-      const user_id = localStorage.getItem("id");
-      const plan_id = itemBasic.plan_id;
-      const directory = (user_id && plan_id) ? `blog-images/${user_id}/${plan_id}` : `blog-images`
-      Images.forEach((image) => {
-        const imageRef = ref(storage, directory + `/${image.name}`);
-        uploadBytes(imageRef, image);
-      });
-
-    }
+    setValue("note", itemBasic.note);
+    setValue("generated_details", itemBasic.generated_details);
+    setValue("expenditure", itemBasic.expenditure);
+    setValue("checked", true);
 
     e.preventDefault();
-    // console.log(data, e);
-    const values = getValues();
-    console.log(values);
 
     setIsEditingBasic(false);
     axios
-      .put(`${baseURL}event/detail?event_id=${props.item.event.id}`, values)
+      .put(`${baseURL}event/detail?event_id=${props.item.event.id}`, getValues())
       .then((response) => {
         setIsEditingBasic(false);
-
-        setItemBasic(values);
-        // if (response.data.accessToken) {
-        //   localStorage.setItem("accessToken", response.data.accessToken);
-        //   if (response.data.id) localStorage.setItem("id", response.data.id);
-        //   console.log(localStorage.getItem("accessToken"));
-        //window.location.reload(false);
-        // }
+        setItemBasic(getValues());
       })
       .catch((error) => {
         console.log(error);
-      })
-      .then(() => {
-        console.log("sent");
       });
-    // } else {
-    //   console.log("no axios");
-    // }
+
+    // upload image to firebase
+    Object.values(blogImages).forEach((image) => {
+      // check if it's a valid image file
+      if (!image.type.startsWith('image/')) {
+        return;
+      }
+
+      const newMetadata = { contentType: image.type };
+      const storageRef = ref(storage, `${directory}${v4()}`);
+      uploadBytes(storageRef, image, newMetadata)
+        .then((snapshot) => {
+          console.log('Uploaded a blob or file!');
+          const url = snapshot.metadata.fullPath;
+
+          if (!blogImageUrls.includes(url)) {
+            setBlogImageUrls(data => [...data, url])
+          }
+        });
+
+    });
   };
+
   const onError = (errors, e) => console.log(errors, e);
-  //console.log(cardsData);
-  //cardsData.map((card, index) => console.log(card.event.start_time));
+
+  if (props.item.event == null) {
+    return <div></div>;
+  }
 
   return (
     <div className={classes.places}>
@@ -408,20 +408,46 @@ const ContentCards = (props) => {
                                   Upload an Image
                                 </Typography>
                                 <div className={classes.content1}>
-                                  {Images.map((image, index) => (
+                                  {blogImageUrls.map((image, index) => (
                                     <div className="table" key={index}>
                                       <div className="table-row">
                                         <div className="table-data">
-                                          {
-                                            <img src={image} width="100px" />
-                                          }
-                                          <input
-                                            type="file"
-                                            name="images"
-                                            data-id={index}
-                                            className="images"
-                                            onChange={handleImageChange}
-                                          />
+                                          {image ? (
+                                            <div>
+                                              <img src={image} alt="image" width="100px" />
+                                              <Button
+                                                onClick={() => {
+                                                  const newImages = [...blogImageUrls];
+                                                  newImages.splice(index, 1);
+                                                  setBlogImageUrls(newImages);
+
+                                                  // delete from blogImages too
+                                                  delete blogImages[index];
+
+                                                  // delete from firebase
+                                                  const storageRef = ref(storage, image);
+                                                  deleteObject(storageRef).then(() => {
+                                                    console.log('File deleted successfully');
+                                                  }).catch((error) => {
+                                                    console.log('Uh-oh, an error occurred!');
+                                                    console.log(error);
+                                                  });
+                                                }}
+                                              >
+                                                Remove
+                                              </Button>
+                                            </div>
+                                          ) : (
+                                            <input
+                                              type="file"
+                                              name="image"
+                                              data-id={index}
+                                              onChange={handleImageChange}
+                                              style={{
+                                                marginTop: "5%",
+                                              }}
+                                            />
+                                          )}
                                         </div>
                                       </div>
                                     </div>
@@ -568,6 +594,23 @@ const ContentCards = (props) => {
                                 ) : (
                                   <div> Didn't visit The Place </div>
                                 )}
+
+                                <div className={classes.content1}>
+                                  {blogImageUrls.map((image, index) => (
+                                    <div className="table" key={index}>
+                                      <div className="table-row">
+                                        <div className="table-data">
+                                          {image && (
+                                            <div>
+                                              <img src={image} alt="image" width="100px" />
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+
                                 <div className={classes.wrap}>
                                   <Button
                                     className="btn"
@@ -579,8 +622,7 @@ const ContentCards = (props) => {
                                     }}
                                     variant="outlined"
                                     halfWidth
-                                    onClick={handleEdit}
-                                  >
+                                    onClick={() => { setIsEditingBasic(true); }}>
                                     <Typography
                                       color="black"
                                       style={{
