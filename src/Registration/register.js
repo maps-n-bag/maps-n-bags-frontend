@@ -10,6 +10,7 @@ import LoginPage from "../login/loginPage";
 import { useState } from "react";
 import { Typography } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
+import { Snackbar, Alert } from "@mui/material";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles((theme) => ({
@@ -68,6 +69,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Register() {
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("NO ALERT MSG SET");
+
   const classes = useStyles();
   const navigate = useNavigate();
   const {
@@ -87,25 +92,33 @@ export default function Register() {
     axios
       .post(`${baseURL}user`, values)
       .then((response) => {
-        console.log(response);
-        // <LoginPage />
+        console.log("res", response);
+
         if (response.status == "201") navigate("/Login");
-        // else <Register />;
-        //window.location.reload(false);
 
-        // if (response.data.accessToken) {
-        //   localStorage.setItem("accessToken", response.data.accessToken);
-        //   if (response.data.id) localStorage.setItem("id", response.data.id);
-        //   console.log(localStorage.getItem("accessToken"));
-
-        // window.location.reload(false);
-        // }
       })
       .catch((error) => {
-        console.log(error);
+        console.log("axios error", error);
+
+        if (error.response && error.response.status === 409) {
+          setAlertOpen(true);
+          setAlertMessage(error.response.data);
+        }
+
       });
   };
-  const onError = (errors, e) => console.log(errors, e);
+
+  const handleAlertClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setAlertOpen(false);
+  };
+
+  const onError = (errors, e) => {
+    console.log(errors, e);
+  }
 
   return (
     <div className={classes.root}>
@@ -116,6 +129,14 @@ export default function Register() {
         bgcolor="rgba(7, 73, 155, 0.4)"
       >
         <form onSubmit={handleSubmit(onSubmit, onError)}>
+          {alertOpen && (
+            <div className={classes.alert}>
+              <Alert severity="error" onClose={handleAlertClose}>
+                {alertMessage}
+              </Alert>
+            </div>
+          )}
+
           <div className={classes.input}>
             <div className={classes.wrap}>
               <h1 className={classes.Title1}>Username</h1>
@@ -304,9 +325,11 @@ export default function Register() {
         </form>
       </Box>
 
-      {/* <div className={classes.boxrow}>
-        <RowOfBoxes />
-      </div> */}
+      {/* <Snackbar open={alertOpen} autoHideDuration={6000} onClose={handleAlertClose}>
+        <Alert onClose={handleAlertClose} severity="warning" sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar> */}
     </div>
   );
 }
