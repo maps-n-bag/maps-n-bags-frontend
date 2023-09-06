@@ -133,15 +133,16 @@ export default function Register() {
         // height={500}
         bgcolor="rgba(7, 73, 155, 0.4)"
       >
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
-          {alertOpen && (
-            <div className={classes.alert}>
-              <Alert severity="error" onClose={handleAlertClose}>
-                {alertMessage}
-              </Alert>
-            </div>
-          )}
 
+        {alertOpen && (
+          <div className={classes.alert}>
+            <Alert variant="filled" severity="error" onClose={handleAlertClose}>
+              {alertMessage}
+            </Alert>
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <div className={classes.input}>
             <div className={classes.wrap}>
               <h1 className={classes.Title1}>Username</h1>
