@@ -22,7 +22,13 @@ import { ScheduleOutlined } from "@mui/icons-material";
 
 // firebase
 import { storage } from "../firebase";
-import { getDownloadURL, listAll, ref, uploadBytes, deleteObject } from "firebase/storage";
+import {
+  getDownloadURL,
+  listAll,
+  ref,
+  uploadBytes,
+  deleteObject,
+} from "firebase/storage";
 
 const timeformat = require("../formatTime");
 const baseURL = process.env.REACT_APP_BASE_URL;
@@ -80,33 +86,35 @@ const ContentCards = (props) => {
   const directory = `blog-images/plan-${planId}/event-${eventID}/`;
 
   useEffect(() => {
-    axios.get(`${baseURL}event/detail?event_id=${eventID}`, {
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    }).then((resp) => {
-      setItemBasic(resp.data);
-    }).catch((error) => {
-      console.log(error);
-      console.log(error.response?.data)
-    });
-
+    axios
+      .get(`${baseURL}event/detail?event_id=${eventID}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then((resp) => {
+        setItemBasic(resp.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log(error.response?.data);
+      });
   }, []);
 
   useEffect(() => {
-    listAll(ref(storage, directory)).then(images => {
-      images.items.forEach(image => {
-        getDownloadURL(image).then(url => {
+    listAll(ref(storage, directory)).then((images) => {
+      images.items.forEach((image) => {
+        getDownloadURL(image).then((url) => {
           // console.log(url);
           if (!blogImageUrls.includes(url)) {
             const newImages = [...blogImageUrls];
             newImages.push(url);
             setBlogImageUrls(newImages);
           }
-        })
-      })
-    })
-  }, [isEditingBasic])
+        });
+      });
+    });
+  }, [isEditingBasic]);
 
   const handleImageChange = (event) => {
     event.preventDefault();
@@ -125,7 +133,6 @@ const ContentCards = (props) => {
   const { handleSubmit, register, getValues, setValue } = useForm();
 
   const onSubmit = (data, e) => {
-
     setValue("note", itemBasic.note);
     setValue("generated_details", itemBasic.generated_details);
     setValue("expenditure", itemBasic.expenditure);
@@ -135,11 +142,15 @@ const ContentCards = (props) => {
 
     setIsEditingBasic(false);
     axios
-      .put(`${baseURL}event/detail?event_id=${props.item.event.id}`, getValues(), {
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      })
+      .put(
+        `${baseURL}event/detail?event_id=${props.item.event.id}`,
+        getValues(),
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      )
       .then((response) => {
         setIsEditingBasic(false);
         setItemBasic(getValues());
@@ -151,22 +162,20 @@ const ContentCards = (props) => {
     // upload image to firebase
     Object.values(blogImages).forEach((image) => {
       // check if it's a valid image file
-      if (!image.type.startsWith('image/')) {
+      if (!image.type.startsWith("image/")) {
         return;
       }
 
       const newMetadata = { contentType: image.type };
       const storageRef = ref(storage, `${directory}${v4()}`);
-      uploadBytes(storageRef, image, newMetadata)
-        .then((snapshot) => {
-          console.log('Uploaded a blob or file!');
-          const url = snapshot.metadata.fullPath;
+      uploadBytes(storageRef, image, newMetadata).then((snapshot) => {
+        console.log("Uploaded a blob or file!");
+        const url = snapshot.metadata.fullPath;
 
-          if (!blogImageUrls.includes(url)) {
-            setBlogImageUrls(data => [...data, url])
-          }
-        });
-
+        if (!blogImageUrls.includes(url)) {
+          setBlogImageUrls((data) => [...data, url]);
+        }
+      });
     });
   };
 
@@ -225,9 +234,8 @@ const ContentCards = (props) => {
                           }}
                         >
                           {" "}
-                          {timeformat.formatTime(
-                            card.event.start_time
-                          )} to {timeformat.formatTime(card.event.end_time)}
+                          {timeformat.formatTime(card.event.start_time)} to{" "}
+                          {timeformat.formatTime(card.event.end_time)}
                         </Typography>
 
                         <PlaceCard item={card.event.place_id} />
@@ -257,25 +265,6 @@ const ContentCards = (props) => {
                                     How was your day?
                                   </Typography>
                                   <div className={classes.content1}>
-                                    {/* <TextField
-                                      {...register("note")}
-                                      className="note"
-                                      label="note"
-                                      color="secondary"
-                                      placeholder="Enter 60/100 words"
-                                      halfWidth
-                                      style={{
-                                        //fontFamily: "Special Elite",
-                                        fontSize: "80%",
-                                        color: "black",
-                                        // marginLeft: "3%",
-                                        marginRight: "4%",
-                                        marginTop: "3%",
-
-                                        // textAlign: "center",
-                                      }}
-                                    /> */}
-
                                     <input
                                       type="text"
                                       defaultValue={itemBasic.note}
@@ -287,45 +276,15 @@ const ContentCards = (props) => {
                                     />
                                   </div>
                                 </div>
-                                {/* <div className={classes.wrap}>
-                                  <Typography
-                                    variant="head"
-                                    style={{
-                                      //fontFamily: "Special Elite",
-                                      fontSize: "100%",
-                                      color: "black",
-                                      marginTop: "3%",
-                                    }}
-                                  >
-                                    Write your Whole experience
-                                  </Typography>
-                                  <div className={classes.content1}>
-                                    {/* <TextField
-                                      {...register("generated_details")}
-                                      className="details"
-                                      label="details"
-                                      color="secondary"
-                                      placeholder="Write details"
-                                      halfWidth
-                                      style={{
-                                        //fontFamily: "Special Elite",
-                                        fontSize: "100%",
-                                        color: "black",
-                                        marginTop: "3%",
 
-                                        marginRight: "10%",
-
-                                        // textAlign: "center",
-                                      }}
-                                    /> */}
                                 <input
                                   type="text"
                                   defaultValue={itemBasic.generated_details}
                                   name="note"
                                   placeholder={itemBasic.generated_details}
                                   onChange={(e) =>
-                                  (itemBasic.generated_details =
-                                    e.target.value)
+                                    (itemBasic.generated_details =
+                                      e.target.value)
                                   }
                                 />
                               </div>
@@ -422,10 +381,16 @@ const ContentCards = (props) => {
                                         <div className="table-data">
                                           {image ? (
                                             <div>
-                                              <img src={image} alt="image" width="100px" />
+                                              <img
+                                                src={image}
+                                                alt="image"
+                                                width="100px"
+                                              />
                                               <Button
                                                 onClick={() => {
-                                                  const newImages = [...blogImageUrls];
+                                                  const newImages = [
+                                                    ...blogImageUrls,
+                                                  ];
                                                   newImages.splice(index, 1);
                                                   setBlogImageUrls(newImages);
 
@@ -433,13 +398,22 @@ const ContentCards = (props) => {
                                                   delete blogImages[index];
 
                                                   // delete from firebase
-                                                  const storageRef = ref(storage, image);
-                                                  deleteObject(storageRef).then(() => {
-                                                    console.log('File deleted successfully');
-                                                  }).catch((error) => {
-                                                    console.log('Uh-oh, an error occurred!');
-                                                    console.log(error);
-                                                  });
+                                                  const storageRef = ref(
+                                                    storage,
+                                                    image
+                                                  );
+                                                  deleteObject(storageRef)
+                                                    .then(() => {
+                                                      console.log(
+                                                        "File deleted successfully"
+                                                      );
+                                                    })
+                                                    .catch((error) => {
+                                                      console.log(
+                                                        "Uh-oh, an error occurred!"
+                                                      );
+                                                      console.log(error);
+                                                    });
                                                 }}
                                               >
                                                 Remove
@@ -483,7 +457,7 @@ const ContentCards = (props) => {
                                           itemBasic.checked = true;
                                         }
                                       }}
-                                    //onClick={handleSave}
+                                      //onClick={handleSave}
                                     >
                                       <Typography
                                         color="black"
@@ -583,21 +557,6 @@ const ContentCards = (props) => {
                                         Total Cost: {itemBasic.expenditure}
                                       </Typography>
                                     </div>
-                                    {/* <div className={classes.wrap}>
-                                    (
-                                    {(itemBasic.images).map((img,index) => (
-                                      <img
-                                        src={`url${img}`}
-                                        // alt={name_arr}
-                                        style={{
-                                          width: "20%",
-                                          marginTop: "5%",
-                                        }}
-                                        // Adjust the percentage value as needed
-                                      />
-                                    ))}
-                                    )
-                                  </div> */}
                                   </div>
                                 ) : (
                                   <div> Didn't visit The Place </div>
@@ -610,7 +569,11 @@ const ContentCards = (props) => {
                                         <div className="table-data">
                                           {image && (
                                             <div>
-                                              <img src={image} alt="image" width="100px" />
+                                              <img
+                                                src={image}
+                                                alt="image"
+                                                width="100px"
+                                              />
                                             </div>
                                           )}
                                         </div>
@@ -630,7 +593,10 @@ const ContentCards = (props) => {
                                     }}
                                     variant="outlined"
                                     halfWidth
-                                    onClick={() => { setIsEditingBasic(true); }}>
+                                    onClick={() => {
+                                      setIsEditingBasic(true);
+                                    }}
+                                  >
                                     <Typography
                                       color="black"
                                       style={{
