@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
 
-    height: "200%",
+    height: "98vh",
     fontFamily: "Special Elite",
   },
 
@@ -117,6 +117,11 @@ export default function Register() {
   };
 
   const onError = (errors, e) => {
+    if (errors.password) {
+      setAlertOpen(true);
+      setAlertMessage(errors.password.message);
+    }
+
     console.log(errors, e);
   }
 
@@ -128,15 +133,16 @@ export default function Register() {
         // height={500}
         bgcolor="rgba(7, 73, 155, 0.4)"
       >
-        <form onSubmit={handleSubmit(onSubmit, onError)}>
-          {alertOpen && (
-            <div className={classes.alert}>
-              <Alert severity="error" onClose={handleAlertClose}>
-                {alertMessage}
-              </Alert>
-            </div>
-          )}
 
+        {alertOpen && (
+          <div className={classes.alert}>
+            <Alert variant="filled" severity="error" onClose={handleAlertClose}>
+              {alertMessage}
+            </Alert>
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <div className={classes.input}>
             <div className={classes.wrap}>
               <h1 className={classes.Title1}>Username</h1>
@@ -213,7 +219,7 @@ export default function Register() {
                       value:
                         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+/,
                       message:
-                        "Password must meet have one uppercase ,one lowercase, one number",
+                        "Password must have at least one uppercase letter, lowercase letter & number",
                     },
                     // Add more validation rules as needed
                   })}
@@ -224,11 +230,6 @@ export default function Register() {
                   halfWidth
                   required
                 />
-                {errors.password && (
-                  <p style={{ color: "red", fontSize: "14px" }}>
-                    {errors.password.message}
-                  </p>
-                )}
 
                 {/* <Controller
                   name="password"

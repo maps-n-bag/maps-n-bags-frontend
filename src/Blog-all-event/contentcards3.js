@@ -24,8 +24,7 @@ import { ScheduleOutlined } from "@mui/icons-material";
 import { storage } from "../firebase";
 import { getDownloadURL, listAll, ref, uploadBytes, deleteObject } from "firebase/storage";
 
-const dateformat = require("../formateDate");
-const timeformat = require("../formateTime");
+const timeformat = require("../formatTime");
 const baseURL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles({
   places: {
@@ -81,11 +80,16 @@ const ContentCards = (props) => {
   const directory = `blog-images/plan-${planId}/event-${eventID}/`;
 
   useEffect(() => {
-    fetch(`${baseURL}event/detail?event_id=${eventID}`)
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setItemBasic(resp);
-      });
+    axios.get(`${baseURL}event/detail?event_id=${eventID}`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((resp) => {
+      setItemBasic(resp.data);
+    }).catch((error) => {
+      console.log(error);
+      console.log(error.response?.data)
+    });
 
   }, []);
 
@@ -131,7 +135,11 @@ const ContentCards = (props) => {
 
     setIsEditingBasic(false);
     axios
-      .put(`${baseURL}event/detail?event_id=${props.item.event.id}`, getValues())
+      .put(`${baseURL}event/detail?event_id=${props.item.event.id}`, getValues(), {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
       .then((response) => {
         setIsEditingBasic(false);
         setItemBasic(getValues());
@@ -217,9 +225,9 @@ const ContentCards = (props) => {
                           }}
                         >
                           {" "}
-                          {timeformat.formateTime(
+                          {timeformat.formatTime(
                             card.event.start_time
-                          )} to {timeformat.formateTime(card.event.end_time)}
+                          )} to {timeformat.formatTime(card.event.end_time)}
                         </Typography>
 
                         <PlaceCard item={card.event.place_id} />

@@ -129,9 +129,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "-1rem",
-    marginLeft: "-1rem",
-    marginRight: "-2rem",
+    // marginTop: "-1rem",
+    // marginLeft: "-1rem",
+    // marginRight: "-2rem",
     height: "150vh",
     fontFamily: "Special Elite",
   },
@@ -176,6 +176,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LoginPage() {
+
   const classes = useStyles();
   //const {id} =useParams();
   const navigate = useNavigate();
@@ -190,26 +191,31 @@ export default function LoginPage() {
     axios
       .post(`${baseURL}user/login`, values)
       .then((response) => {
-        console.log(response);
         console.log("login successful");
-        if (response.status == "200")
-          navigate(`/Profile/${response.data.user_id}`);
-        else if (response.status == "401") {
-          setLoginFailed(true);
-        }
-        // if (response.data.accessToken) {
-        //   localStorage.setItem("accessToken", response.data.accessToken);
-        //   if (response.data.id) localStorage.setItem("id", response.data.id);
-        //   console.log(localStorage.getItem("accessToken"));
 
-        //   window.location.reload(false);
-        // }
+        localStorage.setItem("accessToken", response.data.token);
+        localStorage.setItem("userId", response.data.user_id);
+
+        navigate(`/Profile/${response.data.user_id}`);
+
       })
       .catch((error) => {
+        if (error.response?.status == "401") {
+          setLoginFailed(true);
+        }
+
         console.log(error);
       });
   };
   const onError = (errors, e) => console.log(errors, e);
+
+  const handleAlertClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setLoginFailed(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -219,11 +225,13 @@ export default function LoginPage() {
         height={500}
         bgcolor="rgba(255, 255, 255, 0.3)" // 60% transparent black
       >
+
         {loginFailed && (
-          <Alert variant="filled" severity="error">
-            Account wasn't found. Make Sure You Typed Correctly!
+          <Alert variant="filled" severity="error" onClose={handleAlertClose}>
+            Incorrect username or password
           </Alert>
         )}
+
         <form onSubmit={handleSubmit(onSubmit, onError)}>
           <div className={classes.input}>
             <div className={classes.wrap}>

@@ -10,12 +10,13 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
+import { useParams } from "react-router-dom";
 
 // require("dotenv").config();
 
 // const baseURL = process.env.BASE_URL;
 const baseURL = process.env.REACT_APP_BASE_URL;
-const dateformat = require("../formateDate");
+const dateformat = require("../formatDate");
 
 const useStyles = makeStyles({
   places: {
@@ -52,30 +53,34 @@ const useStyles = makeStyles({
 });
 
 const Tour_overview = () => {
-  // const id = localStorage.getItem("id");
   const [itemBasic, setItemBasic] = useState([]);
 
   const classes = useStyles();
 
+  const { plan_id } = useParams();
+
   useEffect(() => {
-    fetch(`${baseURL}plan?id=1`)
-      .then((resp) => resp.json())
+    axios.get(`${baseURL}plan?id=${plan_id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
       .then((resp) => {
-        setItemBasic(resp);
-        console.log(resp);
+        console.log(resp.data);
+        setItemBasic(resp.data);
       })
       .catch((rejected) => {
         console.log(rejected);
       });
   }, []);
 
-  console.log(dateformat.formateDate(String(itemBasic.start_date)));
 
   const name_arr = itemBasic.title;
-  const date_st = dateformat.formateDate(itemBasic.start_date);
-  const date_end = dateformat.formateDate(itemBasic.end_date);
+  const date_st = dateformat.formatDate(itemBasic.start_date);
+  const date_end = dateformat.formatDate(itemBasic.end_date);
   const des_arr = itemBasic.description;
   const img_arr = itemBasic.image;
+
 
   return (
     <div className={classes.places}>
@@ -135,7 +140,7 @@ const Tour_overview = () => {
               {" "}
               {des_arr}
             </Typography>
-            <a href="/FullTour">
+            <a href={`/FullTour/${plan_id}`}>
               <Button
                 size="small"
                 className={classes.btn}

@@ -53,12 +53,13 @@ const PlaceDetails = () => {
   //console.log(id);
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
-    fetch(`${baseURL}public/place?id=${id}`)
-      .then((resp) => resp.json())
+    axios.get(`${baseURL}public/place?id=${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
       .then((resp) => {
-        //console.log(resp.place);
-
-        setItemBasic(resp);
+        setItemBasic(resp.data);
       })
       .catch((rejected) => {
         console.log(rejected);

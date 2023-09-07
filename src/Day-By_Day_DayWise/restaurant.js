@@ -7,13 +7,14 @@ import {
   ButtonBase,
   Typography,
 } from "@mui/material";
+import axios from "axios";
 
 
 import { makeStyles } from "@mui/styles";
 import { ca } from "date-fns/locale";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
-const timeformat = require("../formateTime");
+const timeformat = require("../formatTime");
 const useStyles = makeStyles({
   places: {
     // height: "90%",
@@ -52,10 +53,13 @@ const RestaurantCard = (props) => {
   const cardsData = props.item;
   const [placeItem, setPlaceItem] = useState({});
   useEffect(() => {
-      fetch(`${baseURL}public/nearby/restaurant?place_id=${cardsData.event.place_id}`)
-        .then((resp) => resp.json())
+      axios.get(`${baseURL}public/nearby/restaurant?place_id=${cardsData.event.place_id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
         .then((resp) => {
-          setPlaceItem(resp);
+          setPlaceItem(resp.data);
         })
         .catch((rejected) => {
           console.log(rejected);

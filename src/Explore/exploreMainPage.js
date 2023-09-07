@@ -169,27 +169,6 @@ export default function ExploreMain() {
   //const {id} =useParams();
   const navigate = useNavigate();
 
-  const { handleSubmit, register, getValues } = useForm();
-
-  const onSubmit = (data, e) => {
-    e.preventDefault();
-    console.log(data, e);
-    const values = getValues();
-    console.log(values);
-    axios
-      .post(`${baseURL}user/login`, values)
-      .then((response) => {
-        console.log(response);
-        console.log("login successful");
-        if (response.status == "200")
-          navigate(`/Profile/${response.data.user_id}`);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const onError = (errors, e) => console.log(errors, e);
-
   return (
     <div className={classes.root}>
       <SideBar />

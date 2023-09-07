@@ -22,20 +22,22 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
- import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import { OpenInFullRounded } from "@mui/icons-material";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import BookIcon from "@mui/icons-material/Book";
 import { Link } from "react-router-dom";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
+import { Avatar, Tooltip } from "@mui/material";
+
 const drawerWidth = 240;
 
 const iconData = [
-  { icon: HomeIcon, name: "Home" },
-  { icon: TravelExploreIcon, name: "Explore" },
-  { icon: PermContactCalendarIcon, name: "Profile" },
-  { icon: BookIcon, name: "Blog" },
+  { icon: HomeIcon, name: "Home", link: "" },
+  { icon: TravelExploreIcon, name: "Explore", link: "Explore" },
+  { icon: PermContactCalendarIcon, name: "Profile", link: `Profile/${localStorage.getItem("userId")}` },
+  { icon: BookIcon, name: "Blog", link: "Blog" },
 ];
 
 const openedMixin = (theme) => ({
@@ -149,8 +151,31 @@ export default function SideBar() {
               textAlign: "center",
             }}
           >
-            Maps'n Bags
+            <Link to={`/`} style={{ textDecoration: "none", color: "black" }}>
+              Maps 'n Bags
+            </Link>
           </Typography>
+
+          {/*on the right side of the top bar, there
+          should be a logout button and a mini profile photo which would lead
+          to the profile section*/}
+
+          <Tooltip title="Profile">
+            <IconButton
+              style={{
+                marginLeft: "auto",
+              }}
+            >
+              <Link to={`/Profile/${localStorage.getItem("userId")}`} style={{ textDecoration: "none" }}>
+                <Avatar
+                  alt="Remy Sharp"
+                  src={localStorage.getItem("userImage")}
+                  sx={{ width: 32, height: 32 }}
+                />
+              </Link>
+            </IconButton>
+          </Tooltip>
+
         </Toolbar>
       </AppBar>
 
@@ -158,7 +183,7 @@ export default function SideBar() {
         variant="permanent"
         open={open}
 
-        //sx={{ color: "rgba(225,249,27,1)" }}
+      //sx={{ color: "rgba(225,249,27,1)" }}
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -180,7 +205,7 @@ export default function SideBar() {
                   px: 2.5,
                 }}
               >
-                <Link to={`/${icons.name}`}>
+                <Link to={`/${icons.link}`}>
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
@@ -203,9 +228,38 @@ export default function SideBar() {
         </List>
         <Divider />
         <List>
-        <Link to={`/createplan`}>
-          {["Create Plan"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+          <Link to={`/createplan`}>
+            {["Create Plan"].map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <EditCalendarIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+
+            ))}
+          </Link>
+        </List>
+
+        <Divider />
+
+        <List>
+          <Link to={`/`}>
+            <ListItem key={"Logout"} disablePadding sx={{ display: "block" }} onClick={() => { localStorage.clear(); }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -220,15 +274,14 @@ export default function SideBar() {
                     justifyContent: "center",
                   }}
                 >
-                  <EditCalendarIcon/>
+                  <KeyboardReturnIcon />
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={"Logout"} sx={{ opacity: open ? 1 : 0, color: "red" }} />
               </ListItemButton>
             </ListItem>
-
-          ))}
           </Link>
         </List>
+
       </Drawer>
       {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />

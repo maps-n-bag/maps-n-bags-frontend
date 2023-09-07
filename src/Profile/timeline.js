@@ -68,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Profile = () => {
-  // const id = localStorage.getItem("id");
   const { user_id } = useParams();
   const [itemBasic, setItemBasic] = useState([]);
 
@@ -76,12 +75,21 @@ const Profile = () => {
 
   const classes = useStyles();
   useEffect(() => {
-    fetch(`${baseURL}user?id=${user_id}`)
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setItemBasic(resp);
-        console.log(resp);
-      });
+    axios.get(`${baseURL}user?id=${user_id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((res) => {
+      localStorage.setItem("userImage", res.data.profile_pic);
+      setItemBasic(res.data);
+      console.log(res.data);
+    }).catch((error) => {
+      console.error("An error occurred:", error);
+      if (error.response) {
+        console.log(error.response.data);
+      }
+    });
+
   }, []);
 
   return (
@@ -159,7 +167,11 @@ const Profile = () => {
                       setIsEditingBasic(false);
                       console.log(itemBasic);
                       axios
-                        .put(`${baseURL}user?id=${itemBasic.id}`, itemBasic)
+                        .put(`${baseURL}user?id=${itemBasic.id}`, itemBasic, {
+                          headers: {
+                            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                          },
+                        })
                         .then((res) => {
                           // window.location.reload(false);
                           console.log(itemBasic);
