@@ -174,159 +174,142 @@ const EventCards = (props) => {
               </Grid>
             )}
 
-
-            <Grid item xs={30} sm container>
-              <Grid
-                item
-                xs
-                container
-                direction="column"
-                spacing={2}
-                sm={20}
-              // md={20}
-              // lg={15}
-              >
-
-                {placeItem && (
-                  <Grid item>
-                    <Typography
-                      gutterBottom
-                      variant="subtitle1"
-                      component="div"
-                      sx={{ cursor: "pointer" }}
-                      style={{
-                        // fontFamily: "Special Elite",
-                        fontSize: "110%",
-                        color: "black",
-                        marginLeft: "10%",
-                        //marginTop: "10%",
-                        // textAlign: "center",
-                      }}
-                    >
-                      <b> {placeItem.title}</b>
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      gutterBottom
-                      component="div"
-                      style={{
-                        //fontFamily: "Special Elite",
-                        fontSize: "100%",
-                        color: "black",
-                        marginLeft: "10%",
-                        //textAlign: "center",
-                      }}
-                    >
-                      {placeItem.description}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      gutterBottom
-                      component="div"
-                      style={{
-                        //fontFamily: "Special Elite",
-                        fontSize: "100%",
-                        color: "black",
-                        marginLeft: "10%",
-                        // textAlign: "center",
-                      }}
-                    >
-                      Rating: {placeItem.rating}/5.0
-                      <br /> (total votes: {placeItem.rating_count})
-                    </Typography>
-                  </Grid>
-                )}
-
-
-                 
-
-               <Grid item>
-                    <Typography
-                      gutterBottom
-                      variant="subtitle1"
-                      component="div"
-                      sx={{ cursor: "pointer" }}
-                      style={{
-                        // fontFamily: "Special Elite",
-                        fontSize: "110%",
-                        color: "black",
-                        marginLeft: "10%",
-                        //marginTop: "10%",
-                        // textAlign: "center",
-                      }}
-                    >
-                      <b> {placeItem.title}</b>
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      gutterBottom
-                      component="div"
-                      style={{
-                        //fontFamily: "Special Elite",
-                        fontSize: "100%",
-                        color: "black",
-                        marginLeft: "10%",
-                        //textAlign: "center",
-                      }}
-                    >
-                      {placeItem.description}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      gutterBottom
-                      component="div"
-                      style={{
-                        //fontFamily: "Special Elite",
-                        fontSize: "100%",
-                        color: "black",
-                        marginLeft: "10%",
-                        // textAlign: "center",
-                      }}
-                    >
-                      {" "}
-                      <ScheduleOutlined
-                        style={{
-                          color: "black",
-                          marginTop: "2%",
-                          fontSize: "100%",
-                          textAlign: "center",
-                        }}
-                      />
-                      {timeformat.formatTime(cardsData.event.start_time)} to{" "}
-                      {timeformat.formatTime(cardsData.event.end_time)}
-                    </Typography>
-                  </Grid>
-                        
-
-                {cardsData.event && placeItem && (
-                  <Grid item>
-                    <Link to={`/PlaceDetails/${cardsData.event.place_id}`}>
-                      <ButtonBase sx={{ width: "70%", height: "70%" }}>
-                        <img
-                          style={{
-                            width: "110%",
-                            //height: "100%",
-                            marginLeft: "40%",
-                            marginTop: "5%",
-                            //textAlign: "right",
-                          }}
-                          alt="place_image"
-                          src={placeItem.images}
-                        />
-                      </ButtonBase>
-                    </Link>
-                  </Grid>
-                )}
-
-
+            {placeItem && (
+              <Grid item>
+                <Typography
+                  gutterBottom
+                  variant="subtitle1"
+                  component="div"
+                  sx={{ cursor: "pointer" }}
+                  style={{
+                    // fontFamily: "Special Elite",
+                    fontSize: "110%",
+                    color: "black",
+                    marginLeft: "10%",
+                    //marginTop: "10%",
+                    // textAlign: "center",
+                  }}
+                >
+                  <b> {placeItem.title}</b>
+                </Typography>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  component="div"
+                  style={{
+                    //fontFamily: "Special Elite",
+                    fontSize: "100%",
+                    color: "black",
+                    marginLeft: "10%",
+                    //textAlign: "center",
+                  }}
+                >
+                  {placeItem.description}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  gutterBottom
+                  component="div"
+                  style={{
+                    //fontFamily: "Special Elite",
+                    fontSize: "100%",
+                    color: "black",
+                    marginLeft: "10%",
+                    // textAlign: "center",
+                  }}
+                >
+                  Rating: {placeItem.rating}/5.0
+                  <br /> (total votes: {placeItem.rating_count})
+                </Typography>
               </Grid>
+            )}
+
+            <Grid item>
+              <Typography
+                gutterBottom
+                variant="subtitle1"
+                component="div"
+                sx={{ cursor: "pointer" }}
+                style={{
+                  // fontFamily: "Special Elite",
+                  fontSize: "110%",
+                  color: "black",
+                  marginLeft: "10%",
+                  //marginTop: "10%",
+                  // textAlign: "center",
+                }}
+              >
+                <b> {placeItem.title}</b>
+              </Typography>
+              <Typography
+                variant="body2"
+                gutterBottom
+                component="div"
+                style={{
+                  //fontFamily: "Special Elite",
+                  fontSize: "100%",
+                  color: "black",
+                  marginLeft: "10%",
+                  //textAlign: "center",
+                }}
+              >
+                {placeItem.description}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                gutterBottom
+                component="div"
+                style={{
+                  //fontFamily: "Special Elite",
+                  fontSize: "100%",
+                  color: "black",
+                  marginLeft: "10%",
+                  // textAlign: "center",
+                }}
+              >
+                {" "}
+                <ScheduleOutlined
+                  style={{
+                    color: "black",
+                    marginTop: "2%",
+                    fontSize: "100%",
+                    textAlign: "center",
+                  }}
+                />
+                {timeformat.formatTime(cardsData.event.start_time)} to{" "}
+                {timeformat.formatTime(cardsData.event.end_time)}
+              </Typography>
             </Grid>
+
+
+            {cardsData.event && placeItem && (
+              <Grid item>
+                <Link to={`/PlaceDetails/${cardsData.event.place_id}`}>
+                  <ButtonBase sx={{ width: "70%", height: "70%" }}>
+                    <img
+                      style={{
+                        width: "110%",
+                        //height: "100%",
+                        marginLeft: "40%",
+                        marginTop: "5%",
+                        //textAlign: "right",
+                      }}
+                      alt="place_image"
+                      src={placeItem.images}
+                    />
+                  </ButtonBase>
+                </Link>
+              </Grid>
+            )}
+
+
           </Grid>
+
         </Card>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

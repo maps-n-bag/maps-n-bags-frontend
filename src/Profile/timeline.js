@@ -215,6 +215,17 @@ const Profile = () => {
               {/* {itemBasic.first_name} {itemBasic.last_name} */}
             </Typography>
           </Grid>
+          
+          {/** show username and email. they are uneditable. */}
+          <Grid>
+            <Typography color="black" style={{ fontFamily: "Special Elite", fontSize: "150%", textAlign: "center", marginLeft: "28%", display: "inline-block" }}>
+              {itemBasic.username}
+            </Typography>
+            <Typography color="black" style={{ fontFamily: "Special Elite", fontSize: "150%", textAlign: "center", marginLeft: "28%", display: "inline-block" }}>
+              {itemBasic.email}
+            </Typography>
+          </Grid>
+              
         </div>
 
 
