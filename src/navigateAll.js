@@ -10,6 +10,7 @@ import PlaceDetails from "./Day-By_Day_DayWise/placedetails";
 import DaybyDay from "./Blog-all-event/daybyday1";
 import Landingpage from "./LandingPage/landing";
 import Register from "./Registration/register";
+import Bloglist from "./Blog-all-event/bloglist";
 // import BlogGenerated from "./Blog-generated/saveddaybyday1";
 import LoginPage from "./login/loginPage";
 import ExploreMain from "./Explore/exploreMainPage";
@@ -25,7 +26,8 @@ export class NavigateAll extends React.Component {
           <Route exact path="/" element={<Landingpage />} />
           <Route path="/Home" element={<Landingpage />} />
           <Route path="/TourOverview/:plan_id" element={<Tour_overview />} />
-          <Route path="/Blog" element={<DaybyDay />} />
+          <Route path="/AllBlog" element={<Bloglist />} />
+          <Route path="Blog/:plan_id" element={<DaybyDay />} />
           <Route path="/Explore" element={<ExploreMain />} />
 
           <Route path="/FullTour/:plan_id" element={<FullTour />} />

@@ -7,6 +7,7 @@ import { Grid, Card, CardContent, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
+import { useParams } from "react-router-dom";
 
 import axios from "axios";
 
@@ -44,10 +45,10 @@ const useStyles = makeStyles({
 
 const DaybyDay = () => {
   const classes = useStyles();
-  // const { id } = useParams();
+  const { plan_id } = useParams();
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
-    axios.get(`${baseURL}event?plan_id=1`, {
+    axios.get(`${baseURL}event?plan_id=${plan_id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
@@ -78,6 +79,18 @@ const DaybyDay = () => {
             </div>
           </div>
         ))}
+        <Link to={`/FullTour/${plan_id}`}>
+              <Button
+                size="small"
+                className={classes.btn}
+                style={{
+                  fontSize: "100%",
+                  marginLeft: "70%",
+                }}
+              >
+                Go to Plan
+              </Button>
+            </Link>
       </div>
     </div>
   );

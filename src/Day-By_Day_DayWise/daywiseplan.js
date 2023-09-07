@@ -176,6 +176,18 @@ const DaywisePlan = () => {
           ) : (
             <Button className={classes.btn}>Finish</Button>
           )}
+          <Link to={`/Blog/${plan_id}`}>
+              <Button
+                size="small"
+                className={classes.btn}
+                style={{
+                  fontSize: "100%",
+                  marginLeft: "70%",
+                }}
+              >
+               Go to Blog
+              </Button>
+            </Link>
         </div>
       </div>
     </div>
