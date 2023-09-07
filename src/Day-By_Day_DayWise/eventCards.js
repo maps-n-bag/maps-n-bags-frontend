@@ -64,7 +64,6 @@ const EventCards = (props) => {
 
 
   useEffect(() => {
-    if (cardsData.event != null) {
       axios.get(`${baseURL}public/place?id=${cardsData.event.place_id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -76,7 +75,6 @@ const EventCards = (props) => {
         .catch((rejected) => {
           console.log(rejected);
         });
-    }
   }, [cardsData.event.place_id]);
 
 
