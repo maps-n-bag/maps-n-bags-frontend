@@ -13,8 +13,7 @@ import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 import { da } from "date-fns/locale";
-const dateformat = require("../formateDate");
-const timeformat = require("../formateTime");
+const dateformat = require("../formatDate");
 // require("dotenv").config();
 
 // const baseURL = process.env.BASE_URL;
@@ -60,9 +59,9 @@ const DaywisePlan = () => {
   const { dayStart, totalDays, id } = useParams();
   const classes = useStyles(parseInt(id) - 1);
   const [day_int, setDay] = useState(1);
-  // const day_start = dateformat.formateDate(dayStart);
+  // const day_start = dateformat.formatDate(dayStart);
   // const today = new Date(day_start) + parseInt(id) - 1;
-  const day_start = dateformat.formateDate(dayStart);
+  const day_start = dateformat.formatDate(dayStart);
   // const today = new Date(day_start + (day_int - 1));
   // const next_id = parseInt(id) + 1;
   const  dayStartObj=new Date(day_start)
@@ -82,12 +81,13 @@ const DaywisePlan = () => {
   };
 
   useEffect(() => {
-    fetch(`${baseURL}event?plan_id=1&day=${day_int}`)
-      .then((resp) => resp.json())
+    axios.get(`${baseURL}event?plan_id=1&day=${day_int}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
       .then((resp) => {
-        console.log(resp);
-        console.log("Day int is: ", day_int);
-        setItemBasic(resp);
+        setItemBasic(resp.data);
       })
       .catch((rejected) => {
         console.log(rejected);
@@ -97,7 +97,7 @@ const DaywisePlan = () => {
   console.log(itemBasic);
 
   // useEffect(() => {
-  //   const dayStartFormatted = dateformat.formateDate(dayStart);
+  //   const dayStartFormatted = dateformat.formatDate(dayStart);
   //   const newToday = new Date(dayStartFormatted);
   //   newToday.setDate(newToday.getDate() + (day_int - 1));
   //   setDay(newToday);

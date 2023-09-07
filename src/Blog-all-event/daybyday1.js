@@ -47,11 +47,13 @@ const DaybyDay = () => {
   // const { id } = useParams();
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
-    fetch(`${baseURL}event?plan_id=1`)
-      .then((resp) => resp.json())
-      .then((resp) => {
+    axios.get(`${baseURL}event?plan_id=1`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((resp) => {
         // console.log(resp);
-        setItemBasic(resp);
+        setItemBasic(resp.data);
       })
       .catch((rejected) => {
         console.log(rejected);

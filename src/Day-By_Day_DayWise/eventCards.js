@@ -21,7 +21,7 @@ import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 import { ScheduleOutlined } from "@mui/icons-material";
 const baseURL = process.env.REACT_APP_BASE_URL;
-const timeformat = require("../formateTime");
+const timeformat = require("../formatTime");
 const useStyles = makeStyles({
   places: {
     // height: "90%",
@@ -64,14 +64,13 @@ const EventCards = (props) => {
 
   useEffect(() => {
     if (cardsData.event != null) {
-      fetch(`${baseURL}public/place?id=${cardsData.event.place_id}`)
-        .then((resp) => resp.json())
+      axios.get(`${baseURL}public/place?id=${cardsData.event.place_id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
         .then((resp) => {
-          console.log(
-            "this is called with place id: ",
-            cardsData.event.place_id
-          );
-          setPlaceItem(resp);
+          setPlaceItem(resp.data);
         })
         .catch((rejected) => {
           console.log(rejected);
@@ -253,8 +252,8 @@ const EventCards = (props) => {
                           textAlign: "center",
                         }}
                       />
-                      {timeformat.formateTime(cardsData.event.start_time)} to{" "}
-                      {timeformat.formateTime(cardsData.event.end_time)}
+                      {timeformat.formatTime(cardsData.event.start_time)} to{" "}
+                      {timeformat.formatTime(cardsData.event.end_time)}
                     </Typography>
                   </Grid>
                 )}

@@ -191,21 +191,13 @@ export default function LoginPage() {
     axios
       .post(`${baseURL}user/login`, values)
       .then((response) => {
-        console.log(response);
         console.log("login successful");
 
-        if (response.status == "200")
-          navigate(`/Profile/${response.data.user_id}`);
-        else {
-          console.log("return code not 200");
-        }
-        // if (response.data.accessToken) {
-        //   localStorage.setItem("accessToken", response.data.accessToken);
-        //   if (response.data.id) localStorage.setItem("id", response.data.id);
-        //   console.log(localStorage.getItem("accessToken"));
+        localStorage.setItem("accessToken", response.data.token);
+        localStorage.setItem("userId", response.data.user_id);
 
-        //   window.location.reload(false);
-        // }
+        navigate(`/Profile/${response.data.user_id}`);
+
       })
       .catch((error) => {
         if (error.response?.status == "401") {

@@ -106,7 +106,11 @@ const CreateAPlan = () => {
     setValue("regions", checkedItemsRgn);
     console.log(values);
     axios
-      .post(`${baseURL}plan`, values)
+      .post(`${baseURL}plan`, values, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
       .then((response) => {
         console.log(response);
         console.log("create plan successful");
@@ -168,30 +172,30 @@ const CreateAPlan = () => {
   // };
 
   useEffect(() => {
-    fetch(`${baseURL}public/regions`)
-      .then((resp) => resp.json())
+    axios.get(`${baseURL}public/regions`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
       .then((resp) => {
-        console.log(resp);
-        setRegions(resp);
+        setRegions(resp.data);
+      })
+      .catch((rejected) => {
+        console.log(rejected);
+      });
+
+    axios.get(`${baseURL}public/tags`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((resp) => {
+        setTags(resp.data);
       })
       .catch((rejected) => {
         console.log(rejected);
       });
   }, []);
-
-  useEffect(() => {
-    fetch(`${baseURL}public/tags`)
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setTags(resp);
-      })
-      .catch((rejected) => {
-        console.log(rejected);
-      });
-  }, []);
-
-  console.log(tags);
-  console.log(regions);
 
   return (
     <div className={classes.places}>
@@ -296,9 +300,9 @@ const CreateAPlan = () => {
                 className="btn"
                 type="submit"
                 style={{
-                   backgroundColor: "transparent",
+                  backgroundColor: "transparent",
                   borderWidth: "5px",
-                   borderColor: "black",
+                  borderColor: "black",
                   marginLeft: "220%",
                   marginTop: "5%",
                   marginBottom: "20%",

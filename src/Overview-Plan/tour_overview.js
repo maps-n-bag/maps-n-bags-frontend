@@ -15,7 +15,7 @@ import SideBar from "../App drawer/sideBar";
 
 // const baseURL = process.env.BASE_URL;
 const baseURL = process.env.REACT_APP_BASE_URL;
-const dateformat = require("../formateDate");
+const dateformat = require("../formatDate");
 
 const useStyles = makeStyles({
   places: {
@@ -52,30 +52,33 @@ const useStyles = makeStyles({
 });
 
 const Tour_overview = () => {
-  // const id = localStorage.getItem("id");
   const [itemBasic, setItemBasic] = useState([]);
 
   const classes = useStyles();
 
   useEffect(() => {
-    fetch(`${baseURL}plan?id=1`)
-      .then((resp) => resp.json())
+    axios.get(`${baseURL}plan?id=1`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
       .then((resp) => {
-        setItemBasic(resp);
-        console.log(resp);
+        console.log(resp.data);
+        setItemBasic(resp.data);
       })
       .catch((rejected) => {
         console.log(rejected);
       });
   }, []);
 
-  console.log(dateformat.formateDate(String(itemBasic.start_date)));
 
   const name_arr = itemBasic.title;
-  const date_st = dateformat.formateDate(itemBasic.start_date);
-  const date_end = dateformat.formateDate(itemBasic.end_date);
+  const date_st = dateformat.formatDate(itemBasic.start_date);
+  const date_end = dateformat.formatDate(itemBasic.end_date);
   const des_arr = itemBasic.description;
   const img_arr = itemBasic.image;
+
+  console.log(date_st, date_end)
 
   return (
     <div className={classes.places}>

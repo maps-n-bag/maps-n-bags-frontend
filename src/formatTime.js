@@ -7,4 +7,4 @@ function formatTime(value) {
 
   return `${hours}:${String(date.getMinutes()).padStart(2, "0")} ${period}`;
 }
-exports.formateTime = formatTime;
+exports.formatTime = formatTime;

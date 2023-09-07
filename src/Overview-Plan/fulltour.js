@@ -17,7 +17,7 @@ import SideBar from "../App drawer/sideBar";
 import { Link } from "react-router-dom";
 import noteIcon from "../photos/icon/note.png";
 
-const dateformat = require("../formateDate");
+const dateformat = require("../formatDate");
 // require("dotenv").config();
 // const baseURL = process.env.BASE_URL;
 const baseURL = process.env.REACT_APP_BASE_URL;
@@ -59,11 +59,13 @@ const FullTour = () => {
   const day = 1;
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
-    fetch(`${baseURL}plan?id=1`)
-      .then((resp) => resp.json())
+    axios.get(`${baseURL}plan?id=1`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
       .then((resp) => {
-        // console.log(resp);
-        setItemBasic(resp);
+        setItemBasic(resp.data);
       })
       .catch((rejected) => {
         console.log(rejected);
@@ -71,8 +73,8 @@ const FullTour = () => {
   }, []);
 
   const name_arr = itemBasic.title;
-  const date_st = dateformat.formateDate(itemBasic.start_date);
-  const date_end = dateformat.formateDate(itemBasic.end_date);
+  const date_st = dateformat.formatDate(itemBasic.start_date);
+  const date_end = dateformat.formatDate(itemBasic.end_date);
   const des_arr = itemBasic.description;
   const img_arr = itemBasic.image;
   const classes = useStyles();
