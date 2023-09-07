@@ -58,12 +58,9 @@ const useStyles = makeStyles({
 const DaywisePlan = () => {
   const { plan_id, dayStart, totalDays, day } = useParams();
   const classes = useStyles(parseInt(day) - 1);
-  const [day_int, setDay] = useState(day);
-  // const day_start = dateformat.formatDate(dayStart);
-  // const today = new Date(day_start) + parseInt(id) - 1;
+  const [day_int, setDay] = useState(parseInt(day));
+  
   const day_start = dateformat.formatDate(dayStart);
-  // const today = new Date(day_start + (day_int - 1));
-  // const next_id = parseInt(id) + 1;
   const  dayStartObj=new Date(day_start)
   const today = new Date();
   today.setDate(dayStartObj.getDate() + (day_int - 1));
@@ -75,6 +72,18 @@ const DaywisePlan = () => {
   const dayChangeHandler = (event) => {
     if (event.target.id === "nextday") {
       setDay((prevDay) => prevDay + 1);
+      window.history.replaceState(
+        null,
+        null,
+        `/DaywisePlan/${plan_id}/${dayStart}/${totalDays}/${day_int +1 }`
+      );
+    } else if(event.target.id === "prevday") {
+      setDay((prevDay) => prevDay - 1);
+      window.history.replaceState(
+        null,
+        null,
+        `/DaywisePlan/${plan_id}/${dayStart}/${totalDays}/${day_int -1 }`
+      );
     }
   };
 
@@ -93,13 +102,6 @@ const DaywisePlan = () => {
   }, [day_int]);
   console.log("this has been called");
   console.log(itemBasic);
-
-  // useEffect(() => {
-  //   const dayStartFormatted = dateformat.formatDate(dayStart);
-  //   const newToday = new Date(dayStartFormatted);
-  //   newToday.setDate(newToday.getDate() + (day_int - 1));
-  //   setDay(newToday);
-  // }, [day_int, dayStart]);
 
   return (
     <div className={classes.places}>
@@ -154,10 +156,16 @@ const DaywisePlan = () => {
               )}
             </Grid>
           ))}
+          {day_int > 1 && 
+            <Button
+              id="prevday"
+              onClick={dayChangeHandler}
+              className={classes.btn}
+            >
+              Previous day
+            </Button>
+}
           {day_int < parseInt(totalDays) ? (
-            // <Link to={`/DaywisePlan2/${dayStart}/${totalDays}/${next_id}`}>
-            //   <Button className={classes.btn}>Next day</Button>
-            // </Link>
             <Button
               id="nextday"
               onClick={dayChangeHandler}
