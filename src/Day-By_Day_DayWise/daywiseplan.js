@@ -56,9 +56,9 @@ const useStyles = makeStyles({
 });
 
 const DaywisePlan = () => {
-  const { dayStart, totalDays, id } = useParams();
-  const classes = useStyles(parseInt(id) - 1);
-  const [day_int, setDay] = useState(1);
+  const { plan_id, dayStart, totalDays, day } = useParams();
+  const classes = useStyles(parseInt(day) - 1);
+  const [day_int, setDay] = useState(day);
   // const day_start = dateformat.formatDate(dayStart);
   // const today = new Date(day_start) + parseInt(id) - 1;
   const day_start = dateformat.formatDate(dayStart);
@@ -70,18 +70,16 @@ const DaywisePlan = () => {
   console.log("today" + today);
 
   const dateString = today.toLocaleDateString();
-  //let dateStringWithoutLastCharacter = dateString.slice(0, -1);
 
   const [itemBasic, setItemBasic] = useState([]);
   const dayChangeHandler = (event) => {
     if (event.target.id === "nextday") {
-      console.log("Next day added by azgor");
       setDay((prevDay) => prevDay + 1);
     }
   };
 
   useEffect(() => {
-    axios.get(`${baseURL}event?plan_id=1&day=${day_int}`, {
+    axios.get(`${baseURL}event?plan_id=${plan_id}&day=${day_int}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },

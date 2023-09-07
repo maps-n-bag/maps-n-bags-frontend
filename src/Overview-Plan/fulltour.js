@@ -16,6 +16,7 @@ import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 import { Link } from "react-router-dom";
 import noteIcon from "../photos/icon/note.png";
+import { useParams } from "react-router-dom";
 
 const dateformat = require("../formatDate");
 // require("dotenv").config();
@@ -58,8 +59,9 @@ const FullTour = () => {
   // const id = localStorage.getItem("id");
   const day = 1;
   const [itemBasic, setItemBasic] = useState([]);
+  const { plan_id } = useParams();
   useEffect(() => {
-    axios.get(`${baseURL}plan?id=1`, {
+    axios.get(`${baseURL}plan?id=${plan_id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
@@ -242,7 +244,7 @@ const FullTour = () => {
             </Grid>
             {/* <a href="\DaybyDay"> */}
 
-            <Link to={`/DaywisePlan/${itemBasic.start_date}/${daysTotal}/${day}`}>
+            <Link to={`/DaywisePlan/${plan_id}/${itemBasic.start_date}/${daysTotal}/${day}`}>
               <Button
                 size="small"
                 className={classes.btn}

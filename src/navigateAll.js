@@ -24,14 +24,14 @@ export class NavigateAll extends React.Component {
         <Routes>
           <Route exact path="/" element={<Landingpage />} />
           <Route path="/Home" element={<Landingpage />} />
-          <Route path="/TourOverview" element={<Tour_overview />} />
+          <Route path="/TourOverview/:plan_id" element={<Tour_overview />} />
           <Route path="/Blog" element={<DaybyDay />} />
           <Route path="/Explore" element={<ExploreMain />} />
 
-          <Route path="/FullTour" element={<FullTour />} />
+          <Route path="/FullTour/:plan_id" element={<FullTour />} />
           <Route path="/createPlan" element={<CreateAPlan />} />
           <Route
-            path="/DaywisePlan/:dayStart/:totalDays/:id"
+            path="/DaywisePlan/:plan_id/:dayStart/:totalDays/:day"
             element={<DaywisePlan />}
           />
 

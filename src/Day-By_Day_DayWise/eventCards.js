@@ -93,6 +93,87 @@ const EventCards = (props) => {
           }}
         >
           <Grid container spacing={5}>
+
+
+            {cardsData.journey && (
+              <Grid item>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  gutterBottom
+                  component="div"
+                  style={{
+                    //fontFamily: "Special Elite",
+                    fontSize: "100%",
+                    color: "black",
+                    marginLeft: "10%",
+                    marginTop: "10%",
+                    // textAlign: "center",
+                  }}
+                >
+                  From {cardsData.journey.from}
+                </Typography>
+
+                <DirectionsCarIcon
+                  style={{
+                    //fontFamily: "Special Elite",
+                    fontSize: "200%",
+                    color: "black",
+                    marginLeft: "10%",
+                    // textAlign: "center",
+                  }}
+                />
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  gutterBottom
+                  component="div"
+                  style={{
+                    //fontFamily: "Special Elite",
+                    fontSize: "100%",
+                    color: "black",
+                    marginLeft: "10%",
+                    // textAlign: "center",
+                  }}
+                >
+                  Approx Distance: {cardsData.journey.distance} km
+                  <br />
+                  Approx Time: {cardsData.journey.est_time} mins
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  gutterBottom
+                  component="div"
+                  style={{
+                    //fontFamily: "Special Elite",
+                    fontSize: "100%",
+                    color: "black",
+                    marginLeft: "10%",
+                    // textAlign: "center",
+                  }}
+                >
+                  To {cardsData.journey.to}
+                </Typography>
+                <br />
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  gutterBottom
+                  component="div"
+                  style={{
+                    //fontFamily: "Special Elite",
+                    fontSize: "100%",
+                    color: "black",
+
+                    // textAlign: "center",
+                  }}
+                ></Typography>
+              </Grid>
+            )}
+
+
             <Grid item xs={30} sm container>
               <Grid
                 item
@@ -101,133 +182,63 @@ const EventCards = (props) => {
                 direction="column"
                 spacing={2}
                 sm={20}
-                // md={20}
-                // lg={15}
+              // md={20}
+              // lg={15}
               >
-                <Grid item>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                    component="div"
-                    style={{
-                      //fontFamily: "Special Elite",
-                      fontSize: "100%",
-                      color: "black",
-                      marginLeft: "10%",
-                      marginTop: "10%",
-                      // textAlign: "center",
-                    }}
-                  >
-                    From {cardsData.journey.from}
-                  </Typography>
 
-                  <DirectionsCarIcon
-                    style={{
-                      //fontFamily: "Special Elite",
-                      fontSize: "200%",
-                      color: "black",
-                      marginLeft: "10%",
-                      // textAlign: "center",
-                    }}
-                  />
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                    component="div"
-                    style={{
-                      //fontFamily: "Special Elite",
-                      fontSize: "100%",
-                      color: "black",
-                      marginLeft: "10%",
-                      // textAlign: "center",
-                    }}
-                  >
-                    Approx Distance: {cardsData.journey.distance} km
-                    <br />
-                    Approx Time: {cardsData.journey.est_time} mins
-                  </Typography>
+                {placeItem && (
+                  <Grid item>
+                    <Typography
+                      gutterBottom
+                      variant="subtitle1"
+                      component="div"
+                      sx={{ cursor: "pointer" }}
+                      style={{
+                        // fontFamily: "Special Elite",
+                        fontSize: "110%",
+                        color: "black",
+                        marginLeft: "10%",
+                        //marginTop: "10%",
+                        // textAlign: "center",
+                      }}
+                    >
+                      <b> {placeItem.title}</b>
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      gutterBottom
+                      component="div"
+                      style={{
+                        //fontFamily: "Special Elite",
+                        fontSize: "100%",
+                        color: "black",
+                        marginLeft: "10%",
+                        //textAlign: "center",
+                      }}
+                    >
+                      {placeItem.description}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      gutterBottom
+                      component="div"
+                      style={{
+                        //fontFamily: "Special Elite",
+                        fontSize: "100%",
+                        color: "black",
+                        marginLeft: "10%",
+                        // textAlign: "center",
+                      }}
+                    >
+                      Rating: {placeItem.rating}/5.0
+                      <br /> (total votes: {placeItem.rating_count})
+                    </Typography>
+                  </Grid>
+                )}
 
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                    component="div"
-                    style={{
-                      //fontFamily: "Special Elite",
-                      fontSize: "100%",
-                      color: "black",
-                      marginLeft: "10%",
-                      // textAlign: "center",
-                    }}
-                  >
-                    To {cardsData.journey.to}
-                  </Typography>
-                  <br />
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                    component="div"
-                    style={{
-                      //fontFamily: "Special Elite",
-                      fontSize: "100%",
-                      color: "black",
 
-                      // textAlign: "center",
-                    }}
-                  ></Typography>
-                </Grid>
-                <Grid item>
-                  <Typography
-                    gutterBottom
-                    variant="subtitle1"
-                    component="div"
-                    sx={{ cursor: "pointer" }}
-                    style={{
-                      // fontFamily: "Special Elite",
-                      fontSize: "110%",
-                      color: "black",
-                      marginLeft: "10%",
-                      //marginTop: "10%",
-                      // textAlign: "center",
-                    }}
-                  >
-                    <b> {placeItem.title}</b>
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    gutterBottom
-                    component="div"
-                    style={{
-                      //fontFamily: "Special Elite",
-                      fontSize: "100%",
-                      color: "black",
-                      marginLeft: "10%",
-                      //textAlign: "center",
-                    }}
-                  >
-                    {placeItem.description}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                    component="div"
-                    style={{
-                      //fontFamily: "Special Elite",
-                      fontSize: "100%",
-                      color: "black",
-                      marginLeft: "10%",
-                      // textAlign: "center",
-                    }}
-                  >
-                    Rating: {placeItem.rating}/5.0
-                    <br /> (total votes: {placeItem.rating_count})
-                  </Typography>
-                </Grid>
-                {cardsData.journey && (
+                {cardsData.event && (
                   <Grid item>
                     <Typography
                       variant="body2"
@@ -257,23 +268,28 @@ const EventCards = (props) => {
                     </Typography>
                   </Grid>
                 )}
-                <Grid item>
-                  <Link to={`/PlaceDetails/${cardsData.event.place_id}`}>
-                    <ButtonBase sx={{ width: "70%", height: "70%" }}>
-                      <img
-                        style={{
-                          width: "110%",
-                          //height: "100%",
-                          marginLeft: "40%",
-                          marginTop: "5%",
-                          //textAlign: "right",
-                        }}
-                        alt="place_image"
-                        src={placeItem.images}
-                      />
-                    </ButtonBase>
-                  </Link>
-                </Grid>
+
+                {cardsData.event && placeItem && (
+                  <Grid item>
+                    <Link to={`/PlaceDetails/${cardsData.event.place_id}`}>
+                      <ButtonBase sx={{ width: "70%", height: "70%" }}>
+                        <img
+                          style={{
+                            width: "110%",
+                            //height: "100%",
+                            marginLeft: "40%",
+                            marginTop: "5%",
+                            //textAlign: "right",
+                          }}
+                          alt="place_image"
+                          src={placeItem.images}
+                        />
+                      </ButtonBase>
+                    </Link>
+                  </Grid>
+                )}
+
+
               </Grid>
             </Grid>
           </Grid>

@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
+import { useParams } from "react-router-dom";
 
 // require("dotenv").config();
 
@@ -56,8 +57,10 @@ const Tour_overview = () => {
 
   const classes = useStyles();
 
+  const { plan_id } = useParams();
+
   useEffect(() => {
-    axios.get(`${baseURL}plan?id=1`, {
+    axios.get(`${baseURL}plan?id=${plan_id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
@@ -78,7 +81,6 @@ const Tour_overview = () => {
   const des_arr = itemBasic.description;
   const img_arr = itemBasic.image;
 
-  console.log(date_st, date_end)
 
   return (
     <div className={classes.places}>
@@ -138,7 +140,7 @@ const Tour_overview = () => {
               {" "}
               {des_arr}
             </Typography>
-            <a href="/FullTour">
+            <a href={`/FullTour/${plan_id}`}>
               <Button
                 size="small"
                 className={classes.btn}

@@ -104,7 +104,8 @@ const CreateAPlan = () => {
     setValue("end_date", formattedDate.dateformat(endDate));
     setValue("tags", checkedItemsTag);
     setValue("regions", checkedItemsRgn);
-    console.log(values);
+    setValue("user_id", localStorage.getItem("userId"));
+
     axios
       .post(`${baseURL}plan`, values, {
         headers: {
@@ -112,9 +113,10 @@ const CreateAPlan = () => {
         },
       })
       .then((response) => {
-        console.log(response);
+        console.log("hello ji",response);
         console.log("create plan successful");
-        if (response.status == "201") navigate("/TourOverview");
+        const planId = response.data.id;
+        if (response.status == "201") navigate("/TourOverview/" + planId);
         // if (response.status == "200") navigate(`/Profile/${response.data.user_id}`);
         // if (response.data.accessToken) {
         //   localStorage.setItem("accessToken", response.data.accessToken);
