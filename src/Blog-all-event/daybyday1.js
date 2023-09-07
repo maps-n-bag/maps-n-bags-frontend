@@ -44,10 +44,10 @@ const useStyles = makeStyles({
 
 const DaybyDay = () => {
   const classes = useStyles();
-  // const { id } = useParams();
+  const { plan_id } = useParams();
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
-    axios.get(`${baseURL}event?plan_id=1`, {
+    axios.get(`${baseURL}event?plan_id=${plan_id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
