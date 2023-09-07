@@ -61,10 +61,9 @@ const EventCards = (props) => {
   console.log(cardsData);
   //console.log(cardsData.event.place_id);
   const [placeItem, setPlaceItem] = useState([]);
-  const [show, setShow] = useState(false);
+
 
   useEffect(() => {
-    if (cardsData.event != null) {
       axios.get(`${baseURL}public/place?id=${cardsData.event.place_id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -76,10 +75,8 @@ const EventCards = (props) => {
         .catch((rejected) => {
           console.log(rejected);
         });
-    }
   }, [cardsData.event.place_id]);
 
-  //console.log(placeItem);
 
   return (
     <div className={classes.places}>

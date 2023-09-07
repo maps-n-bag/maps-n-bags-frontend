@@ -180,10 +180,6 @@ const DaywisePlan = () => {
               <Button
                 size="small"
                 className={classes.btn}
-                style={{
-                  fontSize: "100%",
-                  marginLeft: "70%",
-                }}
               >
                Go to Blog
               </Button>

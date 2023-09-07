@@ -59,7 +59,7 @@ const DaybyDay = () => {
       .catch((rejected) => {
         console.log(rejected);
       });
-  }, []);
+  }, [plan_id]);
 
   // {
   //   itemBasic.map((sub, index) => sub.map((sub2, index) => console.log(sub2.journey)));
@@ -83,10 +83,6 @@ const DaybyDay = () => {
               <Button
                 size="small"
                 className={classes.btn}
-                style={{
-                  fontSize: "100%",
-                  marginLeft: "70%",
-                }}
               >
                 Go to Plan
               </Button>
