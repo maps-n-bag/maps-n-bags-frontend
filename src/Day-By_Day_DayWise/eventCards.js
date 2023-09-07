@@ -61,6 +61,7 @@ const EventCards = (props) => {
   console.log(cardsData);
   //console.log(cardsData.event.place_id);
   const [placeItem, setPlaceItem] = useState([]);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (cardsData.event != null) {
@@ -238,8 +239,39 @@ const EventCards = (props) => {
                 )}
 
 
-                {cardsData.event && (
-                  <Grid item>
+                 
+
+               <Grid item>
+                    <Typography
+                      gutterBottom
+                      variant="subtitle1"
+                      component="div"
+                      sx={{ cursor: "pointer" }}
+                      style={{
+                        // fontFamily: "Special Elite",
+                        fontSize: "110%",
+                        color: "black",
+                        marginLeft: "10%",
+                        //marginTop: "10%",
+                        // textAlign: "center",
+                      }}
+                    >
+                      <b> {placeItem.title}</b>
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      gutterBottom
+                      component="div"
+                      style={{
+                        //fontFamily: "Special Elite",
+                        fontSize: "100%",
+                        color: "black",
+                        marginLeft: "10%",
+                        //textAlign: "center",
+                      }}
+                    >
+                      {placeItem.description}
+                    </Typography>
                     <Typography
                       variant="body2"
                       color="text.secondary"
@@ -250,7 +282,6 @@ const EventCards = (props) => {
                         fontSize: "100%",
                         color: "black",
                         marginLeft: "10%",
-                        // marginTop: "10%",
                         // textAlign: "center",
                       }}
                     >
@@ -267,7 +298,7 @@ const EventCards = (props) => {
                       {timeformat.formatTime(cardsData.event.end_time)}
                     </Typography>
                   </Grid>
-                )}
+                        
 
                 {cardsData.event && placeItem && (
                   <Grid item>
