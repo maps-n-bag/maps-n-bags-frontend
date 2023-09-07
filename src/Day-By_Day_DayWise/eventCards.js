@@ -61,6 +61,7 @@ const EventCards = (props) => {
   console.log(cardsData);
   //console.log(cardsData.event.place_id);
   const [placeItem, setPlaceItem] = useState([]);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (cardsData.event != null) {
@@ -166,70 +167,96 @@ const EventCards = (props) => {
                     To {cardsData.journey.to}
                   </Typography>
                   <br />
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                    component="div"
-                    style={{
-                      //fontFamily: "Special Elite",
-                      fontSize: "100%",
-                      color: "black",
+                  <Grid>
+                    <div className={classes.btn}>
+                      {show === false ? (
+                        <div>
+                          <Button
+                            //className={classes.btns}
+                            style={{
+                              marginLeft: "30%",
+                              marginBottom: "10%",
+                            }}
+                            onClick={(e) => {
+                              setShow(true);
+                              // console.log(itemBasic);
+                            }}
+                          >
+                            Show Nearby Place
+                          </Button>
+                        </div>
+                      ) : (
+                        <div>
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            gutterBottom
+                            component="div"
+                            style={{
+                              //fontFamily: "Special Elite",
+                              fontSize: "100%",
+                              color: "black",
+                              marginLeft: "20%",
+                              // textAlign: "center",
+                            }}
+                          >
+                            Nearby Place: {cardsData.journey.from}
+                          </Typography>
 
-                      // textAlign: "center",
-                    }}
-                  ></Typography>
-                </Grid>
-                <Grid item>
-                  <Typography
-                    gutterBottom
-                    variant="subtitle1"
-                    component="div"
-                    sx={{ cursor: "pointer" }}
-                    style={{
-                      // fontFamily: "Special Elite",
-                      fontSize: "110%",
-                      color: "black",
-                      marginLeft: "10%",
-                      //marginTop: "10%",
-                      // textAlign: "center",
-                    }}
-                  >
-                    <b> {placeItem.title}</b>
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    gutterBottom
-                    component="div"
-                    style={{
-                      //fontFamily: "Special Elite",
-                      fontSize: "100%",
-                      color: "black",
-                      marginLeft: "10%",
-                      //textAlign: "center",
-                    }}
-                  >
-                    {placeItem.description}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                    component="div"
-                    style={{
-                      //fontFamily: "Special Elite",
-                      fontSize: "100%",
-                      color: "black",
-                      marginLeft: "10%",
-                      // textAlign: "center",
-                    }}
-                  >
-                    Rating: {placeItem.rating}/5.0
-                    <br /> (total votes: {placeItem.rating_count})
-                  </Typography>
-                </Grid>
-                {cardsData.journey && (
+                          <Button
+                            //className={classes.btn}
+                            onClick={(e) => {
+                              {
+                                setShow(false);
+                              }
+                            }}
+                          >
+                            <Typography
+                              color="black"
+                              style={{
+                                fontFamily: "Special Elite",
+                                fontSize: "20px",
+                                textAlign: "center",
+                              }}
+                            >
+                              Cancel
+                            </Typography>
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </Grid>
                   <Grid item>
+                    <Typography
+                      gutterBottom
+                      variant="subtitle1"
+                      component="div"
+                      sx={{ cursor: "pointer" }}
+                      style={{
+                        // fontFamily: "Special Elite",
+                        fontSize: "110%",
+                        color: "black",
+                        marginLeft: "10%",
+                        //marginTop: "10%",
+                        // textAlign: "center",
+                      }}
+                    >
+                      <b> {placeItem.title}</b>
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      gutterBottom
+                      component="div"
+                      style={{
+                        //fontFamily: "Special Elite",
+                        fontSize: "100%",
+                        color: "black",
+                        marginLeft: "10%",
+                        //textAlign: "center",
+                      }}
+                    >
+                      {placeItem.description}
+                    </Typography>
                     <Typography
                       variant="body2"
                       color="text.secondary"
@@ -240,40 +267,60 @@ const EventCards = (props) => {
                         fontSize: "100%",
                         color: "black",
                         marginLeft: "10%",
-                        // marginTop: "10%",
                         // textAlign: "center",
                       }}
                     >
-                      {" "}
-                      <ScheduleOutlined
-                        style={{
-                          color: "black",
-                          marginTop: "2%",
-                          fontSize: "100%",
-                          textAlign: "center",
-                        }}
-                      />
-                      {timeformat.formateTime(cardsData.event.start_time)} to{" "}
-                      {timeformat.formateTime(cardsData.event.end_time)}
+                      Rating: {placeItem.rating}/5.0
+                      <br /> (total votes: {placeItem.rating_count})
                     </Typography>
                   </Grid>
-                )}
-                <Grid item>
-                  <Link to={`/PlaceDetails/${cardsData.event.place_id}`}>
-                    <ButtonBase sx={{ width: "70%", height: "70%" }}>
-                      <img
+                  {cardsData.journey && (
+                    <Grid item>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        gutterBottom
+                        component="div"
                         style={{
-                          width: "110%",
-                          //height: "100%",
-                          marginLeft: "40%",
-                          marginTop: "5%",
-                          //textAlign: "right",
+                          //fontFamily: "Special Elite",
+                          fontSize: "100%",
+                          color: "black",
+                          marginLeft: "10%",
+                          // marginTop: "10%",
+                          // textAlign: "center",
                         }}
-                        alt="place_image"
-                        src={placeItem.images}
-                      />
-                    </ButtonBase>
-                  </Link>
+                      >
+                        {" "}
+                        <ScheduleOutlined
+                          style={{
+                            color: "black",
+                            marginTop: "2%",
+                            fontSize: "100%",
+                            textAlign: "center",
+                          }}
+                        />
+                        {timeformat.formateTime(cardsData.event.start_time)} to{" "}
+                        {timeformat.formateTime(cardsData.event.end_time)}
+                      </Typography>
+                    </Grid>
+                  )}
+                  <Grid item>
+                    <Link to={`/PlaceDetails/${cardsData.event.place_id}`}>
+                      <ButtonBase sx={{ width: "70%", height: "70%" }}>
+                        <img
+                          style={{
+                            width: "110%",
+                            //height: "100%",
+                            marginLeft: "40%",
+                            marginTop: "5%",
+                            //textAlign: "right",
+                          }}
+                          alt="place_image"
+                          src={placeItem.images}
+                        />
+                      </ButtonBase>
+                    </Link>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>

@@ -280,6 +280,33 @@ export default function LoginPage() {
                   </Typography>
                 </Button>
               </div>
+
+              <div className={classes.btn}>
+                <Link to="/Register">
+                  <Button
+                    className="btn"
+                    type="submit"
+                    style={{
+                      backgroundColor: "transparent",
+                      borderWidth: "5px",
+                      borderColor: "white",
+                    }}
+                    variant="outlined"
+                    fullWidth
+                  >
+                    <Typography
+                      color="white"
+                      style={{
+                        fontFamily: "Special Elite",
+                        fontSize: "20px",
+                        textAlign: "center",
+                      }}
+                    >
+                      Don't have an account? Create Here
+                    </Typography>
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </form>
