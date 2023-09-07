@@ -14,7 +14,7 @@ import {
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
-
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import { makeStyles } from "@mui/styles";
@@ -55,28 +55,27 @@ const useStyles = makeStyles({
   },
 });
 
-const EventCards = (props) => {
+const ThingsToDo = () => {
   const classes = useStyles();
-  const cardsData = props.item;
-  console.log(cardsData);
-  //console.log(cardsData.event.place_id);
+  const { plan_id } = useParams();
   const [placeItem, setPlaceItem] = useState([]);
 
-
   useEffect(() => {
-      axios.get(`${baseURL}public/place?id=${cardsData.event.place_id}`, {
+    axios
+      .get(`${baseURL}plan/explore?plan_id=${plan_id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       })
-        .then((resp) => {
-          setPlaceItem(resp.data);
-        })
-        .catch((rejected) => {
-          console.log(rejected);
-        });
-  }, [cardsData.event.place_id]);
+      .then((resp) => {
+        setPlaceItem(resp.data);
+      })
+      .catch((rejected) => {
+        console.log(rejected);
+      });
+  }, [plan_id]);
 
+  //console.log(placeItem);
 
   return (
     <div className={classes.places}>
@@ -91,8 +90,6 @@ const EventCards = (props) => {
           }}
         >
           <Grid container spacing={5}>
-
-
             {cardsData.journey && (
               <Grid item>
                 <Typography
@@ -171,7 +168,6 @@ const EventCards = (props) => {
               </Grid>
             )}
 
-
             <Grid item xs={30} sm container>
               <Grid
                 item
@@ -180,10 +176,9 @@ const EventCards = (props) => {
                 direction="column"
                 spacing={2}
                 sm={20}
-              // md={20}
-              // lg={15}
+                // md={20}
+                // lg={15}
               >
-
                 {placeItem && (
                   <Grid item>
                     <Typography
@@ -235,67 +230,63 @@ const EventCards = (props) => {
                   </Grid>
                 )}
 
-
-                 
-
-               <Grid item>
-                    <Typography
-                      gutterBottom
-                      variant="subtitle1"
-                      component="div"
-                      sx={{ cursor: "pointer" }}
+                <Grid item>
+                  <Typography
+                    gutterBottom
+                    variant="subtitle1"
+                    component="div"
+                    sx={{ cursor: "pointer" }}
+                    style={{
+                      // fontFamily: "Special Elite",
+                      fontSize: "110%",
+                      color: "black",
+                      marginLeft: "10%",
+                      //marginTop: "10%",
+                      // textAlign: "center",
+                    }}
+                  >
+                    <b> {placeItem.title}</b>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    gutterBottom
+                    component="div"
+                    style={{
+                      //fontFamily: "Special Elite",
+                      fontSize: "100%",
+                      color: "black",
+                      marginLeft: "10%",
+                      //textAlign: "center",
+                    }}
+                  >
+                    {placeItem.description}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    gutterBottom
+                    component="div"
+                    style={{
+                      //fontFamily: "Special Elite",
+                      fontSize: "100%",
+                      color: "black",
+                      marginLeft: "10%",
+                      // textAlign: "center",
+                    }}
+                  >
+                    {" "}
+                    <ScheduleOutlined
                       style={{
-                        // fontFamily: "Special Elite",
-                        fontSize: "110%",
                         color: "black",
-                        marginLeft: "10%",
-                        //marginTop: "10%",
-                        // textAlign: "center",
-                      }}
-                    >
-                      <b> {placeItem.title}</b>
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      gutterBottom
-                      component="div"
-                      style={{
-                        //fontFamily: "Special Elite",
+                        marginTop: "2%",
                         fontSize: "100%",
-                        color: "black",
-                        marginLeft: "10%",
-                        //textAlign: "center",
+                        textAlign: "center",
                       }}
-                    >
-                      {placeItem.description}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      gutterBottom
-                      component="div"
-                      style={{
-                        //fontFamily: "Special Elite",
-                        fontSize: "100%",
-                        color: "black",
-                        marginLeft: "10%",
-                        // textAlign: "center",
-                      }}
-                    >
-                      {" "}
-                      <ScheduleOutlined
-                        style={{
-                          color: "black",
-                          marginTop: "2%",
-                          fontSize: "100%",
-                          textAlign: "center",
-                        }}
-                      />
-                      {timeformat.formatTime(cardsData.event.start_time)} to{" "}
-                      {timeformat.formatTime(cardsData.event.end_time)}
-                    </Typography>
-                  </Grid>
-                        
+                    />
+                    {timeformat.formatTime(cardsData.event.start_time)} to{" "}
+                    {timeformat.formatTime(cardsData.event.end_time)}
+                  </Typography>
+                </Grid>
 
                 {cardsData.event && placeItem && (
                   <Grid item>
@@ -316,8 +307,6 @@ const EventCards = (props) => {
                     </Link>
                   </Grid>
                 )}
-
-
               </Grid>
             </Grid>
           </Grid>

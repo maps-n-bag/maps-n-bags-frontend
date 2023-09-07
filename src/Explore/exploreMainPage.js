@@ -129,11 +129,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "-20rem",
     //marginBottom: "50rem",
   },
-  //   boxrow: {
-  //     // justifyContent: "left",
-  //     marginTop: "50rem",
-  //     marginLeft: "-64rem",
-  //   },
 
   root: {
     backgroundRepeat: "no-repeat",
@@ -153,11 +148,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   boxrow: {
-   // height: "100vh",
-    //maxWidth: "100vh",
-   // alignContent: "center",
 
-    // marginLeft: "500px",
      marginBottom: "10%",
   },
 
