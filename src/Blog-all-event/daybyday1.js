@@ -7,6 +7,7 @@ import { Grid, Card, CardContent, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
+import { useParams } from "react-router-dom";
 
 import axios from "axios";
 
@@ -78,6 +79,18 @@ const DaybyDay = () => {
             </div>
           </div>
         ))}
+        <Link to={`/FullTour/${plan_id}`}>
+              <Button
+                size="small"
+                className={classes.btn}
+                style={{
+                  fontSize: "100%",
+                  marginLeft: "70%",
+                }}
+              >
+                Go to Plan
+              </Button>
+            </Link>
       </div>
     </div>
   );
