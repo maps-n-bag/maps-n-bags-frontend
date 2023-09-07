@@ -13,6 +13,10 @@ import Box from "@mui/material/Box";
 import { useParams } from "react-router-dom";
 import { Grid } from "@mui/material";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { Card, CardActions, CardContent } from "@mui/material";
+
+const { formatDate } = require("../formatDate");
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const useStyles = makeStyles((theme) => ({
@@ -70,11 +74,12 @@ const useStyles = makeStyles((theme) => ({
 const Profile = () => {
   const { user_id } = useParams();
   const [itemBasic, setItemBasic] = useState([]);
-
   const [isEditingBasic, setIsEditingBasic] = useState(false);
+  const [plans, setPlans] = useState([]);
 
   const classes = useStyles();
   useEffect(() => {
+
     axios.get(`${baseURL}user?id=${user_id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -82,14 +87,27 @@ const Profile = () => {
     }).then((res) => {
       localStorage.setItem("userImage", res.data.profile_pic);
       setItemBasic(res.data);
-      console.log(res.data);
     }).catch((error) => {
       console.error("An error occurred:", error);
       if (error.response) {
         console.log(error.response.data);
       }
     });
+  }, []);
 
+  useEffect(() => {
+    axios.get(`${baseURL}plan/all?user_id=${user_id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }).then((res) => {
+      setPlans(res.data);
+    }).catch((error) => {
+      console.error("An error occurred:", error);
+      if (error.response) {
+        console.log(error.response.data);
+      }
+    });
   }, []);
 
   return (
@@ -239,6 +257,106 @@ const Profile = () => {
           </Grid>
         </div>
       </div>
+
+      {/** here we want to show a list of plans this user has created */}
+
+      <Typography variant="h4" style={{ textAlign: "center", fontFamily: "Special Elite" }}>
+        Plans
+      </Typography>
+
+      {plans.map((plan) => (
+        <div className={classes.postcard}>
+        {/* <img src={img_arr} alt="Image" className={classes.img} /> */}
+        <Card className={classes.cardimg}
+          style={{
+            width: "20%",
+            marginLeft: "7%",
+            color: "ffffff",
+            marginTop: "4.5%",
+          }}
+        >
+          <CardContent>
+            {/* <Typography variant="h5">View Overview Plan</Typography> */}
+            <img
+              src={plan.image}
+              // alt={name_arr}
+              style={{ width: "90%", height: "80%", marginLeft: "5%" }}
+              // Adjust the percentage value as needed
+            />
+
+            <Typography
+              variant="head"
+              style={{
+                fontFamily: "Special Elite",
+                fontSize: "150%",
+                color: "black",
+                marginLeft: "6%",
+                // textAlign: "center",
+              }}
+            >
+              {" "}
+              {plan.title}
+            </Typography>
+            <Typography
+              variant="body1"
+              style={{
+                fontSize: "100%",
+                marginLeft: "6%",
+                //textAlign: "center",
+              }}
+            >
+              {" "}
+              {formatDate(plan.start_date)} to {formatDate(plan.end_date)}
+            </Typography>
+            <Typography variant="body2"
+              style={{
+                fontSize: "100%",
+                marginLeft: "6%",
+                // textAlign: "center",
+              }}
+            >
+              {" "}
+              {plan.description}
+            </Typography>
+            <a href={`/FullTour/${plan.id}`}>
+              <Button size="small" className={classes.btn} 
+              style={{
+                  fontSize: "1em",
+                  marginLeft: "5%",
+                }}
+              >
+                View
+              </Button>
+            </a>
+            <Button size="small" className={classes.btn} onClick={(e) => {
+              axios
+                .delete(`${baseURL}plan?id=${plan.id}`, {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                  },
+                })
+                .then((res) => {
+                  window.location.reload(false);
+                  setPlans(plans.filter((p) => p.id !== plan.id));
+                })
+                .catch((error) => {
+                  console.error("An error occurred:", error);
+                });
+            }}
+            style={{
+              fontSize: "1em",
+              marginLeft: "5%",
+            }}
+            >
+              Delete
+            </Button>
+              
+          </CardContent>
+          <CardActions></CardActions>
+        </Card>
+      </div>
+      ))}
+
     </div>
   );
 };
