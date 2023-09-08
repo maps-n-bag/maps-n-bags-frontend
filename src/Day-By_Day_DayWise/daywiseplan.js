@@ -92,68 +92,76 @@ const DaywisePlan = () => {
 
       <SideBar />
 
-        <div className={classes.day}>
+      <div className={classes.day}>
 
-          <Typography variant="h4"
-            style={{
-              fontFamily: "Special Elite",
-              fontSize: "200%",
-              color: "black",
-              textAlign: "center",
-              marginBottom: "15px",
-            }}
-          >
-            Day {day_int} : {dateString}
-          </Typography>
+        <Typography variant="h4"
+          style={{
+            fontFamily: "Special Elite",
+            fontSize: "200%",
+            color: "black",
+            textAlign: "center",
+            marginBottom: "15px",
+          }}
+        >
+          Day {day_int} : {dateString}
+        </Typography>
 
-          <div>
-            {itemBasic.map((item, index) => (
-              <EventCards item={item} />
-            ))}
-          </div>
-
-
-          {day_int > 1 &&
-            <Button
-              id="prevday"
-              onClick={dayChangeHandler}
-              className={classes.btn}
-            >
-              Previous day
-            </Button>
-          }
-
-          {day_int < parseInt(totalDays) ? (
-            <Button
-              id="nextday"
-              onClick={dayChangeHandler}
-              className={classes.btn}
-            >
-              Next day
-            </Button>
-          ) : (
-            <Button className={classes.btn}>Finish</Button>
-          )}
-
-          <Link to={`/Blog/${plan_id}`}>
-            <Button
-              size="small"
-              className={classes.btn}
-            >
-              Go to Blog
-            </Button>
-          </Link>
-
-          <Link to={`/Explore/${plan_id}`}>
-            <Button
-              size="small"
-              className={classes.btn}
-            >
-              Go to Explore
-            </Button>
-          </Link>
-
+        <div>
+          {itemBasic.map((item, index) => (
+            <EventCards item={item} />
+          ))}
         </div>
+
+
+        {day_int > 1 &&
+          <Button
+            id="prevday"
+            onClick={dayChangeHandler}
+            className={classes.btn}
+          >
+            Previous day
+          </Button>
+        }
+
+        {day_int < parseInt(totalDays) ? (
+          <Button
+            id="nextday"
+            onClick={dayChangeHandler}
+            className={classes.btn}
+          >
+            Next day
+          </Button>
+        ) : (
+          <Button className={classes.btn}>Finish</Button>
+        )}
+
+        <Link to={`/Blog/${plan_id}`}>
+          <Button
+            size="small"
+            className={classes.btn}
+          >
+            Go to Blog
+          </Button>
+        </Link>
+
+        <Link to={`/Explore/${plan_id}`}>
+          <Button
+            size="small"
+            className={classes.btn}
+          >
+            Go to Explore
+          </Button>
+        </Link>
+
+        <Link to={`/ExploreNearbyRegions/${plan_id}`}>
+          <Button
+            size="small"
+            className={classes.btn}
+          >
+            Go to Explore Nearby Regions
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };

@@ -54,7 +54,7 @@ export default function ExploreMain() {
   const RowOfBoxes = () => {
     return (  
       <Box display="flex" justifyContent="center">
-        <Link to={`/`}>
+        <Link to={`/ExploreNearbyRegions/${plan_id}`}>
           <Box width="100%" bgcolor="rgba(245, 230, 83, 0.8)" m={5} p={6}>
             <div>
               <img
