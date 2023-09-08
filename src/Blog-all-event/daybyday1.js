@@ -20,26 +20,19 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 // const baseURL = process.env.BASE_URL;
 const useStyles = makeStyles({
   places: {
-    height: "90%",
-    width: "112%",
+    height: "100%",
+    width: "100%",
     backgroundColor: "rgba(250, 233, 171, 0.78)",
 
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
   },
-
   postcard: {
-    //height: "100%",
-    width: "95%",
-    Height: "50%",
-    marginLeft: "15%",
-    // marginRight: "20%",
-    marginBottom: "15%",
+    marginTop: "7%",
+    marginLeft: "7%",
   },
   day: {
-    marginTop: "5%",
-    //marginBottom: "10%",
-    marginLeft: "5%",
+    marginBottom: "20px",
   },
 });
 
@@ -53,41 +46,48 @@ const DaybyDay = () => {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     }).then((resp) => {
-        // console.log(resp);
-        setItemBasic(resp.data);
-      })
+      setItemBasic(resp.data);
+    })
       .catch((rejected) => {
         console.log(rejected);
       });
   }, [plan_id]);
 
-  // {
-  //   itemBasic.map((sub, index) => sub.map((sub2, index) => console.log(sub2.journey)));
-  // }
   return (
     <div className={classes.places}>
+
       <SideBar />
 
       <div className={classes.postcard}>
+
         {itemBasic.map((subArray, index) => (
-          <div key={index} className={classes.cardHeader}>
-            <div className={classes.day}>
-              {/* day will be divided here */}
-              Day {index +1 } 
-              <DayCards key={index} item={subArray} />
-              {/* <Button className={classes.btn}>Next day</Button> */}
-            </div>
+          <div key={index} className={classes.day}>
+            <Typography variant="h4"
+              style={{
+                fontFamily: "Special Elite",
+                color: "black",
+                textAlign: "center",
+                marginBottom: "20px",
+              }}
+            >
+              Day {index + 1}
+            </Typography>
+
+            <DayCards key={index} item={subArray} />
+
           </div>
         ))}
-        <Link to={`/FullTour/${plan_id}`}>
-              <Button
-                size="small"
-                className={classes.btn}
-              >
-                Go to Plan
-              </Button>
-            </Link>
+
+        <div style={{ height: "100px", maxWidth: 900, margin: "auto" }}>
+          <Link to={`/FullTour/${plan_id}`}>
+            <Button variant="outlined" size="small">
+              Go to Plan
+            </Button>
+          </Link>
+        </div>
+
       </div>
+
     </div>
   );
 };

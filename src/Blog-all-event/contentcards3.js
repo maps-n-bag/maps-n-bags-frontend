@@ -32,47 +32,10 @@ import {
 
 const timeformat = require("../formatTime");
 const baseURL = process.env.REACT_APP_BASE_URL;
-const useStyles = makeStyles({
-  places: {
-    // height: "90%",
-    // width: "112%",
-    // backgroundColor: "rgba(250, 233, 171, 0.78)",
-    // backgroundRepeat: "no-repeat",
-    // backgroundSize: "cover",
-  },
-  btn: {
-    minWidth: "100%",
-  },
-
-  postcard: {
-    //height: "100%",
-    width: "100%",
-    //Height: "50%",
-    //marginLeft: "15%",
-    // marginRight: "20%",
-  },
-  cardimg: {
-    backgroundColor: "#ff5722",
-    overflow: "hidden",
-  },
-
-  img: {
-    height: "100%",
-    position: "centre",
-  },
-  cardimg: {
-    height: "100%",
-  },
-  cardSetup: {
-    width: "70vw",
-  },
-});
 
 const ContentCards = (props) => {
-  // console.log("content card props", props);
 
   const eventID = props.item.event.id;
-  const classes = useStyles();
   const cardsData = [props.item];
   const [inputError, setInputError] = useState(false);
   const [isEditingBasic, setIsEditingBasic] = useState(false);
@@ -82,7 +45,6 @@ const ContentCards = (props) => {
   const [blogImageUrls, setBlogImageUrls] = useState([]);
 
   const planId = props.item.event.plan_id;
-  const userId = 27; // localStorage.getItem("id");
   const directory = `blog-images/plan-${planId}/event-${eventID}/`;
 
   useEffect(() => {
@@ -118,9 +80,6 @@ const ContentCards = (props) => {
 
   const handleImageChange = (event) => {
     event.preventDefault();
-    // let images = [...blogImageUrls];
-    // images[event.target.dataset.id] = event.target.files[0];
-    // setBlogImageUrls(images);
 
     blogImages[event.target.dataset.id] = event.target.files[0];
   };
@@ -130,7 +89,7 @@ const ContentCards = (props) => {
     setBlogImageUrls((prevImages) => [...prevImages, null]);
   };
 
-  const { handleSubmit, register, getValues, setValue } = useForm();
+  const { handleSubmit, getValues, setValue } = useForm();
 
   const onSubmit = (data, e) => {
     setValue("note", itemBasic.note);
@@ -186,8 +145,8 @@ const ContentCards = (props) => {
   }
 
   return (
-    <div className={classes.places}>
-      <div className={classes.postcard}>
+    <div>
+      <div>
         <Grid
           container
           spacing={2}
@@ -201,7 +160,7 @@ const ContentCards = (props) => {
           {cardsData.map((card, index) => (
             <Grid item key={index} xs={12} sm={6} md={5} lg={5}>
               <div>
-                <Card className={classes.cardSetup}>
+                <Card>
                   <CardContent>
                     <Grid
                       container
@@ -242,14 +201,13 @@ const ContentCards = (props) => {
                       </Grid>
                       <Grid item xs>
                         <Box
-                          className={classes.bx}
                           width="100%"
                           bgcolor="rgba(255, 255, 255, 0.2)" // 60% transparent black
                         >
                           {isEditingBasic === true ? (
                             <form onSubmit={handleSubmit(onSubmit, onError)}>
-                              <div className={classes.input}>
-                                <div className={classes.wrap}>
+                              <div>
+                                <div>
                                   <Typography
                                     variant="head"
                                     style={{
@@ -264,7 +222,7 @@ const ContentCards = (props) => {
                                   >
                                     How was your day?
                                   </Typography>
-                                  <div className={classes.content1}>
+                                  <div>
                                     <input
                                       type="text"
                                       defaultValue={itemBasic.note}
@@ -289,7 +247,7 @@ const ContentCards = (props) => {
                                 />
                               </div>
 
-                              <div className={classes.wrap}>
+                              <div>
                                 <Typography
                                   variant="head"
                                   style={{
@@ -303,7 +261,7 @@ const ContentCards = (props) => {
                                 >
                                   How much was the whole cost?
                                 </Typography>
-                                <div className={classes.content1}>
+                                <div>
                                   {/* <TextField
                                       {...register("expenditure")}
                                       className="expenditure"
@@ -360,7 +318,7 @@ const ContentCards = (props) => {
                                   )}
                                 </div>
                               </div>
-                              <div className={classes.wrap}>
+                              <div>
                                 <Typography
                                   variant="head"
                                   style={{
@@ -374,7 +332,7 @@ const ContentCards = (props) => {
                                 >
                                   Upload an Image
                                 </Typography>
-                                <div className={classes.content1}>
+                                <div>
                                   {blogImageUrls.map((image, index) => (
                                     <div className="table" key={index}>
                                       <div className="table-row">
@@ -440,8 +398,8 @@ const ContentCards = (props) => {
                                     </div>
                                   </div>
                                 </div>
-                                <div className={classes.wrap}>
-                                  <div className={classes.btn}>
+                                <div>
+                                  <div>
                                     <Button
                                       className="btn"
                                       type="submit"
@@ -504,12 +462,12 @@ const ContentCards = (props) => {
                             </form>
                           ) : (
                             <div>
-                              <div className={classes.input}>
+                              <div>
                                 {itemBasic.checked == true ? (
                                   <div>
                                     <CheckCircleOutlineRoundedIcon /> Visited
                                     The Place{" "}
-                                    <div className={classes.wrap}>
+                                    <div>
                                       <Typography
                                         variant="head"
                                         style={{
@@ -525,7 +483,7 @@ const ContentCards = (props) => {
                                         Note:<b> {itemBasic.note}</b>
                                       </Typography>
                                     </div>
-                                    <div className={classes.wrap}>
+                                    <div>
                                       <Typography
                                         variant="head"
                                         style={{
@@ -541,7 +499,7 @@ const ContentCards = (props) => {
                                         {itemBasic.generated_details}
                                       </Typography>
                                     </div>
-                                    <div className={classes.wrap}>
+                                    <div>
                                       <Typography
                                         variant="head"
                                         style={{
@@ -562,7 +520,7 @@ const ContentCards = (props) => {
                                   <div> Didn't visit The Place </div>
                                 )}
 
-                                <div className={classes.content1}>
+                                <div>
                                   {blogImageUrls.map((image, index) => (
                                     <div className="table" key={index}>
                                       <div className="table-row">
@@ -582,7 +540,7 @@ const ContentCards = (props) => {
                                   ))}
                                 </div>
 
-                                <div className={classes.wrap}>
+                                <div>
                                   <Button
                                     className="btn"
                                     type="submit"
