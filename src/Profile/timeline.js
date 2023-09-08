@@ -407,13 +407,13 @@ const Profile = () => {
         )}
       </div>
       <Button
-        id="scrollButton"
         style={{
           marginTop: "-4%",
           marginLeft: "25%",
         }}
-
-        //className={classes.btn}
+        onClick={(e) => {
+          window.location.href = "#plans";
+        }}
       >
         {/** here we want to show a list of plans this user has created */}
         <Grid
@@ -421,10 +421,6 @@ const Profile = () => {
           direction="row"
           justifyContent="center"
           alignItems="center"
-          // style={{
-          //   marginTop: "-2%",
-          //   marginLeft: "35%",
-          // }}
         >
           <SlideshowOutlinedIcon />
           <Typography
@@ -442,12 +438,12 @@ const Profile = () => {
         </Grid>
       </Button>
       <Typography
+        id="plans"
         variant="h4"
         style={{
           fontSize: "150%",
           textAlign: "center",
           marginTop: "13%",
-          // marginLeft: "-30%",
           fontFamily: "Special Elite",
         }}
       >
