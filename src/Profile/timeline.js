@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "60%",
   },
   root: {
-    //backgroundColor: "rgba(246, 193, 70 ,0.7)",
+    //backgroundColor: "rgba(0, 0, 0 ,0.05)",
     // height: "100%",
     width: "100%",
     // marginLeft: "-2rem",
@@ -459,6 +459,8 @@ const Profile = () => {
         justifyContent="left"
         alignItems="left"
         className={classes.plans}
+        columnSpacing={2}
+        marginLeft="15%"
       >
         {plans.map((plan) => (
           <div className={classes.postcard}>
