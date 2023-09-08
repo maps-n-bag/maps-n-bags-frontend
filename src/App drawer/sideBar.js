@@ -35,7 +35,7 @@ const drawerWidth = 240;
 
 const iconData = [
   { icon: HomeIcon, name: "Home", link: "" },
-  { icon: TravelExploreIcon, name: "Explore", link: "Explore" },
+  // { icon: TravelExploreIcon, name: "Explore", link: "Explore" },
   { icon: PermContactCalendarIcon, name: "Profile", link: `Profile/${localStorage.getItem("userId")}` },
   { icon: BookIcon, name: "Blog", link: "AllBlog" },
 ];
