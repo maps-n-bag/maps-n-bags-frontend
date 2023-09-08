@@ -51,18 +51,20 @@ const EventCards = (props) => {
   const [restaurantSuggestion, setRestaurantSuggestion] = useState(false);
 
   useEffect(() => {
-    axios.get(`${baseURL}public/place?id=${cardsData.event.place_id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
-      .then((resp) => {
-        setPlaceItem(resp.data);
+    if (cardsData.event?.place_id) {
+      axios.get(`${baseURL}public/place?id=${cardsData.event.place_id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       })
-      .catch((rejected) => {
-        console.log(rejected);
-      });
-  }, [cardsData.event.place_id]);
+        .then((resp) => {
+          setPlaceItem(resp.data);
+        })
+        .catch((rejected) => {
+          console.log(rejected);
+        });
+    }
+  }, []);
 
   return (
     <div>
@@ -149,7 +151,7 @@ const EventCards = (props) => {
             </Grid>
 
             <Grid item xs={3} direction={"column"} container>
-              
+
               <Grid item xs>
                 <Typography variant="body2" gutterBottom>
                   <ScheduleOutlined sx={{ width: 20, height: 20 }} />

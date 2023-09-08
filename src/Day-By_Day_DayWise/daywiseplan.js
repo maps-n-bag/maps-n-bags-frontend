@@ -98,7 +98,7 @@ const DaywisePlan = () => {
           ))}
         </div>
 
-        <div style={{ height: "50px", maxWidth: 900, margin: "auto" }}>
+        <div style={{ height: "100px", maxWidth: 900, margin: "auto" }}>
           <ButtonGroup variant="contained">
             {day_int > 1 && (
               <Button id="prevday" onClick={dayChangeHandler}> Previous Day </Button>
