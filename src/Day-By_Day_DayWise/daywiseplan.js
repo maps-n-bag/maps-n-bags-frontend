@@ -193,6 +193,14 @@ const DaywisePlan = () => {
                Go to Explore
               </Button>
             </Link>
+            <Link to={`/ExploreNearbyRegions/${plan_id}`}>
+              <Button
+                size="small"
+                className={classes.btn}
+              >
+                Go to Explore Nearby Regions
+              </Button>
+            </Link>
         </div>
       </div>
     </div>
