@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
   },
   boxrow: {
     // justifyContent: "left",
-    marginTop: "50rem",
+    marginTop: "40rem",
     marginLeft: "-64rem",
   },
 
@@ -176,7 +176,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LoginPage() {
-
   const classes = useStyles();
   //const {id} =useParams();
   const navigate = useNavigate();
@@ -197,7 +196,6 @@ export default function LoginPage() {
         localStorage.setItem("userId", response.data.user_id);
 
         navigate(`/Profile/${response.data.user_id}`);
-
       })
       .catch((error) => {
         if (error.response?.status == "401") {
@@ -210,7 +208,7 @@ export default function LoginPage() {
   const onError = (errors, e) => console.log(errors, e);
 
   const handleAlertClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -222,10 +220,9 @@ export default function LoginPage() {
       <Box
         className={classes.bx}
         width={1000}
-        height={500}
+        height={600}
         bgcolor="rgba(255, 255, 255, 0.3)" // 60% transparent black
       >
-
         {loginFailed && (
           <Alert variant="filled" severity="error" onClose={handleAlertClose}>
             Incorrect username or password
@@ -318,6 +315,7 @@ export default function LoginPage() {
             </div>
           </div>
         </form>
+
         {/* Conditional rendering of Alert based on loginFailed state */}
       </Box>
 
