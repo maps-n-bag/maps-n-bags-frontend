@@ -1,19 +1,15 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import CardActions from "@mui/material/CardActions";
-import { Grid, Card, CardContent, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import EventCards from "./eventCards";
-import RestaurantCard from "./nearbyRestaurant";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
-import { da } from "date-fns/locale";
 import Paper from '@mui/material/Paper';
+import { ButtonGroup } from "@mui/material";
 
 const dateformat = require("../formatDate");
 const baseURL = process.env.REACT_APP_BASE_URL;
@@ -30,16 +26,6 @@ const useStyles = makeStyles({
   day: {
     marginTop: "7%",
     marginLeft: "7%",
-  },
-  cardday: {
-    maxWidth: "100%",
-  },
-  cardrestaurant: {
-    maxWidth: "50%",
-  },
-  btn: {
-    height: "70%",
-    marginTop: "10%",
   },
 });
 
@@ -112,55 +98,24 @@ const DaywisePlan = () => {
           ))}
         </div>
 
+        <div style={{ height: "50px", maxWidth: 900, margin: "auto" }}>
+          <ButtonGroup variant="contained">
+            {day_int > 1 && (
+              <Button id="prevday" onClick={dayChangeHandler}> Previous Day </Button>
+            )}
+            {day_int < totalDays && (
+              <Button id="nextday" onClick={dayChangeHandler}> Next Day </Button>
+            )}
+          </ButtonGroup>
 
-        {day_int > 1 &&
-          <Button
-            id="prevday"
-            onClick={dayChangeHandler}
-            className={classes.btn}
-          >
-            Previous day
-          </Button>
-        }
+          <Link to={`/Blog/${plan_id}`}>
+            <Button> Blog </Button>
+          </Link>
+          <Link to={`/Explore/${plan_id}`}>
+            <Button> Explore </Button>
+          </Link>
+        </div>
 
-        {day_int < parseInt(totalDays) ? (
-          <Button
-            id="nextday"
-            onClick={dayChangeHandler}
-            className={classes.btn}
-          >
-            Next day
-          </Button>
-        ) : (
-          <Button className={classes.btn}>Finish</Button>
-        )}
-
-        <Link to={`/Blog/${plan_id}`}>
-          <Button
-            size="small"
-            className={classes.btn}
-          >
-            Go to Blog
-          </Button>
-        </Link>
-
-        <Link to={`/Explore/${plan_id}`}>
-          <Button
-            size="small"
-            className={classes.btn}
-          >
-            Go to Explore
-          </Button>
-        </Link>
-
-        <Link to={`/ExploreNearbyRegions/${plan_id}`}>
-          <Button
-            size="small"
-            className={classes.btn}
-          >
-            Go to Explore Nearby Regions
-          </Button>
-        </Link>
       </div>
     </div>
   );
