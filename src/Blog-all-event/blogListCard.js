@@ -57,7 +57,6 @@ const BloglistCard = (props) => {
   const endDate = dateformat.formatDate(cardsData.end_date);
   return (
     <div className={classes.places}>
-      <SideBar />
       <div className={classes.postcard}>
         <Card
           className={classes.cardimg}
