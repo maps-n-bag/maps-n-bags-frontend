@@ -11,7 +11,7 @@ import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 import { Box, Grid } from "@mui/material";
-import planbg from "../photos/toad.jpg";
+import plan from "../photos/plan.jpg";
 import { useForm } from "react-hook-form";
 import Checkbox from "@mui/material/Checkbox";
 import "react-datepicker/dist/react-datepicker.css";
@@ -25,10 +25,11 @@ const formattedDate = require("./dateformat");
 
 const useStyles = makeStyles({
   places: {
-    //height: "90%",
-    width: "100%",
+    height: "80%",
+    fontFamily: "Special Elite",
+    //width: "90%",
     //backgroundColor: "rgba(250, 233, 171, 0.78)",
-    backgroundImage: `url(${planbg})`,
+    backgroundImage: `url(${plan})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
   },
@@ -43,9 +44,10 @@ const useStyles = makeStyles({
   btn: {
     minWidth: "100%",
   },
-  tgtxt: {
-    marginTop: "10%",
+
+  tagBox: {
     marginLeft: "20%",
+    marginTop: "10%",
   },
 
   form: {
@@ -58,24 +60,10 @@ const useStyles = makeStyles({
   },
 
   tagd: {
-    marginLeft: "20%",
+    marginLeft: "40%",
+    fontFamily: "special elite",
   },
-  postcard: {
-    //height: "100%",
-    width: "95%",
-    Height: "50%",
-    marginLeft: "15%",
-    // marginRight: "20%",
-  },
-  // cardimg: {
-  //   backgroundColor: "#ff5722",
-  //   overflow: "hidden",
-  // },
 
-  img: {
-    height: "100%",
-    position: "centre",
-  },
   tg: {
     height: "10%",
     marginTop: "10%",
@@ -113,7 +101,7 @@ const CreateAPlan = () => {
         },
       })
       .then((response) => {
-        console.log("hello ji",response);
+        console.log("hello ji", response);
         console.log("create plan successful");
         const planId = response.data.id;
         if (response.status == "201") navigate("/TourOverview/" + planId);
@@ -156,29 +144,14 @@ const CreateAPlan = () => {
       setCheckedItemsRgn([...checkedItemsRgn, value]);
     }
   };
-  // const handleCheckboxChangeTag = (event) => {
-  //   const { id } = event.target;
-  //   setCheckedItemsTag((prevCheckedItems) => ({
-  //     ...prevCheckedItems,
-  //     [name]: !prevCheckedItems[name],
-  //     // [name] :
-  //   }));
-  // };
-
-  // const handleCheckboxChangeRgn = (event) => {
-  //   const { name } = event.target;
-  //   setCheckedItemsRgn((prevCheckedItems) => ({
-  //     ...prevCheckedItems,
-  //     [name]: !prevCheckedItems[name],
-  //   }));
-  // };
 
   useEffect(() => {
-    axios.get(`${baseURL}public/regions`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
+    axios
+      .get(`${baseURL}public/regions`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
       .then((resp) => {
         setRegions(resp.data);
       })
@@ -186,11 +159,12 @@ const CreateAPlan = () => {
         console.log(rejected);
       });
 
-    axios.get(`${baseURL}public/tags`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
+    axios
+      .get(`${baseURL}public/tags`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
       .then((resp) => {
         setTags(resp.data);
       })
@@ -209,14 +183,17 @@ const CreateAPlan = () => {
             <Grid item xs={4}>
               <Box
                 width="80%"
-                marginTop="40%"
-                marginLeft="50%"
+                marginTop="20%"
+                marginLeft="70%"
                 textAlign="left"
-                bgcolor="rgba(200, 30, 83, 0.5)"
-                m={4}
-                p={5}
+                borderRadius={16}
+                borderWidth={5}
+                bgcolor="rgba(255, 255, 255, 0.7)"
               >
-                <Typography> Choose Tag:</Typography>
+                <Typography marginTop="10%" marginLeft="40%">
+                  {" "}
+                  <b> Choose Tag: </b>
+                </Typography>
 
                 {tags.map((tag) => (
                   <div className={classes.tagd}>
@@ -241,15 +218,15 @@ const CreateAPlan = () => {
             </Grid>
             <Grid item xs={4}>
               <Box
-                width="80%"
-                marginTop="40%"
-                marginLeft="50%"
+                width="65%"
+                marginTop="25%"
+                marginLeft="80%"
                 textAlign="left"
-                bgcolor="rgba(20, 200, 83, 0.5)"
-                m={4}
-                p={5}
+                borderRadius={16}
+                borderWidth={5}
+                bgcolor="rgba(255, 255, 255, 0.7)"
               >
-                <Typography className={classes.tgtxt}>
+                <Typography style={{ marginTop: "10%", marginLeft: "20%" }}>
                   {" "}
                   Choose Region:
                 </Typography>
@@ -258,7 +235,7 @@ const CreateAPlan = () => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        marginLeft="10%"
+                        marginLeft="20%"
                         textAlign="left"
                         checked={checkedItemsRgn[rgn.id]}
                         onChange={handleCheckboxChangeRgn}
@@ -273,13 +250,13 @@ const CreateAPlan = () => {
             </Grid>
             <Grid item xs={4}>
               <Box
-                width="80%"
-                marginTop="40%"
-                marginLeft="50%"
+                width="70%"
+                marginTop="50%"
+                marginLeft="-24%"
                 textAlign="left"
-                bgcolor="rgba(77, 100, 600, 0.5)"
-                m={4}
-                p={5}
+                borderRadius={16}
+                borderWidth={5}
+                bgcolor="rgba(255, 255, 255, 0.7)"
               >
                 <FormGroup className={classes.form}>
                   <Typography fontSize="100%">Start Date:</Typography>
@@ -302,25 +279,25 @@ const CreateAPlan = () => {
                 className="btn"
                 type="submit"
                 style={{
-                  backgroundColor: "transparent",
+                  backgroundColor: "rgba(255,255,255,0.8)",
                   borderWidth: "5px",
-                  borderColor: "black",
-                  marginLeft: "220%",
-                  marginTop: "5%",
-                  marginBottom: "20%",
+                  borderColor: "white",
+                  marginLeft: "170%",
+                  marginTop: "-15%",
+                  marginBottom: "40%",
                 }}
                 variant="outlined"
-                halfWidth
+                fullWidth
               >
                 <Typography
-                  //color="white"
+                  color="black"
                   style={{
-                    //fontFamily: "Special Elite",
-                    fontSize: "20px",
+                    fontFamily: "Special Elite",
+                    fontSize: "200%",
                     textAlign: "center",
                   }}
                 >
-                  Search
+                  Create Your Plan
                 </Typography>
               </Button>
             </Grid>
