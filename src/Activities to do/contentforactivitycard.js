@@ -17,6 +17,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import ActivityCard from "./activityCard";
 
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
@@ -61,42 +62,12 @@ const useStyles = makeStyles({
 
 const ContentForActivity = (item) => {
   const classes = useStyles();
-  //const { plan_id } = useParams();
   const id = item.item.id;
   const title = item.item.title;
   const rating = item.item.rating;
   const rating_count = item.item.rating_count;
   const images = item.item.images;
   const activities = item.item.activities;
-
-  const addHandle = (event) => {
-    item.addList((previous) => {
-      //console.log(previous);
-      return [...previous, { place_id: id, activity_id: event.target.value }];
-    });
-  };
-
-  //const places = item.places;
-
-  //const [placeItem, setPlaceItem] = useState([]);
-
-  //   useEffect(() => {
-  //     axios
-  //       .get(`${baseURL}plan/explore?plan_id=${plan_id}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-  //         },
-  //       })
-  //       .then((resp) => {
-  //         console.log(resp.data);
-  //         setPlaceItem(resp.data);
-  //       })
-  //       .catch((rejected) => {
-  //         console.log(rejected);
-  //       });
-  //   }, [plan_id]);
-
-  // console.log(placeItem);
 
   return (
     <div className={classes.places}>
@@ -129,7 +100,6 @@ const ContentForActivity = (item) => {
               src={img}
               // alt={name_arr}
               style={{ width: "85%", marginLeft: "5%" }}
-              // Adjust the percentage value as needed
             />
           ))}
           <Typography
@@ -140,16 +110,7 @@ const ContentForActivity = (item) => {
           </Typography>
           {activities.map((ac) => (
             <div>
-              <Typography
-                variant="h6"
-                style={{ marginLeft: "5%", marginTop: "5%" }}
-              >
-                {" "}
-                {ac.title}
-                <Button onClick={addHandle} value={ac.id}>
-                  Add
-                </Button>
-              </Typography>
+              <ActivityCard item={ac} place_id={id} setAddList={item.addList} setRemoveList ={item.removeList}/>
             </div>
           ))}
         </Card>

@@ -66,30 +66,6 @@ const TagWise = (item) => {
 
   const placesOfATag = item.item.places;
 
-  //console.log(placesOfATag);
-  // const [placeItem, setPlaceItem] = useState([]);
-  //console.log(placesOfATag);
-
-  // useEffect(() => {
-  // setPlaceItem(item.item.places);
-  // }, [item.item.places]);
-
-  //   useEffect(() => {
-  //     axios
-  //       .get(`${baseURL}plan/explore?plan_id=${plan_id}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-  //         },
-  //       })
-  //       .then((resp) => {
-  //         console.log(resp.data);
-  //         setPlaceItem(resp.data);
-  //       })
-  //       .catch((rejected) => {
-  //         console.log(rejected);
-  //       });
-  //   }, [plan_id]);
-
   return (
     <div className={classes.places}>
       <div className={classes.postcard}>
