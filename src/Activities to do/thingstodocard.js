@@ -12,7 +12,10 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
+
 import TagWise from "./showtagwise";
+import TagBar from "./tagBar";
+
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
@@ -63,8 +66,36 @@ const ThingsToDo = () => {
   const { plan_id } = useParams();
   const [placeItem, setPlaceItem] = useState([]);
 
-  const[ addList, setAddList] = useState([])
+  const [addList, setAddList] = useState([])
   const [removeList, setRemoveList] = useState([])
+  const [filter, setFilter] = useState([])
+  const [navigateBool, setNavigateBool] = useState(false)
+
+  const postUpdateHandler = (event) => {
+    console.log(addList)
+    console.log(removeList)
+    axios
+      .post(
+        `${baseURL}plan/update?plan_id=${plan_id}`,
+        {
+          add: addList,
+          remove: removeList,
+          regions: []
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      )
+      .then((resp) => {
+        console.log(resp);
+        setNavigateBool(true)
+      })
+      .catch((rejected) => {
+        console.log(rejected);
+      });
+  };
 
   useEffect(() => {
     axios
@@ -76,6 +107,11 @@ const ThingsToDo = () => {
       .then((resp) => {
         console.log(resp.data);
         setPlaceItem(resp.data);
+        let temp = []
+        temp = resp.data.map((item) => {
+          return { tag_id: item.tag_id, tag_title: item.tag_name, isShow: false }
+        })
+        setFilter(temp)
       })
       .catch((rejected) => {
         console.log(rejected);
@@ -87,22 +123,38 @@ const ThingsToDo = () => {
   return (
     <div className={classes.places}>
       <div className={classes.postcard}>
-        {placeItem.map((pl) => (
-          <div>
-            <Grid item container spacing={10}>
-              {/* Use Grid items to contain each card */}
-             
-              <Grid item>
-              
+        <Grid item container spacing={10}>
+          <Grid item>
+            <TagBar tags={filter} setTags={setFilter} />
+          </Grid>
+          {placeItem.map((pl) => (
+            <div>
+              <Grid item container spacing={10}>
+                {/* Use Grid items to contain each card */}
 
-                <TagWise item={pl} addedList={setAddList} removedList={setRemoveList}/>
+                <Grid item>
+                  {getTagBool(filter, pl.tag_id) && <TagWise item={pl} addedList={setAddList} removedList={setRemoveList} />}
+                </Grid>
               </Grid>
-            </Grid>
-          </div>
-        ))}
+            </div>
+          ))}
+          <Grid item>
+            <Button onClick={postUpdateHandler} size="small" className={classes.btn}>
+              Update Plan
+            </Button>
+            {navigateBool && <Link to={`/FullTour/${plan_id}`}><Button  size="small" className={classes.btn}>
+              View Updated Plan
+            </Button>
+            </Link>}
+          </Grid>
+        </Grid>
       </div>
     </div>
   );
 };
+const getTagBool = (filter, tag_id) => {
+  let temp = filter.filter((item) => item.tag_id === tag_id)
+  return temp[0].isShow
+}
 
 export default ThingsToDo;
