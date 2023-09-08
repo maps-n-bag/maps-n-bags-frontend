@@ -59,9 +59,9 @@ const DaywisePlan = () => {
   const { plan_id, dayStart, totalDays, day } = useParams();
   const classes = useStyles(parseInt(day) - 1);
   const [day_int, setDay] = useState(parseInt(day));
-  
+
   const day_start = dateformat.formatDate(dayStart);
-  const  dayStartObj=new Date(day_start)
+  const dayStartObj = new Date(day_start)
   const today = new Date();
   today.setDate(dayStartObj.getDate() + (day_int - 1));
   console.log("today" + today);
@@ -75,14 +75,14 @@ const DaywisePlan = () => {
       window.history.replaceState(
         null,
         null,
-        `/DaywisePlan/${plan_id}/${dayStart}/${totalDays}/${day_int +1 }`
+        `/DaywisePlan/${plan_id}/${dayStart}/${totalDays}/${day_int + 1}`
       );
-    } else if(event.target.id === "prevday") {
+    } else if (event.target.id === "prevday") {
       setDay((prevDay) => prevDay - 1);
       window.history.replaceState(
         null,
         null,
-        `/DaywisePlan/${plan_id}/${dayStart}/${totalDays}/${day_int -1 }`
+        `/DaywisePlan/${plan_id}/${dayStart}/${totalDays}/${day_int - 1}`
       );
     }
   };
@@ -100,6 +100,7 @@ const DaywisePlan = () => {
         console.log(rejected);
       });
   }, [day_int]);
+
   console.log("this has been called");
   console.log(itemBasic);
 
@@ -136,27 +137,21 @@ const DaywisePlan = () => {
                 marginTop: "1%",
               }}
             >
-              {item.event != null ? (
-                <Grid item container spacing={10}>
-                  {/* Use Grid items to contain each card */}
-                  <Grid item>
-                    <EventCards item={item} className={classes.cardday} />
-                  </Grid>
-                  <Grid item>
+              <Grid item container spacing={10}>
+                {/* Use Grid items to contain each card */}
+                <Grid item>
+                  <EventCards item={item} className={classes.cardday} />
+                </Grid>
+                {/* <Grid item>
                     <RestaurantCard
                       item={item}
                       className={classes.cardrestaurant}
                     />
-                  </Grid>
-                </Grid>
-              ) : (
-                {
-                  /* "Going back" */
-                }
-              )}
+                  </Grid> */}
+              </Grid>
             </Grid>
           ))}
-          {day_int > 1 && 
+          {day_int > 1 &&
             <Button
               id="prevday"
               onClick={dayChangeHandler}
@@ -164,7 +159,7 @@ const DaywisePlan = () => {
             >
               Previous day
             </Button>
-}
+          }
           {day_int < parseInt(totalDays) ? (
             <Button
               id="nextday"
@@ -177,13 +172,13 @@ const DaywisePlan = () => {
             <Button className={classes.btn}>Finish</Button>
           )}
           <Link to={`/Blog/${plan_id}`}>
-              <Button
-                size="small"
-                className={classes.btn}
-              >
-               Go to Blog
-              </Button>
-            </Link>
+            <Button
+              size="small"
+              className={classes.btn}
+            >
+              Go to Blog
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

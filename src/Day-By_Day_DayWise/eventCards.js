@@ -58,25 +58,24 @@ const useStyles = makeStyles({
 const EventCards = (props) => {
   const classes = useStyles();
   const cardsData = props.item;
-  console.log(cardsData);
-  //console.log(cardsData.event.place_id);
-  const [placeItem, setPlaceItem] = useState([]);
+  const [placeItem, setPlaceItem] = useState(null);
 
 
   useEffect(() => {
-      axios.get(`${baseURL}public/place?id=${cardsData.event.place_id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      })
-        .then((resp) => {
-          setPlaceItem(resp.data);
-        })
-        .catch((rejected) => {
-          console.log(rejected);
-        });
-  }, [cardsData.event.place_id]);
+    if (cardsData.event == null) return;
 
+    axios.get(`${baseURL}public/place?id=${cardsData.event.place_id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((resp) => {
+        setPlaceItem(resp.data);
+      })
+      .catch((rejected) => {
+        console.log(rejected);
+      });
+  }, []);
 
   return (
     <div className={classes.places}>
@@ -219,67 +218,33 @@ const EventCards = (props) => {
                   Rating: {placeItem.rating}/5.0
                   <br /> (total votes: {placeItem.rating_count})
                 </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  gutterBottom
+                  component="div"
+                  style={{
+                    //fontFamily: "Special Elite",
+                    fontSize: "100%",
+                    color: "black",
+                    marginLeft: "10%",
+                    // textAlign: "center",
+                  }}
+                >
+                  {" "}
+                  <ScheduleOutlined
+                    style={{
+                      color: "black",
+                      marginTop: "2%",
+                      fontSize: "100%",
+                      textAlign: "center",
+                    }}
+                  />
+                  {timeformat.formatTime(cardsData.event.start_time)} to{" "}
+                  {timeformat.formatTime(cardsData.event.end_time)}
+                </Typography>
               </Grid>
             )}
-
-            <Grid item>
-              <Typography
-                gutterBottom
-                variant="subtitle1"
-                component="div"
-                sx={{ cursor: "pointer" }}
-                style={{
-                  // fontFamily: "Special Elite",
-                  fontSize: "110%",
-                  color: "black",
-                  marginLeft: "10%",
-                  //marginTop: "10%",
-                  // textAlign: "center",
-                }}
-              >
-                <b> {placeItem.title}</b>
-              </Typography>
-              <Typography
-                variant="body2"
-                gutterBottom
-                component="div"
-                style={{
-                  //fontFamily: "Special Elite",
-                  fontSize: "100%",
-                  color: "black",
-                  marginLeft: "10%",
-                  //textAlign: "center",
-                }}
-              >
-                {placeItem.description}
-              </Typography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                gutterBottom
-                component="div"
-                style={{
-                  //fontFamily: "Special Elite",
-                  fontSize: "100%",
-                  color: "black",
-                  marginLeft: "10%",
-                  // textAlign: "center",
-                }}
-              >
-                {" "}
-                <ScheduleOutlined
-                  style={{
-                    color: "black",
-                    marginTop: "2%",
-                    fontSize: "100%",
-                    textAlign: "center",
-                  }}
-                />
-                {timeformat.formatTime(cardsData.event.start_time)} to{" "}
-                {timeformat.formatTime(cardsData.event.end_time)}
-              </Typography>
-            </Grid>
-
 
             {cardsData.event && placeItem && (
               <Grid item>
@@ -301,9 +266,7 @@ const EventCards = (props) => {
               </Grid>
             )}
 
-
           </Grid>
-
         </Card>
       </div >
     </div >
