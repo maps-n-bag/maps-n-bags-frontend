@@ -63,12 +63,12 @@ const OthersPlan = () => {
 
   const [checkedItemsRgn, setCheckedItemsRgn] = useState([]);
 
-  const handleCheckboxChangeRgn = (event) => {
-    const value = event.target.value;
-    if (checkedItemsRgn.includes(value)) {
-      setCheckedItemsRgn(checkedItemsRgn.filter((item) => item !== value));
+  const handleCheckboxChangeRgn = (event, regionId) => {
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      setCheckedItemsRgn((prev) => [...prev, regionId]);
     } else {
-      setCheckedItemsRgn([...checkedItemsRgn, value]);
+      setCheckedItemsRgn((prev) => prev.filter((item) => item !== regionId));
     }
   };
   useEffect(() => {
@@ -87,22 +87,27 @@ const OthersPlan = () => {
   }, []);
 
   useEffect(() => {
+    const values={
+      user_id: user_id,
+      regions: [...checkedItemsRgn],
+    }
     axios
-      .get(`${baseURL}plan/others`, {
-        user_id: user_id,
-        region_id: checkedItemsRgn,
-      }, {
+      .post(`${baseURL}plan/others`, values, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       })
       .then((resp) => {
-        if (resp.data.status == "200") { setItemBasic(resp.data); }
+        if (resp.status == "200") { 
+          console.log(resp.data);
+          console.log("hello");
+          setItemBasic(resp.data); }
+        else { setItemBasic([]); }
       })
       .catch((rejected) => {
         console.log(rejected);
       });
-  }, [regions]);
+  }, [checkedItemsRgn.length]);
   const classes = useStyles();
   console.log(user_id);
   return (
@@ -127,12 +132,13 @@ const OthersPlan = () => {
               </Typography>
               {regions.map((rgn) => (
                 <FormControlLabel
+                key={rgn.id}
                   control={
                     <Checkbox
                       marginLeft="20%"
                       textAlign="left"
-                      checked={checkedItemsRgn[rgn.id]}
-                      onChange={handleCheckboxChangeRgn}
+                      checked={checkedItemsRgn.includes(rgn.id)}
+                      onChange={(event) => handleCheckboxChangeRgn(event, rgn.id)}
                       name={rgn.title}
                       title={rgn.title}
                       value={rgn.id}
