@@ -1,18 +1,22 @@
 import React from 'react';
 import { useEffect, useState } from "react";
 
-const PlanMarkdown = ( {planData} ) => {
-  // Initialize an empty string to store the Markdown content
+const PlanMarkdown = ({ planData }) => {
+
+  const emojiMap = {
+    car: '🚗',
+    train: '🚆',
+    plane: '✈️',
+    bus: '🚌',
+  };
+
   let markdownContent = '';
-  console.log(planData);
-  console.log('planData')
-  if(!planData) {
-    console.log('planData is null')
+  if (!planData) {
     return (null);
   }
   // Add plan title and description
   markdownContent += `# ${planData.plan_title}\n\n`;
-  markdownContent += `${planData.plan_description}\n\n`;
+  if (planData.plan_description) { markdownContent += `${planData.plan_description}\n\n`; }
 
   // Iterate through day-wise events
   planData.dayWiseEvents.forEach((day) => {
@@ -20,27 +24,32 @@ const PlanMarkdown = ( {planData} ) => {
 
     // Iterate through events within the day
     day.events.forEach((event) => {
-      if(event.event) {
-      markdownContent += `### Event ${event.event.activity}\n\n`;
-      markdownContent += `**Activity**: ${event.event.activity}\n\n`;
-      markdownContent += `**Place**: ${event.event.place_name}\n\n`;
-      markdownContent += `**Start Time**: ${new Date(event.event.start_time).toLocaleString()}\n\n`;
-      markdownContent += `**End Time**: ${new Date(event.event.end_time).toLocaleString()}\n\n`;
-      markdownContent += `**Expenditure**: $${event.event.eventDetail.expenditure}\n\n`;
-      // Check if there are additional details
-      if (event.event.eventDetail.generated_details) {
-        markdownContent += `**Details**: ${event.event.eventDetail.generated_details}\n\n`;
+      // Add journey details
+      if (event.journey) {
+        const journeyEmoji = getJourneyEmoji(event.journey.journey_type);
+        markdownContent += `**Journey Details**:\n\n`;
+        markdownContent += `| Journey Type | Distance (km) | Estimated Time (mins) | From | To |\n`;
+        markdownContent += `|--------------:|----------------|-------------------------|-----|----|\n`;
+        markdownContent += `| ${journeyEmoji} | ${event.journey.distance} km | ${event.journey.est_time} mins | ${event.journey.from} | ${event.journey.to} |\n\n`;
       }
-      markdownContent += `**Visited**: ${event.event.visited ? 'Yes' : 'No'}\n\n`;
-      // Check if there are notes
-      if (event.event.eventDetail.note) {
-        markdownContent += `**Note**: ${event.event.eventDetail.note}\n\n`;
+      if (event.event) {
+        if (event.event.eventDetail.note) {
+          markdownContent += `**Note**: ${event.event.eventDetail.note}\n\n`;
+        }
+        markdownContent += `**Event Details**:\n\n`;
+        markdownContent += `| Activity | Place | Start Time | End Time | Expenditure | Visited |\n`;
+        markdownContent += `|----------|-------|------------|----------|-------------|---------|\n`;
+        markdownContent += `| ${event.event.activity} | ${event.event.place_name} | ${new Date(event.event.start_time).toLocaleString()} | ${new Date(event.event.end_time).toLocaleString()} | $${event.event.eventDetail.expenditure} | ${getVisitedEmoji(event.event.eventDetail.checked)} |\n`;
+        if (event.event.eventDetail.generated_details) {
+          markdownContent += `**Details**: ${event.event.eventDetail.generated_details}\n\n`;
+        }
+        if (event.event.eventImages && event.event.eventImages.length > 0) {
+          markdownContent += `**Images**: \n\n`;
+          event.event.eventImages.forEach((image) => {
+            markdownContent += `![Event Images](${image})\n\n`;
+          });
+        }
       }
-      if (event.event.eventImages && event.event.eventImages.length > 0) {
-        markdownContent += '![Event Images](event_image_url_1)\n\n';
-        // You can loop through event.event.eventImages and include multiple images
-      }
-    }
     });
   });
 
@@ -58,5 +67,17 @@ const PlanMarkdown = ( {planData} ) => {
 
   // );
 };
+function getJourneyEmoji(journeyType) {
+  const emojiMap = {
+    car: '🚗',
+    train: '🚆',
+    plane: '✈️',
+    bus: '🚌',
+  };
+  return emojiMap[journeyType] || '';
+}
+function getVisitedEmoji(visited) {
+  return visited ? '✅' : '❌';
+}
 
 export default PlanMarkdown;

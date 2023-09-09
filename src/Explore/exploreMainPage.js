@@ -107,33 +107,6 @@ export default function ExploreMain() {
             </div>
           </Box>
         </Link>
-        <Link to={`/`}>
-          <Box width="100%" bgcolor="rgba(0, 230, 83, 0.8)" m={5} p={6}>
-            <div>
-              <img
-                src={cr}
-                style={{
-                  fontFamily: "Special Elite",
-                  //fontSize: "20px",
-                  width: "175px",
-
-                  marginLeft: "20%",
-                  //color: "white",
-                }}
-              />
-              <Typography
-                color="black"
-                style={{
-                  fontFamily: "Special Elite",
-                  fontSize: "150%",
-                  textAlign: "center",
-                }}
-              >
-                View Others' Plans
-              </Typography>
-            </div>
-          </Box>
-        </Link>
       </Box>
     );
   };
