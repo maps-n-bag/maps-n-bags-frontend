@@ -181,6 +181,25 @@ const Profile = () => {
       });
   }
 
+  const handlePlanEdit = (plan) => {
+    axios.put(`${baseURL}plan/edit?plan_id=${plan.id}`, plan, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+    .then((res) => {
+      console.log("sent");
+      setPlans(plans.map((p) => {
+        if (p.id === plan.id) {
+          p = plan;
+        }
+        return p;
+      }));
+    }).catch((error) => {
+      console.error("An error occurred:", error);
+    });
+  }
+
   return (
     <div className={classes.root}>
       <SideBar />
@@ -462,9 +481,9 @@ const Profile = () => {
       >
         Your Plans
       </Typography>
-      <Grid container spacing={5} sx={{ marginLeft: "15%" }}>
+      <Grid container spacing={2} sx={{ marginLeft: "15%", width: "80%" }} justifyContent="center">
         {plans.map((plan) => (
-          <PlanCard plan={plan} togglePublic={handleTogglePublic} deletePlan={handlePlanDelete} />
+          <PlanCard plan={plan} togglePublic={handleTogglePublic} deletePlan={handlePlanDelete} editPlan={handlePlanEdit} />
         ))}
       </Grid>
     </div>

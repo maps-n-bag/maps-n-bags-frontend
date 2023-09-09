@@ -32,8 +32,8 @@ const useStyles = makeStyles({
     minHeight: "100vh",
   },
   postcard: {
-    marginTop: "7%",
-    marginLeft: "7%",
+    marginTop: "2%",
+    marginLeft: "15%",
   },
 });
 
@@ -61,57 +61,26 @@ const Bloglist = () => {
     <div className={classes.places}>
       <SideBar />
 
+      <Typography variant="h4"
+        style={{
+          fontFamily: "Special Elite",
+          fontSize: "200%",
+          color: "black",
+          textAlign: "center",
+          marginTop: "80px",
+        }}
+      >
+        Your Blogs
+      </Typography>
+
       <div className={classes.postcard}>
 
-      <Typography variant="h4"
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "200%",
-            color: "black",
-            textAlign: "center",
-            marginBottom: "15px",
-          }}
-        >
-          Your Blogs
-        </Typography>
-
-        <Grid container spacing={2}>
+        <Grid container spacing={2} justifyContent="center" style={{ width: "90%" }}>
           {itemBasic.map((item, index) => (
-            <BloglistCard item={item}/>
+            <BloglistCard item={item} />
           ))}
         </Grid>
 
-        {/* <Card
-          className={classes.cardimg}
-          style={{
-            width: "50%",
-            marginLeft: "7%",
-            color: "ffffff",
-            marginTop: "5%",
-          }}
-        >
-          <CardContent>
-            {itemBasic.map((item, index) => (
-              <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="flex-start"
-                spacing={10}
-                style={{
-                  // width: "50%",
-                  // marginLeft: "7%",
-                  color: "ffffff",
-                  marginTop: "1%",
-                }}
-              >
-                <Grid item>
-                  <BloglistCard item={item} className={classes.cardday} />
-                </Grid>
-              </Grid>
-            ))}
-          </CardContent>
-        </Card> */}
       </div>
     </div>
   );
