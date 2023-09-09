@@ -39,14 +39,12 @@ const ContentCards = (props) => {
   const cardsData = [props.item];
   const [inputError, setInputError] = useState(false);
   const [isEditingBasic, setIsEditingBasic] = useState(false);
-  const [itemBasic, setItemBasic] = useState([]);
-
-  const blogImages = {};
-  const [blogImageUrls, setBlogImageUrls] = useState([]);
+  const [itemBasic, setItemBasic] = useState({});
 
   const planId = props.item.event.plan_id;
   const directory = `blog-images/plan-${planId}/event-${eventID}/`;
 
+  // get event details & images from backend
   useEffect(() => {
     axios
       .get(`${baseURL}event/detail?event_id=${eventID}`, {
@@ -56,54 +54,82 @@ const ContentCards = (props) => {
       })
       .then((resp) => {
         setItemBasic(resp.data);
+        console.log(itemBasic);
       })
       .catch((error) => {
         console.log(error);
         console.log(error.response?.data);
       });
-  }, []);
-
-  useEffect(() => {
-    listAll(ref(storage, directory)).then((images) => {
-      images.items.forEach((image) => {
-        getDownloadURL(image).then((url) => {
-          // console.log(url);
-          if (!blogImageUrls.includes(url)) {
-            const newImages = [...blogImageUrls];
-            newImages.push(url);
-            setBlogImageUrls(newImages);
-          }
-        });
-      });
-    });
   }, [isEditingBasic]);
 
   const handleImageChange = (event) => {
     event.preventDefault();
 
-    blogImages[event.target.dataset.id] = event.target.files[0];
+    // upload to firebase
+    const image = event.target.files[0];
+    if (!image || !image.type.startsWith("image/")) {
+      console.log("No valid image file selected");
+      return;
+    }
+    const newMetadata = { contentType: image.type };
+    const storageRef = ref(storage, `${directory}${v4()}`);
+    uploadBytes(storageRef, image, newMetadata).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+
+      getDownloadURL(ref(storage, snapshot.metadata.fullPath))
+        .then((url) => {
+          console.log("url after download", url)
+
+          const newImages = [...itemBasic.images];
+          newImages[event.target.dataset.id] = url;
+          setItemBasic((prev) => {
+            return {
+              ...prev,
+              images: newImages,
+            };
+          });
+
+        })
+    }).catch((error) => {
+      console.log("Uh-oh, an error occurred!", error);
+    });
   };
 
-  const addNewImages = (event) => {
+  const handleAddImage = (event) => {
     event.preventDefault();
-    setBlogImageUrls((prevImages) => [...prevImages, null]);
+
+    setItemBasic((prev) => {
+      return {
+        ...prev,
+        images: [...prev.images, null],
+      };
+    });
   };
 
   const { handleSubmit, getValues, setValue } = useForm();
 
   const onSubmit = (data, e) => {
-    setValue("note", itemBasic.note);
-    setValue("generated_details", itemBasic.generated_details);
-    setValue("expenditure", itemBasic.expenditure);
-    setValue("checked", true);
-
     e.preventDefault();
 
-    setIsEditingBasic(false);
+    const newItemBasic = { ...itemBasic };
+    newItemBasic.checked = true;
+    newItemBasic.note = data.note;
+    newItemBasic.generated_details = data.generated_details;
+    newItemBasic.expenditure = data.expenditure;
+    newItemBasic.images = [];
+    newItemBasic.images.forEach((image) => {
+      if (image != null) {
+        newItemBasic.images.push(image);
+      }
+    });
+    setItemBasic(newItemBasic);
+
+    console.log("before axios put", itemBasic)
+
     axios
       .put(
         `${baseURL}event/detail?event_id=${props.item.event.id}`,
-        getValues(),
+        itemBasic,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -112,35 +138,42 @@ const ContentCards = (props) => {
       )
       .then((response) => {
         setIsEditingBasic(false);
-        setItemBasic(getValues());
       })
       .catch((error) => {
         console.log(error);
       });
-
-    // upload image to firebase
-    Object.values(blogImages).forEach((image) => {
-      // check if it's a valid image file
-      if (!image.type.startsWith("image/")) {
-        return;
-      }
-
-      const newMetadata = { contentType: image.type };
-      const storageRef = ref(storage, `${directory}${v4()}`);
-      uploadBytes(storageRef, image, newMetadata).then((snapshot) => {
-        console.log("Uploaded a blob or file!");
-        const url = snapshot.metadata.fullPath;
-
-        if (!blogImageUrls.includes(url)) {
-          setBlogImageUrls((data) => [...data, url]);
-        }
-      });
-    });
   };
+
+  const handleRemoveImage = (event) => {
+    event.preventDefault();
+
+    const image = event.target.previousSibling.src;
+
+    const newBlogImages = [...itemBasic.images];
+    const index = newBlogImages.indexOf(image);
+    if (index > -1) {
+      newBlogImages.splice(index, 1);
+    }
+
+    const storageRef = ref(storage, image);
+    deleteObject(storageRef)
+      .then(() => {
+        console.log("File deleted successfully");
+        setItemBasic((prev) => {
+          return {
+            ...prev,
+            images: newBlogImages,
+          };
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   const onError = (errors, e) => console.log(errors, e);
 
-  if (props.item.event == null) {
+  if (itemBasic.images === undefined) {
     return <div></div>;
   }
 
@@ -241,8 +274,8 @@ const ContentCards = (props) => {
                                   name="note"
                                   placeholder={itemBasic.generated_details}
                                   onChange={(e) =>
-                                    (itemBasic.generated_details =
-                                      e.target.value)
+                                  (itemBasic.generated_details =
+                                    e.target.value)
                                   }
                                 />
                               </div>
@@ -262,34 +295,6 @@ const ContentCards = (props) => {
                                   How much was the whole cost?
                                 </Typography>
                                 <div>
-                                  {/* <TextField
-                                      {...register("expenditure")}
-                                      className="expenditure"
-                                      label="expenditure"
-                                      color="secondary"
-                                      placeholder="Write expenditure"
-                                      halfWidth
-                                      style={{
-                                        //fontFamily: "Special Elite",
-                                        fontSize: "100%",
-                                        color: "black",
-                                        //marginLeft: "3%",
-                                        marginBottom: "6%",
-                                        marginTop: "3%",
-
-                                        // textAlign: "center",
-                                      }}
-                                    /> */}
-
-                                  {/* <input
-                                      type="currency"
-                                      defaultValue={itemBasic.expenditure}
-                                      name="expenditure"
-                                      placeholder={itemBasic.expenditure}
-                                      onChange={(e) =>
-                                        (itemBasic.expenditure = e.target.value)
-                                      }
-                                    /> */}
 
                                   <input
                                     type="text" // Use "text" type for input
@@ -333,7 +338,7 @@ const ContentCards = (props) => {
                                   Upload an Image
                                 </Typography>
                                 <div>
-                                  {blogImageUrls.map((image, index) => (
+                                  {itemBasic.images.map((image, index) => (
                                     <div className="table" key={index}>
                                       <div className="table-row">
                                         <div className="table-data">
@@ -345,34 +350,7 @@ const ContentCards = (props) => {
                                                 width="100px"
                                               />
                                               <Button
-                                                onClick={() => {
-                                                  const newImages = [
-                                                    ...blogImageUrls,
-                                                  ];
-                                                  newImages.splice(index, 1);
-                                                  setBlogImageUrls(newImages);
-
-                                                  // delete from blogImages too
-                                                  delete blogImages[index];
-
-                                                  // delete from firebase
-                                                  const storageRef = ref(
-                                                    storage,
-                                                    image
-                                                  );
-                                                  deleteObject(storageRef)
-                                                    .then(() => {
-                                                      console.log(
-                                                        "File deleted successfully"
-                                                      );
-                                                    })
-                                                    .catch((error) => {
-                                                      console.log(
-                                                        "Uh-oh, an error occurred!"
-                                                      );
-                                                      console.log(error);
-                                                    });
-                                                }}
+                                                onClick={handleRemoveImage}
                                               >
                                                 Remove
                                               </Button>
@@ -394,7 +372,7 @@ const ContentCards = (props) => {
                                   ))}
                                   <div className="table-row">
                                     <div className="table-data">
-                                      <button onClick={addNewImages}>+</button>
+                                      <button onClick={handleAddImage}>+</button>
                                     </div>
                                   </div>
                                 </div>
@@ -415,7 +393,7 @@ const ContentCards = (props) => {
                                           itemBasic.checked = true;
                                         }
                                       }}
-                                      //onClick={handleSave}
+                                    //onClick={handleSave}
                                     >
                                       <Typography
                                         color="black"
@@ -521,7 +499,7 @@ const ContentCards = (props) => {
                                 )}
 
                                 <div>
-                                  {blogImageUrls.map((image, index) => (
+                                  {itemBasic.images.map((image, index) => (
                                     <div className="table" key={index}>
                                       <div className="table-row">
                                         <div className="table-data">
