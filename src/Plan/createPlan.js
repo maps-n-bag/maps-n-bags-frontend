@@ -21,17 +21,19 @@ import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 const baseURL = process.env.REACT_APP_BASE_URL;
-const formattedDate = require("./dateformat");
+
+const dateFormat = require("../formatDate");
 
 const useStyles = makeStyles({
   places: {
-    height: "80%",
+    height: "100%",
     fontFamily: "Special Elite",
     //width: "90%",
     //backgroundColor: "rgba(250, 233, 171, 0.78)",
     backgroundImage: `url(${plan})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+    minHeight: "100vh",
   },
 
   blk: {
@@ -85,14 +87,15 @@ const CreateAPlan = () => {
   const onSubmit = (data, e) => {
     e.preventDefault();
     console.log(data, e);
-    const values = getValues();
     console.log(startDate);
     // console.log(checkedItemsRgn);
-    setValue("start_date", formattedDate.dateformat(startDate));
-    setValue("end_date", formattedDate.dateformat(endDate));
+    setValue("start_date", dateFormat.formatDate(startDate));
+    setValue("end_date", dateFormat.formatDate(endDate));
     setValue("tags", checkedItemsTag);
     setValue("regions", checkedItemsRgn);
     setValue("user_id", localStorage.getItem("userId"));
+
+    const values = getValues();
 
     axios
       .post(`${baseURL}plan`, values, {
