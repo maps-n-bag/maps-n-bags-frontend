@@ -19,9 +19,9 @@ const useStyles = makeStyles({
     height: "100%",
     width: "100%",
     backgroundColor: "rgba(250, 233, 171, 0.78)",
-
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+    minHeight: "100vh",
   },
   day: {
     marginTop: "7%",
