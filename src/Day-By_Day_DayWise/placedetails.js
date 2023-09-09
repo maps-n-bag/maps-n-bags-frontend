@@ -4,7 +4,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import CardActions from "@mui/material/CardActions";
 import { Grid, Card, CardContent, Typography } from "@mui/material";
-
+import ShowReview from "./showreview";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 
@@ -16,34 +16,15 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 
 const useStyles = makeStyles({
   places: {
-    height: "90%",
-    width: "112%",
     backgroundColor: "rgba(250, 233, 171, 0.78)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-  },
-  btn: {
-    minWidth: "100%",
+    minHeight: "100vh",
   },
 
   postcard: {
-    //height: "100%",
-    width: "95%",
-    Height: "50%",
-    marginLeft: "10%",
-    // marginRight: "20%",
-  },
-  cardimg: {
-    backgroundColor: "#ff5722",
-    overflow: "hidden",
-  },
-
-  img: {
-    height: "100%",
-    position: "centre",
-  },
-  cardimg: {
-    height: "100%",
+    marginLeft: "20%",
+    marginTop: "7%",
   },
 });
 
@@ -52,12 +33,15 @@ const PlaceDetails = () => {
   const { id } = useParams();
   //console.log(id);
   const [itemBasic, setItemBasic] = useState([]);
+
+  const [review, setReview] = useState(false);
   useEffect(() => {
-    axios.get(`${baseURL}public/place?id=${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
+    axios
+      .get(`${baseURL}public/place?id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
       .then((resp) => {
         setItemBasic(resp.data);
       })
@@ -66,16 +50,32 @@ const PlaceDetails = () => {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`${baseURL}public/place/review?place_id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then((resp) => {
+        setReview(resp.data);
+      })
+      .catch((rejected) => {
+        console.log(rejected);
+      });
+  }, []);
+
+  console.log(review);
+
   return (
     <div className={classes.places}>
       <SideBar />
       <div className={classes.postcard}>
         {/* <img src={img_arr} alt="Image" className={classes.img} /> */}
         <Card
-          className={classes.cardimg}
           style={{
             // fontFamily: "Special Elite",
-            width: "46%",
+            width: "70%",
             marginLeft: "7%",
             color: "ffffff",
             marginTop: "4.5%",
@@ -105,7 +105,7 @@ const PlaceDetails = () => {
                   {itemBasic.title}
                 </Typography>
               </Grid>{" "}
-              <Grid item xs sm container>
+              <Grid item xs={5}>
                 <Typography
                   variant="head"
                   style={{
@@ -121,6 +121,7 @@ const PlaceDetails = () => {
                   {itemBasic.description}
                 </Typography>
                 <br />
+
                 <Typography
                   variant="head"
                   style={{
@@ -165,6 +166,14 @@ const PlaceDetails = () => {
                   <b>Website: </b>
                   {itemBasic.website}
                 </Typography>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  style={{marginLeft:"5%"}}
+                  onClick={() => setReview(!review)}
+                >
+                  {review ? "Hide" : "Show"} Review
+                </Button>
               </Grid>
             </Grid>
           </CardContent>
@@ -172,6 +181,10 @@ const PlaceDetails = () => {
             {/* <Button size="small">Learn More</Button> */}
           </CardActions>
         </Card>
+
+        {review && (
+        <ShowReview place_id={id} />
+      )}
       </div>
     </div>
   );

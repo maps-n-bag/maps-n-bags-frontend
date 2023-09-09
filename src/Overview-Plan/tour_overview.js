@@ -20,38 +20,15 @@ const dateformat = require("../formatDate");
 
 const useStyles = makeStyles({
   places: {
-    height: "100%",
-    width: "100%",
-    backgroundImage: `url(${station})`,
-   // backgroundColor: "rgba(250, 233, 171, 0.78)",
-
+    backgroundColor: "rgba(250, 233, 171, 0.78)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-  },
-  btn: {
-    minWidth: "100%",
+    minHeight: "100vh",
   },
 
   postcard: {
-    //height: "100%",
-    width: "95%",
-    Height: "50%",
-    marginLeft: "35%",
-    marginTop: "8%",
-    marginBottom: "5%",
-    // marginRight: "20%",
-  },
-  cardimg: {
-    backgroundColor: "#ff5722",
-    overflow: "hidden",
-  },
-
-  img: {
-    height: "100%",
-    position: "centre",
-  },
-  cardimg: {
-    height: "100%",
+    marginLeft: "20%",
+    marginTop: "7%",
   },
 });
 
@@ -63,11 +40,12 @@ const Tour_overview = () => {
   const { plan_id } = useParams();
 
   useEffect(() => {
-    axios.get(`${baseURL}plan?id=${plan_id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
+    axios
+      .get(`${baseURL}plan?id=${plan_id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
       .then((resp) => {
         console.log(resp.data);
         setItemBasic(resp.data);
@@ -77,13 +55,11 @@ const Tour_overview = () => {
       });
   }, []);
 
-
   const name_arr = itemBasic.title;
   const date_st = dateformat.formatDate(itemBasic.start_date);
   const date_end = dateformat.formatDate(itemBasic.end_date);
   const des_arr = itemBasic.description;
   const img_arr = itemBasic.image;
-
 
   return (
     <div className={classes.places}>
