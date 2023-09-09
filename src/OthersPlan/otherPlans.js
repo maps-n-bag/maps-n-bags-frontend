@@ -18,28 +18,46 @@ import { Link } from "react-router-dom";
 import noteIcon from "../photos/icon/note.png";
 import { useParams } from "react-router-dom";
 import BloglistCard from "../Blog-all-event/blogListCard";
-import { CardActionArea } from "@mui/material";
 
 const dateformat = require("../formatDate");
 const baseURL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles({
   places: {
     height: "100%",
-    width: "100%",
+    width: "118%",
     backgroundColor: "rgba(250, 233, 171, 0.78)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    minHeight: "100vh",
   },
+  btn: {
+    minWidth: "100%",
+  },
+
   postcard: {
-    marginTop: "2%",
+    //height: "100%",
+    width: "95%",
+    Height: "50%",
     marginLeft: "15%",
+    // marginRight: "20%",
+  },
+  cardimg: {
+    backgroundColor: "#ff5722",
+    overflow: "hidden",
+  },
+
+  img: {
+    height: "100%",
+    position: "centre",
+  },
+  cardimg: {
+    height: "100%",
   },
 });
 
-const Bloglist = () => {
+const OthersPlan = () => {
   const user_id = localStorage.getItem("userId");
   const [itemBasic, setItemBasic] = useState([]);
+  
   useEffect(() => {
     axios
       .get(`${baseURL}plan/all?user_id=${user_id}`, {
@@ -54,36 +72,47 @@ const Bloglist = () => {
         console.log(rejected);
       });
   }, [user_id]);
-
   const classes = useStyles();
-
+ 
   return (
     <div className={classes.places}>
       <SideBar />
 
-      <Typography variant="h4"
-        style={{
-          fontFamily: "Special Elite",
-          fontSize: "200%",
-          color: "black",
-          textAlign: "center",
-          marginTop: "80px",
-        }}
-      >
-        Your Blogs
-      </Typography>
-
       <div className={classes.postcard}>
-
-        <Grid container spacing={2} justifyContent="left" style={{ width: "80%" }}>
-          {itemBasic.map((item, index) => (
-            <BloglistCard item={item} />
-          ))}
-        </Grid>
-
+        <Card
+          className={classes.cardimg}
+          style={{
+            width: "50%",
+            marginLeft: "7%",
+            color: "ffffff",
+            marginTop: "5%",
+          }}
+        >
+          <CardContent>
+            {itemBasic.map((item, index) => (
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="flex-start"
+                spacing={10}
+                style={{
+                  // width: "50%",
+                  // marginLeft: "7%",
+                  color: "ffffff",
+                  marginTop: "1%",
+                }}
+              >
+                <Grid item>
+                  <BloglistCard item={item} className={classes.cardday} />
+                </Grid>
+              </Grid>
+            ))}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
 };
 
-export default Bloglist;
+export default OthersPlan;

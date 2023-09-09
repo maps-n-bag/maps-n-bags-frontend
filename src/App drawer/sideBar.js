@@ -29,13 +29,14 @@ import BookIcon from "@mui/icons-material/Book";
 import { Link } from "react-router-dom";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
+import PublicIcon from '@mui/icons-material/Public';
 import { Avatar, Tooltip } from "@mui/material";
 
 const drawerWidth = 240;
 
 const iconData = [
   { icon: HomeIcon, name: "Home", link: "" },
-  // { icon: TravelExploreIcon, name: "Explore", link: "Explore" },
+  { icon: PublicIcon, name: "Others Plan", link: "OthersPlan" },
   { icon: PermContactCalendarIcon, name: "Profile", link: `Profile/${localStorage.getItem("userId")}` },
   { icon: BookIcon, name: "Blog", link: "AllBlog" },
 ];
@@ -185,15 +186,15 @@ export default function SideBar() {
         <Divider />
         <List>
           {iconData.map((icons, index) => (
-            <ListItem key={index} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <Link to={`/${icons.link}`}>
+            <Link to={`/${icons.link}`} style={{ textDecoration: "none", color: "black" }}>
+              <ListItem key={index} disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
@@ -205,18 +206,19 @@ export default function SideBar() {
 
                     {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                   </ListItemIcon>
-                </Link>
-                <ListItemText
-                  primary={icons.name}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
+                  <ListItemText
+                    primary={icons.name}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+
           ))}
         </List>
         <Divider />
         <List>
-          <Link to={`/createplan`}>
+          <Link to={`/createplan`} style={{ textDecoration: "none", color: "black" }}>
             {["Create Plan"].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
@@ -246,7 +248,7 @@ export default function SideBar() {
         <Divider />
 
         <List>
-          <Link to={`/`}>
+          <Link to={`/`} style={{ textDecoration: "none", color: "black" }}>
             <ListItem key={"Logout"} disablePadding sx={{ display: "block" }} onClick={() => { localStorage.clear(); }}>
               <ListItemButton
                 sx={{
@@ -264,7 +266,7 @@ export default function SideBar() {
                 >
                   <KeyboardReturnIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Logout"} sx={{ opacity: open ? 1 : 0, color: "red" }} />
+                <ListItemText primary={"Logout"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
           </Link>
