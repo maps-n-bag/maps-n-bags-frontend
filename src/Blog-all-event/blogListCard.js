@@ -22,7 +22,7 @@ const BloglistCard = (props) => {
   const startDate = dateformat.formatDate(cardsData.start_date);
   const endDate = dateformat.formatDate(cardsData.end_date);
   return (
-    <Grid item xs={12} sm={6} md={4} lg={3}>
+    <Grid item xs={12} sm={6} md={4}>
       <Card sx={{ maxWidth: 345 }}>
         <CardActionArea component={Link} to={`/Blog/${cardsData.id}`}>
           <CardMedia

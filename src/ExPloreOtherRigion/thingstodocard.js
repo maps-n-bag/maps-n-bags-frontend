@@ -73,10 +73,16 @@ const ThingsToDo = (props) => {
   //console.log(placeItem);
 
   return (
-    <div className={classes.places}>
-      <div className={classes.postcard}>
-        {placeItem.map((pl) => (
-          <div>
+    <div>
+      {placeItem.map((pl) => (
+        <div>
+          <Grid
+            item
+            xs={12}
+            container
+            direction="row"
+           
+          >
             {getTagBool(filter, pl.tag_id) && (
               <TagWise
                 item={pl}
@@ -85,9 +91,9 @@ const ThingsToDo = (props) => {
                 setRegions={props.setRegions}
               />
             )}
-          </div>
-        ))}
-      </div>
+          </Grid>
+        </div>
+      ))}
     </div>
   );
 };

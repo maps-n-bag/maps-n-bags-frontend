@@ -70,51 +70,42 @@ const ContentForActivity = (item) => {
   const activities = item.item.activities;
 
   return (
-    <div className={classes.places}>
-      
-        <Paper
+    <div>
+      <Grid item xs={12} sm={6} md={4} lg={3}>
+        <Card
           sx={{
-            p: 2,
-            margin: "auto",
-            maxWidth: 400,
-            flexGrow: 1,
-            marginBottom: "30%",
-            marginTop : "10%",
-            marginLeft : "30%",
-            backgroundColor: (theme) =>
-              theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+            minWidth: 300,
+            marginRight: "5%",
+            marginTop: "15%",
+            marginBottom: "15%",
           }}
         >
-        <Grid container spacing={2}>
-          <Grid item xs={10}>
-            {images.map((img) => (
-              <img
-                src={img}
-                // alt={name_arr}
-                style={{ width: "110%", marginLeft: "5%" }}
-              />
-            ))}
+          {/* <CardMedia
+            component="img"
+            images={images}
+          /> */}
+          {/* {images.map((image) => (
+            <img src={image} style={{maxHeight: "300px" , AlignItems: "center"}} />
+          ))} */}
 
-            <Typography
-              variant="h6"
-              style={{ marginLeft: "5%", marginTop: "5%" }}
-            >
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {images.map((image, index) => (
+              <img key={index} src={image} style={{ maxHeight: "300px" }} />
+            ))}
+          </div>
+
+          <CardContent>
+            <Typography variant="h6" style={{ marginLeft: "5%" }}>
               <b>{title} </b>
             </Typography>
             <br />
-            <Typography
-              variant="h6"
-              style={{ marginLeft: "5%", marginTop: "5%" }}
-            >
+            <Typography variant="h6" style={{ marginLeft: "5%" }}>
               {" "}
               Rating: {rating} ( count: {rating_count})
             </Typography>
-          </Grid>
-          <Grid item xs={10}>
-            <Typography
-              variant="h6"
-              style={{ marginLeft: "5%", marginTop: "5%" }}
-            >
+          </CardContent>
+          <CardContent>
+            <Typography variant="h6" style={{ marginLeft: "5%" }}>
               <b>Activity: </b>
               {activities.map((ac) => (
                 <div>
@@ -128,11 +119,9 @@ const ContentForActivity = (item) => {
                 </div>
               ))}
             </Typography>
-          </Grid>
-        </Grid>
-        </Paper>
-       
-  
+          </CardContent>
+        </Card>
+      </Grid>
     </div>
   );
 };
