@@ -32,18 +32,19 @@ const useStyles = makeStyles({
   places: {
     height: "90%",
     width: "112%",
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundColor: "rgba(250, 233, 171, 0.6)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
   },
   btn: {
     minWidth: "100%",
+    marginLeft: "15%",
   },
 
   postcard: {
     //height: "100%",
-    width: "95%",
-    Height: "50%",
+    // width: "95%",
+    // Height: "50%",
     //marginLeft: "15%",
     // marginRight: "20%",
   },
@@ -52,10 +53,10 @@ const useStyles = makeStyles({
     overflow: "hidden",
   },
 
-  img: {
-    height: "100%",
-    position: "centre",
-  },
+  // img: {
+  //   height: "100%",
+  //   position: "centre",
+  // },
   cardimg: {
     // height: "100%",
   },
@@ -66,22 +67,22 @@ const ExploreOtherRegion = () => {
   const { plan_id } = useParams();
   const [placeItem, setPlaceItem] = useState([]);
 
-  const [addList, setAddList] = useState([])
-  const [removeList, setRemoveList] = useState([])
-  const [regions, setRegions] = useState([])
-  const [filter, setFilter] = useState([])
-  const [navigateBool, setNavigateBool] = useState(false)
+  const [addList, setAddList] = useState([]);
+  const [removeList, setRemoveList] = useState([]);
+  const [regions, setRegions] = useState([]);
+  const [filter, setFilter] = useState([]);
+  const [navigateBool, setNavigateBool] = useState(false);
 
   const postUpdateHandler = (event) => {
-    console.log(addList)
-    console.log(removeList)
+    console.log(addList);
+    console.log(removeList);
     axios
       .post(
         `${baseURL}plan/update?plan_id=${plan_id}`,
         {
           add: addList,
           remove: removeList,
-          regions: regions
+          regions: regions,
         },
         {
           headers: {
@@ -91,7 +92,7 @@ const ExploreOtherRegion = () => {
       )
       .then((resp) => {
         console.log(resp);
-        setNavigateBool(true)
+        setNavigateBool(true);
       })
       .catch((rejected) => {
         console.log(rejected);
@@ -108,11 +109,15 @@ const ExploreOtherRegion = () => {
       .then((resp) => {
         console.log(resp.data);
         setPlaceItem(resp.data);
-        let temp = []
+        let temp = [];
         temp = resp.data[0].tags_places_activities.map((item) => {
-          return { tag_id: item.tag_id, tag_title: item.tag_name, isShow: false }
-        })
-        setFilter(temp)
+          return {
+            tag_id: item.tag_id,
+            tag_title: item.tag_name,
+            isShow: false,
+          };
+        });
+        setFilter(temp);
       })
       .catch((rejected) => {
         console.log(rejected);
@@ -124,6 +129,18 @@ const ExploreOtherRegion = () => {
   return (
     <div className={classes.places}>
       <div className={classes.postcard}>
+        <Typography
+          color="black"
+          style={{
+            fontFamily: "Special Elite",
+            fontSize: "200%",
+            textAlign: "center",
+            //marginTop: "5%",
+          }}
+        >
+          {" "}
+          Explore Other Regions{" "}
+        </Typography>
         <Grid item container spacing={10}>
           <Grid item>
             <TagBar tags={filter} setTags={setFilter} />
@@ -133,20 +150,81 @@ const ExploreOtherRegion = () => {
               <Grid item container spacing={10}>
                 {/* Use Grid items to contain each card */}
 
-                <Grid item>
-                  <ThingsToDo item={pl} filter={filter} addedList={setAddList}  setRegions={setRegions} />
+                
+
+            <Grid item xs={10}>
+                  <ThingsToDo
+                    item={pl}
+                    filter={filter}
+                    addedList={setAddList}
+                    setRegions={setRegions}
+                  />
                 </Grid>
               </Grid>
             </div>
           ))}
-          <Grid item>
-            <Button onClick={postUpdateHandler} size="small" className={classes.btn}>
-              Update Plan
+
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            // marginTop= "5%"
+            marginBottom="40%"
+          > 
+            <Button
+              onClick={postUpdateHandler}
+              className="btn"
+              //type="submit"
+              style={{
+                backgroundColor: "rgba(178, 222, 39,0.5)",
+                borderWidth: "5px",
+                borderColor: "white",
+                borderRadius: "200%",
+                //marginLeft: "500%",
+              }}
+              variant="outlined"
+              // fullWidth
+            >
+              <Typography
+                color="black"
+                style={{
+                  fontFamily: "Special Elite",
+                  fontSize: "200%",
+                  textAlign: "center",
+                }}
+              >
+                Update Plan
+              </Typography>
             </Button>
-            {navigateBool && <Link to={`/FullTour/${plan_id}`}><Button  size="small" className={classes.btn}>
-              View Updated Plan
-            </Button>
-            </Link>}
+            {navigateBool && (
+              <Link to={`/FullTour/${plan_id}`}>
+                <Button
+                  className="btn"
+                  style={{
+                    backgroundColor: "rgba(13, 180, 185,0.5)",
+                    borderWidth: "5px",
+                    borderColor: "white",
+                    borderRadius: "200%",
+                    //marginLeft: "500%",
+                  }}
+                  variant="outlined"
+                  // fullWidth
+                >
+                  <Typography
+                    color="black"
+                    style={{
+                      fontFamily: "Special Elite",
+                      fontSize: "200%",
+                      textAlign: "center",
+                    }}
+                  >
+                    {" "}
+                    View Updated Plan
+                  </Typography>
+                </Button>
+              </Link>
+            )}
           </Grid>
         </Grid>
       </div>

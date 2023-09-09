@@ -30,11 +30,11 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 const timeformat = require("../formatTime");
 const useStyles = makeStyles({
   places: {
-    height: "90%",
-    width: "112%",
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
+    // height: "90%",
+    // width: "112%",
+    // backgroundColor: "rgba(250, 233, 171, 0.78)",
+    // backgroundRepeat: "no-repeat",
+    // backgroundSize: "cover",
   },
   btn: {
     minWidth: "100%",
@@ -42,8 +42,8 @@ const useStyles = makeStyles({
 
   postcard: {
     //height: "100%",
-    width: "95%",
-    Height: "50%",
+    //width: "105%",
+    //Height: "70%",
     //marginLeft: "15%",
     // marginRight: "20%",
   },
@@ -64,10 +64,10 @@ const useStyles = makeStyles({
 const ThingsToDo = (props) => {
   const classes = useStyles();
   const { plan_id } = useParams();
-  const placeItem=props.item.tags_places_activities;
+  const placeItem = props.item.tags_places_activities;
 
-  const  setAddList = props.addedList;
-  const  setRemoveList = props.removedList;
+  const setAddList = props.addedList;
+  const setRemoveList = props.removedList;
   const filter = props.filter;
 
   //console.log(placeItem);
@@ -76,15 +76,36 @@ const ThingsToDo = (props) => {
     <div className={classes.places}>
       <div className={classes.postcard}>
         <Grid item container spacing={10}>
-          <Grid item>
-            {props.item.region_name}
-          </Grid>
+          {/* <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            fontSize="200%"
+            textAlign="center"
+            marginTop="5%"
+          >
+            <Typography
+              color="black"
+              style={{
+                fontFamily: "Special Elite",
+              }}
+            >
+              Region Name: {props.item.region_name}{" "}
+            </Typography>
+          </Grid> */}
           {placeItem.map((pl) => (
             <div>
               <Grid item container spacing={10}>
-
                 <Grid item>
-                  {getTagBool(filter, pl.tag_id) && <TagWise item={pl} addedList={setAddList}  region_id={props.item.region_id} setRegions={props.setRegions} />}
+                  {getTagBool(filter, pl.tag_id) && (
+                    <TagWise
+                      item={pl}
+                      addedList={setAddList}
+                      region_id={props.item.region_id}
+                      setRegions={props.setRegions}
+                    />
+                  )} 
                 </Grid>
               </Grid>
             </div>
@@ -95,8 +116,8 @@ const ThingsToDo = (props) => {
   );
 };
 const getTagBool = (filter, tag_id) => {
-  let temp = filter.filter((item) => item.tag_id === tag_id)
-  return temp[0].isShow
-}
+  let temp = filter.filter((item) => item.tag_id === tag_id);
+  return temp[0].isShow;
+};
 
 export default ThingsToDo;

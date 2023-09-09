@@ -39,11 +39,11 @@ const useStyles = makeStyles({
 
   postcard: {
     //height: "100%",
-    width: "95%",
-    Height: "50%",
-    fontFamily: "sans-serif",
-    marginLeft: "50%",
-    // marginRight: "20%",
+    // width: "95%",
+    // Height: "50%",
+    // fontFamily: "sans-serif",
+    // marginLeft: "50%",
+    // marginTop: "20%",
   },
   cardimg: {
     backgroundColor: "#ff5722",
@@ -75,9 +75,10 @@ const ContentForActivity = (item) => {
         <Card
           className={classes.cardimg}
           style={{
-            width: "80%",
-            //marginLeft: "2%",
-            marginTop: "5%",
+            width: "160%",
+            marginLeft: "25%",
+            marginBottom: "5%",
+            fontFamily: "Special Elite",
             color: "fffff",
           }}
         >
@@ -106,13 +107,19 @@ const ContentForActivity = (item) => {
             variant="h6"
             style={{ marginLeft: "5%", marginTop: "5%" }}
           >
-            Activity:
+           <b>Activity: </b>
+            {activities.map((ac) => (
+              <div>
+                <ActivityCard
+                  item={ac}
+                  place_id={id}
+                  setAddList={item.addList}
+                  region_id={item.region_id}
+                  setRegions={item.setRegions}
+                />
+              </div>
+            ))}
           </Typography>
-          {activities.map((ac) => (
-            <div>
-              <ActivityCard item={ac} place_id={id} setAddList={item.addList}  region_id={item.region_id} setRegions={item.setRegions}/>
-            </div>
-          ))}
         </Card>
       </div>
     </div>

@@ -12,6 +12,7 @@ import axios from "axios";
 import SouthIcon from "@mui/icons-material/South";
 import plane from "../photos/icon/plane.png";
 import beach from "../photos/icon/um.png";
+import map from "../photos/map.jpg";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 import { Link } from "react-router-dom";
@@ -26,7 +27,8 @@ const useStyles = makeStyles({
   places: {
     height: "100%",
     width: "118%",
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundImage: `url(${map})`,
+   // backgroundColor: "rgba(250, 233, 171, 0.78)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
   },
@@ -98,7 +100,7 @@ const FullTour = () => {
             width: "50%",
             marginLeft: "7%",
             color: "ffffff",
-            marginTop: "5%",
+            marginTop: "8%",
           }}
         >
           <CardContent>
@@ -112,9 +114,10 @@ const FullTour = () => {
                   variant="head"
                   style={{
                     fontFamily: "Special Elite",
-                    fontSize: "200%",
+                    fontSize: "150%",
                     color: "black",
                     marginLeft: "15%",
+                    marginTop: "5%",
                     textAlign: "right",
                   }}
                 >
@@ -178,11 +181,11 @@ const FullTour = () => {
                   style={{
                     width: "10%",
                     height: "7%",
-                    marginLeft: "20%",
+                    marginLeft: "30%",
                     marginTop: "0%",
                   }}
                 />
-                1 h 15 mins
+               
                 <SouthIcon
                   style={{
                     width: "20%",
@@ -212,12 +215,12 @@ const FullTour = () => {
                   style={{
                     width: "10%",
                     height: "7%",
-                    marginLeft: "20%",
+                    marginLeft: "30%",
                     marginTop: "5%",
                   }}
                   // Adjust the percentage value as needed
                 />{" "}
-                1 h 15 mins
+               
                 <SouthIcon
                   style={{
                     width: "20%",

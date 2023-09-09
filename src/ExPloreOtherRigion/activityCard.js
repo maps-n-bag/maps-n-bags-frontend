@@ -39,10 +39,10 @@ const useStyles = makeStyles({
 
     postcard: {
         //height: "100%",
-        width: "95%",
-        Height: "50%",
-        fontFamily: "sans-serif",
-        marginLeft: "50%",
+        // width: "95%",
+        // Height: "50%",
+        // fontFamily: "sans-serif",
+        // marginLeft: "50%",
         // marginRight: "20%",
     },
     cardimg: {
@@ -100,7 +100,7 @@ const ActivityCard = (item) => {
                 <div>
                     <Typography
                         variant="h6"
-                        style={{ marginLeft: "5%", marginTop: "5%" }}
+                        // style={{ marginLeft: "5%", marginTop: "5%" }}
                     >
                         {" "}
                         {activity.title}

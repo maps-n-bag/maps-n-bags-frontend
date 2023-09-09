@@ -58,11 +58,12 @@ const Bloglist = () => {
   const user_id = localStorage.getItem("userId");
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
-    axios.get(`${baseURL}plan/all?user_id=${user_id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
+    axios
+      .get(`${baseURL}plan/all?user_id=${user_id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
       .then((resp) => {
         setItemBasic(resp.data);
       })
@@ -88,24 +89,24 @@ const Bloglist = () => {
           }}
         >
           <CardContent>
-          {itemBasic.map((item, index) => (
-          <Grid
-              container
-              direction="column"
-              justifyContent="center"
-              alignItems="flex-start"
-              spacing={10}
-              style={{
-                // width: "50%",
-                // marginLeft: "7%",
-                color: "ffffff",
-                marginTop: "1%",
-              }}
-            >
-            <Grid item>
-              <BloglistCard item={item} className={classes.cardday} />
+            {itemBasic.map((item, index) => (
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="flex-start"
+                spacing={10}
+                style={{
+                  // width: "50%",
+                  // marginLeft: "7%",
+                  color: "ffffff",
+                  marginTop: "1%",
+                }}
+              >
+                <Grid item>
+                  <BloglistCard item={item} className={classes.cardday} />
+                </Grid>
               </Grid>
-            </Grid>
             ))}
           </CardContent>
         </Card>

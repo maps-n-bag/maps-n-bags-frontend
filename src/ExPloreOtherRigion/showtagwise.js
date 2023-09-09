@@ -38,9 +38,9 @@ const useStyles = makeStyles({
 
   postcard: {
     //height: "100%",
-    width: "95%",
-    Height: "50%",
-    //marginLeft: "15%",
+    // width: "95%",
+    // Height: "50%",
+    // marginTop: "55%",
     // marginRight: "20%",
   },
   cardimg: {
@@ -58,7 +58,6 @@ const useStyles = makeStyles({
 });
 
 const TagWise = (item) => {
-
   const classes = useStyles();
   //const { plan_id } = useParams();
   const tag_id = item.item.tag_id;
@@ -69,16 +68,33 @@ const TagWise = (item) => {
   return (
     <div className={classes.places}>
       <div className={classes.postcard}>
-
-      <Typography variant="h6" style={{marginLeft:"40%"}}>{tag_id} {tag_title}</Typography>
-        {placesOfATag.map((place) => (
-          <div>
-          
-            
-              <ContentForActivity item={place} addList={item.addedList}  region_id={item.region_id} setRegions={item.setRegions} />
-           
-          </div>
-        ))}
+        {/* <Typography
+          variant="h6"
+          style={{ marginLeft: "70%", fontFamily: "Special Elite" }}
+        >
+           Places with {tag_title} tag:
+        </Typography> */}
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="stretch"
+          marginLeft="40%"
+          marginTop="-27%"
+          xs={4}
+          sm={6}
+          md={4}
+          lg={4}
+        >
+          {placesOfATag.map((place) => (
+            <ContentForActivity
+              item={place}
+              addList={item.addedList}
+              region_id={item.region_id}
+              setRegions={item.setRegions}
+            />
+          ))}
+        </Grid>
       </div>
     </div>
   );

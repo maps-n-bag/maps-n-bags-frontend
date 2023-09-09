@@ -11,7 +11,7 @@ import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 import { useParams } from "react-router-dom";
-
+import station from "../photos/map.jpg";
 // require("dotenv").config();
 
 // const baseURL = process.env.BASE_URL;
@@ -20,9 +20,10 @@ const dateformat = require("../formatDate");
 
 const useStyles = makeStyles({
   places: {
-    height: "90%",
-    width: "112%",
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    height: "100%",
+    width: "100%",
+    backgroundImage: `url(${station})`,
+   // backgroundColor: "rgba(250, 233, 171, 0.78)",
 
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
@@ -35,7 +36,9 @@ const useStyles = makeStyles({
     //height: "100%",
     width: "95%",
     Height: "50%",
-    marginLeft: "15%",
+    marginLeft: "35%",
+    marginTop: "8%",
+    marginBottom: "5%",
     // marginRight: "20%",
   },
   cardimg: {
@@ -90,7 +93,7 @@ const Tour_overview = () => {
         <Card
           className={classes.cardimg}
           style={{
-            width: "46%",
+            width: "30%",
             marginLeft: "7%",
             color: "ffffff",
             marginTop: "4.5%",

@@ -66,21 +66,21 @@ const ThingsToDo = () => {
   const { plan_id } = useParams();
   const [placeItem, setPlaceItem] = useState([]);
 
-  const [addList, setAddList] = useState([])
-  const [removeList, setRemoveList] = useState([])
-  const [filter, setFilter] = useState([])
-  const [navigateBool, setNavigateBool] = useState(false)
+  const [addList, setAddList] = useState([]);
+  const [removeList, setRemoveList] = useState([]);
+  const [filter, setFilter] = useState([]);
+  const [navigateBool, setNavigateBool] = useState(false);
 
   const postUpdateHandler = (event) => {
-    console.log(addList)
-    console.log(removeList)
+    console.log(addList);
+    console.log(removeList);
     axios
       .post(
         `${baseURL}plan/update?plan_id=${plan_id}`,
         {
           add: addList,
           remove: removeList,
-          regions: []
+          regions: [],
         },
         {
           headers: {
@@ -90,7 +90,7 @@ const ThingsToDo = () => {
       )
       .then((resp) => {
         console.log(resp);
-        setNavigateBool(true)
+        setNavigateBool(true);
       })
       .catch((rejected) => {
         console.log(rejected);
@@ -107,11 +107,15 @@ const ThingsToDo = () => {
       .then((resp) => {
         console.log(resp.data);
         setPlaceItem(resp.data);
-        let temp = []
+        let temp = [];
         temp = resp.data.map((item) => {
-          return { tag_id: item.tag_id, tag_title: item.tag_name, isShow: false }
-        })
-        setFilter(temp)
+          return {
+            tag_id: item.tag_id,
+            tag_title: item.tag_name,
+            isShow: false,
+          };
+        });
+        setFilter(temp);
       })
       .catch((rejected) => {
         console.log(rejected);
@@ -133,19 +137,80 @@ const ThingsToDo = () => {
                 {/* Use Grid items to contain each card */}
 
                 <Grid item>
-                  {getTagBool(filter, pl.tag_id) && <TagWise item={pl} addedList={setAddList} removedList={setRemoveList} />}
+                  {getTagBool(filter, pl.tag_id) && (
+                    <TagWise
+                      item={pl}
+                      addedList={setAddList}
+                      removedList={setRemoveList}
+                    />
+                  )}
                 </Grid>
               </Grid>
             </div>
           ))}
-          <Grid item>
-            <Button onClick={postUpdateHandler} size="small" className={classes.btn}>
-              Update Plan
+
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            // marginTop= "5%"
+            marginBottom="40%"
+          >
+            <Button
+              onClick={postUpdateHandler}
+              className="btn"
+              //type="submit"
+              style={{
+                backgroundColor: "rgba(178, 222, 39,0.5)",
+                borderWidth: "5px",
+                borderColor: "white",
+                borderRadius: "200%",
+                //marginLeft: "500%",
+              }}
+              variant="outlined"
+              // fullWidth
+            >
+              <Typography
+                color="black"
+                style={{
+                  fontFamily: "Special Elite",
+                  fontSize: "200%",
+                  textAlign: "center",
+                }}
+              >
+                Update Plan
+              </Typography>
             </Button>
-            {navigateBool && <Link to={`/FullTour/${plan_id}`}><Button  size="small" className={classes.btn}>
-              View Updated Plan
-            </Button>
-            </Link>}
+
+            {navigateBool && (
+              <Link to={`/FullTour/${plan_id}`}>
+                <Button
+                  className="btn"
+                  style={{
+                    backgroundColor: "rgba(13, 180, 185,0.5)",
+                    borderWidth: "5px",
+                    borderColor: "white",
+                    borderRadius: "200%",
+                    //marginLeft: "500%",
+                  }}
+                  variant="outlined"
+                  // fullWidth
+                >
+                  <Typography
+                    color="black"
+                    style={{
+                      fontFamily: "Special Elite",
+                      fontSize: "200%",
+                      textAlign: "center",
+                    }}
+                  >
+                    {" "}
+                    View Updated Plan
+                  </Typography>
+                </Button>
+              </Link>
+            )}
           </Grid>
         </Grid>
       </div>
@@ -153,8 +218,8 @@ const ThingsToDo = () => {
   );
 };
 const getTagBool = (filter, tag_id) => {
-  let temp = filter.filter((item) => item.tag_id === tag_id)
-  return temp[0].isShow
-}
+  let temp = filter.filter((item) => item.tag_id === tag_id);
+  return temp[0].isShow;
+};
 
 export default ThingsToDo;

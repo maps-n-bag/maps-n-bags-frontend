@@ -17,7 +17,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
+ 
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 import { ScheduleOutlined } from "@mui/icons-material";
@@ -41,11 +41,11 @@ const useStyles = makeStyles({
 
     postcard: {
         //height: "100%",
-        width: "95%",
-        Height: "50%",
-        fontFamily: "sans-serif",
-        marginLeft: "50%",
-        // marginRight: "20%",
+        // width: "95%",
+        // Height: "50%",
+        // fontFamily: "sans-serif",
+        // marginLeft: "50%",
+        // // marginRight: "20%",
     },
     cardimg: {
         backgroundColor: "#ff5722",
@@ -54,10 +54,14 @@ const useStyles = makeStyles({
     },
     tag: {
         height: "100%",
-        width: "112%",
-        backgroundColor: "rgba(250, 233, 171, 0.78)",
+        width: "170%",
+        backgroundColor: "rgba(250, 233, 171, 0.9)",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
+        marginLeft: "95%",
+        marginTop: "40%"
+        
+
     },
 
     img: {
