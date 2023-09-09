@@ -29,13 +29,14 @@ import BookIcon from "@mui/icons-material/Book";
 import { Link } from "react-router-dom";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
+import PublicIcon from '@mui/icons-material/Public';
 import { Avatar, Tooltip } from "@mui/material";
 
 const drawerWidth = 240;
 
 const iconData = [
   { icon: HomeIcon, name: "Home", link: "" },
-  // { icon: TravelExploreIcon, name: "Explore", link: "Explore" },
+  { icon: PublicIcon, name: "Others Plan", link: "OthersPlan" },
   { icon: PermContactCalendarIcon, name: "Profile", link: `Profile/${localStorage.getItem("userId")}` },
   { icon: BookIcon, name: "Blog", link: "AllBlog" },
 ];

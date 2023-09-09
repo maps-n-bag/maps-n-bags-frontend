@@ -16,6 +16,7 @@ import ExploreMain from "./Explore/exploreMainPage";
 import ThingsToDo from "./Activities to do/thingstodocard";
 import GenerateBlog from "./Blog-all-event/showGeneratedBlog";
 import ExploreNearbyRegions from "./ExPloreOtherRigion/exploreOtherRegion";
+import OthersPlan from "./OthersPlan/otherPlans";
 export class NavigateAll extends React.Component {
   constructor(props) {
     super(props);
@@ -32,6 +33,7 @@ export class NavigateAll extends React.Component {
           <Route path="Blog/:plan_id" element={<DaybyDay />} />
           <Route path="/GenerateBlog/:plan_id" element={<GenerateBlog />} />
           <Route path="/Explore/:plan_id" element={<ExploreMain />} />
+          <Route path="/OthersPlan" element={<OthersPlan />} />
 
           <Route path="/FullTour/:plan_id" element={<FullTour />} />
           <Route path="/createPlan" element={<CreateAPlan />} />
