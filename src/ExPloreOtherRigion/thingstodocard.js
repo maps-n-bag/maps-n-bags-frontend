@@ -44,7 +44,7 @@ const useStyles = makeStyles({
     //height: "100%",
     //width: "105%",
     //Height: "70%",
-    //marginLeft: "15%",
+    marginTop: "35%",
     // marginRight: "20%",
   },
   cardimg: {
@@ -75,42 +75,18 @@ const ThingsToDo = (props) => {
   return (
     <div className={classes.places}>
       <div className={classes.postcard}>
-        <Grid item container spacing={10}>
-          {/* <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            fontSize="200%"
-            textAlign="center"
-            marginTop="5%"
-          >
-            <Typography
-              color="black"
-              style={{
-                fontFamily: "Special Elite",
-              }}
-            >
-              Region Name: {props.item.region_name}{" "}
-            </Typography>
-          </Grid> */}
-          {placeItem.map((pl) => (
-            <div>
-              <Grid item container spacing={10}>
-                <Grid item>
-                  {getTagBool(filter, pl.tag_id) && (
-                    <TagWise
-                      item={pl}
-                      addedList={setAddList}
-                      region_id={props.item.region_id}
-                      setRegions={props.setRegions}
-                    />
-                  )} 
-                </Grid>
-              </Grid>
-            </div>
-          ))}
-        </Grid>
+        {placeItem.map((pl) => (
+          <div>
+            {getTagBool(filter, pl.tag_id) && (
+              <TagWise
+                item={pl}
+                addedList={setAddList}
+                region_id={props.item.region_id}
+                setRegions={props.setRegions}
+              />
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -41,11 +41,11 @@ const useStyles = makeStyles({
     marginLeft: "15%",
   },
 
-  postcard: {
+  things: {
     //height: "100%",
     // width: "95%",
     // Height: "50%",
-    //marginLeft: "15%",
+    marginLeft: "15%",
     // marginRight: "20%",
   },
   cardimg: {
@@ -128,6 +128,7 @@ const ExploreOtherRegion = () => {
 
   return (
     <div className={classes.places}>
+      <SideBar />
       <div className={classes.postcard}>
         <Typography
           color="black"
@@ -146,21 +147,13 @@ const ExploreOtherRegion = () => {
             <TagBar tags={filter} setTags={setFilter} />
           </Grid>
           {placeItem.map((pl) => (
-            <div>
-              <Grid item container spacing={10}>
-                {/* Use Grid items to contain each card */}
-
-                
-
-            <Grid item xs={10}>
-                  <ThingsToDo
-                    item={pl}
-                    filter={filter}
-                    addedList={setAddList}
-                    setRegions={setRegions}
-                  />
-                </Grid>
-              </Grid>
+            <div className={classes.things}>
+              <ThingsToDo
+                item={pl}
+                filter={filter}
+                addedList={setAddList}
+                setRegions={setRegions}
+              />
             </div>
           ))}
 
@@ -170,8 +163,9 @@ const ExploreOtherRegion = () => {
             justifyContent="center"
             alignItems="center"
             // marginTop= "5%"
+            //  marginLeft= "30%"
             marginBottom="40%"
-          > 
+          >
             <Button
               onClick={postUpdateHandler}
               className="btn"

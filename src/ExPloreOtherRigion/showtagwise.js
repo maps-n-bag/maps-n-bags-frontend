@@ -67,35 +67,32 @@ const TagWise = (item) => {
 
   return (
     <div className={classes.places}>
-      <div className={classes.postcard}>
-        {/* <Typography
-          variant="h6"
-          style={{ marginLeft: "70%", fontFamily: "Special Elite" }}
-        >
-           Places with {tag_title} tag:
-        </Typography> */}
-        <Grid
-          container
-          direction="row"
-          justifyContent="space-evenly"
-          alignItems="stretch"
-          marginLeft="40%"
-          marginTop="-27%"
-          xs={4}
-          sm={6}
-          md={4}
-          lg={4}
-        >
-          {placesOfATag.map((place) => (
-            <ContentForActivity
-              item={place}
-              addList={item.addedList}
-              region_id={item.region_id}
-              setRegions={item.setRegions}
-            />
-          ))}
-        </Grid>
-      </div>
+      <Typography
+        variant="head"
+        style={{
+          fontFamily: "Special Elite",
+          fontSize: "200%",
+          color: "black",
+          marginLeft: "30%",
+          marginTop: "-3%",
+          marginBottom: "3%"
+
+          // textAlign: "center",
+        }}
+      >
+        {" "}
+        {tag_title}:
+      </Typography>
+      <Grid container spacing={2}>
+        {placesOfATag.map((place) => (
+          <ContentForActivity
+            item={place}
+            addList={item.addedList}
+            region_id={item.region_id}
+            setRegions={item.setRegions}
+          />
+        ))}
+      </Grid>
     </div>
   );
 };
