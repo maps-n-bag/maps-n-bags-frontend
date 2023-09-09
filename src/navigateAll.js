@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import FullTour from "./Overview-Plan/fulltour";
 import Tour_overview from "./Overview-Plan/tour_overview";
-import CreateAPlan from "./Create Plan/createPlan";
+import CreateAPlan from "./Plan/createPlan";
 import DaywisePlan from "./Day-By_Day_DayWise/daywiseplan";
 import Profile from "./Profile/timeline";
 

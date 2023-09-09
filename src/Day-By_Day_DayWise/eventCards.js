@@ -156,9 +156,7 @@ const EventCards = (props) => {
                 <Typography variant="body2" gutterBottom>
                   <ScheduleOutlined sx={{ width: 20, height: 20 }} />
                   <Divider orientation="vertical" flexItem />
-                  {timeformat.formatTime(cardsData.event.start_time)}
-                  &nbsp; to &nbsp;
-                  {timeformat.formatTime(cardsData.event.end_time)}
+                  {timeformat.formatTime(cardsData.event.start_time)} to {timeformat.formatTime(cardsData.event.end_time)}
                 </Typography>
               </Grid>
 

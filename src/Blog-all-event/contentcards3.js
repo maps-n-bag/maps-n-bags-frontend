@@ -106,7 +106,7 @@ const ContentCards = (props) => {
     });
   };
 
-  const { handleSubmit, getValues, setValue } = useForm();
+  const { handleSubmit } = useForm();
 
   const onSubmit = (data, e) => {
     e.preventDefault();
