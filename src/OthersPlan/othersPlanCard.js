@@ -55,14 +55,16 @@ const OthersPLanCard = (props) => {
     const cardsData = props.item;
     const startDate = dateformat.formatDate(cardsData.start_date);
     const endDate = dateformat.formatDate(cardsData.end_date);
+    const copiedStartDate =props.startDate;
     const navigate = useNavigate();
 
     
     const copyHandler = () => {
         axios
             .post(`${baseURL}plan/copy`, {
-                plan_id: cardsData.plan_id,
+                plan_id: cardsData.id,
                 user_id: localStorage.getItem("userId"),
+                start_date: copiedStartDate,
             }, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -70,8 +72,8 @@ const OthersPLanCard = (props) => {
             })
             .then((resp) => {
                 console.log(resp.data);
-                if(resp.data.status == "201") {
-                    navigateHandler(cardsData.plan_id);
+                if(resp.status == "201") {
+                    navigateHandler(resp.data.id);
                 }
             })
             .catch((rejected) => {

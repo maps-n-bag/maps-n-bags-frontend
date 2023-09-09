@@ -20,6 +20,8 @@ import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 import OthersPLanCard from "./othersPlanCard";
 import Checkbox from "@mui/material/Checkbox";
+import DatePicker from "react-datepicker";
+import FormGroup from "@mui/material/FormGroup";
 
 const dateformat = require("../formatDate");
 const baseURL = process.env.REACT_APP_BASE_URL;
@@ -60,6 +62,7 @@ const OthersPlan = () => {
   const user_id = localStorage.getItem("userId");
   const [regions, setRegions] = useState([]);
   const [itemBasic, setItemBasic] = useState([]);
+  const [startDate, setStartDate] = useState(new Date());
 
   const [checkedItemsRgn, setCheckedItemsRgn] = useState([]);
 
@@ -87,7 +90,7 @@ const OthersPlan = () => {
   }, []);
 
   useEffect(() => {
-    const values={
+    const values = {
       user_id: user_id,
       regions: [...checkedItemsRgn],
     }
@@ -98,10 +101,11 @@ const OthersPlan = () => {
         },
       })
       .then((resp) => {
-        if (resp.status == "200") { 
+        if (resp.status == "200") {
           console.log(resp.data);
           console.log("hello");
-          setItemBasic(resp.data); }
+          setItemBasic(resp.data);
+        }
         else { setItemBasic([]); }
       })
       .catch((rejected) => {
@@ -116,6 +120,25 @@ const OthersPlan = () => {
 
       <div className={classes.postcard}>
         <Grid container spacing={2}>
+          <Grid item>
+            <Box
+              width="70%"
+              marginTop="50%"
+              marginLeft="-24%"
+              textAlign="left"
+              borderRadius={16}
+              borderWidth={5}
+              bgcolor="rgba(255, 255, 255, 0.7)"
+            >
+              <FormGroup className={classes.form}>
+                <Typography fontSize="100%">Start Date:</Typography>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                />
+              </FormGroup>
+            </Box>
+          </Grid>
           <Grid item >
             <Box
               width="65%"
@@ -132,7 +155,7 @@ const OthersPlan = () => {
               </Typography>
               {regions.map((rgn) => (
                 <FormControlLabel
-                key={rgn.id}
+                  key={rgn.id}
                   control={
                     <Checkbox
                       marginLeft="20%"
@@ -165,7 +188,7 @@ const OthersPlan = () => {
             }}
           >
             <Grid item>
-              <OthersPLanCard item={item} className={classes.cardday} />
+              <OthersPLanCard item={item} startDate={startDate} className={classes.cardday} />
             </Grid>
           </Grid>
         ))}
