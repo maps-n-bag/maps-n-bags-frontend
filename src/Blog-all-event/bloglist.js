@@ -75,7 +75,7 @@ const Bloglist = () => {
 
       <div className={classes.postcard}>
 
-        <Grid container spacing={2} justifyContent="center" style={{ width: "90%" }}>
+        <Grid container spacing={2} justifyContent="left" style={{ width: "80%" }}>
           {itemBasic.map((item, index) => (
             <BloglistCard item={item} />
           ))}

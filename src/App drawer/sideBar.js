@@ -185,15 +185,15 @@ export default function SideBar() {
         <Divider />
         <List>
           {iconData.map((icons, index) => (
-            <ListItem key={index} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <Link to={`/${icons.link}`}>
+            <Link to={`/${icons.link}`} style={{ textDecoration: "none", color: "black" }}>
+              <ListItem key={index} disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
@@ -205,18 +205,19 @@ export default function SideBar() {
 
                     {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                   </ListItemIcon>
-                </Link>
-                <ListItemText
-                  primary={icons.name}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
+                  <ListItemText
+                    primary={icons.name}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+
           ))}
         </List>
         <Divider />
         <List>
-          <Link to={`/createplan`}>
+          <Link to={`/createplan`} style={{ textDecoration: "none", color: "black" }}>
             {["Create Plan"].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
@@ -246,7 +247,7 @@ export default function SideBar() {
         <Divider />
 
         <List>
-          <Link to={`/`}>
+          <Link to={`/`} style={{ textDecoration: "none", color: "black" }}>
             <ListItem key={"Logout"} disablePadding sx={{ display: "block" }} onClick={() => { localStorage.clear(); }}>
               <ListItemButton
                 sx={{
@@ -264,7 +265,7 @@ export default function SideBar() {
                 >
                   <KeyboardReturnIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Logout"} sx={{ opacity: open ? 1 : 0, color: "red" }} />
+                <ListItemText primary={"Logout"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
           </Link>
