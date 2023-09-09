@@ -77,7 +77,7 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
             {isEditing ? (
               <div style={{ display: buttonDisplay ? "block" : "none" }}>
                 <Button
-                  style={{ position: "absolute", top: "32%", left: "35%", transform: "translate(-50%, -50%)" }}
+                  style={{ position: "absolute", top: "25%", left: "50%", transform: "translate(-50%, -50%)" }}
                   component="label"
                   variant="contained"
                   startIcon={<CloudUploadIcon />}
@@ -85,9 +85,13 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
                   Upload
                   <VisuallyHiddenInput type="file" accept="image/*" onChange={handlePlanImageUpload} />
                 </Button>
-                <Button style={{ position: "absolute", top: "32%", left: "65%", transform: "translate(-50%, -50%)" }} variant="contained"
+                <Button style={{ position: "absolute", top: "40%", left: "35%", transform: "translate(-50%, -50%)" }} variant="contained"
                   onClick={handlePlanSave}>
                   Save
+                </Button>
+                <Button style={{ position: "absolute", top: "40%", left: "65%", transform: "translate(-50%, -50%)" }} variant="contained"
+                  onClick={() => setIsEditing(false)}>
+                  Cancel
                 </Button>
               </div>
             ) : (
