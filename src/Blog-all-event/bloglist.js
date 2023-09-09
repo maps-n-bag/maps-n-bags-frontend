@@ -18,39 +18,22 @@ import { Link } from "react-router-dom";
 import noteIcon from "../photos/icon/note.png";
 import { useParams } from "react-router-dom";
 import BloglistCard from "../Blog-all-event/blogListCard";
+import { CardActionArea } from "@mui/material";
 
 const dateformat = require("../formatDate");
 const baseURL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles({
   places: {
     height: "100%",
-    width: "118%",
+    width: "100%",
     backgroundColor: "rgba(250, 233, 171, 0.78)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+    minHeight: "100vh",
   },
-  btn: {
-    minWidth: "100%",
-  },
-
   postcard: {
-    //height: "100%",
-    width: "95%",
-    Height: "50%",
-    marginLeft: "15%",
-    // marginRight: "20%",
-  },
-  cardimg: {
-    backgroundColor: "#ff5722",
-    overflow: "hidden",
-  },
-
-  img: {
-    height: "100%",
-    position: "centre",
-  },
-  cardimg: {
-    height: "100%",
+    marginTop: "7%",
+    marginLeft: "7%",
   },
 });
 
@@ -79,7 +62,26 @@ const Bloglist = () => {
       <SideBar />
 
       <div className={classes.postcard}>
-        <Card
+
+      <Typography variant="h4"
+          style={{
+            fontFamily: "Special Elite",
+            fontSize: "200%",
+            color: "black",
+            textAlign: "center",
+            marginBottom: "15px",
+          }}
+        >
+          Your Blogs
+        </Typography>
+
+        <Grid container spacing={2}>
+          {itemBasic.map((item, index) => (
+            <BloglistCard item={item}/>
+          ))}
+        </Grid>
+
+        {/* <Card
           className={classes.cardimg}
           style={{
             width: "50%",
@@ -109,7 +111,7 @@ const Bloglist = () => {
               </Grid>
             ))}
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
     </div>
   );
