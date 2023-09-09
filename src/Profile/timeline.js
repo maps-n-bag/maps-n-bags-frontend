@@ -29,8 +29,8 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { BackspaceOutlined, EditNote, SaveOutlined } from "@mui/icons-material";
+import PlanCard from "../Plan/planCard";
 
-const { formatDate } = require("../formatDate");
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const useStyles = makeStyles((theme) => ({
@@ -106,31 +106,7 @@ const Profile = () => {
   const [plans, setPlans] = useState([]);
 
   const classes = useStyles();
-  // Get a reference to the button and the target element
-  // const scrollButton = document.getElementById("scrollButton");
-  // const targetElement = document.getElementById("targetElement");
 
-  // // Add a click event listener to the button
-  // scrollButton.addEventListener("click", function () {
-  //   // Scroll to the target element with a smooth animation
-  //   targetElement.scrollIntoView({ behavior: "smooth" });
-  // });
-
-  // Get a reference to the button and the target div
-  // const scrollButton = document.getElementById("scrollButton");
-  // const targetDiv = document.getElementById("targetDiv");
-
-  // // Add a click event listener to the button
-  // scrollButton.addEventListener("click", function () {
-  //   // Calculate the position of the target div relative to the viewport
-  //   const rect = targetDiv.getBoundingClientRect();
-
-  //   // Scroll to the top of the target div with a smooth animation
-  //   window.scrollTo({
-  //     top: rect.top + window.scrollY,
-  //     behavior: "smooth",
-  //   });
-  // });
   useEffect(() => {
     axios
       .get(`${baseURL}user?id=${user_id}`, {
@@ -168,6 +144,43 @@ const Profile = () => {
       });
   }, []);
 
+  const handleTogglePublic = (plan_id) => {
+    setPlans(plans.map((p) => {
+      if (p.id === plan_id) {
+        p.public = !p.public;
+      }
+      return p;
+    }));
+
+    axios.put(`${baseURL}plan/edit/public?plan_id=${plan_id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+    .then((res) => {
+      console.log("sent");
+    })
+    .catch((error) => {
+      console.error("An error occurred:", error);
+    });
+  }
+
+  const handlePlanDelete = (plan_id) => {
+    axios
+      .delete(`${baseURL}plan?id=${plan_id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then((res) => {
+        window.location.reload(false);
+        setPlans(plans.filter((p) => p.id !== plan_id));
+      })
+      .catch((error) => {
+        console.error("An error occurred:", error);
+      });
+  }
+
   return (
     <div className={classes.root}>
       <SideBar />
@@ -203,10 +216,10 @@ const Profile = () => {
           src={itemBasic.profile_pic}
           width="20%"
           alt="Profile"
-          // style={{
-          //   marginTop: "20%",
-          //   marginLeft: "0%",
-          // }}
+        // style={{
+        //   marginTop: "20%",
+        //   marginLeft: "0%",
+        // }}
         />
         {isEditingBasic && (
           <input
@@ -449,116 +462,9 @@ const Profile = () => {
       >
         Your Plans
       </Typography>
-      <Grid
-        container
-        direction="row"
-        justifyContent="left"
-        alignItems="left"
-        className={classes.plans}
-        columnSpacing={2}
-        marginLeft="15%"
-      >
+      <Grid container spacing={5} sx={{ marginLeft: "15%" }}>
         {plans.map((plan) => (
-          <div className={classes.postcard}>
-            {/* <img src={img_arr} alt="Image" className={classes.img} /> */}
-            <Card
-              className={classes.cardimg}
-              style={{
-                width: "70%",
-                marginLeft: "5%",
-                color: "ffffff",
-                marginTop: "4.5%",
-              }}
-            >
-              <CardContent>
-                {/* <Typography variant="h5">View Overview Plan</Typography> */}
-                <img
-                  src={plan.image}
-                  // alt={name_arr}
-                  style={{ width: "90%", height: "80%", marginLeft: "5%" }}
-                  // Adjust the percentage value as needed
-                />
-
-                <Typography
-                  variant="head"
-                  style={{
-                    // fontFamily: "Special Elite",
-                    fontSize: "100%",
-                    color: "black",
-                    marginLeft: "6%",
-                    // textAlign: "center",
-                  }}
-                >
-                  {" "}
-                  {plan.title}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  style={{
-                    fontSize: "100%",
-                    marginLeft: "6%",
-                    //textAlign: "center",
-                  }}
-                >
-                  {" "}
-                  {formatDate(plan.start_date)} to {formatDate(plan.end_date)}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  style={{
-                    fontSize: "100%",
-                    marginLeft: "6%",
-                    // textAlign: "center",
-                  }}
-                >
-                  {" "}
-                  {plan.description}
-                </Typography>
-                <a href={`/FullTour/${plan.id}`}>
-                  <Button
-                    size="small"
-                    className={classes.btn}
-                    style={{
-                      fontSize: "1em",
-                      marginLeft: "5%",
-                      marginTop: "5%",
-                    }}
-                  >
-                    View
-                  </Button>
-                </a>
-                <Button
-                  size="small"
-                  className={classes.btn}
-                  onClick={(e) => {
-                    axios
-                      .delete(`${baseURL}plan?id=${plan.id}`, {
-                        headers: {
-                          Authorization: `Bearer ${localStorage.getItem(
-                            "accessToken"
-                          )}`,
-                        },
-                      })
-                      .then((res) => {
-                        window.location.reload(false);
-                        setPlans(plans.filter((p) => p.id !== plan.id));
-                      })
-                      .catch((error) => {
-                        console.error("An error occurred:", error);
-                      });
-                  }}
-                  style={{
-                    fontSize: "1em",
-                    marginLeft: "5%",
-                    marginTop: "5%",
-                  }}
-                >
-                  Delete
-                </Button>
-              </CardContent>
-              <CardActions></CardActions>
-            </Card>
-          </div>
+          <PlanCard plan={plan} togglePublic={handleTogglePublic} deletePlan={handlePlanDelete} />
         ))}
       </Grid>
     </div>
