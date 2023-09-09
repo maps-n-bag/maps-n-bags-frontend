@@ -71,30 +71,15 @@ const ContentForActivity = (item) => {
 
   return (
     <div className={classes.places}>
-      
-        <Paper
-          sx={{
-            p: 2,
-            margin: "auto",
-            maxWidth: 400,
-            flexGrow: 1,
-            marginBottom: "30%",
-            marginTop : "10%",
-            marginLeft : "30%",
-            backgroundColor: (theme) =>
-              theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-          }}
-        >
-        <Grid container spacing={2}>
-          <Grid item xs={10}>
-            {images.map((img) => (
-              <img
-                src={img}
-                // alt={name_arr}
-                style={{ width: "110%", marginLeft: "5%" }}
-              />
-            ))}
-
+      <Grid item xs={12} sm={6} md={4} lg={3}>
+        <Card sx={{ minWidth: 500, marginRight: "5%" }}>
+          <CardMedia
+            component="img"
+            // height="200"
+            // image={img}
+            images={images}
+          />
+          <CardContent>
             <Typography
               variant="h6"
               style={{ marginLeft: "5%", marginTop: "5%" }}
@@ -109,30 +94,30 @@ const ContentForActivity = (item) => {
               {" "}
               Rating: {rating} ( count: {rating_count})
             </Typography>
-          </Grid>
-          <Grid item xs={10}>
-            <Typography
-              variant="h6"
-              style={{ marginLeft: "5%", marginTop: "5%" }}
-            >
-              <b>Activity: </b>
-              {activities.map((ac) => (
-                <div>
-                  <ActivityCard
-                    item={ac}
-                    place_id={id}
-                    setAddList={item.addList}
-                    region_id={item.region_id}
-                    setRegions={item.setRegions}
-                  />
-                </div>
-              ))}
-            </Typography>
-          </Grid>
-        </Grid>
-        </Paper>
-       
-  
+          </CardContent>
+          <CardContent>
+            <Grid item xs={6} sx={{ textAlign: "center" }}>
+              <Typography
+                variant="h6"
+                style={{ marginLeft: "5%", marginTop: "5%" }}
+              >
+                <b>Activity: </b>
+                {activities.map((ac) => (
+                  <div>
+                    <ActivityCard
+                      item={ac}
+                      place_id={id}
+                      setAddList={item.addList}
+                      region_id={item.region_id}
+                      setRegions={item.setRegions}
+                    />
+                  </div>
+                ))}
+              </Typography>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
     </div>
   );
 };
