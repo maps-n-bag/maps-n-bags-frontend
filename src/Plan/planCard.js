@@ -24,10 +24,10 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
   const handlePlanImageUpload = (e) => {
     const image = e.target.files[0];
     const storageRef = ref(storage, `plan-images/${v4()}`);
-    
+
     uploadBytes(storageRef, image).then((snapshot) => {
       console.log('Uploaded a blob or file!');
-      
+
       getDownloadURL(snapshot.ref).then((downloadURL) => {
         console.log('File available at', downloadURL);
         setPlanDetails({ ...planDetails, image: downloadURL });
@@ -141,7 +141,12 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
             <CardContent>
               {/** here should be a switch case for the type of the plan */}
               <FormControlLabel
-                control={<Switch checked={planDetails.public} onChange={() => togglePublic(planDetails.id)} />}
+                control={<Switch checked={planDetails.public}
+                  onChange={() => {
+                    togglePublic(planDetails.id);
+                    setPlanDetails({ ...planDetails, public: !planDetails.public })
+                  }}
+                />}
                 label={planDetails.public ? "Public" : "Private"}
               />
             </CardContent>
@@ -164,7 +169,10 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
             </Button>
           </Grid>
           <Grid item xs={6} sx={{ textAlign: "center" }}>
-            <Button size="small" color="primary" sx={{ width: "90%" }} variant="contained" onClick={() => deletePlan(planDetails.id)}>
+            <Button size="small" color="primary" sx={{ width: "90%" }} variant="contained" 
+            onClick={() => {
+              deletePlan(planDetails.id);
+            }}>
               Delete
             </Button>
           </Grid>
