@@ -20,45 +20,28 @@ import noteIcon from "../photos/icon/note.png";
 import { useParams } from "react-router-dom";
 
 const dateformat = require("../formatDate");
-// require("dotenv").config();
-// const baseURL = process.env.BASE_URL;
+
 const baseURL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles({
   places: {
-    height: "100%",
-    width: "118%",
-    backgroundImage: `url(${map})`,
-   // backgroundColor: "rgba(250, 233, 171, 0.78)",
+
+    backgroundColor: "rgba(250, 233, 171, 0.78)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-  },
-  btn: {
-    minWidth: "100%",
-  },
+    minHeight: "100vh",
 
+  },
+ 
   postcard: {
-    //height: "100%",
-    width: "95%",
-    Height: "50%",
-    marginLeft: "15%",
-    // marginRight: "20%",
-  },
-  cardimg: {
-    backgroundColor: "#ff5722",
-    overflow: "hidden",
+ 
+    marginLeft: "20%",
+    marginTop: "7%",
   },
 
-  img: {
-    height: "100%",
-    position: "centre",
-  },
-  cardimg: {
-    height: "100%",
-  },
 });
 
 const FullTour = () => {
-  // const id = localStorage.getItem("id");
+
   const day = 1;
   const [itemBasic, setItemBasic] = useState([]);
   const { plan_id } = useParams();
@@ -93,23 +76,22 @@ const FullTour = () => {
       <SideBar />
 
       <div className={classes.postcard}>
-        {/* <img src={img_arr} alt="Image" className={classes.img} /> */}
+       
         <Card
-          className={classes.cardimg}
+          
           style={{
-            width: "50%",
-            marginLeft: "7%",
+            width: "70%",
+            maxWidth: "1000px",
             color: "ffffff",
-            marginTop: "8%",
+           
           }}
         >
           <CardContent>
             <Grid container spacing={2}>
-              {/* <div className={classes.divider} /> */}
+           
 
               <Grid item xs={6}>
-                {/* Content for the left column */}
-                {/* <Typography variant="h6">Map of {name_arr}</Typography> */}
+               
                 <Typography
                   variant="head"
                   style={{
@@ -130,7 +112,7 @@ const FullTour = () => {
                   style={{
                     fontSize: "100%",
                     marginLeft: "15%",
-                    // textAlign: "center",
+           
                   }}
                 >
                   {" "}
@@ -148,11 +130,11 @@ const FullTour = () => {
                 />
               </Grid>
               <Grid item xs={6} marginTop={"5%"}>
-                {/* Content for the right column */}
+             
                 <Typography
                   variant="h6"
                   style={{
-                    // fontFamily: "Special Elite",
+                   
                     fontSize: "150%",
                     color: "black",
 
@@ -190,8 +172,7 @@ const FullTour = () => {
                   style={{
                     width: "20%",
                     height: "15%",
-                    // marginLeft: "50%",
-                    // marginTop: "15%",
+          
                   }}
                 />
                 <Typography
@@ -218,15 +199,14 @@ const FullTour = () => {
                     marginLeft: "30%",
                     marginTop: "5%",
                   }}
-                  // Adjust the percentage value as needed
+             
                 />{" "}
                
                 <SouthIcon
                   style={{
                     width: "20%",
                     height: "15%",
-                    // marginLeft: "50%",
-                    // marginTop: "15%",
+                
                   }}
                 />
                 <Typography
@@ -245,7 +225,7 @@ const FullTour = () => {
                 </Typography>
               </Grid>
             </Grid>
-            {/* <a href="\DaybyDay"> */}
+         
 
             <Link to={`/DaywisePlan/${plan_id}/${itemBasic.start_date}/${daysTotal}/${day}`}>
               <Button
@@ -258,11 +238,11 @@ const FullTour = () => {
               >
                 View Day By Day Plan
               </Button>
-              {/* </a> */}
+      
             </Link>
           </CardContent>
           <CardActions>
-            {/* <Button size="small">Learn More</Button> */}
+ 
           </CardActions>
         </Card>
       </div>

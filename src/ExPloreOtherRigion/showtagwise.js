@@ -66,24 +66,22 @@ const TagWise = (item) => {
   const placesOfATag = item.item.places;
 
   return (
-    <div className={classes.places}>
+    <div >
       <Typography
         variant="head"
         style={{
           fontFamily: "Special Elite",
           fontSize: "200%",
           color: "black",
-          marginLeft: "30%",
-          marginTop: "-3%",
-          marginBottom: "3%"
-
-          // textAlign: "center",
+          textAlign: "center",
+          marginBottom: "10px",
+          marginTop: "10px",
+        
         }}
       >
-        {" "}
         {tag_title}:
       </Typography>
-      <Grid container spacing={2}>
+      <Grid item container spacing={2}>
         {placesOfATag.map((place) => (
           <ContentForActivity
             item={place}

@@ -30,11 +30,15 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 const timeformat = require("../formatTime");
 const useStyles = makeStyles({
   places: {
-    height: "90%",
-    width: "112%",
-    backgroundColor: "rgba(250, 233, 171, 0.6)",
+    backgroundColor: "rgba(250, 233, 171, 0.78)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+    minHeight: "100vh",
+  },
+
+  postcard: {
+    marginLeft: "10%",
+    marginTop: "5%",
   },
   btn: {
     minWidth: "100%",
@@ -53,13 +57,7 @@ const useStyles = makeStyles({
     overflow: "hidden",
   },
 
-  // img: {
-  //   height: "100%",
-  //   position: "centre",
-  // },
-  cardimg: {
-    // height: "100%",
-  },
+ 
 });
 
 const ExploreOtherRegion = () => {
@@ -139,24 +137,24 @@ const ExploreOtherRegion = () => {
             //marginTop: "5%",
           }}
         >
-          {" "}
-          Explore Other Regions{" "}
+          Explore Other Regions
         </Typography>
-        <Grid item container spacing={10}>
-          <Grid item>
+        <Grid container spacing={10}>
+          <Grid item xs={4} container direction="column">
             <TagBar tags={filter} setTags={setFilter} />
           </Grid>
-          {placeItem.map((pl) => (
-            <div className={classes.things}>
-              <ThingsToDo
-                item={pl}
-                filter={filter}
-                addedList={setAddList}
-                setRegions={setRegions}
-              />
-            </div>
-          ))}
-
+          <Grid item xs={8} container direction="column" spacing={4} style={{marginTop: "3%"}}>
+            {placeItem.map((pl) => (
+              <div>
+                <ThingsToDo
+                  item={pl}
+                  filter={filter}
+                  addedList={setAddList}
+                  setRegions={setRegions}
+                />
+              </div>
+            ))}
+          </Grid>
           <Grid
             container
             direction="row"
