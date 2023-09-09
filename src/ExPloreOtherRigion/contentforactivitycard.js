@@ -70,59 +70,37 @@ const ContentForActivity = (item) => {
   const activities = item.item.activities;
 
   return (
-    <div>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
-        <Card
-          sx={{
-            minWidth: 300,
-            marginRight: "5%",
-            marginTop: "15%",
-            marginBottom: "15%",
-          }}
-        >
-          {/* <CardMedia
-            component="img"
-            images={images}
-          /> */}
-          {/* {images.map((image) => (
-            <img src={image} style={{maxHeight: "300px" , AlignItems: "center"}} />
-          ))} */}
-
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            {images.map((image, index) => (
-              <img key={index} src={image} style={{ maxHeight: "300px" }} />
-            ))}
-          </div>
-
-          <CardContent>
-            <Typography variant="h6" style={{ marginLeft: "5%" }}>
-              <b>{title} </b>
-            </Typography>
-            <br />
-            <Typography variant="h6" style={{ marginLeft: "5%" }}>
-              {" "}
-              Rating: {rating} ( count: {rating_count})
-            </Typography>
-          </CardContent>
-          <CardContent>
-            <Typography variant="h6" style={{ marginLeft: "5%" }}>
-              <b>Activity: </b>
-              {activities.map((ac) => (
-                <div>
-                  <ActivityCard
-                    item={ac}
-                    place_id={id}
-                    setAddList={item.addList}
-                    region_id={item.region_id}
-                    setRegions={item.setRegions}
-                  />
-                </div>
-              ))}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-    </div>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Card sx={{ maxWidth: 345 }}>
+        <CardMedia
+          component="img"
+          height="150"
+          image={images[0]}
+        />
+        <CardContent>
+          <Typography variant="subtitle1">
+            {title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Rating: {rating} ( count: {rating_count})
+          </Typography>
+        </CardContent>
+        <CardContent>
+          <Typography variant="body1">
+            Activity:
+          </Typography>
+          {activities.map((ac) => (
+            <ActivityCard
+              item={ac}
+              place_id={id}
+              setAddList={item.addList}
+              region_id={item.region_id}
+              setRegions={item.setRegions}
+            />
+          ))}
+        </CardContent>
+      </Card>
+    </Grid>
   );
 };
 

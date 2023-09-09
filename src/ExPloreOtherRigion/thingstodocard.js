@@ -28,41 +28,8 @@ import { ScheduleOutlined } from "@mui/icons-material";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 const timeformat = require("../formatTime");
-const useStyles = makeStyles({
-  places: {
-    // height: "90%",
-    // width: "112%",
-    // backgroundColor: "rgba(250, 233, 171, 0.78)",
-    // backgroundRepeat: "no-repeat",
-    // backgroundSize: "cover",
-  },
-  btn: {
-    minWidth: "100%",
-  },
-
-  postcard: {
-    //height: "100%",
-    //width: "105%",
-    //Height: "70%",
-    marginTop: "35%",
-    // marginRight: "20%",
-  },
-  cardimg: {
-    backgroundColor: "#ff5722",
-    overflow: "hidden",
-  },
-
-  img: {
-    height: "100%",
-    position: "centre",
-  },
-  cardimg: {
-    // height: "100%",
-  },
-});
 
 const ThingsToDo = (props) => {
-  const classes = useStyles();
   const { plan_id } = useParams();
   const placeItem = props.item.tags_places_activities;
 
@@ -70,33 +37,29 @@ const ThingsToDo = (props) => {
   const setRemoveList = props.removedList;
   const filter = props.filter;
 
-  //console.log(placeItem);
-
   return (
     <div>
       {placeItem.map((pl) => (
-        <div>
-          <Grid
-            item
-            xs={12}
-            container
-            direction="row"
-           
-          >
-            {getTagBool(filter, pl.tag_id) && (
-              <TagWise
-                item={pl}
-                addedList={setAddList}
-                region_id={props.item.region_id}
-                setRegions={props.setRegions}
-              />
-            )}
-          </Grid>
-        </div>
+        <Grid
+          item
+          // xs={12}
+          container
+          direction="column"
+        >
+          {getTagBool(filter, pl.tag_id) && (
+            <TagWise
+              item={pl}
+              addedList={setAddList}
+              region_id={props.item.region_id}
+              setRegions={props.setRegions}
+            />
+          )}
+        </Grid>
       ))}
     </div>
   );
 };
+
 const getTagBool = (filter, tag_id) => {
   let temp = filter.filter((item) => item.tag_id === tag_id);
   return temp[0].isShow;
