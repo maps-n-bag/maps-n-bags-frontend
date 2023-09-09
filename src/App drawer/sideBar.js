@@ -129,24 +129,16 @@ export default function SideBar() {
             edge="start"
             sx={{
               color: "black",
-              marginRight: 5,
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon
-              sx={{
-                color: "#00000",
-              }}
-            />
+            <MenuIcon sx={{ color: "#00000", }} />
           </IconButton>
           <Typography
-            variant="h6"
+            variant="h4"
             noWrap
-            component="div"
             style={{
               fontFamily: "Special Elite",
-              fontSize: "180%",
-              color: "black",
               marginLeft: "5%",
               textAlign: "center",
             }}
@@ -155,10 +147,6 @@ export default function SideBar() {
               Maps 'n Bags
             </Link>
           </Typography>
-
-          {/*on the right side of the top bar, there
-          should be a logout button and a mini profile photo which would lead
-          to the profile section*/}
 
           <Tooltip title="Profile">
             <IconButton
@@ -283,25 +271,7 @@ export default function SideBar() {
         </List>
 
       </Drawer>
-      {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <Typography paragraph>
-         
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-      </Box> */}
+
     </Box>
   );
 }
