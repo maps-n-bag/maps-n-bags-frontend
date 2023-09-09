@@ -4,7 +4,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import { Grid, Divider } from "@mui/material";
+import { Grid, Divider, FormControlLabel } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -17,7 +17,11 @@ import SideBar from "../App drawer/sideBar";
 import { Link } from "react-router-dom";
 import noteIcon from "../photos/icon/note.png";
 import { useParams } from "react-router-dom";
-import BloglistCard from "../Blog-all-event/blogListCard";
+import { Box } from "@mui/material";
+import OthersPLanCard from "./othersPlanCard";
+import Checkbox from "@mui/material/Checkbox";
+import DatePicker from "react-datepicker";
+import FormGroup from "@mui/material/FormGroup";
 
 const dateformat = require("../formatDate");
 const baseURL = process.env.REACT_APP_BASE_URL;
@@ -56,60 +60,138 @@ const useStyles = makeStyles({
 
 const OthersPlan = () => {
   const user_id = localStorage.getItem("userId");
+  const [regions, setRegions] = useState([]);
   const [itemBasic, setItemBasic] = useState([]);
-  
+  const [startDate, setStartDate] = useState(new Date());
+
+  const [checkedItemsRgn, setCheckedItemsRgn] = useState([]);
+
+  const handleCheckboxChangeRgn = (event, regionId) => {
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      setCheckedItemsRgn((prev) => [...prev, regionId]);
+    } else {
+      setCheckedItemsRgn((prev) => prev.filter((item) => item !== regionId));
+    }
+  };
   useEffect(() => {
     axios
-      .get(`${baseURL}plan/all?user_id=${user_id}`, {
+      .get(`${baseURL}public/regions`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       })
       .then((resp) => {
-        setItemBasic(resp.data);
+        setRegions(resp.data);
       })
       .catch((rejected) => {
         console.log(rejected);
       });
-  }, [user_id]);
+  }, []);
+
+  useEffect(() => {
+    const values = {
+      user_id: user_id,
+      regions: [...checkedItemsRgn],
+    }
+    axios
+      .post(`${baseURL}plan/others`, values, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then((resp) => {
+        if (resp.status == "200") {
+          console.log(resp.data);
+          console.log("hello");
+          setItemBasic(resp.data);
+        }
+        else { setItemBasic([]); }
+      })
+      .catch((rejected) => {
+        console.log(rejected);
+      });
+  }, [checkedItemsRgn.length]);
   const classes = useStyles();
- 
+  console.log(user_id);
   return (
     <div className={classes.places}>
       <SideBar />
 
       <div className={classes.postcard}>
-        <Card
-          className={classes.cardimg}
-          style={{
-            width: "50%",
-            marginLeft: "7%",
-            color: "ffffff",
-            marginTop: "5%",
-          }}
-        >
-          <CardContent>
-            {itemBasic.map((item, index) => (
-              <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="flex-start"
-                spacing={10}
-                style={{
-                  // width: "50%",
-                  // marginLeft: "7%",
-                  color: "ffffff",
-                  marginTop: "1%",
-                }}
-              >
-                <Grid item>
-                  <BloglistCard item={item} className={classes.cardday} />
-                </Grid>
-              </Grid>
-            ))}
-          </CardContent>
-        </Card>
+        <Grid container spacing={2}>
+          <Grid item>
+            <Box
+              width="70%"
+              marginTop="50%"
+              marginLeft="-24%"
+              textAlign="left"
+              borderRadius={16}
+              borderWidth={5}
+              bgcolor="rgba(255, 255, 255, 0.7)"
+            >
+              <FormGroup className={classes.form}>
+                <Typography fontSize="100%">Start Date:</Typography>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                />
+              </FormGroup>
+            </Box>
+          </Grid>
+          <Grid item >
+            <Box
+              width="65%"
+              marginTop="25%"
+              marginLeft="80%"
+              textAlign="left"
+              borderRadius={16}
+              borderWidth={5}
+              bgcolor="rgba(255, 255, 255, 0.7)"
+            >
+              <Typography style={{ marginTop: "10%", marginLeft: "20%" }}>
+                {" "}
+                Choose Region:
+              </Typography>
+              {regions.map((rgn) => (
+                <FormControlLabel
+                  key={rgn.id}
+                  control={
+                    <Checkbox
+                      marginLeft="20%"
+                      textAlign="left"
+                      checked={checkedItemsRgn.includes(rgn.id)}
+                      onChange={(event) => handleCheckboxChangeRgn(event, rgn.id)}
+                      name={rgn.title}
+                      title={rgn.title}
+                      value={rgn.id}
+                    />
+                  }
+                  label={rgn.title}
+                />
+              ))}
+            </Box>
+          </Grid>
+        </Grid>
+        {itemBasic.map((item, index) => (
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="flex-start"
+            spacing={10}
+            style={{
+              width: "50%",
+              // marginLeft: "7%",
+              color: "ffffff",
+              marginTop: "1%",
+            }}
+          >
+            <Grid item>
+              <OthersPLanCard item={item} startDate={startDate} className={classes.cardday} />
+            </Grid>
+          </Grid>
+        ))}
       </div>
     </div>
   );

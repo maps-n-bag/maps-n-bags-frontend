@@ -24,10 +24,10 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
   const handlePlanImageUpload = (e) => {
     const image = e.target.files[0];
     const storageRef = ref(storage, `plan-images/${v4()}`);
-    
+
     uploadBytes(storageRef, image).then((snapshot) => {
       console.log('Uploaded a blob or file!');
-      
+
       getDownloadURL(snapshot.ref).then((downloadURL) => {
         console.log('File available at', downloadURL);
         setPlanDetails({ ...planDetails, image: downloadURL });
@@ -77,7 +77,7 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
             {isEditing ? (
               <div style={{ display: buttonDisplay ? "block" : "none" }}>
                 <Button
-                  style={{ position: "absolute", top: "32%", left: "35%", transform: "translate(-50%, -50%)" }}
+                  style={{ position: "absolute", top: "25%", left: "50%", transform: "translate(-50%, -50%)" }}
                   component="label"
                   variant="contained"
                   startIcon={<CloudUploadIcon />}
@@ -85,9 +85,13 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
                   Upload
                   <VisuallyHiddenInput type="file" accept="image/*" onChange={handlePlanImageUpload} />
                 </Button>
-                <Button style={{ position: "absolute", top: "32%", left: "65%", transform: "translate(-50%, -50%)" }} variant="contained"
+                <Button style={{ position: "absolute", top: "40%", left: "35%", transform: "translate(-50%, -50%)" }} variant="contained"
                   onClick={handlePlanSave}>
                   Save
+                </Button>
+                <Button style={{ position: "absolute", top: "40%", left: "65%", transform: "translate(-50%, -50%)" }} variant="contained"
+                  onClick={() => setIsEditing(false)}>
+                  Cancel
                 </Button>
               </div>
             ) : (
@@ -141,7 +145,12 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
             <CardContent>
               {/** here should be a switch case for the type of the plan */}
               <FormControlLabel
-                control={<Switch checked={planDetails.public} onChange={() => togglePublic(planDetails.id)} />}
+                control={<Switch checked={planDetails.public}
+                  onChange={() => {
+                    togglePublic(planDetails.id);
+                    setPlanDetails({ ...planDetails, public: !planDetails.public })
+                  }}
+                />}
                 label={planDetails.public ? "Public" : "Private"}
               />
             </CardContent>
@@ -164,7 +173,10 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
             </Button>
           </Grid>
           <Grid item xs={6} sx={{ textAlign: "center" }}>
-            <Button size="small" color="primary" sx={{ width: "90%" }} variant="contained" onClick={() => deletePlan(planDetails.id)}>
+            <Button size="small" color="primary" sx={{ width: "90%" }} variant="contained" 
+            onClick={() => {
+              deletePlan(planDetails.id);
+            }}>
               Delete
             </Button>
           </Grid>

@@ -38,26 +38,8 @@ const useStyles = makeStyles({
 
   postcard: {
     marginLeft: "10%",
-    marginTop: "5%",
+    marginTop: "10vh",
   },
-  btn: {
-    minWidth: "100%",
-    marginLeft: "15%",
-  },
-
-  things: {
-    //height: "100%",
-    // width: "95%",
-    // Height: "50%",
-    marginLeft: "15%",
-    // marginRight: "20%",
-  },
-  cardimg: {
-    backgroundColor: "#ff5722",
-    overflow: "hidden",
-  },
-
- 
 });
 
 const ExploreOtherRegion = () => {
@@ -122,11 +104,10 @@ const ExploreOtherRegion = () => {
       });
   }, [plan_id]);
 
-  //console.log(placeItem);
-
   return (
     <div className={classes.places}>
       <SideBar />
+      
       <div className={classes.postcard}>
         <Typography
           color="black"
@@ -139,20 +120,20 @@ const ExploreOtherRegion = () => {
         >
           Explore Other Regions
         </Typography>
-        <Grid container spacing={10}>
-          <Grid item xs={4} container direction="column">
+        <Grid container spacing={5}>
+          <Grid item xs={4}>
             <TagBar tags={filter} setTags={setFilter} />
           </Grid>
           <Grid item xs={8} container direction="column" spacing={4} style={{marginTop: "3%"}}>
             {placeItem.map((pl) => (
-              <div>
+              // <div>
                 <ThingsToDo
                   item={pl}
                   filter={filter}
                   addedList={setAddList}
                   setRegions={setRegions}
                 />
-              </div>
+              // </div>
             ))}
           </Grid>
           <Grid

@@ -63,15 +63,15 @@ const ActivityCard = (item) => {
   return (
     <div>
       <Typography
-        variant="h6"
+        variant="body2"
       >
         {activity.title}
         {in_plan ? (
-          <Button onClick={Handler} id="remove" value={activity.id}>
+          <Button onClick={Handler} id="remove" value={activity.id} size="small">
             Remove
           </Button>
         ) : (
-          <Button onClick={Handler} id="add" value={activity.id}>
+          <Button onClick={Handler} id="add" value={activity.id} size="small">
             Add
           </Button>
         )}

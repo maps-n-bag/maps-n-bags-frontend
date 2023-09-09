@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import DayCards from "./daycards2";
 import CardActions from "@mui/material/CardActions";
 import { Grid, Card, CardContent, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -56,13 +55,16 @@ const OthersPLanCard = (props) => {
     const cardsData = props.item;
     const startDate = dateformat.formatDate(cardsData.start_date);
     const endDate = dateformat.formatDate(cardsData.end_date);
+    const copiedStartDate =props.startDate;
     const navigate = useNavigate();
 
+    
     const copyHandler = () => {
         axios
             .post(`${baseURL}plan/copy`, {
-                plan_id: cardsData.plan_id,
+                plan_id: cardsData.id,
                 user_id: localStorage.getItem("userId"),
+                start_date: copiedStartDate,
             }, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -70,8 +72,8 @@ const OthersPLanCard = (props) => {
             })
             .then((resp) => {
                 console.log(resp.data);
-                if(resp.data.coppied) {
-                    navigateHandler(cardsData.plan_id);
+                if(resp.status == "201") {
+                    navigateHandler(resp.data.id);
                 }
             })
             .catch((rejected) => {

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
 import CardActions from "@mui/material/CardActions";
-import Box from "@mui/material";
+import Box, { FormGroup } from "@mui/material";
 import {
   Grid,
   Card,
@@ -24,35 +24,13 @@ import { ScheduleOutlined } from "@mui/icons-material";
 import { set } from "date-fns";
 import { ta } from "date-fns/locale";
 import ContentCards from "../Blog-all-event/contentcards3";
+import { FormControl } from "@mui/base";
+import { FormControlLabel, Switch } from "@mui/material";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 const timeformat = require("../formatTime");
-const useStyles = makeStyles({
-  //   cardimg: {
-  //     backgroundColor: "#ff5722",
-  //     overflow: "hidden",
-  //     marginLeft: "15%",
-  //   },
-  //   tag: {
-  //     height: "100%",
-  //     width: "170%",
-  //     backgroundColor: "rgba(250, 233, 171, 0.9)",
-  //     backgroundRepeat: "no-repeat",
-  //     backgroundSize: "cover",
-  //     marginLeft: "95%",
-  //     marginTop: "40%",
-  //   },
-  //   img: {
-  //     height: "100%",
-  //     position: "centre",
-  //   },
-  //   cardimg: {
-  //     // height: "100%",
-  //   },
-});
 
 const TagBar = (item) => {
-  const classes = useStyles();
   const tags = item.tags;
   const setTags = item.setTags;
   console.log(tags);
@@ -67,25 +45,18 @@ const TagBar = (item) => {
       return tag;
     });
     setTags(temp);
+    console.log(tags);
   };
 
   return (
     
-      <Grid item>
+      // <Grid item>
+      <FormGroup>
         {tags.map((tag) => (
-          <Typography variant="h6" style={{ marginBottom: "20px" }}>
-            {!tag.isShow ? (
-              <Button onClick={Handler} id={tag.tag_id}>
-                Add {tag.tag_title}
-              </Button>
-            ) : (
-              <Button onClick={Handler} id={tag.tag_id}>
-                Remove {tag.tag_title}
-              </Button>
-            )}
-          </Typography>
+          <FormControlLabel control={<Switch checked={tag.isShow} onChange={Handler} id={tag.tag_id} />} label={tag.tag_title} />
         ))}
-      </Grid>
+      </FormGroup>
+      // </Grid>
     
   );
 };
