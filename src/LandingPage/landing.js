@@ -44,7 +44,11 @@ const Landingpage = () => {
 
   useEffect(() => {
     const navigationTimer = setTimeout(() => {
-      navigate("/Login"); // Replace '/destination' with the desired URL
+      if (!localStorage.getItem("accessToken"))
+        navigate("/Login");
+      else
+        navigate(`/Profile/${localStorage.getItem("userId")}`);
+
     }, 5000); // 5000 milliseconds = 5 seconds
 
     return () => {

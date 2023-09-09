@@ -168,7 +168,7 @@ export default function SideBar() {
             >
               <Link to={`/Profile/${localStorage.getItem("userId")}`} style={{ textDecoration: "none" }}>
                 <Avatar
-                  alt="Remy Sharp"
+                  alt="Profile Picture"
                   src={localStorage.getItem("userImage")}
                   sx={{ width: 32, height: 32 }}
                 />
