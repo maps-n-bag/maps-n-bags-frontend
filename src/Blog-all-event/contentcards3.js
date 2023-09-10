@@ -34,7 +34,6 @@ const timeformat = require("../formatTime");
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const ContentCards = (props) => {
-
   const eventID = props.item.event.id;
   const cardsData = [props.item];
   const [inputError, setInputError] = useState(false);
@@ -73,12 +72,12 @@ const ContentCards = (props) => {
     }
     const newMetadata = { contentType: image.type };
     const storageRef = ref(storage, `${directory}${v4()}`);
-    uploadBytes(storageRef, image, newMetadata).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
+    uploadBytes(storageRef, image, newMetadata)
+      .then((snapshot) => {
+        console.log("Uploaded a blob or file!");
 
-      getDownloadURL(ref(storage, snapshot.metadata.fullPath))
-        .then((url) => {
-          console.log("url after download", url)
+        getDownloadURL(ref(storage, snapshot.metadata.fullPath)).then((url) => {
+          console.log("url after download", url);
 
           const newImages = [...itemBasic.images];
           newImages[event.target.dataset.id] = url;
@@ -88,11 +87,11 @@ const ContentCards = (props) => {
               images: newImages,
             };
           });
-
-        })
-    }).catch((error) => {
-      console.log("Uh-oh, an error occurred!", error);
-    });
+        });
+      })
+      .catch((error) => {
+        console.log("Uh-oh, an error occurred!", error);
+      });
   };
 
   const handleAddImage = (event) => {
@@ -124,7 +123,7 @@ const ContentCards = (props) => {
     });
     setItemBasic(newItemBasic);
 
-    console.log("before axios put", itemBasic)
+    console.log("before axios put", itemBasic);
 
     axios
       .put(
@@ -169,7 +168,7 @@ const ContentCards = (props) => {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   const onError = (errors, e) => console.log(errors, e);
 
@@ -185,7 +184,7 @@ const ContentCards = (props) => {
           spacing={2}
           style={{
             width: "100%",
-             marginLeft: "30%",
+            marginLeft: "30%",
             color: "ffffff",
             marginTop: "1%",
           }}
@@ -219,7 +218,7 @@ const ContentCards = (props) => {
                           style={{
                             //fontFamily: "Special Elite",
                             fontSize: "100%",
-                            color: "black",
+
                             marginTop: "6%",
                             marginRight: "10%",
                             // textAlign: "center",
@@ -235,7 +234,7 @@ const ContentCards = (props) => {
                       <Grid item xs>
                         <Box
                           width="100%"
-                          bgcolor="rgba(255, 255, 255, 0.2)" // 60% transparent black
+                          // bgcolor="rgba(255, 255, 255, 0.2)" // 60% transparent black
                         >
                           {isEditingBasic === true ? (
                             <form onSubmit={handleSubmit(onSubmit, onError)}>
@@ -246,7 +245,7 @@ const ContentCards = (props) => {
                                     style={{
                                       //fontFamily: "Special Elite",
                                       fontSize: "100%",
-                                      color: "black",
+
                                       // marginLeft: "3%",
                                       marginTop: "3%",
 
@@ -274,8 +273,8 @@ const ContentCards = (props) => {
                                   name="note"
                                   placeholder={itemBasic.generated_details}
                                   onChange={(e) =>
-                                  (itemBasic.generated_details =
-                                    e.target.value)
+                                    (itemBasic.generated_details =
+                                      e.target.value)
                                   }
                                 />
                               </div>
@@ -286,7 +285,7 @@ const ContentCards = (props) => {
                                   style={{
                                     //fontFamily: "Special Elite",
                                     fontSize: "100%",
-                                    color: "black",
+                                    
                                     // marginLeft: "3%",
 
                                     // textAlign: "center",
@@ -295,7 +294,6 @@ const ContentCards = (props) => {
                                   How much was the whole cost?
                                 </Typography>
                                 <div>
-
                                   <input
                                     type="text" // Use "text" type for input
                                     defaultValue={itemBasic.expenditure}
@@ -329,7 +327,7 @@ const ContentCards = (props) => {
                                   style={{
                                     //fontFamily: "Special Elite",
                                     fontSize: "100%",
-                                    color: "black",
+
                                     // marginLeft: "3%",
 
                                     // textAlign: "center",
@@ -372,7 +370,9 @@ const ContentCards = (props) => {
                                   ))}
                                   <div className="table-row">
                                     <div className="table-data">
-                                      <button onClick={handleAddImage}>+</button>
+                                      <button onClick={handleAddImage}>
+                                        +
+                                      </button>
                                     </div>
                                   </div>
                                 </div>
@@ -395,7 +395,6 @@ const ContentCards = (props) => {
                                       }}
                                     >
                                       <Typography
-                                        color="black"
                                         style={{
                                           fontFamily: "Special Elite",
                                           fontSize: "20px",
@@ -423,7 +422,6 @@ const ContentCards = (props) => {
                                     >
                                       {" "}
                                       <Typography
-                                        color="black"
                                         style={{
                                           fontFamily: "Special Elite",
                                           fontSize: "20px",
@@ -439,103 +437,101 @@ const ContentCards = (props) => {
                             </form>
                           ) : (
                             <div>
-                              <div>
-                                {itemBasic.checked == true ? (
+                              {itemBasic.checked == true ? (
+                                <div>
+                                  <CheckCircleOutlineRoundedIcon /> Visited The
+                                  Place{" "}
                                   <div>
-                                    <CheckCircleOutlineRoundedIcon /> Visited
-                                    The Place{" "}
-                                    <div>
-                                      <Typography
-                                        variant="h6"
-                                        style={{
-                                          fontSize: "100%",
-                                          color: "black",
-                                          marginTop: "3%",
-                                        }}
-                                      >
-                                        Note:<b> {itemBasic.note}</b>
-                                      </Typography>
-                                    </div>
-                                    <div>
-                                      <Typography
-                                        variant="h6"
-                                        style={{                                  
-                                          fontSize: "100%",
-                                          color: "black",
-                                          marginTop: "5%",                                         
-                                        }}
-                                      >
-                                        {itemBasic.generated_details}
-                                      </Typography>
-                                    </div>
-                                    <div>
-                                      <Typography
-                                        variant="h6"
-                                        style={{
-                                          //fontFamily: "Special Elite",
-                                          fontSize: "100%",
-                                          color: "black",
-                                          // marginLeft: "3%",
-                                          marginTop: "3%",
-
-                                          // textAlign: "center",
-                                        }}
-                                      >
-                                        Total Cost: {itemBasic.expenditure}
-                                      </Typography>
-                                    </div>
-                                  </div>
-                                ) : (
-                                  <div> Didn't visit The Place </div>
-                                )}
-
-                                <div>
-                                  {itemBasic.images.map((image, index) => (
-                                    <div className="table" key={index}>
-                                      <div className="table-row">
-                                        <div className="table-data">
-                                          {image && (
-                                            <div>
-                                              <img
-                                                src={image}
-                                                alt="image"
-                                                width="100px"
-                                              />
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-
-                                <div>
-                                  <Button
-                                    className="btn"
-                                    type="submit"
-                                    style={{
-                                      backgroundColor: "transparent",
-                                      borderWidth: "2px",
-                                      borderColor: "black",
-                                    }}
-                                    variant="outlined"
-                                    halfWidth
-                                    onClick={() => {
-                                      setIsEditingBasic(true);
-                                    }}
-                                  >
                                     <Typography
-                                      color="black"
+                                      variant="h6"
                                       style={{
-                                        fontFamily: "Special Elite",
-                                        fontSize: "20px",
-                                        textAlign: "center",
+                                        fontSize: "100%",
+
+                                        marginTop: "3%",
                                       }}
                                     >
-                                      Edit
+                                      Note:<b> {itemBasic.note}</b>
                                     </Typography>
-                                  </Button>
+                                  </div>
+                                  <div>
+                                    <Typography
+                                      variant="h6"
+                                      style={{
+                                        fontSize: "100%",
+
+                                        marginTop: "5%",
+                                      }}
+                                    >
+                                      {itemBasic.generated_details}
+                                    </Typography>
+                                  </div>
+                                  <div>
+                                    <Typography
+                                      variant="h6"
+                                      style={{
+                                        //fontFamily: "Special Elite",
+                                        fontSize: "100%",
+
+                                        // marginLeft: "3%",
+                                        marginTop: "3%",
+
+                                        // textAlign: "center",
+                                      }}
+                                    >
+                                      Total Cost: {itemBasic.expenditure}
+                                    </Typography>
+                                  </div>
                                 </div>
+                              ) : (
+                                <div> Didn't visit The Place </div>
+                              )}
+
+                              <div>
+                                {itemBasic.images.map((image, index) => (
+                                  <div className="table" key={index}>
+                                    <div className="table-row">
+                                      <div className="table-data">
+                                        {image && (
+                                          <div>
+                                            <img
+                                              src={image}
+                                              alt="image"
+                                              width="100px"
+                                            />
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+
+                              <div>
+                                <Button
+                                  className="btn"
+                                  type="submit"
+                                  style={{
+                                    backgroundColor: "transparent",
+                                    borderWidth: "2px",
+                                    borderColor: "black",
+                                  }}
+                                  variant="outlined"
+                                  halfWidth
+                                  onClick={() => {
+                                    setIsEditingBasic(true);
+                                  }}
+                                >
+                                  <Typography
+                               
+                                    style={{
+                                      fontFamily: "Special Elite",
+                                      fontSize: "20px",
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    Edit
+                                  </Typography>
+                                </Button>
                               </div>
                             </div>
                           )}

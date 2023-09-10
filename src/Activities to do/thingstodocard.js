@@ -12,7 +12,7 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-
+import { useThemeContext } from "../ThemeContext";
 import TagWise from "./showtagwise";
 import TagBar from "./tagBar";
 
@@ -30,7 +30,7 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 const timeformat = require("../formatTime");
 const useStyles = makeStyles({
   places: {
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundColor: "rgba(0, 0, 0 ,0.05)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     minHeight: "100vh",
@@ -52,7 +52,7 @@ const ThingsToDo = () => {
   const [addList, setAddList] = useState([]);
   const [removeList, setRemoveList] = useState([]);
   const [filter, setFilter] = useState([]);
-
+  const { theme, toggleThemeMode } = useThemeContext();
   const postUpdateHandler = (event) => {
     console.log(addList);
     console.log(removeList);
@@ -106,7 +106,7 @@ const ThingsToDo = () => {
 
   return (
     <div className={classes.places}>
-      <SideBar />
+      <SideBar  theme={theme} toggleTheme={toggleThemeMode} />
       <div className={classes.postcard}>
         <Typography
           color="black"

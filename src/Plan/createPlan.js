@@ -17,20 +17,24 @@ import Checkbox from "@mui/material/Checkbox";
 import "react-datepicker/dist/react-datepicker.css";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
+import { useThemeContext } from '../ThemeContext'; 
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import train from "../photos/train.jpg";
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const dateFormat = require("../formatDate");
 
 const useStyles = makeStyles({
+  
   places: {
     height: "100%",
     fontFamily: "Special Elite",
     //width: "90%",
     //backgroundColor: "rgba(250, 233, 171, 0.78)",
-    backgroundImage: `url(${plan})`,
+    // backgroundImage: theme.mode === 'dark' ? `url(${train})` : `url(${plan})`,
+    backgroundColor: "rgba(0, 0, 0 ,0.05)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     minHeight: "100vh",
@@ -76,7 +80,7 @@ const useStyles = makeStyles({
 });
 
 const CreateAPlan = () => {
-  // const id = localStorage.getItem("id");
+  const { theme, toggleThemeMode } = useThemeContext();
   const [regions, setRegions] = useState([]);
   const [tags, setTags] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
@@ -168,7 +172,7 @@ const CreateAPlan = () => {
 
   return (
     <div className={classes.places}>
-      <SideBar />
+      <SideBar theme={theme} toggleTheme={toggleThemeMode} />
 
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <div>
@@ -181,7 +185,8 @@ const CreateAPlan = () => {
                 textAlign="left"
                 borderRadius={16}
                 borderWidth={5}
-                bgcolor="rgba(255, 255, 255, 0.7)"
+                // bgcolor="rgba(255, 255, 255, 0.7)"
+
               >
                 <Typography marginTop="10%" marginLeft="40%">
                   {" "}
@@ -217,7 +222,7 @@ const CreateAPlan = () => {
                 textAlign="left"
                 borderRadius={16}
                 borderWidth={5}
-                bgcolor="rgba(255, 255, 255, 0.7)"
+                // bgcolor="rgba(255, 255, 255, 0.7)"
               >
                 <Typography style={{ marginTop: "10%", marginLeft: "20%" }}>
                   {" "}
@@ -249,7 +254,7 @@ const CreateAPlan = () => {
                 textAlign="left"
                 borderRadius={16}
                 borderWidth={5}
-                bgcolor="rgba(255, 255, 255, 0.7)"
+                // bgcolor="rgba(255, 255, 255, 0.7)"
               >
                 <FormGroup className={classes.form}>
                   <Typography fontSize="100%">Start Date:</Typography>
@@ -272,9 +277,9 @@ const CreateAPlan = () => {
                 className="btn"
                 type="submit"
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.8)",
+                  // backgroundColor: "rgba(255,255,255,0.8)",
                   borderWidth: "5px",
-                  borderColor: "white",
+                 
                   marginLeft: "170%",
                   marginTop: "-15%",
                   marginBottom: "40%",
@@ -283,7 +288,7 @@ const CreateAPlan = () => {
                 fullWidth
               >
                 <Typography
-                  color="black"
+                 
                   style={{
                     fontFamily: "Special Elite",
                     fontSize: "200%",

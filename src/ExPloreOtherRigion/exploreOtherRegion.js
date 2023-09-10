@@ -9,7 +9,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
-
+import { useThemeContext } from '../ThemeContext'; 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const useStyles = makeStyles({
@@ -32,7 +32,7 @@ const ExploreOtherRegion = () => {
 
   const { plan_id } = useParams();
   const [placeItem, setPlaceItem] = useState([]);
-
+  const { theme, toggleThemeMode } = useThemeContext();
   const [addList, setAddList] = useState([]);
   const [removeList, setRemoveList] = useState([]);
   const [currentRegions, setCurrentRegions] = useState([]);
@@ -93,7 +93,7 @@ const ExploreOtherRegion = () => {
 
   return (
     <div className={classes.places}>
-      <SideBar />
+      <SideBar theme={theme} toggleTheme={toggleThemeMode} />
 
       <div className={classes.postcard}>
         <Typography

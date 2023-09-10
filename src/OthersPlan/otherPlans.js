@@ -22,6 +22,7 @@ import OthersPLanCard from "./othersPlanCard";
 import Checkbox from "@mui/material/Checkbox";
 import DatePicker from "react-datepicker";
 import FormGroup from "@mui/material/FormGroup";
+import { useThemeContext } from '../ThemeContext'; 
 import { Paper } from "@mui/material";
 
 const dateformat = require("../formatDate");
@@ -31,7 +32,7 @@ const useStyles = makeStyles({
   root: {
     height: "100%",
     width: "100%",
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundColor: "rgba(0, 0, 0 ,0.05)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     minHeight: "100vh",
@@ -47,7 +48,7 @@ const OthersPlan = () => {
   const [regions, setRegions] = useState([]);
   const [itemBasic, setItemBasic] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
-
+  const { theme, toggleThemeMode } = useThemeContext();
   const [checkedItemsRgn, setCheckedItemsRgn] = useState([]);
 
   const handleCheckboxChangeRgn = (event, regionId) => {
@@ -101,13 +102,13 @@ const OthersPlan = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <SideBar />
+      <SideBar theme={theme} toggleTheme={toggleThemeMode} />
       <div className={classes.content}>
         <Typography variant="h4"
           style={{
             fontFamily: "Special Elite",
             fontSize: "200%",
-            color: "black",
+          
             textAlign: "center",
           }}
         >

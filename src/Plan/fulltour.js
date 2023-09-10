@@ -18,14 +18,14 @@ import SideBar from "../App drawer/sideBar";
 import { Link } from "react-router-dom";
 import noteIcon from "../photos/icon/note.png";
 import { useParams } from "react-router-dom";
-
+import { useThemeContext } from '../ThemeContext'; 
 const dateformat = require("../formatDate");
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles({
   places: {
 
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundColor: "rgba(0, 0, 0 ,0.05)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     minHeight: "100vh",
@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 });
 
 const FullTour = () => {
-
+  const { theme, toggleThemeMode } = useThemeContext();
   const day = 1;
   const [itemBasic, setItemBasic] = useState([]);
   const { plan_id } = useParams();
@@ -70,15 +70,15 @@ const FullTour = () => {
   const daysdifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
   const daysTotal = parseInt(daysdifference)+1;
   console.log(daysTotal);
-
+ 
   return (
     <div className={classes.places}>
-      <SideBar />
+      <SideBar theme={theme} toggleTheme={toggleThemeMode} />
 
       <div className={classes.postcard}>
        
         <Card
-          
+           
           style={{
             width: "70%",
             maxWidth: "1000px",
@@ -97,7 +97,7 @@ const FullTour = () => {
                   style={{
                     fontFamily: "Special Elite",
                     fontSize: "150%",
-                    color: "black",
+                   
                     marginLeft: "15%",
                     marginTop: "5%",
                     textAlign: "right",
@@ -136,7 +136,7 @@ const FullTour = () => {
                   style={{
                    
                     fontSize: "150%",
-                    color: "black",
+                    
 
                     marginLeft: "20%",
                     marginTop: "5%",
@@ -148,7 +148,7 @@ const FullTour = () => {
                   variant="h6"
                   style={{
                     fontSize: "100%",
-                    color: "black",
+                   
 
                     marginLeft: "40%",
                     marginTop: "5%",
@@ -179,7 +179,7 @@ const FullTour = () => {
                   variant="h6"
                   style={{
                     fontSize: "100%",
-                    color: "black",
+                    
 
                     marginLeft: "35%",
                     marginTop: "5%",
@@ -213,7 +213,7 @@ const FullTour = () => {
                   variant="h6"
                   style={{
                     fontSize: "100%",
-                    color: "black",
+                   
 
                     marginLeft: "40%",
                     marginTop: "5%",

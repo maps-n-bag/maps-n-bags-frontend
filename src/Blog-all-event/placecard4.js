@@ -85,7 +85,7 @@ const PlaceCard = (props) => {
           style={{
            // fontFamily: "Special Elite",
             fontSize: "100%",
-            color: "black",
+         
             marginTop: "8%",
             // textAlign: "center",
           }}
@@ -99,7 +99,7 @@ const PlaceCard = (props) => {
           style={{
             //fontFamily: "Special Elite",
             fontSize: "100%",
-            color: "black",
+          
             marginTop: "8%",
             // textAlign: "center",
           }}

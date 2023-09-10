@@ -19,14 +19,14 @@ import noteIcon from "../photos/icon/note.png";
 import { useParams } from "react-router-dom";
 import BloglistCard from "../Blog-all-event/blogListCard";
 import { CardActionArea } from "@mui/material";
-
+import { useThemeContext } from "../ThemeContext";
 const dateformat = require("../formatDate");
 const baseURL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles({
   places: {
     height: "100%",
     width: "100%",
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundColor: "rgba(0, 0, 0 ,0.05)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     minHeight: "100vh",
@@ -39,6 +39,7 @@ const useStyles = makeStyles({
 
 const Bloglist = () => {
   const user_id = localStorage.getItem("userId");
+  const { theme, toggleThemeMode } = useThemeContext();
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
     axios
@@ -59,9 +60,10 @@ const Bloglist = () => {
 
   return (
     <div className={classes.places}>
-      <SideBar />
+      <SideBar  theme={theme} toggleTheme={toggleThemeMode} />
 
-      <Typography variant="h4"
+      <Typography
+        variant="h4"
         style={{
           fontFamily: "Special Elite",
           fontSize: "200%",
@@ -74,13 +76,16 @@ const Bloglist = () => {
       </Typography>
 
       <div className={classes.postcard}>
-
-        <Grid container spacing={2} justifyContent="left" style={{ width: "80%" }}>
+        <Grid
+          container
+          spacing={2}
+          justifyContent="left"
+          style={{ width: "80%" }}
+        >
           {itemBasic.map((item, index) => (
             <BloglistCard item={item} />
           ))}
         </Grid>
-
       </div>
     </div>
   );
