@@ -108,7 +108,7 @@ const OthersPlan = () => {
           style={{
             fontFamily: "Special Elite",
             fontSize: "200%",
-            color: "black",
+          
             textAlign: "center",
           }}
         >

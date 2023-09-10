@@ -30,7 +30,7 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 const timeformat = require("../formatTime");
 const useStyles = makeStyles({
   places: {
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundColor: "rgba(0, 0, 0 ,0.05)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     minHeight: "100vh",
