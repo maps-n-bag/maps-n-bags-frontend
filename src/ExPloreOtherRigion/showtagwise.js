@@ -39,12 +39,13 @@ const TagWise = (item) => {
             fontFamily: "Special Elite",
             fontSize: "130%",
             color: "black",
+            padding: "1%",
           }}
         >
           {tag_title} at {item.region_name}
         </Typography>
       </Grid>
-      <Grid item xs={10} container direction="row" spacing={2}>
+      <Grid item container direction="row" spacing={2}>
         {placesOfATag.map((place) => (
           <ContentForActivity
             item={place}

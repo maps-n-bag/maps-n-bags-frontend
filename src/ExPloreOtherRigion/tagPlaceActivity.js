@@ -39,7 +39,7 @@ const TagPlaceActivity = (props) => {
   const filter = props.filter;
 
   return (
-    <div>
+    <>
       {placeItem.map((pl) => (
         <Grid
           item
@@ -58,7 +58,7 @@ const TagPlaceActivity = (props) => {
           )}
         </Grid>
       ))}
-    </div>
+    </>
   );
 };
 

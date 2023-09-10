@@ -127,10 +127,10 @@ const ExploreOtherRegion = () => {
           Explore Nearby Regions
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={3}>
+          <Grid item xs={3} style={{ maxWidth: "300px" }}>
             <TagBar tags={tagFilter} setTags={setTagFilter} regions={regionsFilter} setRegions={setRegionsFilter} />
           </Grid>
-          <Grid item xs={9} container direction="column" spacing={4}>
+          <Grid item xs={9} container direction="column" spacing={1}>
             {placeItem.map((pl) => (
               <>
                 {getRegBool(regionsFilter, pl.region_id) && (
