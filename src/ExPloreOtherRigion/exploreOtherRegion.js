@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import ThingsToDo from "./thingstodocard";
+import TagPlaceActivity from "./tagPlaceActivity";
 import TagBar from "./tagBar";
 
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
@@ -49,20 +49,22 @@ const ExploreOtherRegion = () => {
 
   const [addList, setAddList] = useState([]);
   const [removeList, setRemoveList] = useState([]);
-  const [regions, setRegions] = useState([]);
-  const [filter, setFilter] = useState([]);
+  const [currentRegions, setCurrentRegions] = useState([]);
+  const [tagFilter, setTagFilter] = useState([]);
   const [navigateBool, setNavigateBool] = useState(false);
+  const [regionsFilter, setRegionsFilter] = useState([]);
 
   const postUpdateHandler = (event) => {
     console.log(addList);
     console.log(removeList);
+    console.log(currentRegions);
     axios
       .post(
         `${baseURL}plan/update?plan_id=${plan_id}`,
         {
           add: addList,
           remove: removeList,
-          regions: regions,
+          regions: currentRegions,
         },
         {
           headers: {
@@ -92,12 +94,16 @@ const ExploreOtherRegion = () => {
         let temp = [];
         temp = resp.data[0].tags_places_activities.map((item) => {
           return {
-            tag_id: item.tag_id,
-            tag_title: item.tag_name,
+            id: item.tag_id,
+            name: item.tag_name,
             isShow: false,
           };
         });
-        setFilter(temp);
+        setTagFilter(temp);
+        const t = resp.data.map((reg) => {
+          return { id: reg.region_id, name: reg.region_name, isShow: false };
+        });
+        setRegionsFilter(t);
       })
       .catch((rejected) => {
         console.log(rejected);
@@ -107,7 +113,7 @@ const ExploreOtherRegion = () => {
   return (
     <div className={classes.places}>
       <SideBar />
-      
+
       <div className={classes.postcard}>
         <Typography
           color="black"
@@ -115,25 +121,27 @@ const ExploreOtherRegion = () => {
             fontFamily: "Special Elite",
             fontSize: "200%",
             textAlign: "center",
-            //marginTop: "5%",
+            marginBottom: "5%",
           }}
         >
-          Explore Other Regions
+          Explore Nearby Regions
         </Typography>
-        <Grid container spacing={5}>
-          <Grid item xs={4}>
-            <TagBar tags={filter} setTags={setFilter} />
+        <Grid container spacing={2}>
+          <Grid item xs={3}>
+            <TagBar tags={tagFilter} setTags={setTagFilter} regions={regionsFilter} setRegions={setRegionsFilter} />
           </Grid>
-          <Grid item xs={8} container direction="column" spacing={4} style={{marginTop: "3%"}}>
+          <Grid item xs={9} container direction="column" spacing={4}>
             {placeItem.map((pl) => (
-              // <div>
-                <ThingsToDo
-                  item={pl}
-                  filter={filter}
-                  addedList={setAddList}
-                  setRegions={setRegions}
-                />
-              // </div>
+              <>
+                {getRegBool(regionsFilter, pl.region_id) && (
+                  <TagPlaceActivity
+                    item={pl}
+                    filter={tagFilter}
+                    addedList={setAddList}
+                    setRegions={setCurrentRegions}
+                  />
+                )}
+              </>
             ))}
           </Grid>
           <Grid
@@ -157,7 +165,7 @@ const ExploreOtherRegion = () => {
                 //marginLeft: "500%",
               }}
               variant="outlined"
-              // fullWidth
+            // fullWidth
             >
               <Typography
                 color="black"
@@ -182,7 +190,7 @@ const ExploreOtherRegion = () => {
                     //marginLeft: "500%",
                   }}
                   variant="outlined"
-                  // fullWidth
+                // fullWidth
                 >
                   <Typography
                     color="black"
@@ -204,4 +212,10 @@ const ExploreOtherRegion = () => {
     </div>
   );
 };
+
+const getRegBool = (regionsFilter, region_id) => {
+  let temp = regionsFilter.filter((item) => item.id === region_id);
+  return temp[0].isShow;
+};
+
 export default ExploreOtherRegion;

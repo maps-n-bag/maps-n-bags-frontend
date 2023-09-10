@@ -76,7 +76,7 @@ export default function ExploreMain() {
                   textAlign: "center",
                 }}
               >
-                View Side Tours
+                Explore Nearby Regions
               </Typography>
             </div>
           </Box>

@@ -1,9 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller, Form, useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
 import CardActions from "@mui/material/CardActions";
-import Box, { FormGroup } from "@mui/material";
+import Box, { Divider, FormGroup } from "@mui/material";
 import {
   Grid,
   Card,
@@ -33,31 +33,56 @@ const timeformat = require("../formatTime");
 const TagBar = (item) => {
   const tags = item.tags;
   const setTags = item.setTags;
-  console.log(tags);
+  const regions = item.regions;
+  const setRegions = item.setRegions;
 
-  const Handler = (event) => {
+  const regHandler = (event) => {
+    let id = event.currentTarget.id;
+    let temp;
+    temp = regions.map((region) => {
+      if (region.id == id) {
+        region.isShow = !region.isShow;
+      }
+      return region;
+    });
+    setRegions(temp);
+    // console.log(regions);
+  };
+
+  const tagHandler = (event) => {
     let id = event.currentTarget.id;
     let temp;
     temp = tags.map((tag) => {
-      if (tag.tag_id == id) {
+      if (tag.id == id) {
         tag.isShow = !tag.isShow;
       }
       return tag;
     });
     setTags(temp);
-    console.log(tags);
+    // console.log(tags);
   };
 
   return (
-    
-      // <Grid item>
+      
+    <div>
+      <Typography variant="h5" style={{ fontFamily: "Special Elite", fontSize: "130%", color: "black" }}>
+        Filter By: Regions
+      </Typography>
       <FormGroup>
-        {tags.map((tag) => (
-          <FormControlLabel control={<Switch checked={tag.isShow} onChange={Handler} id={tag.tag_id} />} label={tag.tag_title} />
+        {regions.map((region) => (
+          <FormControlLabel control={<Switch checked={region.isShow} onChange={regHandler} id={region.id} />} label={region.name} />
         ))}
       </FormGroup>
-      // </Grid>
-    
+      <Divider />
+      <Typography variant="h5" style={{ fontFamily: "Special Elite", fontSize: "130%", color: "black" }}>
+        Filter By: Tags
+      </Typography>
+      <FormGroup>
+        {tags.map((tag) => (
+          <FormControlLabel control={<Switch checked={tag.isShow} onChange={tagHandler} id={tag.id} />} label={tag.name} />
+        ))}
+      </FormGroup>
+    </div>    
   );
 };
 

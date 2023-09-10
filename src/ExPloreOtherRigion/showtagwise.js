@@ -41,7 +41,7 @@ const TagWise = (item) => {
             color: "black",
           }}
         >
-          {tag_title}:
+          {tag_title} at {item.region_name}
         </Typography>
       </Grid>
       <Grid item xs={10} container direction="row" spacing={2}>

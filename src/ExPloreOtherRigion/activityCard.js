@@ -43,10 +43,10 @@ const ActivityCard = (item) => {
         ];
       });
       setRegions((previous) => {
-        if (previous.includes(activity.region_id)) {
+        if (previous.includes(item.region_id)) {
           return previous;
         } else {
-          return [...previous, activity.region_id];
+          return [...previous, item.region_id];
         }
       });
     } else if (event.target.id === "remove") {

@@ -29,9 +29,10 @@ import { ScheduleOutlined } from "@mui/icons-material";
 const baseURL = process.env.REACT_APP_BASE_URL;
 const timeformat = require("../formatTime");
 
-const ThingsToDo = (props) => {
+const TagPlaceActivity = (props) => {
   const { plan_id } = useParams();
   const placeItem = props.item.tags_places_activities;
+  const currentRegions = props.item.currentRegions;
 
   const setAddList = props.addedList;
   const setRemoveList = props.removedList;
@@ -51,6 +52,7 @@ const ThingsToDo = (props) => {
               item={pl}
               addedList={setAddList}
               region_id={props.item.region_id}
+              region_name={props.item.region_name}
               setRegions={props.setRegions}
             />
           )}
@@ -61,8 +63,8 @@ const ThingsToDo = (props) => {
 };
 
 const getTagBool = (filter, tag_id) => {
-  let temp = filter.filter((item) => item.tag_id === tag_id);
+  let temp = filter.filter((item) => item.id === tag_id);
   return temp[0].isShow;
 };
 
-export default ThingsToDo;
+export default TagPlaceActivity;
