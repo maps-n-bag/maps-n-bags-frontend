@@ -19,7 +19,7 @@ import TagBar from "./tagBar";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { makeStyles } from "@mui/styles";
@@ -30,46 +30,28 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 const timeformat = require("../formatTime");
 const useStyles = makeStyles({
   places: {
-    height: "90%",
-    width: "112%",
     backgroundColor: "rgba(250, 233, 171, 0.78)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-  },
-  btn: {
-    minWidth: "100%",
+    minHeight: "100vh",
   },
 
   postcard: {
-    //height: "100%",
-    width: "95%",
-    Height: "50%",
-    //marginLeft: "15%",
-    // marginRight: "20%",
-  },
-  cardimg: {
-    backgroundColor: "#ff5722",
-    overflow: "hidden",
-  },
-
-  img: {
-    height: "100%",
-    position: "centre",
-  },
-  cardimg: {
-    // height: "100%",
+    marginLeft: "10%",
+    marginTop: "10vh",
   },
 });
 
 const ThingsToDo = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
+
   const { plan_id } = useParams();
   const [placeItem, setPlaceItem] = useState([]);
 
   const [addList, setAddList] = useState([]);
   const [removeList, setRemoveList] = useState([]);
   const [filter, setFilter] = useState([]);
-  const [navigateBool, setNavigateBool] = useState(false);
 
   const postUpdateHandler = (event) => {
     console.log(addList);
@@ -90,7 +72,7 @@ const ThingsToDo = () => {
       )
       .then((resp) => {
         console.log(resp);
-        setNavigateBool(true);
+        navigate(`/FullTour/${plan_id}`);
       })
       .catch((rejected) => {
         console.log(rejected);
@@ -110,8 +92,8 @@ const ThingsToDo = () => {
         let temp = [];
         temp = resp.data.map((item) => {
           return {
-            tag_id: item.tag_id,
-            tag_title: item.tag_name,
+            id: item.tag_id,
+            name: item.tag_name,
             isShow: false,
           };
         });
@@ -122,54 +104,56 @@ const ThingsToDo = () => {
       });
   }, [plan_id]);
 
-  //console.log(placeItem);
-
   return (
     <div className={classes.places}>
+      <SideBar />
       <div className={classes.postcard}>
-        <Grid item container spacing={10}>
-          <Grid item>
+        <Typography
+          color="black"
+          style={{
+            fontFamily: "Special Elite",
+            fontSize: "200%",
+            textAlign: "center",
+            marginBottom: "5%",
+          }}
+        >
+          Things To Do In Your Plan
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={3} style={{ maxWidth: "300px" }}>
             <TagBar tags={filter} setTags={setFilter} />
           </Grid>
-          {placeItem.map((pl) => (
-            <div>
-              <Grid item container spacing={10}>
-                {/* Use Grid items to contain each card */}
-
-                <Grid item>
-                  {getTagBool(filter, pl.tag_id) && (
-                    <TagWise
-                      item={pl}
-                      addedList={setAddList}
-                      removedList={setRemoveList}
-                    />
-                  )}
-                </Grid>
-              </Grid>
-            </div>
-          ))}
+          <Grid item xs={9} container direction="column" spacing={1}>
+            {placeItem.map((pl) => (
+              <>
+                {getTagBool(filter, pl.tag_id) && (
+                  <TagWise
+                    item={pl}
+                    addedList={setAddList}
+                    removedList={setRemoveList}
+                  />
+                )}
+              </>
+            ))}
+          </Grid>
 
           <Grid
             container
             direction="row"
             justifyContent="center"
             alignItems="center"
-            // marginTop= "5%"
             marginBottom="40%"
           >
             <Button
               onClick={postUpdateHandler}
               className="btn"
-              //type="submit"
               style={{
                 backgroundColor: "rgba(178, 222, 39,0.5)",
                 borderWidth: "5px",
                 borderColor: "white",
                 borderRadius: "200%",
-                //marginLeft: "500%",
               }}
               variant="outlined"
-              // fullWidth
             >
               <Typography
                 color="black"
@@ -183,42 +167,15 @@ const ThingsToDo = () => {
               </Typography>
             </Button>
 
-            {navigateBool && (
-              <Link to={`/FullTour/${plan_id}`}>
-                <Button
-                  className="btn"
-                  style={{
-                    backgroundColor: "rgba(13, 180, 185,0.5)",
-                    borderWidth: "5px",
-                    borderColor: "white",
-                    borderRadius: "200%",
-                    //marginLeft: "500%",
-                  }}
-                  variant="outlined"
-                  // fullWidth
-                >
-                  <Typography
-                    color="black"
-                    style={{
-                      fontFamily: "Special Elite",
-                      fontSize: "200%",
-                      textAlign: "center",
-                    }}
-                  >
-                    {" "}
-                    View Updated Plan
-                  </Typography>
-                </Button>
-              </Link>
-            )}
           </Grid>
         </Grid>
       </div>
     </div>
   );
 };
+
 const getTagBool = (filter, tag_id) => {
-  let temp = filter.filter((item) => item.tag_id === tag_id);
+  let temp = filter.filter((item) => item.id === tag_id);
   return temp[0].isShow;
 };
 

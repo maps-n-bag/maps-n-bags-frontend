@@ -63,8 +63,7 @@ const TagBar = (item) => {
   };
 
   return (
-      
-    <div>
+    <>
       <Typography variant="h5" style={{ fontFamily: "Special Elite", fontSize: "130%", color: "black" }}>
         Filter By: Regions
       </Typography>
@@ -82,7 +81,7 @@ const TagBar = (item) => {
           <FormControlLabel control={<Switch checked={tag.isShow} onChange={tagHandler} id={tag.id} />} label={tag.name} />
         ))}
       </FormGroup>
-    </div>    
+    </>    
   );
 };
 

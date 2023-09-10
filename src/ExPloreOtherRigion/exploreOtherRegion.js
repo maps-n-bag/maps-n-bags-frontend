@@ -1,33 +1,17 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
-import CardActions from "@mui/material/CardActions";
-import Box from "@mui/material";
-import {
-  Grid,
-  Card,
-  ButtonBase,
-  Paper,
-  CardContent,
-  Typography,
-} from "@mui/material";
-
+import { Grid, Typography } from "@mui/material";
 import TagPlaceActivity from "./tagPlaceActivity";
 import TagBar from "./tagBar";
-
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
-import { ScheduleOutlined } from "@mui/icons-material";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
-const timeformat = require("../formatTime");
+
 const useStyles = makeStyles({
   places: {
     backgroundColor: "rgba(250, 233, 171, 0.78)",
@@ -44,6 +28,8 @@ const useStyles = makeStyles({
 
 const ExploreOtherRegion = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
+
   const { plan_id } = useParams();
   const [placeItem, setPlaceItem] = useState([]);
 
@@ -51,13 +37,9 @@ const ExploreOtherRegion = () => {
   const [removeList, setRemoveList] = useState([]);
   const [currentRegions, setCurrentRegions] = useState([]);
   const [tagFilter, setTagFilter] = useState([]);
-  const [navigateBool, setNavigateBool] = useState(false);
   const [regionsFilter, setRegionsFilter] = useState([]);
 
   const postUpdateHandler = (event) => {
-    console.log(addList);
-    console.log(removeList);
-    console.log(currentRegions);
     axios
       .post(
         `${baseURL}plan/update?plan_id=${plan_id}`,
@@ -73,8 +55,7 @@ const ExploreOtherRegion = () => {
         }
       )
       .then((resp) => {
-        console.log(resp);
-        setNavigateBool(true);
+        navigate(`/FullTour/${plan_id}`);
       })
       .catch((rejected) => {
         console.log(rejected);
@@ -149,23 +130,18 @@ const ExploreOtherRegion = () => {
             direction="row"
             justifyContent="center"
             alignItems="center"
-            // marginTop= "5%"
-            //  marginLeft= "30%"
             marginBottom="40%"
           >
             <Button
               onClick={postUpdateHandler}
               className="btn"
-              //type="submit"
               style={{
                 backgroundColor: "rgba(178, 222, 39,0.5)",
                 borderWidth: "5px",
                 borderColor: "white",
                 borderRadius: "200%",
-                //marginLeft: "500%",
               }}
               variant="outlined"
-            // fullWidth
             >
               <Typography
                 color="black"
@@ -178,34 +154,6 @@ const ExploreOtherRegion = () => {
                 Update Plan
               </Typography>
             </Button>
-            {navigateBool && (
-              <Link to={`/FullTour/${plan_id}`}>
-                <Button
-                  className="btn"
-                  style={{
-                    backgroundColor: "rgba(13, 180, 185,0.5)",
-                    borderWidth: "5px",
-                    borderColor: "white",
-                    borderRadius: "200%",
-                    //marginLeft: "500%",
-                  }}
-                  variant="outlined"
-                // fullWidth
-                >
-                  <Typography
-                    color="black"
-                    style={{
-                      fontFamily: "Special Elite",
-                      fontSize: "200%",
-                      textAlign: "center",
-                    }}
-                  >
-                    {" "}
-                    View Updated Plan
-                  </Typography>
-                </Button>
-              </Link>
-            )}
           </Grid>
         </Grid>
       </div>

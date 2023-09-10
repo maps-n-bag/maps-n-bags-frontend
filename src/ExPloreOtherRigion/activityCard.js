@@ -61,7 +61,7 @@ const ActivityCard = (item) => {
   };
 
   return (
-    <div>
+    <>
       <Typography
         variant="body2"
       >
@@ -76,7 +76,7 @@ const ActivityCard = (item) => {
           </Button>
         )}
       </Typography>
-    </div>
+    </>
   );
 };
 
