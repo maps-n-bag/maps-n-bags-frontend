@@ -104,18 +104,8 @@ const CreateAPlan = () => {
         },
       })
       .then((response) => {
-        console.log("hello ji", response);
-        console.log("create plan successful");
         const planId = response.data.id;
-        if (response.status == "201") navigate("/TourOverview/" + planId);
-        // if (response.status == "200") navigate(`/Profile/${response.data.user_id}`);
-        // if (response.data.accessToken) {
-        //   localStorage.setItem("accessToken", response.data.accessToken);
-        //   if (response.data.id) localStorage.setItem("id", response.data.id);
-        //   console.log(localStorage.getItem("accessToken"));
-
-        //   window.location.reload(false);
-        // }
+        if (response.status == "201") navigate("/FullTour/" + planId);
       })
       .catch((error) => {
         console.log(error);

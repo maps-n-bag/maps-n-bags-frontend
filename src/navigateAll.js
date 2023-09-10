@@ -42,11 +42,6 @@ export class NavigateAll extends React.Component {
               <CreateAPlan />
             </PrivateRoute>
           } />
-          <Route path="/TourOverview/:plan_id" element={
-            <PrivateRoute>
-              <TourOverview />
-            </PrivateRoute>
-          } />
           <Route path="/FullTour/:plan_id" element={
             <PrivateRoute>
               <FullTour />
