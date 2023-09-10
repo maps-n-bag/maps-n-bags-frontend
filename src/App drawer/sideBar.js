@@ -22,14 +22,18 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
-import { OpenInFullRounded } from "@mui/icons-material";
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import {
+  OpenInFullRounded,
+  SettingsBrightnessOutlined,
+} from "@mui/icons-material";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import BookIcon from "@mui/icons-material/Book";
 import { Link } from "react-router-dom";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
-import PublicIcon from '@mui/icons-material/Public';
+import PublicIcon from "@mui/icons-material/Public";
 import { Avatar, Tooltip } from "@mui/material";
 
 const drawerWidth = 240;
@@ -37,7 +41,11 @@ const drawerWidth = 240;
 const iconData = [
   { icon: HomeIcon, name: "Home", link: "" },
   { icon: PublicIcon, name: "Others Plan", link: "OthersPlan" },
-  { icon: PermContactCalendarIcon, name: "Profile", link: `Profile/${localStorage.getItem("userId")}` },
+  {
+    icon: PermContactCalendarIcon,
+    name: "Profile",
+    link: `Profile/${localStorage.getItem("userId")}`,
+  },
   { icon: BookIcon, name: "Blog", link: "AllBlog" },
 ];
 
@@ -106,8 +114,9 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function SideBar() {
+export default function SideBar(props) {
   const theme = useTheme();
+  console.log(props);
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -133,7 +142,7 @@ export default function SideBar() {
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon sx={{ color: "#00000", }} />
+            <MenuIcon sx={{ color: "#00000" }} />
           </IconButton>
           <Typography
             variant="h4"
@@ -148,6 +157,7 @@ export default function SideBar() {
               Maps 'n Bags
             </Link>
           </Typography>
+      
 
           <Tooltip title="Profile">
             <IconButton
@@ -155,7 +165,10 @@ export default function SideBar() {
                 marginLeft: "auto",
               }}
             >
-              <Link to={`/Profile/${localStorage.getItem("userId")}`} style={{ textDecoration: "none" }}>
+              <Link
+                to={`/Profile/${localStorage.getItem("userId")}`}
+                style={{ textDecoration: "none" }}
+              >
                 <Avatar
                   alt="Profile Picture"
                   src={localStorage.getItem("userImage")}
@@ -164,7 +177,18 @@ export default function SideBar() {
               </Link>
             </IconButton>
           </Tooltip>
-
+          {props && (
+            <Tooltip title="Theme">
+              <IconButton
+                style={{
+                  fontSize: "100%",
+                  // marginLeft: "5%",
+                }}
+              >
+                <SettingsBrightnessOutlined onClick={props.toggleTheme}/>
+              </IconButton>
+            </Tooltip>
+          )}
         </Toolbar>
       </AppBar>
 
@@ -172,7 +196,7 @@ export default function SideBar() {
         variant="permanent"
         open={open}
 
-      //sx={{ color: "rgba(225,249,27,1)" }}
+        //sx={{ color: "rgba(225,249,27,1)" }}
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -186,7 +210,10 @@ export default function SideBar() {
         <Divider />
         <List>
           {iconData.map((icons, index) => (
-            <Link to={`/${icons.link}`} style={{ textDecoration: "none", color: "black" }}>
+            <Link
+              to={`/${icons.link}`}
+              style={{ textDecoration: "none",  color: props.theme.palette.primary.main}}
+            >
               <ListItem key={index} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
@@ -213,12 +240,14 @@ export default function SideBar() {
                 </ListItemButton>
               </ListItem>
             </Link>
-
           ))}
         </List>
         <Divider />
         <List>
-          <Link to={`/CreatePlan`} style={{ textDecoration: "none", color: "black" }}>
+          <Link
+            to={`/CreatePlan`}
+            style={{ textDecoration: "none", color: props.theme.palette.primary.main }}
+          >
             {["Create Plan"].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
@@ -240,7 +269,6 @@ export default function SideBar() {
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
               </ListItem>
-
             ))}
           </Link>
         </List>
@@ -248,8 +276,15 @@ export default function SideBar() {
         <Divider />
 
         <List>
-          <Link to={`/`} style={{ textDecoration: "none", color: "black" }}>
-            <ListItem key={"Logout"} disablePadding sx={{ display: "block" }} onClick={() => { localStorage.clear(); }}>
+          <Link to={`/`} style={{ textDecoration: "none",  color: props.theme.palette.primary.main }}>
+            <ListItem
+              key={"Logout"}
+              disablePadding
+              sx={{ display: "block" }}
+              onClick={() => {
+                localStorage.clear();
+              }}
+            >
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -266,14 +301,15 @@ export default function SideBar() {
                 >
                   <KeyboardReturnIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Logout"} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText
+                  primary={"Logout"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
               </ListItemButton>
             </ListItem>
           </Link>
         </List>
-
       </Drawer>
-
     </Box>
   );
 }

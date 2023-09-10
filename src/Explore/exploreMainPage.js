@@ -17,6 +17,7 @@ import TimeLine from "../Profile/timeline";
 import cp from "../photos/c.png";
 import pp from "../photos/para.png";
 import cr from "../photos/cr.png";
+import { useThemeContext } from '../ThemeContext'; 
 import { useParams } from "react-router-dom";
 const baseURL = process.env.REACT_APP_BASE_URL;
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function ExploreMain() {
   const classes = useStyles();
+  const { theme, toggleThemeMode } = useThemeContext();
   const { plan_id } = useParams();
   const navigate = useNavigate();
   const RowOfBoxes = () => {
@@ -113,7 +115,7 @@ export default function ExploreMain() {
 
   return (
     <div className={classes.root}>
-      <SideBar />
+       <SideBar theme={theme} toggleTheme={toggleThemeMode} />
       <div className={classes.boxrow}>
         <RowOfBoxes />
       </div>

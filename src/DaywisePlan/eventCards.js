@@ -130,7 +130,7 @@ const EventCards = (props) => {
 
             <Grid item xs>
               <Typography gutterBottom variant="h5" component="div">
-                <Link to={`/PlaceDetails/${cardsData.event.place_id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                <Link to={`/PlaceDetails/${cardsData.event.place_id}`} style={{ textDecoration: 'none', color: props.theme.palette.primary.main }}>
                   {placeItem.title}
                 </Link>
               </Typography>

@@ -12,7 +12,7 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-
+import { useThemeContext } from "../ThemeContext";
 import TagWise from "./showtagwise";
 import TagBar from "./tagBar";
 
@@ -52,7 +52,7 @@ const ThingsToDo = () => {
   const [addList, setAddList] = useState([]);
   const [removeList, setRemoveList] = useState([]);
   const [filter, setFilter] = useState([]);
-
+  const { theme, toggleThemeMode } = useThemeContext();
   const postUpdateHandler = (event) => {
     console.log(addList);
     console.log(removeList);
@@ -106,7 +106,7 @@ const ThingsToDo = () => {
 
   return (
     <div className={classes.places}>
-      <SideBar />
+      <SideBar  theme={theme} toggleTheme={toggleThemeMode} />
       <div className={classes.postcard}>
         <Typography
           color="black"

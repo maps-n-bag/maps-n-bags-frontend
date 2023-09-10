@@ -10,7 +10,7 @@ import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
 import Paper from '@mui/material/Paper';
 import { ButtonGroup } from "@mui/material";
-
+import { useThemeContext } from "../ThemeContext";
 const dateformat = require("../formatDate");
 const baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   places: {
     height: "100%",
     width: "100%",
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundColor: "rgba(0, 0, 0 ,0.05)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     minHeight: "100vh",
@@ -33,7 +33,7 @@ const DaywisePlan = () => {
   const { plan_id, dayStart, totalDays, day } = useParams();
   const classes = useStyles();
   const [day_int, setDay] = useState(parseInt(day));
-
+  const { theme, toggleThemeMode } = useThemeContext();
   const day_start = dateformat.formatDate(dayStart);
   const dayStartObj = new Date(day_start)
   const today = new Date();
@@ -76,7 +76,7 @@ const DaywisePlan = () => {
   return (
     <div className={classes.places}>
 
-      <SideBar />
+<SideBar  theme={theme} toggleTheme={toggleThemeMode} />
 
       <div className={classes.day}>
 
@@ -84,7 +84,7 @@ const DaywisePlan = () => {
           style={{
             fontFamily: "Special Elite",
             fontSize: "200%",
-            color: "black",
+            
             textAlign: "center",
             marginBottom: "15px",
           }}
@@ -94,7 +94,7 @@ const DaywisePlan = () => {
 
         <div>
           {itemBasic.map((item, index) => (
-            <EventCards key={index} item={item} />
+            <EventCards key={index} item={item} theme={theme}/>
           ))}
         </div>
 

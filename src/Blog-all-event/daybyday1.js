@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
-
+import { useThemeContext } from '../ThemeContext'; 
 import axios from "axios";
 
 import { makeStyles } from "@mui/styles";
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   places: {
     height: "100%",
     width: "100%",
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundColor: "rgba(0, 0, 0 ,0.05)",
 
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
@@ -40,6 +40,7 @@ const DaybyDay = () => {
   const classes = useStyles();
   const { plan_id } = useParams();
   const [itemBasic, setItemBasic] = useState([]);
+  const { theme, toggleThemeMode } = useThemeContext();
   useEffect(() => {
     axios.get(`${baseURL}event?plan_id=${plan_id}`, {
       headers: {
@@ -56,7 +57,7 @@ const DaybyDay = () => {
   return (
     <div className={classes.places}>
 
-      <SideBar />
+      <SideBar  theme={theme} toggleTheme={toggleThemeMode} />
 
       <div className={classes.postcard}>
 
@@ -65,7 +66,7 @@ const DaybyDay = () => {
             <Typography variant="h4"
               style={{
                 fontFamily: "Special Elite",
-                color: "black",
+                
                 textAlign: "center",
                 marginBottom: "20px",
               }}
@@ -78,7 +79,7 @@ const DaybyDay = () => {
           </div>
         ))}
 
-        <div style={{ height: "100px", maxWidth: 900, margin: "auto" }}>
+        <div style={{ height: "100px", maxWidth: 900, marginLeft:"40%" }}>
           <Link to={`/FullTour/${plan_id}`}>
             <Button variant="outlined" size="small">
               Go to Plan

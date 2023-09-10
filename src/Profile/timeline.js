@@ -21,7 +21,7 @@ import { ButtonBase } from "@mui/material";
 import SlideshowOutlinedIcon from "@mui/icons-material/SlideshowOutlined";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { TextField } from "@mui/material";
-
+import { useThemeContext } from '../ThemeContext'; 
 // firebase
 import { storage } from "../Firebase/firebase";
 import {
@@ -87,7 +87,7 @@ const Profile = () => {
   const [itemBasic, setItemBasic] = useState([]);
   const [isEditingBasic, setIsEditingBasic] = useState(false);
   const [plans, setPlans] = useState([]);
-
+  const { theme, toggleThemeMode } = useThemeContext();
   const classes = useStyles();
 
   useEffect(() => {
@@ -234,11 +234,11 @@ const Profile = () => {
     white-space: nowrap;
     width: 1px;
   `;
-
+ 
   return (
     <div className={classes.root}>
-      <SideBar />
-
+      <SideBar  theme={theme} toggleTheme={toggleThemeMode} />
+    
       <div className={classes.postcard}>
 
         <div className={classes.coverpic}>
@@ -284,7 +284,7 @@ const Profile = () => {
             </div>
           ) : (
             <Typography
-              color="black"
+             // color="black"
               style={{
                 fontFamily: "Special Elite",
                 fontSize: "150%",
@@ -329,7 +329,7 @@ const Profile = () => {
           ) : (
             <Button onClick={(e) => setIsEditingBasic(true)} startIcon={<EditNote style={{ fontSize: "250%" }} />}>
               <Typography
-                color="black"
+               // color="black"
                 style={{
                   fontFamily: "Special Elite",
                   fontSize: "150%",
@@ -376,6 +376,7 @@ const Profile = () => {
         >
           Your Plans
         </Typography>
+       
         <Grid container spacing={2} sx={{ margin: "auto", width: "80%" }} justifyContent="left">
           
           {plans.map((plan) => (

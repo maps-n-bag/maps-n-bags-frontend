@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import axios from "axios";
-
+import { useThemeContext } from "../ThemeContext";
 // firebase
 import { storage } from "../Firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -56,7 +56,7 @@ const handleMarkdownUpload = (md, plan_id) => {
 
 const GenerateBlog = () => {
   const classes = useStyles();
-
+  const { theme, toggleThemeMode } = useThemeContext();
   const { plan_id, publish } = useParams();
   const [planData, setPlanData] = useState(null);
   const [markdownBlog, setMarkdownBlog] = useState(null);
@@ -113,7 +113,7 @@ const GenerateBlog = () => {
 
   return (
     <div className={classes.root}>
-      <SideBar />
+      <SideBar  theme={theme} toggleTheme={toggleThemeMode} />
       <div className={classes.container}>
         <div className="markdown-body">
           <MarkdownDisplay markdownContent={markdownBlog} />

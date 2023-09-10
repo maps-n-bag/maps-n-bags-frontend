@@ -17,6 +17,7 @@ import Checkbox from "@mui/material/Checkbox";
 import "react-datepicker/dist/react-datepicker.css";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
+import { useThemeContext } from '../ThemeContext'; 
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -76,7 +77,7 @@ const useStyles = makeStyles({
 });
 
 const CreateAPlan = () => {
-  // const id = localStorage.getItem("id");
+  const { theme, toggleThemeMode } = useThemeContext();
   const [regions, setRegions] = useState([]);
   const [tags, setTags] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
@@ -168,7 +169,7 @@ const CreateAPlan = () => {
 
   return (
     <div className={classes.places}>
-      <SideBar />
+      <SideBar theme={theme} toggleTheme={toggleThemeMode} />
 
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <div>

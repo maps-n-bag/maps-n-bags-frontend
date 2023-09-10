@@ -21,11 +21,12 @@ import axios from "axios";
 import { storage } from "../Firebase/firebase";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
+import { useThemeContext } from '../ThemeContext'; 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const useStyles = makeStyles({
   places: {
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundColor: "rgba(0, 0, 0 ,0.05)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     minHeight: "100vh",
@@ -39,18 +40,18 @@ const useStyles = makeStyles({
 
 const PlaceDetails = () => {
   const classes = useStyles();
-  const { id } = useParams();
+  const { place_id } = useParams();
   const [inputError, setInputError] = useState(false);
   const [addReview, setAddReview] = useState(false);
   const [itemBasic, setItemBasic] = useState([]);
   const { handleSubmit } = useForm();
-  const directory = `review-images/place-${id}/`;
+  const directory = `review-images/place-${place_id}/`;
   const [newItemBasic, setNewItemBasic] = useState([]);
-
+  const { theme, toggleThemeMode } = useThemeContext();
   const [showReview, setShowReview] = useState(false);
   useEffect(() => {
     axios
-      .get(`${baseURL}public/place?id=${id}`, {
+      .get(`${baseURL}public/place?id=${place_id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -66,7 +67,7 @@ const PlaceDetails = () => {
   const onError = (errors, e) => console.log(errors, e);
   useEffect(() => {
     axios
-      .get(`${baseURL}public/place/review?place_id=${id}`, {
+      .get(`${baseURL}public/place/review?place_id=${place_id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -101,7 +102,7 @@ const PlaceDetails = () => {
    
     console.log(newItemBasic);
     axios
-      .put(`${baseURL}public/place/review?place_id=${id}`, newItemBasic, {
+      .put(`${baseURL}public/place/review?place_id=${place_id}`, newItemBasic, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -186,10 +187,10 @@ const PlaceDetails = () => {
   };
 
   // console.log(review);
-
+ 
   return (
     <div className={classes.places}>
-      <SideBar />
+      <SideBar theme={theme} toggleTheme={toggleThemeMode} />
       <div className={classes.postcard}>
         <Card
           style={{
@@ -211,7 +212,7 @@ const PlaceDetails = () => {
                   variant="head"
                   style={{
                     fontSize: "150%",
-                    color: "black",
+                  
 
                     textAlign: "center",
                   }}
@@ -226,7 +227,7 @@ const PlaceDetails = () => {
                     variant="head"
                     style={{
                       fontSize: "120%",
-                      color: "black",
+                     
                       marginLeft: "6%",
                       marginTop: "10%",
                     }}
@@ -242,7 +243,7 @@ const PlaceDetails = () => {
                     variant="head"
                     style={{
                       fontSize: "120%",
-                      color: "black",
+                     
                       marginLeft: "6%",
                       marginTop: "20%",
                     }}
@@ -259,7 +260,7 @@ const PlaceDetails = () => {
                     variant="head"
                     style={{
                       fontSize: "120%",
-                      color: "black",
+                     
                       marginLeft: "6%",
                       marginTop: "20%",
                     }}
@@ -276,7 +277,7 @@ const PlaceDetails = () => {
                     variant="head"
                     style={{
                       fontSize: "120%",
-                      color: "black",
+                   
                       marginLeft: "6%",
                       marginTop: "20%",
                     }}
@@ -293,7 +294,7 @@ const PlaceDetails = () => {
                     variant="head"
                     style={{
                       fontSize: "120%",
-                      color: "black",
+                   
                       marginLeft: "6%",
                       marginTop: "20%",
                       // textAlign: "center",
@@ -312,7 +313,7 @@ const PlaceDetails = () => {
                   onClick={() => setShowReview(!showReview)}
                 >
                   <Typography
-                    color="black"
+                 
                     style={{
                       fontFamily: "Special Elite",
                       fontSize: "20px",
@@ -330,7 +331,7 @@ const PlaceDetails = () => {
                   onClick={() => setAddReview(!addReview)}
                 >
                   <Typography
-                    color="black"
+                   
                     style={{
                       fontFamily: "Special Elite",
                       fontSize: "20px",
@@ -349,7 +350,7 @@ const PlaceDetails = () => {
                         style={{
                           //fontFamily: "Special Elite",
                           fontSize: "100%",
-                          color: "black",
+                        
                           // marginLeft: "3%",
                           marginTop: "3%",
 
@@ -375,10 +376,8 @@ const PlaceDetails = () => {
                           style={{
                             //fontFamily: "Special Elite",
                             fontSize: "100%",
-                            color: "black",
-                            // marginLeft: "3%",
-
-                            // textAlign: "center",
+                          
+                        
                           }}
                         >
                           Upload an Image
@@ -407,7 +406,7 @@ const PlaceDetails = () => {
                           halfWidth
                         >
                           <Typography
-                            color="black"
+                       
                             style={{
                               fontFamily: "Special Elite",
                               fontSize: "20px",
@@ -427,7 +426,7 @@ const PlaceDetails = () => {
           <CardActions></CardActions>
         </Card>
 
-        {showReview && <ShowReview place_id={id} />}
+        {showReview && <ShowReview place_id={place_id} />}
       </div>
     </div>
   );

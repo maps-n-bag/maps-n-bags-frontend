@@ -125,8 +125,8 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
               </div>
             ) : (
               <div>
-                <Link to={`/FullTour/${planDetails.id}`} style={{ textDecoration: "none", color: "black" }}>
-                  <Typography gutterBottom variant="h6" component="div">
+                <Link to={`/FullTour/${planDetails.id}`} style={{ textDecoration: "none" }}>
+                  <Typography gutterBottom variant="h6" component="div" color="text.primary">
                     {planDetails.title}
                   </Typography>
                 </Link>

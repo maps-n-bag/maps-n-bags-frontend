@@ -219,7 +219,7 @@ const ContentCards = (props) => {
                           style={{
                             //fontFamily: "Special Elite",
                             fontSize: "100%",
-                            color: "black",
+                            
                             marginTop: "6%",
                             marginRight: "10%",
                             // textAlign: "center",
@@ -246,7 +246,7 @@ const ContentCards = (props) => {
                                     style={{
                                       //fontFamily: "Special Elite",
                                       fontSize: "100%",
-                                      color: "black",
+                                      
                                       // marginLeft: "3%",
                                       marginTop: "3%",
 
@@ -329,7 +329,7 @@ const ContentCards = (props) => {
                                   style={{
                                     //fontFamily: "Special Elite",
                                     fontSize: "100%",
-                                    color: "black",
+                                    
                                     // marginLeft: "3%",
 
                                     // textAlign: "center",
@@ -395,7 +395,7 @@ const ContentCards = (props) => {
                                       }}
                                     >
                                       <Typography
-                                        color="black"
+                                       
                                         style={{
                                           fontFamily: "Special Elite",
                                           fontSize: "20px",
@@ -423,7 +423,7 @@ const ContentCards = (props) => {
                                     >
                                       {" "}
                                       <Typography
-                                        color="black"
+                                        
                                         style={{
                                           fontFamily: "Special Elite",
                                           fontSize: "20px",
@@ -449,7 +449,7 @@ const ContentCards = (props) => {
                                         variant="h6"
                                         style={{
                                           fontSize: "100%",
-                                          color: "black",
+                                          
                                           marginTop: "3%",
                                         }}
                                       >
@@ -461,7 +461,7 @@ const ContentCards = (props) => {
                                         variant="h6"
                                         style={{                                  
                                           fontSize: "100%",
-                                          color: "black",
+                                          
                                           marginTop: "5%",                                         
                                         }}
                                       >
@@ -474,7 +474,7 @@ const ContentCards = (props) => {
                                         style={{
                                           //fontFamily: "Special Elite",
                                           fontSize: "100%",
-                                          color: "black",
+                                         
                                           // marginLeft: "3%",
                                           marginTop: "3%",
 
