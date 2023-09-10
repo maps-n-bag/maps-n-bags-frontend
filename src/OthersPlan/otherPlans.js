@@ -73,7 +73,7 @@ const OthersPlan = () => {
       });
   }, []);
 
-  useMemo(() => {
+  useEffect(() => {
     const values = {
       user_id: user_id,
       regions: [...checkedItemsRgn],
@@ -161,7 +161,7 @@ const OthersPlan = () => {
         </Paper>
         <Grid item container spacing={2} justifyContent="left" style={{ width: "80%" }}>
           {itemBasic.map((item, index) => (
-            <OthersPLanCard item={item} />
+            <OthersPLanCard item={item}  startDate={startDate} />
           ))}
         </Grid>
       </div>
