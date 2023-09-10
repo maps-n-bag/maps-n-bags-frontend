@@ -64,7 +64,7 @@ const GenerateBlog = () => {
   useEffect(() => {
 
 
-    axios.get(`${baseURL}event/generateBlog?plan_id=${plan_id}`, {
+    axios.get(`${baseURL}plan/generateBlog?plan_id=${plan_id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },

@@ -55,7 +55,7 @@ const BloglistCard = (props) => {
             </Button>
           </Grid>
           <Grid item xs={6} sx={{ textAlign: "center" }}>
-            <Button size="small" color="primary" href={`/Blog/${cardsData.id}`} sx={{ width: "90%" }} variant="contained">
+            <Button size="small" color="primary" href={`/ShareBlog/${cardsData.id}/false`} sx={{ width: "90%" }} variant="contained">
               Share
             </Button>
           </Grid>

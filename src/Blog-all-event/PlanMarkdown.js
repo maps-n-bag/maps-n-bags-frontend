@@ -12,6 +12,9 @@ const PlanMarkdown = ({ planData }) => {
     console.log("planData is null");
     return (null);
   }
+
+  // Add Cover Image
+  markdownContent += `![Cover Image](${planData.plan_image})\n\n`;
   // Add plan title and description
   markdownContent += `# ${planData.plan_title}\n\n`;
   if (planData.plan_description) { markdownContent += `${planData.plan_description}\n\n`; }

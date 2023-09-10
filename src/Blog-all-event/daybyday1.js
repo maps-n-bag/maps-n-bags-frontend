@@ -84,12 +84,12 @@ const DaybyDay = () => {
               Go to Plan
             </Button>
           </Link>
-          <Link to={`/GenerateBlog/${plan_id}/false`}>
+          <Link to={`/ShareBlog/${plan_id}/false`}>
             <Button variant="outlined" size="small">
               View Blog
             </Button>
           </Link>
-          <Link to={`/GenerateBlog/${plan_id}/true`}>
+          <Link to={`/ShareBlog/${plan_id}/true`}>
             <Button variant="outlined" size="small">
               Publish Changes
             </Button>

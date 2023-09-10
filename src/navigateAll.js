@@ -66,7 +66,7 @@ export class NavigateAll extends React.Component {
               <DaybyDay />
             </PrivateRoute>
           } />
-          <Route path="/GenerateBlog/:plan_id/:publish" element={
+          <Route path="/ShareBlog/:plan_id/:publish" element={
             <PrivateRoute>
               <GenerateBlog />
             </PrivateRoute>
