@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import CardActions from "@mui/material/CardActions";
-import { Grid, Card, CardContent, Typography } from "@mui/material";
+import { Grid, Card, CardContent, Typography, TextField } from "@mui/material";
 import ShowReview from "./showreview";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
@@ -20,8 +20,10 @@ import {
 import axios from "axios";
 import { storage } from "../Firebase/firebase";
 import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import SideBar from "../App drawer/sideBar";
 import { useThemeContext } from '../ThemeContext'; 
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const useStyles = makeStyles({
@@ -39,9 +41,21 @@ const useStyles = makeStyles({
 });
 
 const PlaceDetails = () => {
+
+  const VisuallyHiddenInput = styled('input')`
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    white-space: nowrap;
+    width: 1px;
+  `;
+
   const classes = useStyles();
   const { place_id } = useParams();
-  const [inputError, setInputError] = useState(false);
   const [addReview, setAddReview] = useState(false);
   const [itemBasic, setItemBasic] = useState([]);
   const { handleSubmit } = useForm();
@@ -49,6 +63,7 @@ const PlaceDetails = () => {
   const [newItemBasic, setNewItemBasic] = useState([]);
   const { theme, toggleThemeMode } = useThemeContext();
   const [showReview, setShowReview] = useState(false);
+
   useEffect(() => {
     axios
       .get(`${baseURL}public/place?id=${place_id}`, {
@@ -62,9 +77,10 @@ const PlaceDetails = () => {
       .catch((rejected) => {
         console.log(rejected);
       });
-  }, []);
-  console.log(itemBasic);
+  }, [ place_id ]);
+
   const onError = (errors, e) => console.log(errors, e);
+
   useEffect(() => {
     axios
       .get(`${baseURL}public/place/review?place_id=${place_id}`, {
@@ -82,48 +98,35 @@ const PlaceDetails = () => {
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    // const newItemBasic = { ...newItemBasic };
-    // newItemBasic.checked = true;
-    // newItemBasic.note = data.note;
-    // newItemBasic.generated_details = data.generated_details;
-    // newItemBasic.expenditure = data.expenditure;
-    newItemBasic.user_id = localStorage.getItem("user_id");
-    //newItemBasic.place_id = id;
-    //newItemBasic.title = data.title;
+    console.log("data", data)
 
-    newItemBasic.images = [];
-    newItemBasic.images.forEach((image) => {
-      if (image != null) {
-        newItemBasic.images.push(image);
-      }
-    });
-    newItemBasic.comment = data.comment;
-    setNewItemBasic(newItemBasic);
-   
-    console.log(newItemBasic);
+    const toBeSubmitted = { ...newItemBasic };
+    toBeSubmitted.user_id = localStorage.getItem("userId");
+    toBeSubmitted.images = [];
+    if (newItemBasic.images != null) {
+      newItemBasic.images.forEach((image) => {
+        if (image != null) {
+          toBeSubmitted.images.push(image);
+        }
+      });
+    }
+    toBeSubmitted.comment = newItemBasic.comment;
+    setNewItemBasic(toBeSubmitted);
+    console.log(toBeSubmitted);
+
     axios
-      .put(`${baseURL}public/place/review?place_id=${place_id}`, newItemBasic, {
+      .post(`${baseURL}public/place/review?place_id=${place_id}`, toBeSubmitted, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       })
       .then((response) => {
         setAddReview(false);
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const handleAddImage = (event) => {
-    event.preventDefault();
-
-    setNewItemBasic((prev) => {
-      return {
-        ...prev,
-        images: [...prev.images, null],
-      };
-    });
   };
 
   const handleImageChange = (event) => {
@@ -131,10 +134,6 @@ const PlaceDetails = () => {
 
     // upload to firebase
     const image = event.target.files[0];
-    if (!image || !image.type.startsWith("image/")) {
-      console.log("No valid image file selected");
-      return;
-    }
     const newMetadata = { contentType: image.type };
     const storageRef = ref(storage, `${directory}${v4()}`);
     uploadBytes(storageRef, image, newMetadata)
@@ -144,12 +143,10 @@ const PlaceDetails = () => {
         getDownloadURL(ref(storage, snapshot.metadata.fullPath)).then((url) => {
           console.log("url after download", url);
 
-          const newImages = [...itemBasic.images];
-          newImages[event.target.dataset.id] = url;
-          setItemBasic((prev) => {
+          setNewItemBasic((prev) => {
             return {
               ...prev,
-              images: newImages,
+              images: [url],
             };
           });
         });
@@ -159,42 +156,13 @@ const PlaceDetails = () => {
       });
   };
 
-  const handleRemoveImage = (event) => {
-    event.preventDefault();
-
-    const image = event.target.previousSibling.src;
-
-    const newBlogImages = [...newItemBasic.images];
-    const index = newBlogImages.indexOf(image);
-    if (index > -1) {
-      newBlogImages.splice(index, 1);
-    }
-
-    const storageRef = ref(storage, image);
-    deleteObject(storageRef)
-      .then(() => {
-        console.log("File deleted successfully");
-        setNewItemBasic((prev) => {
-          return {
-            ...prev,
-            images: newBlogImages,
-          };
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  // console.log(review);
- 
   return (
     <div className={classes.places}>
       <SideBar theme={theme} toggleTheme={toggleThemeMode} />
       <div className={classes.postcard}>
         <Card
           style={{
-            width: "70%",
+            width: "80%",
             marginLeft: "7%",
             color: "ffffff",
             marginTop: "4.5%",
@@ -217,92 +185,40 @@ const PlaceDetails = () => {
                     textAlign: "center",
                   }}
                 >
-                  {" "}
                   {itemBasic.title}
                 </Typography>
-              </Grid>{" "}
+              </Grid>
               <Grid item xs={5}>
                 {itemBasic.description && (
-                  <Typography
-                    variant="head"
-                    style={{
-                      fontSize: "120%",
-                     
-                      marginLeft: "6%",
-                      marginTop: "10%",
-                    }}
-                  >
-                    {" "}
-                    <b>Description: </b>
-                    {itemBasic.description}
+                  <Typography variant="subtitle1">
+                    Description: {itemBasic.description}
                   </Typography>
                 )}
                 <br />
                 {itemBasic.address && (
-                  <Typography
-                    variant="head"
-                    style={{
-                      fontSize: "120%",
-                     
-                      marginLeft: "6%",
-                      marginTop: "20%",
-                    }}
-                  >
-                    {" "}
-                    <b>Address: </b>
-                    {itemBasic.address}
+                  <Typography variant="body1" >
+                    Address: {itemBasic.address}
                   </Typography>
                 )}
                 <br />
 
                 {itemBasic.region_name && (
-                  <Typography
-                    variant="head"
-                    style={{
-                      fontSize: "120%",
-                     
-                      marginLeft: "6%",
-                      marginTop: "20%",
-                    }}
-                  >
-                    {" "}
-                    <b>Region Name: </b>
-                    {itemBasic.region_name}
+                  <Typography variant="body1" >
+                    Region Name: {itemBasic.region_name}
                   </Typography>
                 )}
                 <br />
 
                 {itemBasic.contact && (
-                  <Typography
-                    variant="head"
-                    style={{
-                      fontSize: "120%",
-                   
-                      marginLeft: "6%",
-                      marginTop: "20%",
-                    }}
-                  >
-                    {" "}
-                    <b>Contact: </b>
-                    {itemBasic.contact}
+                  <Typography variant="body1" >
+                    Contact: {itemBasic.contact}
                   </Typography>
                 )}
                 <br />
 
                 {itemBasic.website && (
-                  <Typography
-                    variant="head"
-                    style={{
-                      fontSize: "120%",
-                   
-                      marginLeft: "6%",
-                      marginTop: "20%",
-                      // textAlign: "center",
-                    }}
-                  >
-                    {" "}
-                    <b>Website: </b>
-                    {itemBasic.website}
+                  <Typography variant="body1">
+                    Website: {itemBasic.website}
                   </Typography>
                 )}
 
@@ -344,53 +260,30 @@ const PlaceDetails = () => {
 
                 {addReview && (
                   <form onSubmit={handleSubmit(onSubmit, onError)}>
-                    <div>
-                      <Typography
-                        variant="head"
-                        style={{
-                          //fontFamily: "Special Elite",
-                          fontSize: "100%",
-                        
-                          // marginLeft: "3%",
-                          marginTop: "3%",
-
-                          // textAlign: "center",
+                    <>
+                      <TextField variant="outlined" value={newItemBasic.comment}
+                        label="Write Review" minRows={2} multiline={true} fullWidth={true}
+                        id="comment"
+                        name="comment"
+                        onChange={(e) => {
+                          setNewItemBasic((prev) => {
+                            return {
+                              ...prev,
+                              comment: e.target.value,
+                            };
+                          });
                         }}
-                      >
-                        Add A Review
-                      </Typography>
+                      />
                       <div>
-                        <input
-                          type="text"
-                          defaultValue=""
-                          name="comment"
-                          //placeholder={newItemBasic.review}
-                          onChange={(e) =>
-                            (newItemBasic.comment = e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Typography
-                          variant="head"
-                          style={{
-                            //fontFamily: "Special Elite",
-                            fontSize: "100%",
-                          
-                        
-                          }}
+                        <Button
+                          // style={{ position: "relative", top: "25%", left: "50%", transform: "translate(-50%, -50%)" }}
+                          component="label"
+                          variant="contained"
+                          startIcon={<CloudUploadIcon />}
                         >
-                          Upload an Image
-                        </Typography>
-                        <input
-                          type="file"
-                          name="image"
-                          // data-id={index}
-                          onChange={handleImageChange}
-                          style={{
-                            marginTop: "5%",
-                          }}
-                        />
+                          Upload Image
+                          <VisuallyHiddenInput type="file" accept="image/*" onChange={handleImageChange} />
+                        </Button>
                       </div>
 
                       <div>
@@ -403,7 +296,6 @@ const PlaceDetails = () => {
                             borderColor: "black",
                           }}
                           variant="outlined"
-                          halfWidth
                         >
                           <Typography
                        
@@ -417,7 +309,7 @@ const PlaceDetails = () => {
                           </Typography>
                         </Button>
                       </div>
-                    </div>
+                    </>
                   </form>
                 )}
               </Grid>

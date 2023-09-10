@@ -65,7 +65,7 @@ const ShowReview = ({ place_id }) => {
 
   console.log(reviewItem);
   return (
-    <div>
+    <>
       <Paper
         sx={{
           p: 2,
@@ -81,7 +81,7 @@ const ShowReview = ({ place_id }) => {
       >
         <Grid container direction="column" >
           {reviewItem.map((placeItem) => (
-            <div>
+            <>
               <Grid item xs container direction="row" >
                 {placeItem.images.map((img) => (
                   <Grid item xs={2} style={{ maxHeight: "200px" ,  marginLeft: "2%"}}>
@@ -99,11 +99,11 @@ const ShowReview = ({ place_id }) => {
                   <b> <CommentIcon/> {placeItem.username}</b>: {placeItem.comment}
                 </Typography>
               </Grid>
-            </div>
+            </>
           ))}
         </Grid>
       </Paper>
-    </div>
+    </>
   );
 };
 

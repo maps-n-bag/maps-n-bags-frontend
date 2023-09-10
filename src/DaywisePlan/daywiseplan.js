@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import EventCards from "./eventCards";
 import axios from "axios";
@@ -30,10 +30,18 @@ const useStyles = makeStyles({
 });
 
 const DaywisePlan = () => {
+
+  const navigate = useNavigate();
+
   const { plan_id, dayStart, totalDays, day } = useParams();
   const classes = useStyles();
   const [day_int, setDay] = useState(parseInt(day));
   const { theme, toggleThemeMode } = useThemeContext();
+
+  const [needToUpdate, setNeedToUpdate] = useState(false);
+  const [addList, setAddList] = useState([]);
+  const [removeList, setRemoveList] = useState([]);
+
   const day_start = dateformat.formatDate(dayStart);
   const dayStartObj = new Date(day_start)
   const today = new Date();
@@ -41,6 +49,35 @@ const DaywisePlan = () => {
   const dateString = today.toLocaleDateString();
 
   const [itemBasic, setItemBasic] = useState([]);
+
+  const postUpdateHandler = (event) => {
+    console.log(addList);
+    console.log(removeList);
+    axios
+      .post(
+        `${baseURL}plan/update?plan_id=${plan_id}`,
+        {
+          add: addList,
+          remove: removeList,
+          regions: [],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      )
+      .then((resp) => {
+
+        console.log(resp.data);
+        navigate(`/FullTour/${plan_id}`);
+      })
+      .catch((rejected) => {
+        console.log(rejected);
+      });
+  };
+
+
   const dayChangeHandler = (event) => {
     if (event.target.id === "nextday") {
       setDay((prevDay) => prevDay + 1);
@@ -94,7 +131,8 @@ const DaywisePlan = () => {
 
         <div>
           {itemBasic.map((item, index) => (
-            <EventCards key={index} item={item} theme={theme}/>
+           
+            <EventCards key={index} item={item} theme={theme} plan_id={plan_id} setNeedToUpdate={setNeedToUpdate} setAddList={setAddList} setRemoveList={setRemoveList}  />
           ))}
         </div>
 
@@ -114,6 +152,7 @@ const DaywisePlan = () => {
           <Link to={`/Explore/${plan_id}`}>
             <Button> Explore </Button>
           </Link>
+          {needToUpdate && <Button onClick={postUpdateHandler}> Update </Button>}
         </div>
 
       </div>
