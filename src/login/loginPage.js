@@ -177,7 +177,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage() {
   const classes = useStyles();
-  //const {id} =useParams();
   const navigate = useNavigate();
   const [loginFailed, setLoginFailed] = useState(false);
   const { handleSubmit, register, getValues } = useForm();

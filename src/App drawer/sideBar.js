@@ -218,7 +218,7 @@ export default function SideBar() {
         </List>
         <Divider />
         <List>
-          <Link to={`/createplan`} style={{ textDecoration: "none", color: "black" }}>
+          <Link to={`/CreatePlan`} style={{ textDecoration: "none", color: "black" }}>
             {["Create Plan"].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton

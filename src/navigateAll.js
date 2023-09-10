@@ -1,7 +1,7 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Switch } from "react-router-dom";
 import FullTour from "./Overview-Plan/fulltour";
-import Tour_overview from "./Overview-Plan/tour_overview";
+import TourOverview from "./Overview-Plan/tour_overview";
 import CreateAPlan from "./Plan/createPlan";
 import DaywisePlan from "./Day-By_Day_DayWise/daywiseplan";
 import Profile from "./Profile/timeline";
@@ -17,44 +17,90 @@ import ThingsToDo from "./Activities to do/thingstodocard";
 import GenerateBlog from "./Blog-all-event/showGeneratedBlog";
 import ExploreNearbyRegions from "./ExPloreOtherRigion/exploreOtherRegion";
 import OthersPlan from "./OthersPlan/otherPlans";
+import PrivateRoute from "./privateRoute";
+
 export class NavigateAll extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
+
+    const userId = localStorage.getItem("userId");
+
     return (
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Landingpage />} />
-          <Route path="/Home" element={<Landingpage />} />
-          <Route path="/TourOverview/:plan_id" element={<Tour_overview />} />
-          <Route path="/AllBlog" element={<Bloglist />} />
-          <Route path="Blog/:plan_id" element={<DaybyDay />} />
-          <Route path="/GenerateBlog/:plan_id" element={<GenerateBlog />} />
-          <Route path="/Explore/:plan_id" element={<ExploreMain />} />
-          <Route path="/OthersPlan" element={<OthersPlan />} />
-
-          <Route path="/FullTour/:plan_id" element={<FullTour />} />
-          <Route path="/createPlan" element={<CreateAPlan />} />
-          <Route
-            path="/DaywisePlan/:plan_id/:dayStart/:totalDays/:day"
-            element={<DaywisePlan />}
-          />
-          <Route path="/ThingsToDo/:plan_id" element={<ThingsToDo />}></Route>
-          <Route path="/ExploreNearbyRegions/:plan_id" element={<ExploreNearbyRegions />} />
-
+          <Route path="/Login" element={<LoginPage />} />
           <Route path="/Register" element={<Register />} />
 
-          <Route path="/PlaceDetails/:id" element={<PlaceDetails />} />
+          <Route path="/Profile/:user_id" element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          } />
+          <Route path="/CreatePlan" element={
+            <PrivateRoute>
+              <CreateAPlan />
+            </PrivateRoute>
+          } />
+          <Route path="/TourOverview/:plan_id" element={
+            <PrivateRoute>
+              <TourOverview />
+            </PrivateRoute>
+          } />
+          <Route path="/FullTour/:plan_id" element={
+            <PrivateRoute>
+              <FullTour />
+            </PrivateRoute>
+          } />
+          <Route path="/DaywisePlan/:plan_id/:dayStart/:totalDays/:day" element={
+            <PrivateRoute>
+              <DaywisePlan />
+            </PrivateRoute>
+          } />
+          <Route path="/PlaceDetails/:id" element={
+            <PrivateRoute>
+              <PlaceDetails />
+            </PrivateRoute>
+          } />
+          <Route path="/AllBlog" element={
+            <PrivateRoute>
+              <Bloglist />
+            </PrivateRoute>
+          } />
+          <Route path="/Blog/:plan_id" element={
+            <PrivateRoute>
+              <DaybyDay />
+            </PrivateRoute>
+          } />
+          <Route path="/GenerateBlog/:plan_id" element={
+            <PrivateRoute>
+              <GenerateBlog />
+            </PrivateRoute>
+          } />
+          <Route path="/Explore/:plan_id" element={
+            <PrivateRoute>
+              <ExploreMain />
+            </PrivateRoute>
+          } />
+          <Route path="/OthersPlan" element={
+            <PrivateRoute>
+              <OthersPlan />
+            </PrivateRoute>
+          } />
+          <Route path="/ThingsToDo/:plan_id" element={
+            <PrivateRoute>
+              <ThingsToDo />
+            </PrivateRoute>
+          } />
+          <Route path="/ExploreNearbyRegions/:plan_id" element={
+            <PrivateRoute>
+              <ExploreNearbyRegions />
+            </PrivateRoute>
+          } />
 
-          <Route path="/DaybyDay" element={<DaybyDay />} />
+          {/** send to landing page if no route is matched */}
+          <Route path="*" element={<Landingpage />} />
 
-          <Route path="/Profile/:user_id" element={<Profile />} />
-
-          <Route path="/Login" element={<LoginPage />} />
-
-          <Route path="/Login/:id" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
     );

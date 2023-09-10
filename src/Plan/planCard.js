@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Card, CardContent, Typography, CardActionArea, Switch, TextField, Paper } from "@mui/material";
+import { Grid, Card, CardContent, Typography, CardActionArea, Switch, TextField } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
@@ -72,7 +72,7 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
               height="200"
               image={planDetails.image}
               alt={planDetails.title}
-              sx={{ opacity: buttonDisplay ? "0.5" : "1" }}
+              sx={{ opacity: buttonDisplay ? "0.3" : "1" }}
             />
             {isEditing ? (
               <div style={{ display: buttonDisplay ? "block" : "none" }}>
