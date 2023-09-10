@@ -185,7 +185,7 @@ const ContentCards = (props) => {
           spacing={2}
           style={{
             width: "100%",
-            // marginLeft: "7%",
+             marginLeft: "30%",
             color: "ffffff",
             marginTop: "1%",
           }}
@@ -393,7 +393,6 @@ const ContentCards = (props) => {
                                           itemBasic.checked = true;
                                         }
                                       }}
-                                    //onClick={handleSave}
                                     >
                                       <Typography
                                         color="black"
@@ -447,15 +446,11 @@ const ContentCards = (props) => {
                                     The Place{" "}
                                     <div>
                                       <Typography
-                                        variant="head"
+                                        variant="h6"
                                         style={{
-                                          //fontFamily: "Special Elite",
                                           fontSize: "100%",
                                           color: "black",
-                                          // marginLeft: "3%",
                                           marginTop: "3%",
-
-                                          // textAlign: "center",
                                         }}
                                       >
                                         Note:<b> {itemBasic.note}</b>
@@ -463,15 +458,11 @@ const ContentCards = (props) => {
                                     </div>
                                     <div>
                                       <Typography
-                                        variant="head"
-                                        style={{
-                                          //fontFamily: "Special Elite",
+                                        variant="h6"
+                                        style={{                                  
                                           fontSize: "100%",
                                           color: "black",
-                                          // marginLeft: "3%",
-                                          marginTop: "5%",
-
-                                          // textAlign: "center",
+                                          marginTop: "5%",                                         
                                         }}
                                       >
                                         {itemBasic.generated_details}
@@ -479,7 +470,7 @@ const ContentCards = (props) => {
                                     </div>
                                     <div>
                                       <Typography
-                                        variant="head"
+                                        variant="h6"
                                         style={{
                                           //fontFamily: "Special Elite",
                                           fontSize: "100%",

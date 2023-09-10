@@ -10,13 +10,7 @@ import { makeStyles } from "@mui/styles";
 const baseURL = process.env.REACT_APP_BASE_URL;
 const timeformat = require("../formatTime");
 const useStyles = makeStyles({
-  places: {
-    // height: "90%",
-    // width: "112%",
-    // backgroundColor: "rgba(250, 233, 171, 0.78)",
-    // backgroundRepeat: "no-repeat",
-    // backgroundSize: "cover",
-  },
+
   btn: {
     minWidth: "100%",
   },
@@ -76,34 +70,33 @@ const ShowReview = ({ place_id }) => {
         sx={{
           p: 2,
           margin: "auto",
-          maxWidth: 800,
+          maxWidth: 860,
           flexGrow: 1,
           marginBottom: "30px",
           marginTop: "30px",
-          marginLeft: "10%",
+          marginLeft: "7%",
           backgroundColor: (theme) =>
             theme.palette.mode === "dark" ? "#1A2027" : "#fff",
         }}
       >
-        <Grid container spacing={2} alignSelf={"right"}>
+        <Grid container direction="column" >
           {reviewItem.map((placeItem) => (
             <div>
-              <Grid item xs={2.2}>
+              <Grid item xs container direction="row" >
                 {placeItem.images.map((img) => (
-                  <img src={img} style={{ width: "20%", height: "20%" }} />
+                  <Grid item xs={2} style={{ maxHeight: "200px" ,  marginLeft: "2%"}}>
+                    <img src={img} style={{ maxHeight: "100%" }} />
+                  </Grid>
                 ))}
               </Grid>
-              {/* <Grid item xs={4}>
-                <CommentIcon style={{ fontSize: "100px" }} />
-              </Grid> */}
 
-              <Grid item xs={8}>
+              <Grid item xs={4}>
                 <Typography
                   variant="body2"
                   gutterBottom
-                  style={{ marginLeft: "10%", marginTop: "5%" }}
+                  style={{ marginLeft: "5%" , marginTop: "5%"}}
                 >
-                  <b> {placeItem.username}</b>: {placeItem.comment}
+                  <b> <CommentIcon/> {placeItem.username}</b>: {placeItem.comment}
                 </Typography>
               </Grid>
             </div>
