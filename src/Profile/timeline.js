@@ -377,6 +377,7 @@ const Profile = () => {
           Your Plans
         </Typography>
         <Grid container spacing={2} sx={{ margin: "auto", width: "80%" }} justifyContent="left">
+          
           {plans.map((plan) => (
             <PlanCard plan={plan} togglePublic={handleTogglePublic} deletePlan={handlePlanDelete} editPlan={handlePlanEdit} />
           ))}
