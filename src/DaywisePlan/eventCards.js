@@ -15,6 +15,7 @@ import MovingIcon from '@mui/icons-material/Moving';
 import ScheduleOutlined from '@mui/icons-material/ScheduleOutlined';
 import NearbyRestaurant from "./nearbyRestaurant";
 import axios from "axios";
+import SuggestionPlace from "./SuggetionPlace";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 const timeformat = require("../formatTime");
@@ -53,13 +54,41 @@ const EventCards = (props) => {
   const [placeItem, setPlaceItem] = useState([]);
   const [restaurantSuggestion, setRestaurantSuggestion] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
-  const [activityList, setActivityList] = useState([
-    {
-      name: cardsData.event.activity,
-      place_id: cardsData.event.place_id,
-      is_selected: true,
-    },
-  ]);
+  const [activityList, setActivityList] = useState([]);
+  const [placeSuggestion, setPlaceSuggestion] = useState(false);
+
+  const setNeedToUpdate = props.setNeedToUpdate;
+  const setAddList = props.setAddList;
+  const setRemoveList = props.setRemoveList;
+
+
+  const handleActivityClick = (event) => {
+    const place_id = parseInt(event.target.id);
+    const activity_name = event.target.name;
+    console.log(place_id, activity_name);
+    let inAddList = false;
+    setActivityList((prev) => {
+      let temp = prev.map((activity) => {
+        if (activity.place_id === place_id && activity.name === activity_name) {
+          activity.is_selected = !activity.is_selected;
+          inAddList = activity.is_selected;
+        }
+        return activity;
+      });
+      return temp;
+    });
+    setNeedToUpdate(true);
+    if (inAddList) {
+      setAddList((previous) => {
+        return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
+      });
+    }
+    else {
+      setRemoveList((previous) => {
+        return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
+      });
+    }
+  }
 
   useEffect(() => {
     if (cardsData.event?.place_id) {
@@ -70,6 +99,12 @@ const EventCards = (props) => {
       })
         .then((resp) => {
           setPlaceItem(resp.data);
+          setActivityList(
+            [{
+              name: (cardsData.event != null ? cardsData.event.activity : ""),
+              place_id: (cardsData.event != null ? cardsData.event.place_id : 0),
+              is_selected: true,
+            }]);
 
           console.log(cardsData)
           console.log(resp.data);
@@ -93,22 +128,35 @@ const EventCards = (props) => {
           console.log(resp.data);
           setSuggestions(resp.data);
 
-          let activityList = [];
+          let activityList1 = [];
           resp.data.activities.forEach((activity) => {
-            activityList.push({
-              id: activity.id,
+            activityList1.push({
+              name: activity.title,
               place_id: cardsData.event.place_id,
               is_selected: false,
             })
           });
-          setActivityList(activityList);
 
-          resp.data.place.activities.forEach((activity) => {
-            activityList.push({
-              id: activity.id,
+
+          resp.data.place?.activities.forEach((activity) => {
+            activityList1.push({
+              name: activity.title,
               place_id: resp.data.place.id,
               is_selected: false,
             })
+          });
+          setActivityList((prev) => {
+            let temp = activityList1.map((activity1) => {
+              let activity = prev.find((activity) => {
+                return activity.place_id === activity1.place_id && activity.name === activity1.name;
+              });
+              if (activity) {
+                return;
+              }
+              return activity1;
+            });
+            temp = temp.filter((activity) => activity != null);
+            return [...prev, ...temp];
           });
         })
         .catch((rejected) => {
@@ -197,13 +245,24 @@ const EventCards = (props) => {
             <Grid item xs={4}>
               <Typography variant="body1" gutterBottom>
                 {activityIcons[cardsData.event.activity]} {cardsData.event.activity}
-                <Button variant="text" size="small">
-                  Remove
+                <Button variant="text" size="small" onClick={handleActivityClick} id={cardsData.event.place_id} name={cardsData.event.activity} value={cardsData.event.activity_id} >
+                  {getPlaceActivityBool(cardsData.event.place_id, cardsData.event.activity, activityList) ? "Remove" : "Add"}
                 </Button>
               </Typography>
               <Typography variant="body2">
                 Other Activities:
               </Typography>
+              {suggestions.activities?.map((activity) => (
+                <Typography variant="body2" gutterBottom>
+                  {activityIcons[activity.title]} {activity.title}
+                  <Button variant="text" size="small" onClick={handleActivityClick} id={cardsData.event.place_id} name={activity.title} value={activity.id}>
+                    {getPlaceActivityBool(cardsData.event.place_id, activity.title, activityList) ? "Remove" : "Add"}
+                  </Button>
+                </Typography>
+              ))}
+              <Button variant="outlined" size="small" onClick={() => setPlaceSuggestion(!placeSuggestion)}>
+                {placeSuggestion ? "Hide" : "Show"} Nearby Place you don't want to miss
+              </Button>
             </Grid>
 
             <Grid item xs={2} direction={"column"} container>
@@ -229,9 +288,22 @@ const EventCards = (props) => {
       {restaurantSuggestion && cardsData.event && (
         <NearbyRestaurant place_id={cardsData.event.place_id} />
       )}
+      {placeSuggestion && cardsData.event && (
+        <SuggestionPlace item={suggestions.place} setActivityList={setActivityList} activityList={activityList} setNeedToUpdate={setNeedToUpdate} setAddList={setAddList} setRemoveList={setRemoveList}/>
+      )}
 
     </div>
   );
 };
 
+const getPlaceActivityBool = (place_id, activity_name, activityList) => {
+  console.log(place_id, activity_name, activityList);
+  if (activityList.length === 0) {
+    return false;
+  }
+  let activity = activityList.find((activity) => {
+    return activity.place_id === place_id && activity.name === activity_name;
+  });
+  return activity?.is_selected;
+}
 export default EventCards;
