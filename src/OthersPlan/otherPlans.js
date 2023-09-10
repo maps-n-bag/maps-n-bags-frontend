@@ -25,36 +25,19 @@ import FormGroup from "@mui/material/FormGroup";
 
 const dateformat = require("../formatDate");
 const baseURL = process.env.REACT_APP_BASE_URL;
+
 const useStyles = makeStyles({
   places: {
     height: "100%",
-    width: "118%",
+    width: "100%",
     backgroundColor: "rgba(250, 233, 171, 0.78)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+    minHeight: "100vh",
   },
-  btn: {
-    minWidth: "100%",
-  },
-
   postcard: {
-    //height: "100%",
-    width: "95%",
-    Height: "50%",
+    marginTop: "2%",
     marginLeft: "15%",
-    // marginRight: "20%",
-  },
-  cardimg: {
-    backgroundColor: "#ff5722",
-    overflow: "hidden",
-  },
-
-  img: {
-    height: "100%",
-    position: "centre",
-  },
-  cardimg: {
-    height: "100%",
   },
 });
 
@@ -113,85 +96,88 @@ const OthersPlan = () => {
       });
   }, [checkedItemsRgn.length]);
   const classes = useStyles();
-  console.log(user_id);
   return (
     <div className={classes.places}>
       <SideBar />
-
-      <div className={classes.postcard}>
-        <Grid container spacing={2}>
-          <Grid item>
-            <Box
-              width="70%"
-              marginTop="50%"
-              marginLeft="-24%"
-              textAlign="left"
-              borderRadius={16}
-              borderWidth={5}
-              bgcolor="rgba(255, 255, 255, 0.7)"
-            >
-              <FormGroup className={classes.form}>
-                <Typography fontSize="100%">Start Date:</Typography>
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                />
-              </FormGroup>
-            </Box>
-          </Grid>
-          <Grid item >
-            <Box
-              width="65%"
-              marginTop="25%"
-              marginLeft="80%"
-              textAlign="left"
-              borderRadius={16}
-              borderWidth={5}
-              bgcolor="rgba(255, 255, 255, 0.7)"
-            >
-              <Typography style={{ marginTop: "10%", marginLeft: "20%" }}>
-                {" "}
-                Choose Region:
-              </Typography>
-              {regions.map((rgn) => (
-                <FormControlLabel
-                  key={rgn.id}
-                  control={
-                    <Checkbox
-                      marginLeft="20%"
-                      textAlign="left"
-                      checked={checkedItemsRgn.includes(rgn.id)}
-                      onChange={(event) => handleCheckboxChangeRgn(event, rgn.id)}
-                      name={rgn.title}
-                      title={rgn.title}
-                      value={rgn.id}
-                    />
-                  }
-                  label={rgn.title}
-                />
-              ))}
-            </Box>
-          </Grid>
-        </Grid>
-        {itemBasic.map((item, index) => (
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="flex-start"
-            spacing={10}
-            style={{
-              width: "50%",
-              // marginLeft: "7%",
-              color: "ffffff",
-              marginTop: "1%",
-            }}
+      <Typography variant="h4"
+        style={{
+          fontFamily: "Special Elite",
+          fontSize: "200%",
+          color: "black",
+          textAlign: "center",
+          marginTop: "80px",
+        }}
+      >
+        Others Plan
+      </Typography>
+      <FormGroup className={classes.form}>
+        <Typography fontSize="100%">Start Date:</Typography>
+        <DatePicker
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+        />
+      </FormGroup>
+      <Grid container spacing={2}>
+        <Grid item>
+          <Box
+            width="70%"
+            marginTop="50%"
+            marginLeft="4%"
+            textAlign="left"
+            borderRadius={16}
+            borderWidth={5}
+            bgcolor="rgba(255, 255, 255, 0.7)"
           >
-            <Grid item>
-              <OthersPLanCard item={item} startDate={startDate} className={classes.cardday} />
-            </Grid>
-          </Grid>
-        ))}
+            <FormGroup className={classes.form}>
+              <Typography fontSize="100%">Start Date:</Typography>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+              />
+            </FormGroup>
+          </Box>
+        </Grid>
+        <Grid item >
+          <Box
+            width="65%"
+            marginTop="25%"
+            marginLeft="80%"
+            textAlign="left"
+            borderRadius={16}
+            borderWidth={5}
+            bgcolor="rgba(255, 255, 255, 0.7)"
+          >
+            <Typography style={{ marginTop: "10%", marginLeft: "20%" }}>
+              {" "}
+              Choose Region:
+            </Typography>
+            {regions.map((rgn) => (
+              <FormControlLabel
+                key={rgn.id}
+                control={
+                  <Checkbox
+                    marginLeft="20%"
+                    textAlign="left"
+                    checked={checkedItemsRgn.includes(rgn.id)}
+                    onChange={(event) => handleCheckboxChangeRgn(event, rgn.id)}
+                    name={rgn.title}
+                    title={rgn.title}
+                    value={rgn.id}
+                  />
+                }
+                label={rgn.title}
+              />
+            ))}
+          </Box>
+        </Grid>
+      </Grid>
+      <div className={classes.postcard}>
+
+        <Grid container spacing={2} justifyContent="left" style={{ width: "80%" }}>
+          {itemBasic.map((item, index) => (
+            <OthersPLanCard item={item} />
+          ))}
+        </Grid>
       </div>
     </div>
   );
