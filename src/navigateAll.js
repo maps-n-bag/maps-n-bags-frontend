@@ -30,6 +30,8 @@ export class NavigateAll extends React.Component {
           <Route exact path="/" element={<Landingpage />} />
           <Route path="/Login" element={<LoginPage />} />
           <Route path="/Register" element={<Register />} />
+          <Route path="/ShareBlog/:plan_id/:publish" element={<GenerateBlog />} />
+          <Route path="/PlaceDetails/:place_id" element={<PlaceDetails />} />
 
           <Route path="/Profile/:user_id" element={
             <PrivateRoute>
@@ -51,11 +53,6 @@ export class NavigateAll extends React.Component {
               <DaywisePlan />
             </PrivateRoute>
           } />
-          <Route path="/PlaceDetails/:id" element={
-            <PrivateRoute>
-              <PlaceDetails />
-            </PrivateRoute>
-          } />
           <Route path="/AllBlog" element={
             <PrivateRoute>
               <Bloglist />
@@ -64,11 +61,6 @@ export class NavigateAll extends React.Component {
           <Route path="/Blog/:plan_id" element={
             <PrivateRoute>
               <DaybyDay />
-            </PrivateRoute>
-          } />
-          <Route path="/ShareBlog/:plan_id/:publish" element={
-            <PrivateRoute>
-              <GenerateBlog />
             </PrivateRoute>
           } />
           <Route path="/Explore/:plan_id" element={
