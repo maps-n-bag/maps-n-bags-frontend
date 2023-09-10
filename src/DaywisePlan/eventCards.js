@@ -44,11 +44,22 @@ const activityIcons = {
   "Biking": "🚴",
 };
 
+const timeIcon = "🕒"
+
 const EventCards = (props) => {
 
   const cardsData = props.item;
+  const plan_id = props.plan_id;
   const [placeItem, setPlaceItem] = useState([]);
   const [restaurantSuggestion, setRestaurantSuggestion] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [activityList, setActivityList] = useState([
+    {
+      name: cardsData.event.activity,
+      place_id: cardsData.event.place_id,
+      is_selected: true,
+    },
+  ]);
 
   useEffect(() => {
     if (cardsData.event?.place_id) {
@@ -59,12 +70,52 @@ const EventCards = (props) => {
       })
         .then((resp) => {
           setPlaceItem(resp.data);
+
+          console.log(cardsData)
+          console.log(resp.data);
+          // activityList.push({
+
         })
         .catch((rejected) => {
           console.log(rejected);
         });
     }
-  }, [ cardsData.event?.place_id ]);
+  }, [cardsData.event?.place_id]);
+
+  useEffect(() => {
+    if (cardsData.event?.place_id) {
+      axios.get(`${baseURL}event/suggestion?plan_id=${plan_id}&event_id=${cardsData.event.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+        .then((resp) => {
+          console.log(resp.data);
+          setSuggestions(resp.data);
+
+          let activityList = [];
+          resp.data.activities.forEach((activity) => {
+            activityList.push({
+              id: activity.id,
+              place_id: cardsData.event.place_id,
+              is_selected: false,
+            })
+          });
+          setActivityList(activityList);
+
+          resp.data.place.activities.forEach((activity) => {
+            activityList.push({
+              id: activity.id,
+              place_id: resp.data.place.id,
+              is_selected: false,
+            })
+          });
+        })
+        .catch((rejected) => {
+          console.log(rejected);
+        });
+    }
+  }, [cardsData.event?.place_id]);
 
   return (
     <div>
@@ -143,20 +194,23 @@ const EventCards = (props) => {
               </Typography>
             </Grid>
 
-            <Grid item xs={3}>
-              {activityIcons[cardsData.event.activity]}
+            <Grid item xs={4}>
               <Typography variant="body1" gutterBottom>
-                {cardsData.event.activity}
+                {activityIcons[cardsData.event.activity]} {cardsData.event.activity}
+                <Button variant="text" size="small">
+                  Remove
+                </Button>
+              </Typography>
+              <Typography variant="body2">
+                Other Activities:
               </Typography>
             </Grid>
 
-            <Grid item xs={3} direction={"column"} container>
+            <Grid item xs={2} direction={"column"} container>
 
               <Grid item xs>
-                <Typography variant="body2" gutterBottom>
-                  <ScheduleOutlined sx={{ width: 20, height: 20 }} />
-                  <Divider orientation="vertical" flexItem />
-                  {timeformat.formatTime(cardsData.event.start_time)} to {timeformat.formatTime(cardsData.event.end_time)}
+                <Typography variant="body2">
+                  {timeIcon} {timeformat.formatTime(cardsData.event.start_time)} to {timeformat.formatTime(cardsData.event.end_time)}
                 </Typography>
               </Grid>
 
