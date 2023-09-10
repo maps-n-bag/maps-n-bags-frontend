@@ -6,6 +6,7 @@ const useStyles = makeStyles({});
 console.log(process.env.REACT_APP_BASE_URL)
 function App() {
   const classes = useStyles();
+  document.title = "Maps 'n Bags";
   return (
     <div className="App">
       <NavigateAll />
