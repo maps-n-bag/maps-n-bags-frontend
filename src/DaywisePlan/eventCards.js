@@ -64,7 +64,7 @@ const EventCards = (props) => {
           console.log(rejected);
         });
     }
-  }, []);
+  }, [ cardsData.event?.place_id ]);
 
   return (
     <div>
