@@ -1,3 +1,0 @@
-npm install @mui/system @emotion/react @emotion/styled @mui/icons-material react-hook-form  @mui/styles  @mui/core react-router-dom axios
-npm install parallax --force
-npm install @react-spring/parallax --save

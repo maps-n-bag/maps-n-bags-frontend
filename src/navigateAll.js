@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter, Route, Routes, Switch } from "react-router-dom";
-import FullTour from "./Overview-Plan/fulltour";
-import TourOverview from "./Overview-Plan/tour_overview";
+import FullTour from "./Plan/fulltour";
+import TourOverview from "./Plan/tour_overview";
 import CreateAPlan from "./Plan/createPlan";
-import DaywisePlan from "./Day-By_Day_DayWise/daywiseplan";
+import DaywisePlan from "./DaywisePlan/daywiseplan";
 import Profile from "./Profile/timeline";
 
-import PlaceDetails from "./Day-By_Day_DayWise/placedetails";
+import PlaceDetails from "./DaywisePlan/placedetails";
 import DaybyDay from "./Blog-all-event/daybyday1";
 import Landingpage from "./LandingPage/landing";
 import Register from "./Registration/register";
