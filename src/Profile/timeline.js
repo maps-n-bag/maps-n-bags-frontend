@@ -23,7 +23,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { TextField } from "@mui/material";
 
 // firebase
-import { storage } from "../firebase";
+import { storage } from "../Firebase/firebase";
 import {
   getDownloadURL,
   listAll,

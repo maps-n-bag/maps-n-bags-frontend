@@ -10,7 +10,7 @@ import { styled } from '@mui/material/styles';
 import { v4 } from "uuid";
 
 // firebase
-import { storage } from "../firebase";
+import { storage } from "../Firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const dateformat = require("../formatDate");

@@ -21,7 +21,7 @@ import { makeStyles } from "@mui/styles";
 import { ScheduleOutlined } from "@mui/icons-material";
 
 // firebase
-import { storage } from "../firebase";
+import { storage } from "../Firebase/firebase";
 import {
   getDownloadURL,
   listAll,

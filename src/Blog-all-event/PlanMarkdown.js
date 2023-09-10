@@ -12,6 +12,7 @@ const PlanMarkdown = ({ planData }) => {
 
   let markdownContent = '';
   if (!planData) {
+    console.log("planData is null");
     return (null);
   }
   // Add plan title and description
