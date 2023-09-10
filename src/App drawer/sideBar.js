@@ -34,13 +34,6 @@ import { Avatar, Tooltip } from "@mui/material";
 
 const drawerWidth = 240;
 
-const iconData = [
-  { icon: HomeIcon, name: "Home", link: "" },
-  { icon: PublicIcon, name: "Others Plan", link: "OthersPlan" },
-  { icon: PermContactCalendarIcon, name: "Profile", link: `Profile/${localStorage.getItem("userId")}` },
-  { icon: BookIcon, name: "Blog", link: "AllBlog" },
-];
-
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -107,6 +100,14 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function SideBar() {
+
+  const iconData = [
+    { icon: HomeIcon, name: "Home", link: "" },
+    { icon: PublicIcon, name: "Others Plan", link: "OthersPlan" },
+    { icon: PermContactCalendarIcon, name: "Profile", link: `Profile/${localStorage.getItem("userId")}` },
+    { icon: BookIcon, name: "Blog", link: "AllBlog" },
+  ];
+  
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 

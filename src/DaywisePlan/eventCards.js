@@ -261,11 +261,11 @@ const EventCards = (props) => {
                 </Typography>
               ))}
               <Button variant="outlined" size="small" onClick={() => setPlaceSuggestion(!placeSuggestion)}>
-                {placeSuggestion ? "Hide" : "Show"} Nearby Place you don't want to miss
+                {placeSuggestion ? "Hide" : "Show"} Nearby Place
               </Button>
             </Grid>
 
-            <Grid item xs={2} direction={"column"} container>
+            <Grid item xs={3} direction={"column"} container>
 
               <Grid item xs>
                 <Typography variant="body2">

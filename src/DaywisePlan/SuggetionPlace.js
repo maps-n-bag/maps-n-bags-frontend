@@ -10,44 +10,24 @@ import {
     Button,
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import axios from "axios";
 
-import { makeStyles } from "@mui/styles";
-
-const baseURL = process.env.REACT_APP_BASE_URL;
-const timeformat = require("../formatTime");
-const useStyles = makeStyles({
-    places: {
-        // height: "90%",
-        // width: "112%",
-        // backgroundColor: "rgba(250, 233, 171, 0.78)",
-        // backgroundRepeat: "no-repeat",
-        // backgroundSize: "cover",
-    },
-    btn: {
-        minWidth: "100%",
-    },
-
-    postcard: {
-        //height: "100%",
-        width: "95%",
-        Height: "50%",
-        //marginLeft: "15%",
-        // marginRight: "20%",
-    },
-    cardimg: {
-        backgroundColor: "#ff5722",
-        overflow: "hidden",
-    },
-
-    img: {
-        height: "100%",
-        position: "centre",
-    },
-    cardimg: {
-        // height: "100%",
-    },
-});
+const activityIcons = {
+    "Sight-seeing": "🏛️",
+    "Shopping": "🛍️",
+    "Eating": "🍽️",
+    "Drinking": "🍺",
+    "Clubbing": "🎉",
+    "Gambling": "🎰",
+    "Relaxing": "🛀",
+    "Golfing": "⛳",
+    "Hiking": "🥾",
+    "Swimming": "🏊",
+    "Fishing": "🎣",
+    "Boating": "⛵",
+    "Skiing": "🎿",
+    "Hunting": "🔫",
+    "Biking": "🚴",
+  };
 
 const Img = styled('img')({
     margin: 'auto',
@@ -57,7 +37,6 @@ const Img = styled('img')({
 });
 
 const SuggestionPlace = (props) => {
-    const classes = useStyles();
     const placeItem = props.item;
 
     const setNeedToUpdate = props.setNeedToUpdate;
@@ -94,7 +73,6 @@ const SuggestionPlace = (props) => {
     }
     return (
 
-
         <Paper
             sx={{
                 p: 2,
@@ -130,12 +108,12 @@ const SuggestionPlace = (props) => {
                     </Typography>
                 </Grid>
 
-            </Grid>
-            <Grid container spacing={2} alignSelf={"right"}>
-                <Grid item xs={2.2}>
+            {/* </Grid> */}
+            {/* <Grid container spacing={2}> */}
+                <Grid item xs={6}>
                     {placeItem.activities.map((activity) => (
-                        <Typography variant="body2" gutterBottom>
-                            {activity.title}
+                        <Typography variant="body2">
+                            {activityIcons[activity.title]} {activity.title}
                             <Button variant="text" size="small" onClick={handleActivityClick} id={placeItem.id} name={activity.title} value={activity.id}>
                                 {getPlaceActivityBool(placeItem.id, activity.title, props.activityList) ? "Remove" : "Add"}
                             </Button>
