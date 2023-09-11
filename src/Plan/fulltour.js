@@ -18,7 +18,7 @@ import SideBar from "../App drawer/sideBar";
 import { Link } from "react-router-dom";
 import noteIcon from "../photos/icon/note.png";
 import { useParams } from "react-router-dom";
-import { useThemeContext } from '../ThemeContext'; 
+import { useThemeContext } from '../ThemeContext';
 const dateformat = require("../formatDate");
 
 const baseURL = process.env.REACT_APP_BASE_URL;
@@ -31,9 +31,9 @@ const useStyles = makeStyles({
     minHeight: "100vh",
 
   },
- 
+
   postcard: {
- 
+
     marginLeft: "20%",
     marginTop: "7%",
   },
@@ -68,42 +68,38 @@ const FullTour = () => {
 
   const timeDifference = Math.abs(new Date(date_end) - new Date(date_st));
   const daysdifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-  const daysTotal = parseInt(daysdifference)+1;
+  const daysTotal = parseInt(daysdifference) + 1;
   console.log(daysTotal);
- 
+
   return (
     <div className={classes.places}>
       <SideBar theme={theme} toggleTheme={toggleThemeMode} />
 
       <div className={classes.postcard}>
-       
+
         <Card
-           
+
           style={{
             width: "70%",
             maxWidth: "1000px",
             color: "ffffff",
-           
+
           }}
         >
           <CardContent>
             <Grid container spacing={2}>
-           
 
-              <Grid item xs={6}>
-               
+
+              <Grid item xs>
+
                 <Typography
                   variant="head"
                   style={{
                     fontFamily: "Special Elite",
                     fontSize: "150%",
-                   
-                    marginLeft: "15%",
-                    marginTop: "5%",
-                    textAlign: "right",
+                    padding: "5px",
                   }}
                 >
-                  {" "}
                   {name_arr}
                 </Typography>
 
@@ -111,34 +107,33 @@ const FullTour = () => {
                   variant="body2"
                   style={{
                     fontSize: "100%",
-                    marginLeft: "15%",
-           
+                    padding: "5px",
                   }}
                 >
-                  {" "}
                   {des_arr}
                 </Typography>
+
                 <img
                   src={img_arr}
                   alt={name_arr}
                   style={{
                     width: "90%",
                     height: "70%",
-                    marginLeft: "14%",
+                    // marginLeft: "14%",
                     marginTop: "7%",
                   }}
                 />
               </Grid>
-              <Grid item xs={6} marginTop={"5%"}>
-             
+              <Grid item xs={5} marginTop={"5%"}>
+
                 <Typography
                   variant="h6"
                   style={{
-                   
-                    fontSize: "150%",
-                    
 
-                    marginLeft: "20%",
+                    fontSize: "150%",
+
+
+                    // marginLeft: "20%",
                     marginTop: "5%",
                   }}
                 >
@@ -148,9 +143,9 @@ const FullTour = () => {
                   variant="h6"
                   style={{
                     fontSize: "100%",
-                   
 
-                    marginLeft: "40%",
+
+                    // marginLeft: "40%",
                     marginTop: "5%",
                   }}
                 >
@@ -163,25 +158,25 @@ const FullTour = () => {
                   style={{
                     width: "10%",
                     height: "7%",
-                    marginLeft: "30%",
+                    // marginLeft: "30%",
                     marginTop: "0%",
                   }}
                 />
-               
+
                 <SouthIcon
                   style={{
                     width: "20%",
                     height: "15%",
-          
+
                   }}
                 />
                 <Typography
                   variant="h6"
                   style={{
                     fontSize: "100%",
-                    
 
-                    marginLeft: "35%",
+
+                    // marginLeft: "35%",
                     marginTop: "5%",
                   }}
                 >
@@ -196,26 +191,24 @@ const FullTour = () => {
                   style={{
                     width: "10%",
                     height: "7%",
-                    marginLeft: "30%",
+                    // marginLeft: "30%",
                     marginTop: "5%",
                   }}
-             
+
                 />{" "}
-               
+
                 <SouthIcon
                   style={{
                     width: "20%",
                     height: "15%",
-                
+
                   }}
                 />
                 <Typography
                   variant="h6"
                   style={{
                     fontSize: "100%",
-                   
-
-                    marginLeft: "40%",
+                    // marginLeft: "40%",
                     marginTop: "5%",
                   }}
                 >
@@ -223,26 +216,30 @@ const FullTour = () => {
                   <br />
                   Back To Dhaka
                 </Typography>
+
+                <Link to={`/DaywisePlan/${plan_id}/${itemBasic.start_date}/${daysTotal}/${day}`}>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    style={{
+                      fontSize: "100%",
+                    // marginLeft: "40%",
+                    marginTop: "5%",
+                    }}
+                  >
+                    View Day By Day Plan
+                  </Button>
+
+                </Link>
+
               </Grid>
             </Grid>
-         
 
-            <Link to={`/DaywisePlan/${plan_id}/${itemBasic.start_date}/${daysTotal}/${day}`}>
-              <Button
-                size="small"
-                className={classes.btn}
-                style={{
-                  fontSize: "100%",
-                  marginLeft: "70%",
-                }}
-              >
-                View Day By Day Plan
-              </Button>
-      
-            </Link>
+
+
           </CardContent>
           <CardActions>
- 
+
           </CardActions>
         </Card>
       </div>

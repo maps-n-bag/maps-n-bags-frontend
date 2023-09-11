@@ -303,7 +303,7 @@ const Profile = () => {
             <div>
               <Button onClick={handleSave} startIcon={<SaveOutlined style={{ fontSize: "250%" }} />}>
                 <Typography
-                  color="black"
+                  // color="black"
                   style={{
                     fontFamily: "Special Elite",
                     fontSize: "150%",
@@ -315,7 +315,7 @@ const Profile = () => {
               </Button>
               <Button onClick={(e) => setIsEditingBasic(false)} startIcon={<BackspaceOutlined style={{ fontSize: "250%" }} />}>
                 <Typography
-                  color="black"
+                  // color="black"
                   style={{
                     fontFamily: "Special Elite",
                     fontSize: "150%",
