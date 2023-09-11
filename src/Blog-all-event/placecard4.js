@@ -54,11 +54,13 @@ const PlaceCard = (props) => {
   //console.log(cardsData);
   const [itemBasic, setItemBasic] = useState([]);
   useEffect(() => {
-    axios.get(`${baseURL}public/place?id=${cardsData}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    }).then((resp) => {
+    axios
+      .get(`${baseURL}public/place?id=${cardsData}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then((resp) => {
         setItemBasic(resp.data);
       })
       .catch((rejected) => {
@@ -77,15 +79,15 @@ const PlaceCard = (props) => {
             style={{ width: "95%", marginTop: "5%" }}
             // Adjust the percentage value as needed
           />{" "}
-          <br/>
+          <br />
           {/* </a> */}
         </Link>
         <Typography
           variant="head"
           style={{
-           // fontFamily: "Special Elite",
+            // fontFamily: "Special Elite",
             fontSize: "100%",
-         
+
             marginTop: "8%",
             // textAlign: "center",
           }}
@@ -93,13 +95,15 @@ const PlaceCard = (props) => {
           {" "}
           <b> {itemBasic.title} </b>
           <br />
+          {props.activity}
+          <br />
         </Typography>
         <Typography
           variant="head"
           style={{
             //fontFamily: "Special Elite",
             fontSize: "100%",
-          
+
             marginTop: "8%",
             // textAlign: "center",
           }}

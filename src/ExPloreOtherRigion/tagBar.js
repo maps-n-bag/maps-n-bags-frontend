@@ -64,24 +64,44 @@ const TagBar = (item) => {
 
   return (
     <>
-      <Typography variant="h5" style={{ fontFamily: "Special Elite", fontSize: "130%", color: "black" }}>
+      <Typography
+        variant="h5"
+        style={{ fontFamily: "Special Elite", fontSize: "130%" }}
+      >
         Filter By: Regions
       </Typography>
       <FormGroup>
         {regions.map((region) => (
-          <FormControlLabel control={<Switch checked={region.isShow} onChange={regHandler} id={region.id} />} label={region.name} />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={region.isShow}
+                onChange={regHandler}
+                id={region.id}
+              />
+            }
+            label={region.name}
+          />
         ))}
       </FormGroup>
       <Divider />
-      <Typography variant="h5" style={{ fontFamily: "Special Elite", fontSize: "130%", color: "black" }}>
+      <Typography
+        variant="h5"
+        style={{ fontFamily: "Special Elite", fontSize: "130%" }}
+      >
         Filter By: Tags
       </Typography>
       <FormGroup>
         {tags.map((tag) => (
-          <FormControlLabel control={<Switch checked={tag.isShow} onChange={tagHandler} id={tag.id} />} label={tag.name} />
+          <FormControlLabel
+            control={
+              <Switch checked={tag.isShow} onChange={tagHandler} id={tag.id} />
+            }
+            label={tag.name}
+          />
         ))}
       </FormGroup>
-    </>    
+    </>
   );
 };
 

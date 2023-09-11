@@ -229,7 +229,10 @@ const ContentCards = (props) => {
                           {timeformat.formatTime(card.event.end_time)}
                         </Typography>
 
-                        <PlaceCard item={card.event.place_id} />
+                        <PlaceCard
+                          item={card.event.place_id}
+                          activity={card.event.activity}
+                        />
                       </Grid>
                       <Grid item xs>
                         <Box
@@ -285,7 +288,7 @@ const ContentCards = (props) => {
                                   style={{
                                     //fontFamily: "Special Elite",
                                     fontSize: "100%",
-                                    
+
                                     // marginLeft: "3%",
 
                                     // textAlign: "center",
@@ -348,7 +351,8 @@ const ContentCards = (props) => {
                                                 width="100px"
                                               />
                                               <Button
-                                                onClick={handleRemoveImage} color="error"
+                                                onClick={handleRemoveImage}
+                                                color="error"
                                               >
                                                 Remove
                                               </Button>
@@ -370,10 +374,16 @@ const ContentCards = (props) => {
                                   ))}
                                   {/* <div className="table-row">
                                     <div className="table-data"> */}
-                                      <Button onClick={handleAddImage} color="success" variant="outlined" size="small" style={{ margin: "5px" }}>
-                                        +
-                                      </Button>
-                                    {/* </div>
+                                  <Button
+                                    onClick={handleAddImage}
+                                    color="success"
+                                    variant="outlined"
+                                    size="small"
+                                    style={{ margin: "5px" }}
+                                  >
+                                    +
+                                  </Button>
+                                  {/* </div>
                                   </div> */}
                                 </div>
                                 <div>
@@ -522,7 +532,6 @@ const ContentCards = (props) => {
                                   }}
                                 >
                                   <Typography
-                               
                                     style={{
                                       fontFamily: "Special Elite",
                                       fontSize: "20px",

@@ -4,7 +4,6 @@ import { Grid, Typography } from "@mui/material";
 import ContentForActivity from "./contentforactivitycard";
 
 const TagWise = (props) => {
-
   const placesOfATag = props.item.places;
 
   return (
@@ -15,18 +14,14 @@ const TagWise = (props) => {
           style={{
             fontFamily: "Special Elite",
             fontSize: "130%",
-            color: "black",
+
             paddingBottom: "10px",
           }}
         >
           {props.item.tag_name}:
         </Typography>
       </Grid>
-      <Grid
-        item
-        container
-        spacing={1}
-      >
+      <Grid item container spacing={1}>
         {placesOfATag.map((pl) => (
           <ContentForActivity
             item={pl}

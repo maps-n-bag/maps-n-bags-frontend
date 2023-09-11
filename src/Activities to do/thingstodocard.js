@@ -106,10 +106,9 @@ const ThingsToDo = () => {
 
   return (
     <div className={classes.places}>
-      <SideBar  theme={theme} toggleTheme={toggleThemeMode} />
+      <SideBar theme={theme} toggleTheme={toggleThemeMode} />
       <div className={classes.postcard}>
         <Typography
-          color="black"
           style={{
             fontFamily: "Special Elite",
             fontSize: "200%",
@@ -166,7 +165,6 @@ const ThingsToDo = () => {
                 Update Plan
               </Typography>
             </Button>
-
           </Grid>
         </Grid>
       </div>

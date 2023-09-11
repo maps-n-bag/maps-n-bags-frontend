@@ -9,12 +9,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import SideBar from "../App drawer/sideBar";
-import { useThemeContext } from '../ThemeContext'; 
+import { useThemeContext } from "../ThemeContext";
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const useStyles = makeStyles({
   places: {
-    backgroundColor: "rgba(250, 233, 171, 0.78)",
+    backgroundColor: "rgba(0, 0, 0 ,0.05)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     minHeight: "100vh",
@@ -97,7 +97,7 @@ const ExploreOtherRegion = () => {
 
       <div className={classes.postcard}>
         <Typography
-          color="black"
+        
           style={{
             fontFamily: "Special Elite",
             fontSize: "200%",
@@ -109,7 +109,12 @@ const ExploreOtherRegion = () => {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={3} style={{ maxWidth: "300px" }}>
-            <TagBar tags={tagFilter} setTags={setTagFilter} regions={regionsFilter} setRegions={setRegionsFilter} />
+            <TagBar
+              tags={tagFilter}
+              setTags={setTagFilter}
+              regions={regionsFilter}
+              setRegions={setRegionsFilter}
+            />
           </Grid>
           <Grid item xs={9} container direction="column" spacing={1}>
             {placeItem.map((pl) => (
@@ -144,7 +149,7 @@ const ExploreOtherRegion = () => {
               variant="outlined"
             >
               <Typography
-                color="black"
+               
                 style={{
                   fontFamily: "Special Elite",
                   fontSize: "200%",
