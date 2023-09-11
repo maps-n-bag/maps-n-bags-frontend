@@ -27,7 +27,7 @@ const activityIcons = {
     "Skiing": "🎿",
     "Hunting": "🔫",
     "Biking": "🚴",
-  };
+};
 
 const Img = styled('img')({
     margin: 'auto',
@@ -61,11 +61,25 @@ const SuggestionPlace = (props) => {
         });
         props.setNeedToUpdate(true);
         if (inAddList) {
+            setRemoveList((previous) => {
+                let temp = previous.filter((activity) => {
+                    return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
+                });
+                return temp;
+            });
+
             props.setAddList((previous) => {
                 return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
             });
         }
         else {
+            setAddList((previous) => {
+                let temp = previous.filter((activity) => {
+                  return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
+                });
+                return temp;
+              });
+
             props.setRemoveList((previous) => {
                 return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
             });
@@ -108,8 +122,8 @@ const SuggestionPlace = (props) => {
                     </Typography>
                 </Grid>
 
-            {/* </Grid> */}
-            {/* <Grid container spacing={2}> */}
+                {/* </Grid> */}
+                {/* <Grid container spacing={2}> */}
                 <Grid item xs={6}>
                     {placeItem.activities.map((activity) => (
                         <Typography variant="body2">

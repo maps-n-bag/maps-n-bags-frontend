@@ -79,11 +79,25 @@ const EventCards = (props) => {
     });
     setNeedToUpdate(true);
     if (inAddList) {
+      setRemoveList((previous) => {
+        let temp = previous.filter((activity) => {
+          return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
+        });
+        return temp;
+      });
+
       setAddList((previous) => {
         return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
       });
     }
     else {
+      setAddList((previous) => {
+        let temp = previous.filter((activity) => {
+          return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
+        });
+        return temp;
+      });
+
       setRemoveList((previous) => {
         return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
       });
@@ -262,7 +276,7 @@ const EventCards = (props) => {
                   </Button>
                 </Typography>
               ))}
-              <Button variant="outlined" size="small" onClick={() => setPlaceSuggestion(!placeSuggestion)}>
+              <Button variant="outlined" size="small" onClick={() => setPlaceSuggestion(!placeSuggestion)} color="info">
                 {placeSuggestion ? "Hide" : "Show"} Nearby Place
               </Button>
             </Grid>
@@ -276,7 +290,7 @@ const EventCards = (props) => {
               </Grid>
 
               <Grid item xs={2}>
-                <Button variant="outlined" size="small" onClick={() => setRestaurantSuggestion(!restaurantSuggestion)}>
+                <Button variant="outlined" size="small" onClick={() => setRestaurantSuggestion(!restaurantSuggestion)} color="info">
                   {restaurantSuggestion ? "Hide" : "Show"} Nearby Restaurant
                 </Button>
               </Grid>

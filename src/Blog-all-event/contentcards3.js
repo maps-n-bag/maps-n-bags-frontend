@@ -384,7 +384,7 @@ const ContentCards = (props) => {
                                       style={{
                                         backgroundColor: "transparent",
                                         borderWidth: "2px",
-                                        borderColor: "black",
+                                        // borderColor: "black",
                                       }}
                                       variant="outlined"
                                       halfWidth
@@ -410,7 +410,7 @@ const ContentCards = (props) => {
                                       style={{
                                         backgroundColor: "transparent",
                                         borderWidth: "2px",
-                                        borderColor: "black",
+                                        // borderColor: "black",
                                       }}
                                       variant="outlined"
                                       halfWidth
@@ -513,7 +513,7 @@ const ContentCards = (props) => {
                                   style={{
                                     backgroundColor: "transparent",
                                     borderWidth: "2px",
-                                    borderColor: "black",
+                                    // borderColor: "black",
                                   }}
                                   variant="outlined"
                                   halfWidth

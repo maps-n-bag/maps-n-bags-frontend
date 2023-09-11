@@ -13,11 +13,25 @@ const ActivityCard = (item) => {
   const [in_plan, setInPlan] = useState(activity.in_plan);
   const Handler = (event) => {
     if (event.target.id === "add") {
+      setRemoveList((previous) => {
+        let temp = previous.filter((activity) => {
+          return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
+        });
+        return temp;
+      });
+
       setAddList((previous) => {
         return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
       });
     }
     else if (event.target.id === "remove") {
+      setAddList((previous) => {
+        let temp = previous.filter((activity) => {
+          return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
+        });
+        return temp;
+      });
+
       setRemoveList((previous) => {
         return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
       });

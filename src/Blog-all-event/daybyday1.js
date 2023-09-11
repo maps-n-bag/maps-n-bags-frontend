@@ -81,17 +81,17 @@ const DaybyDay = () => {
 
         <div style={{ height: "100px", maxWidth: 900, marginLeft:"40%" }}>
           <Link to={`/FullTour/${plan_id}`}>
-            <Button variant="outlined" size="small">
+            <Button variant="outlined" color="info">
               Go to Plan
             </Button>
           </Link>
           <Link to={`/ShareBlog/${plan_id}/false`}>
-            <Button variant="outlined" size="small">
+            <Button variant="outlined" color="info">
               View Blog
             </Button>
           </Link>
           <Link to={`/ShareBlog/${plan_id}/true`}>
-            <Button variant="outlined" size="small">
+            <Button variant="outlined" color="info">
               Publish Changes
             </Button>
           </Link>

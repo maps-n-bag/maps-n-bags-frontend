@@ -227,6 +227,7 @@ const PlaceDetails = () => {
                   size="small"
                   style={{ marginLeft: "5%", marginTop: "5%" }}
                   onClick={() => setShowReview(!showReview)}
+                  color="info"
                 >
                   <Typography
                  
@@ -245,6 +246,7 @@ const PlaceDetails = () => {
                   size="small"
                   style={{ marginLeft: "5%", marginTop: "5%" }}
                   onClick={() => setAddReview(!addReview)}
+                  color="info"
                 >
                   <Typography
                    
@@ -296,6 +298,7 @@ const PlaceDetails = () => {
                             borderColor: "black",
                           }}
                           variant="outlined"
+                          color="success"
                         >
                           <Typography
                        
