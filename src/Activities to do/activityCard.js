@@ -32,11 +32,11 @@ const ActivityCard = (item) => {
       >
         {activity.title}
         {in_plan ? (
-          <Button onClick={Handler} id="remove" value={activity.id} size="small">
+          <Button onClick={Handler} id="remove" value={activity.id} size="small" color="error">
             Remove
           </Button>
         ) : (
-          <Button onClick={Handler} id="add" value={activity.id} size="small">
+          <Button onClick={Handler} id="add" value={activity.id} size="small" color="success">
             Add
           </Button>
         )}

@@ -114,7 +114,8 @@ const SuggestionPlace = (props) => {
                     {placeItem.activities.map((activity) => (
                         <Typography variant="body2">
                             {activityIcons[activity.title]} {activity.title}
-                            <Button variant="text" size="small" onClick={handleActivityClick} id={placeItem.id} name={activity.title} value={activity.id}>
+                            <Button variant="text" size="small" onClick={handleActivityClick} id={placeItem.id} name={activity.title} value={activity.id}
+                                color={getPlaceActivityBool(placeItem.id, activity.title, props.activityList) ? "error" : "success"}>
                                 {getPlaceActivityBool(placeItem.id, activity.title, props.activityList) ? "Remove" : "Add"}
                             </Button>
                         </Typography>

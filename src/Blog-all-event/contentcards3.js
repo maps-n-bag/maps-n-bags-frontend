@@ -348,7 +348,7 @@ const ContentCards = (props) => {
                                                 width="100px"
                                               />
                                               <Button
-                                                onClick={handleRemoveImage}
+                                                onClick={handleRemoveImage} color="error"
                                               >
                                                 Remove
                                               </Button>
@@ -368,13 +368,13 @@ const ContentCards = (props) => {
                                       </div>
                                     </div>
                                   ))}
-                                  <div className="table-row">
-                                    <div className="table-data">
-                                      <button onClick={handleAddImage}>
+                                  {/* <div className="table-row">
+                                    <div className="table-data"> */}
+                                      <Button onClick={handleAddImage} color="success" variant="outlined" size="small" style={{ margin: "5px" }}>
                                         +
-                                      </button>
-                                    </div>
-                                  </div>
+                                      </Button>
+                                    {/* </div>
+                                  </div> */}
                                 </div>
                                 <div>
                                   <div>

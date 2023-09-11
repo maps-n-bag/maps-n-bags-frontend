@@ -106,9 +106,10 @@ const EventCards = (props) => {
               is_selected: true,
             }]);
 
-          console.log(cardsData)
-          console.log(resp.data);
-          // activityList.push({
+          // console.log(cardsData)
+          // console.log(resp.data);
+          
+          setPlaceSuggestion(false);
 
         })
         .catch((rejected) => {
@@ -245,7 +246,8 @@ const EventCards = (props) => {
             <Grid item xs={4}>
               <Typography variant="body1" gutterBottom>
                 {activityIcons[cardsData.event.activity]} {cardsData.event.activity}
-                <Button variant="text" size="small" onClick={handleActivityClick} id={cardsData.event.place_id} name={cardsData.event.activity} value={cardsData.event.activity_id} >
+                <Button variant="text" size="small" onClick={handleActivityClick} id={cardsData.event.place_id} name={cardsData.event.activity} value={cardsData.event.activity_id} 
+                  color={getPlaceActivityBool(cardsData.event.place_id, cardsData.event.activity, activityList) ? "error" : "success"}>
                   {getPlaceActivityBool(cardsData.event.place_id, cardsData.event.activity, activityList) ? "Remove" : "Add"}
                 </Button>
               </Typography>
