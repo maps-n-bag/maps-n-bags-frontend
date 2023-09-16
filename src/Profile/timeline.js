@@ -128,12 +128,12 @@ const Profile = () => {
   }, []);
 
   const handleTogglePublic = (plan_id) => {
-    setPlans(plans.map((p) => {
-      if (p.id === plan_id) {
-        p.public = !p.public;
-      }
-      return p;
-    }));
+    // setPlans(plans.map((p) => {
+    //   if (p.id === plan_id) {
+    //     p.public = !p.public;
+    //   }
+    //   return p;
+    // }));
 
     axios.put(`${baseURL}plan/edit/public?plan_id=${plan_id}`, {
       headers: {

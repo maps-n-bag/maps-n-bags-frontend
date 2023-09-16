@@ -147,8 +147,8 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
               <FormControlLabel
                 control={<Switch checked={planDetails.public}
                   onChange={() => {
-                    togglePublic(planDetails.id);
                     setPlanDetails({ ...planDetails, public: !planDetails.public })
+                    togglePublic(planDetails.id);
                   }}
                 />}
                 label={planDetails.public ? "Public" : "Private"}
