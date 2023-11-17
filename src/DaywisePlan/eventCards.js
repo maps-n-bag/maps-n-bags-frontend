@@ -60,6 +60,8 @@ const EventCards = (props) => {
   const setNeedToUpdate = props.setNeedToUpdate;
   const setAddList = props.setAddList;
   const setRemoveList = props.setRemoveList;
+  const addList = props.addList;
+  const removeList = props.removeList;
 
 
   const handleActivityClick = (event) => {
@@ -261,8 +263,8 @@ const EventCards = (props) => {
               <Typography variant="body1" gutterBottom>
                 {activityIcons[cardsData.event.activity]} {cardsData.event.activity}
                 <Button variant="text" size="small" onClick={handleActivityClick} id={cardsData.event.place_id} name={cardsData.event.activity} value={cardsData.event.activity_id} 
-                  color={getPlaceActivityBool(cardsData.event.place_id, cardsData.event.activity, activityList) ? "error" : "success"}>
-                  {getPlaceActivityBool(cardsData.event.place_id, cardsData.event.activity, activityList) ? "Remove" : "Add"}
+                  color={getPlaceActivityBool(cardsData.event.place_id, cardsData.event.activity, activityList,addList,removeList) ? "error" : "success"}>
+                  {getPlaceActivityBool(cardsData.event.place_id, cardsData.event.activity, activityList,addList,removeList) ? "Remove" : "Add"}
                 </Button>
               </Typography>
               <Typography variant="body2">
@@ -272,7 +274,7 @@ const EventCards = (props) => {
                 <Typography variant="body2" gutterBottom>
                   {activityIcons[activity.title]} {activity.title}
                   <Button variant="text" size="small" onClick={handleActivityClick} id={cardsData.event.place_id} name={activity.title} value={activity.id}>
-                    {getPlaceActivityBool(cardsData.event.place_id, activity.title, activityList) ? "Remove" : "Add"}
+                    {getPlaceActivityBool(cardsData.event.place_id, activity.title, activityList,addList,removeList) ? "Remove" : "Add"}
                   </Button>
                 </Typography>
               ))}
@@ -312,9 +314,19 @@ const EventCards = (props) => {
   );
 };
 
-const getPlaceActivityBool = (place_id, activity_name, activityList) => {
+const getPlaceActivityBool = (place_id, activity_name, activityList, addList,removeList) => {
   console.log(place_id, activity_name, activityList);
   if (activityList.length === 0) {
+    return false;
+  }
+  if(addList.find((activity) => {
+    return activity.place_id === place_id && activity.name === activity_name;
+  })) {
+    return true;
+  }
+  if(removeList.find((activity) => {
+    return activity.place_id === place_id && activity.name === activity_name;
+  })) {
     return false;
   }
   let activity = activityList.find((activity) => {

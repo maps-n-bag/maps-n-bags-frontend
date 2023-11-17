@@ -132,7 +132,7 @@ const DaywisePlan = () => {
         <div>
           {itemBasic.map((item, index) => (
            
-            <EventCards key={index} item={item} theme={theme} plan_id={plan_id} setNeedToUpdate={setNeedToUpdate} setAddList={setAddList} setRemoveList={setRemoveList}  />
+            <EventCards key={index} item={item} theme={theme} plan_id={plan_id} setNeedToUpdate={setNeedToUpdate} setAddList={setAddList} setRemoveList={setRemoveList} addList={addList} removeList={removeList}  />
           ))}
         </div>
 
