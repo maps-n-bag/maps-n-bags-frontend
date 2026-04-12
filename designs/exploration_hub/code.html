@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Plus+Jakarta+Sans:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .newsreader { font-family: 'Newsreader', serif; }
+        .plus-jakarta-sans { font-family: 'Plus+Jakarta+Sans', sans-serif; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffac9f",
+                        "on-tertiary": "#e9ffe6",
+                        "secondary-fixed": "#ffe088",
+                        "inverse-primary": "#fb5945",
+                        "primary-fixed-dim": "#ff9787",
+                        "primary-container": "#ffac9f",
+                        "on-primary-fixed": "#580000",
+                        "error-container": "#f76a80",
+                        "surface-tint": "#b6271a",
+                        "on-secondary-fixed": "#4e3d00",
+                        "on-tertiary-container": "#3e5e42",
+                        "secondary-container": "#ffe088",
+                        "inverse-on-surface": "#a19d90",
+                        "on-background": "#363323",
+                        "outline": "#807b68",
+                        "inverse-surface": "#100e07",
+                        "surface-dim": "#e1dac1",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#fff7f6",
+                        "on-secondary": "#fff8ef",
+                        "tertiary-fixed": "#d0f5cf",
+                        "on-surface-variant": "#635f4d",
+                        "surface": "#fff9eb",
+                        "surface-container-highest": "#e9e2cc",
+                        "error-dim": "#770326",
+                        "tertiary": "#47674a",
+                        "surface-container-low": "#faf3e3",
+                        "tertiary-dim": "#3b5a3e",
+                        "on-secondary-container": "#644f00",
+                        "error": "#ac3149",
+                        "surface-variant": "#e9e2cc",
+                        "on-primary-fixed-variant": "#900502",
+                        "secondary": "#745c00",
+                        "tertiary-container": "#d0f5cf",
+                        "on-surface": "#363323",
+                        "on-error-container": "#68001f",
+                        "primary-dim": "#a4190f",
+                        "on-tertiary-fixed": "#2c4b31",
+                        "secondary-fixed-dim": "#f8d056",
+                        "tertiary-fixed-dim": "#c2e6c2",
+                        "on-secondary-fixed-variant": "#705900",
+                        "primary": "#b6271a",
+                        "surface-container": "#f4eedb",
+                        "on-primary-container": "#800000",
+                        "surface-container-high": "#efe8d3",
+                        "secondary-dim": "#665100",
+                        "background": "#fff9eb",
+                        "surface-bright": "#fff9eb",
+                        "on-tertiary-fixed-variant": "#48684b",
+                        "on-error": "#fff7f7",
+                        "outline-variant": "#b8b29d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Newsreader"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar Execution -->
+<nav class="bg-[#fff9eb] dark:bg-[#100e07] backdrop-blur-xl bg-opacity-80 transition-colors duration-500 docked full-width top-0 z-50 fixed flex justify-between items-center w-full px-8 py-4 max-w-[100vw] flat no shadows">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-serif newsreader italic text-[#363323] dark:text-[#fff9eb]">The Editorial Explorer</span>
+<!-- Desktop Nav Links -->
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-serif newsreader italic tracking-tight text-[#b6271a] dark:text-[#ffac9f] border-b-2 border-[#b6271a] pb-1" href="#">Discover</a>
+<a class="font-serif newsreader italic tracking-tight text-[#363323]/60 dark:text-[#fff9eb]/60 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-all duration-300" href="#">Journal</a>
+<a class="font-serif newsreader italic tracking-tight text-[#363323]/60 dark:text-[#fff9eb]/60 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-all duration-300" href="#">Archives</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Theme Switcher (Request fulfillment) -->
+<div class="hidden lg:flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-full border border-outline-variant/10">
+<button class="material-symbols-outlined text-tertiary text-lg scale-95 duration-200 ease-in-out" title="Forest">forest</button>
+<button class="material-symbols-outlined text-secondary text-lg scale-95 duration-200 ease-in-out" title="Mountain">terrain</button>
+<button class="material-symbols-outlined text-primary text-lg scale-95 duration-200 ease-in-out" title="Tropical">beach_access</button>
+<button class="material-symbols-outlined text-on-surface-variant text-lg scale-95 duration-200 ease-in-out" title="Historical">history_edu</button>
+<button class="material-symbols-outlined text-inverse-surface text-lg scale-95 duration-200 ease-in-out" title="Cityscape">location_city</button>
+</div>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined text-[#b6271a] dark:text-[#ffac9f] scale-95 duration-200 ease-in-out">palette</button>
+<button class="material-symbols-outlined text-[#b6271a] dark:text-[#ffac9f] scale-95 duration-200 ease-in-out">search</button>
+<button class="material-symbols-outlined text-[#b6271a] dark:text-[#ffac9f] scale-95 duration-200 ease-in-out">account_circle</button>
+</div>
+</div>
+</nav>
+<main class="pt-24 min-h-screen">
+<!-- Hero Section: Painterly Background -->
+<section class="relative h-[870px] flex items-center overflow-hidden px-8 md:px-16">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover brightness-95 contrast-[1.05]" data-alt="Dreamy painterly landscape of rolling misty hills at dawn with soft textures and artistic brushstroke effects in warm ochre and terracotta" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArzKfyit_pnZMm_KIcG8Lvc-kKLlyuxpaFue1E6Q4N_jrJr0m2CsakcJ-IlEGp658_3ex2iVsu8--BmVh302Wnsk8bwyqPjqe33SkdoPGgLoVZBCvCogaWHakhH9oyi08m_tBHiawlEMLz9YVW36vtEyNdN1D6U44eYUJpyid0MdKZglB90UapK-jWkuAO460BMS_RHBYmO8zkPAywghXXfZskxNs8mQetSVKUVOVU5v5L2ojASZ-8dpQA-ZCFvtUunESxrFI9nUc"/>
+<div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/40 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-3xl">
+<span class="font-label uppercase tracking-[0.3em] text-primary mb-4 block text-sm font-bold">Curated Expeditions</span>
+<h1 class="text-display-lg font-headline text-6xl md:text-8xl -tracking-[0.02em] leading-tight text-on-surface">
+                    Discover the <span class="italic text-primary font-medium">World's Hidden</span> Wonders
+                </h1>
+<p class="mt-8 text-lg font-body leading-relaxed text-on-surface-variant max-w-lg">
+                    Step beyond the mapped and the measured. Join a community of modern chroniclers documenting the planet's most ethereal corners through art and narrative.
+                </p>
+<div class="mt-12 flex items-center gap-6">
+<button class="px-8 py-4 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold shadow-xl shadow-primary/10 hover:translate-y-[-2px] transition-transform">
+                        Begin Your Journey
+                    </button>
+<button class="flex items-center gap-2 font-bold text-primary group">
+<span class="border-b border-primary">View the Archives</span>
+<span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Top Destinations: Artistic Bento Grid -->
+<section class="py-24 px-8 md:px-16 bg-surface-container-low">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="text-4xl font-headline text-on-surface">Top Destinations</h2>
+<p class="text-on-surface-variant mt-2 max-w-md">Chronicles of the most sought-after vistas this season.</p>
+</div>
+<button class="font-label text-sm uppercase tracking-widest text-primary border-b border-primary/20 pb-1">Explore all 240+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 h-full">
+<!-- Large Feature Card -->
+<div class="md:col-span-7 group relative rounded-xl overflow-hidden aspect-[4/3] md:aspect-auto">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Cinematic wide shot of an ancient stone monastery perched precariously on a verdant cliffside during a sunset with warm glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY1tDtNE38k2q5byaTK0pulZyesH5zNGO4GdHrLs3fRQNI3IuXZTw2BsuNiHhFr3IGNzZMhhZzhrYcUxpgLWrtFzNtrzZnSmDD_TR61K1Vbp_A57eoUYnkXyK7cAChsYTGpezUwApJkwflcD6wHnEF4A3q00xRf6l_qgthaDH8IZoAWm4eqw-K-6oMmPmne_E-x7webQKoFeZByQB83w7Nhmc4ySwRh-SrOCA6Yh25X0UhCPeQTLAb88BwyRNwWhyciT_pdcjjPRA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 text-white">
+<span class="bg-primary/90 text-[10px] uppercase tracking-widest px-3 py-1 rounded-full font-bold mb-4 inline-block">Historical</span>
+<h3 class="text-4xl font-headline italic">The Cliffs of Meteora</h3>
+<p class="mt-2 text-white/80 font-body text-sm max-w-md">Where the sky meets the sacred in the heart of Greece.</p>
+</div>
+</div>
+<!-- Column Cards -->
+<div class="md:col-span-5 flex flex-col gap-8">
+<div class="group relative rounded-xl overflow-hidden h-1/2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Lush tropical rainforest canopy with sunlight filtering through large palm leaves and vibrant exotic flowers in soft focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfq1PrfT5r0SKQOmyN7ZIF4fWySPaPH581sdfd3JnpYOU_78j2VJ_3qtJRFzlIfKj0rawpZr2r75bj2dYYlY-eCYkki_RfzAB7wId_IHfTp7lHpeVcXyE8RW3A57okpOg9yAkgr3WyU4Dl-Cn0uxoUSjqmucIJIo_7NoIuEfx2N46pg8ccvyND4o9CtP7uOsN4pihlA3MeG4NiH_beoLbPuv8IOg33C7_0LC59TGjNe_lWDGHUgDmXsptmHGax-vrYGvRXS4sgpCk"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-6">
+<h4 class="text-2xl font-headline text-white italic">Daintree Sanctuary</h4>
+<p class="text-white/70 text-sm">Australia's ancient green lung.</p>
+</div>
+</div>
+<div class="group relative rounded-xl overflow-hidden h-1/2 bg-surface-container">
+<div class="absolute inset-0 p-8 flex flex-col justify-center">
+<span class="text-primary material-symbols-outlined text-4xl mb-4">auto_awesome</span>
+<h4 class="text-2xl font-headline text-on-surface leading-tight mb-4">Request a Custom <br/>Expedition Map</h4>
+<p class="text-on-surface-variant text-sm mb-6">Our editors curate bespoke itineraries based on your aesthetic preferences.</p>
+<button class="w-fit px-6 py-2 rounded-lg border border-primary text-primary font-bold hover:bg-primary hover:text-on-primary transition-colors">Get Started</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Expeditions: Overlapping Editorial Layout -->
+<section class="py-32 px-8 md:px-16 overflow-hidden">
+<div class="max-w-6xl mx-auto relative">
+<div class="absolute -left-20 top-0 opacity-10 select-none">
+<span class="text-[12rem] font-headline italic leading-none text-primary">Journal</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center relative z-10">
+<div class="relative">
+<div class="absolute -top-10 -right-10 w-64 h-80 bg-surface-container-high rounded-xl -rotate-6 z-0 shadow-xl shadow-on-surface/5"></div>
+<img class="w-full aspect-[3/4] object-cover rounded-xl shadow-2xl relative z-10" data-alt="A traveler's open journal with hand-drawn sketches of mountains and pressed wildflowers on a rustic wooden table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBkKBIkXjbBEXz7bPGmqz3DQymzsZSmDu5A-U-tgOc146kpiMkU1GfJyeYSQPyllc4WTiS4jMWWSvPsur431w3UT2M_AdiaEJZD0NDm5-W73TObaTdoOtfRIG1YyH6sJtO7y7cIco4zl9RQ3LM2IApTCaClWtp5NsmTKRjLIKic0umCQqAFkmwkhhwqXxFAgzd1guB778xDvOzO87kkFEzve43T_XZ4K11DZ16SyaXAHMRWdielROeos1k9hFELr2ttWXbG7LtSNY"/>
+<div class="absolute -bottom-6 -left-6 bg-surface p-6 rounded-xl shadow-lg z-20 border border-outline-variant/10 max-w-[240px]">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 rounded-full bg-primary-container"></div>
+<span class="font-bold text-xs uppercase tracking-tighter">Clara V.</span>
+</div>
+<p class="text-xs font-body italic text-on-surface-variant">"Finding stillness in the peaks of the Dolomites was more than a trip, it was a rebirth."</p>
+</div>
+</div>
+<div>
+<h2 class="text-5xl font-headline mb-8 text-on-surface">Featured <span class="italic">Expeditions</span></h2>
+<div class="space-y-12">
+<div class="group cursor-pointer">
+<span class="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-2 block">Alpine Discovery</span>
+<h3 class="text-2xl font-headline group-hover:text-primary transition-colors">The Solitude of South Tyrol</h3>
+<p class="text-on-surface-variant text-sm mt-3 leading-relaxed">A 12-day meditation through the high passes and hidden lakes of northern Italy, curated by Elena Ross.</p>
+<div class="mt-4 flex items-center gap-4 text-xs font-bold opacity-60">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 12 Days</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">map</span> 8 Waypoints</span>
+</div>
+</div>
+<div class="group cursor-pointer">
+<span class="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-2 block">Desert Noir</span>
+<h3 class="text-2xl font-headline group-hover:text-primary transition-colors">Shadows of the Sahara</h3>
+<p class="text-on-surface-variant text-sm mt-3 leading-relaxed">Exploring the geometric beauty of Berber architecture and the shifting sands of the Maghreb.</p>
+<div class="mt-4 flex items-center gap-4 text-xs font-bold opacity-60">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 7 Days</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">map</span> 4 Waypoints</span>
+</div>
+</div>
+</div>
+<button class="mt-16 bg-surface-container-high px-10 py-4 rounded-full font-bold text-on-surface hover:bg-surface-container-highest transition-colors flex items-center gap-3">
+                            Browse All Public Plans
+                            <span class="material-symbols-outlined">north_east</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter / Community Section -->
+<section class="mb-24 px-8 md:px-16">
+<div class="bg-inverse-surface rounded-[2rem] p-12 md:p-24 text-center relative overflow-hidden">
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, #fff9eb 1px, transparent 0); background-size: 40px 40px;"></div>
+<div class="relative z-10 max-w-2xl mx-auto">
+<h2 class="text-4xl md:text-6xl font-headline text-surface mb-6 italic">Join the Explorer's Circle</h2>
+<p class="text-surface/70 text-lg mb-12">Weekly dispatches of rare destinations, photography tips, and early access to curated expeditions.</p>
+<form class="flex flex-col md:flex-row gap-4">
+<input class="flex-grow bg-white/10 border border-white/20 rounded-xl px-6 py-4 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-primary-container" placeholder="Your email address" type="email"/>
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform">Subscribe</button>
+</form>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Execution -->
+<footer class="bg-[#f4eedb] dark:bg-[#25231a] w-full mt-auto pt-12 pb-8 border-t-0 bg-[#f4eedb] dark:bg-[#25231a] flat w-full px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-serif newsreader text-lg italic text-[#363323] dark:text-[#fff9eb]">Globe Trekker Editorial</span>
+<span class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50">© 2024 Globe Trekker Editorial</span>
+</div>
+<div class="flex gap-8">
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Instagram</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Pinterest</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#b6271a] underline underline-offset-4" href="#">Journal</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Archives</a>
+</div>
+</footer>
+<!-- SideNavBar Logic - Suppressed because it's a Landing Page, not the primary expedition workflow -->
+</body></html>

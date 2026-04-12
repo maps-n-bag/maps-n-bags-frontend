@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* Use class-based dark mode (.dark on <html>) instead of OS media query */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* ── Colors ── */
+  --color-primary: #b6271a;
+  --color-primary-fixed: #ffac9f;
+  --color-primary-container: #ffac9f;
+  --color-secondary: #745c00;
+  --color-tertiary: #47674a;
+  --color-error: #ac3149;
+
+  --color-surface: #fff9eb;
+  --color-surface-dim: #e1dac1;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #faf3e3;
+  --color-surface-container: #f4eedb;
+  --color-surface-container-high: #efe8d3;
+  --color-surface-container-highest: #e9e2cc;
+
+  --color-inverse-surface: #100e07;
+  --color-on-surface: #363323;
+  --color-on-surface-variant: #807b68;
+  --color-on-primary: #ffffff;
+  --color-outline: #807b68;
+  --color-outline-variant: #d2cbb4;
+
+  /* ── Typography ── */
+  --font-headline: "Newsreader", Georgia, serif;
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* ── Border Radius ── */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-xl: 0.5rem;
+  --radius-2xl: 0.75rem;
+}
+
+/* Fallback: ensure variables are always on :root */
+:root {
+  --color-primary: #b6271a;
+  --color-primary-fixed: #ffac9f;
+  --color-primary-container: #ffac9f;
+  --color-secondary: #745c00;
+  --color-tertiary: #47674a;
+  --color-error: #ac3149;
+
+  --color-surface: #fff9eb;
+  --color-surface-dim: #e1dac1;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #faf3e3;
+  --color-surface-container: #f4eedb;
+  --color-surface-container-high: #efe8d3;
+  --color-surface-container-highest: #e9e2cc;
+
+  --color-inverse-surface: #100e07;
+  --color-on-surface: #363323;
+  --color-on-surface-variant: #807b68;
+  --color-on-primary: #ffffff;
+  --color-outline: #807b68;
+  --color-outline-variant: #d2cbb4;
+
+  --font-headline: "Newsreader", Georgia, serif;
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+/* Dark mode overrides via .dark class on <html> */
+.dark {
+  --color-surface: #100e07;
+  --color-surface-container-low: #181507;
+  --color-surface-container: #1e1b10;
+  --color-surface-container-high: #28241a;
+  --color-surface-container-highest: #322e22;
+  --color-on-surface: #ebe2cc;
+  --color-on-surface-variant: #d2cbb4;
+  --color-outline: #9b9480;
+  --color-outline-variant: #4d4839;
+  --color-inverse-surface: #fff9eb;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+}

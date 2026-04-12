@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Editorial Explorer - Alpine Discovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#ffac9f",
+                    "on-tertiary": "#e9ffe6",
+                    "secondary-fixed": "#ffe088",
+                    "inverse-primary": "#fb5945",
+                    "primary-fixed-dim": "#ff9787",
+                    "primary-container": "#ffac9f",
+                    "on-primary-fixed": "#580000",
+                    "error-container": "#f76a80",
+                    "surface-tint": "#b6271a",
+                    "on-secondary-fixed": "#4e3d00",
+                    "on-tertiary-container": "#3e5e42",
+                    "secondary-container": "#ffe088",
+                    "inverse-on-surface": "#a19d90",
+                    "on-background": "#363323",
+                    "outline": "#807b68",
+                    "inverse-surface": "#100e07",
+                    "surface-dim": "#e1dac1",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#fff7f6",
+                    "on-secondary": "#fff8ef",
+                    "tertiary-fixed": "#d0f5cf",
+                    "on-surface-variant": "#635f4d",
+                    "surface": "#fff9eb",
+                    "surface-container-highest": "#e9e2cc",
+                    "error-dim": "#770326",
+                    "tertiary": "#47674a",
+                    "surface-container-low": "#faf3e3",
+                    "tertiary-dim": "#3b5a3e",
+                    "on-secondary-container": "#644f00",
+                    "error": "#ac3149",
+                    "surface-variant": "#e9e2cc",
+                    "on-primary-fixed-variant": "#900502",
+                    "secondary": "#745c00",
+                    "tertiary-container": "#d0f5cf",
+                    "on-surface": "#363323",
+                    "on-error-container": "#68001f",
+                    "primary-dim": "#a4190f",
+                    "on-tertiary-fixed": "#2c4b31",
+                    "secondary-fixed-dim": "#f8d056",
+                    "tertiary-fixed-dim": "#c2e6c2",
+                    "on-secondary-fixed-variant": "#705900",
+                    "primary": "#b6271a",
+                    "surface-container": "#f4eedb",
+                    "on-primary-container": "#800000",
+                    "surface-container-high": "#efe8d3",
+                    "secondary-dim": "#665100",
+                    "background": "#fff9eb",
+                    "surface-bright": "#fff9eb",
+                    "on-tertiary-fixed-variant": "#48684b",
+                    "on-error": "#fff7f7",
+                    "outline-variant": "#b8b29d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Newsreader", "serif"],
+                    "body": ["Plus Jakarta Sans", "sans-serif"],
+                    "label": ["Plus Jakarta Sans", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fff9eb;
+            color: #363323;
+        }
+        .serif-italic {
+            font-family: 'Newsreader', serif;
+            font-style: italic;
+        }
+        .timeline-connector {
+            position: absolute;
+            left: 23px;
+            top: 40px;
+            bottom: -40px;
+            width: 2px;
+            background-image: repeating-linear-gradient(to bottom, transparent, transparent 5px, #b6271a 5px, #b6271a 10px);
+            opacity: 0.3;
+        }
+        .scrapbook-tape {
+            background: rgba(255, 247, 230, 0.6);
+            backdrop-filter: blur(2px);
+            transform: rotate(-3deg);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-[#fff9eb] dark:bg-[#100e07] backdrop-blur-xl bg-opacity-80 fixed top-0 z-50 docked full-width w-full px-8 py-4 max-w-[100vw] flex justify-between items-center transition-colors duration-500">
+<div class="flex items-center gap-8">
+<h1 class="text-2xl font-serif newsreader italic text-[#363323] dark:text-[#fff9eb]">The Editorial Explorer</h1>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-[#b6271a] dark:text-[#ffac9f] border-b-2 border-[#b6271a] pb-1 font-serif newsreader italic tracking-tight hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-all duration-300" href="#">Journal</a>
+<a class="text-[#363323]/60 dark:text-[#fff9eb]/60 font-serif newsreader italic tracking-tight hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-all duration-300" href="#">Destinations</a>
+<a class="text-[#363323]/60 dark:text-[#fff9eb]/60 font-serif newsreader italic tracking-tight hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-all duration-300" href="#">Archive</a>
+</div>
+</div>
+<div class="flex items-center gap-4 text-[#b6271a] dark:text-[#ffac9f]">
+<span class="material-symbols-outlined cursor-pointer scale-95 duration-200 ease-in-out">palette</span>
+<span class="material-symbols-outlined cursor-pointer scale-95 duration-200 ease-in-out">search</span>
+<span class="material-symbols-outlined cursor-pointer scale-95 duration-200 ease-in-out">account_circle</span>
+</div>
+</header>
+<!-- SideNavBar (Hidden on small screens, shown on desktop as a fixed element) -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full w-64 bg-[#faf3e3] dark:bg-[#1c1a12] flex-col pt-24 shadow-[40px_0_60px_-15px_rgba(54,51,35,0.05)] bg-gradient-to-r from-[#faf3e3] to-[#f4eedb] dark:from-[#1c1a12] dark:to-[#25231a] z-40">
+<div class="px-6 mb-10">
+<p class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px] text-[#363323]/50">Current Expedition</p>
+<h2 class="font-serif newsreader text-xl text-on-background">Alpine Discovery</h2>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-4 text-[#b6271a] dark:text-[#ffac9f] font-bold py-3 px-6 bg-[#f4eedb] dark:bg-[#25231a] rounded-r-full hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px]">Itinerary</span>
+</a>
+<a class="flex items-center gap-4 text-[#363323]/70 dark:text-[#fff9eb]/70 py-3 px-6 hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px]">Journal</span>
+</a>
+<a class="flex items-center gap-4 text-[#363323]/70 dark:text-[#fff9eb]/70 py-3 px-6 hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px]">Places</span>
+</a>
+</div>
+<div class="mt-auto p-6">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+<span>New Entry</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="md:pl-64 pt-24 min-h-screen pb-20 px-4 md:px-12 bg-surface">
+<!-- Hero Header -->
+<div class="max-w-6xl mx-auto mb-16 relative">
+<div class="relative z-10">
+<p class="font-sans plus-jakarta-sans font-medium uppercase tracking-[0.3em] text-xs text-primary mb-4">Journey Narrative</p>
+<h1 class="font-headline text-5xl md:text-7xl font-extrabold -tracking-widest text-on-background leading-none">The Swiss <br/> <span class="serif-italic font-normal">Alps Traverse</span></h1>
+</div>
+<!-- Decorative Map Snippet Overlay -->
+<div class="absolute -top-10 -right-4 w-64 h-64 md:w-96 md:h-96 opacity-10 pointer-events-none">
+<img alt="Vintage map" class="w-full h-full object-cover rounded-full" data-alt="vintage topographical map of the swiss alps with sepia tones and delicate contour lines on parchment paper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfulpnLjZubdmTmzdmumg1DHxXHlrHjmzSyB25EuXr_P3sCzo9TR01F0zEC3S_jvo1FK-nFFim99X-fY6ult_QrEMDXzc03624CRbD5aAHvvXA-dKnDpCmA1i-GeU0lc7XMnfF4y1snkrssLQWBt2ANY8PTU4WDKMYY4OTTYI9KHxN6sxIA-HwVn4kUHBNPmdBp3YTLnH35xTWoYNFVHP1L5WfJmXZ7FZoEc1Wt2RMsRXpg63d-cmiBiVRfRwHyMWkO4ixAPZ88K4"/>
+</div>
+</div>
+<!-- Dashboard Layout -->
+<div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12">
+<!-- Day Timeline Sidebar -->
+<aside class="lg:w-48 flex-shrink-0">
+<div class="sticky top-28 flex flex-row lg:flex-col gap-4 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 scrollbar-hide">
+<button class="group relative flex flex-col items-start min-w-[100px]">
+<span class="text-[10px] uppercase tracking-widest font-bold text-primary mb-1">Day 01</span>
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold shadow-md">1</div>
+<div class="hidden lg:block timeline-connector"></div>
+</button>
+<button class="group relative flex flex-col items-start min-w-[100px] opacity-40 hover:opacity-100 transition-opacity">
+<span class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant mb-1">Day 02</span>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface font-bold">2</div>
+<div class="hidden lg:block timeline-connector"></div>
+</button>
+<button class="group relative flex flex-col items-start min-w-[100px] opacity-40 hover:opacity-100 transition-opacity">
+<span class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant mb-1">Day 03</span>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface font-bold">3</div>
+<div class="hidden lg:block timeline-connector"></div>
+</button>
+<button class="group relative flex flex-col items-start min-w-[100px] opacity-40 hover:opacity-100 transition-opacity">
+<span class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant mb-1">Day 04</span>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface font-bold">4</div>
+</button>
+</div>
+</aside>
+<!-- Main Itinerary Content -->
+<div class="flex-grow space-y-12">
+<!-- Section Header -->
+<div class="flex justify-between items-end border-b-0">
+<div>
+<h2 class="text-3xl font-headline font-bold text-on-surface">St. Moritz Arrival</h2>
+<p class="text-on-surface-variant font-body mt-2">August 14th — Exploring the Upper Engadine Valley</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-primary">
+<span class="material-symbols-outlined">map</span>
+</button>
+<button class="p-2 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-primary">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+<!-- Bento Grid Content -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Morning Card -->
+<div class="group relative flex flex-col bg-surface-container-low rounded-xl overflow-hidden hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1">
+<div class="h-64 relative overflow-hidden">
+<img alt="Alpine Breakfast" class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-110 transition-transform duration-700" data-alt="luxury alpine breakfast on a wooden balcony overlooking st moritz lake with snow capped mountains in morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6M-5zP3wAL4XmrcDF-SR3z9Zo231rqK9ji5OE22-wggFWmMCjAV_6t43jnoTBIrTdbkRli4V-EthO7Vgisgcp9gFpypPqebNziYuP1_U1OeVpJmShqZfgicMwwhbkrZia6JBzeaCDoJbeecOZ7sMLTHHmpvhOqxVqRWC5Vfq5H9FVgTRidIzQO6LaP2Aq2Ejv8ZHT_BU_5Znp5ZZKrwocYZf5jnovLdvWrYB-uYIgELEV6OI-hbNoIyoLt2U_vy475HKgOhjqh5o"/>
+<div class="absolute top-4 left-4 scrapbook-tape px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-on-background">08:30 AM</div>
+</div>
+<div class="p-8 flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-xl font-headline font-bold">Badrutt's Palace Breakfast</h3>
+<button class="flex items-center gap-1 text-xs font-bold text-primary hover:underline">
+<span class="material-symbols-outlined text-sm">swap_horiz</span>
+                                    Swap
+                                </button>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Indulge in a classic continental spread while watching the mist rise from Lake St. Moritz. A historical landmark of elegance.</p>
+<div class="mt-auto flex items-center gap-4 text-xs font-medium text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> 1.5h</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">payments</span> $$$</span>
+</div>
+</div>
+</div>
+<!-- Afternoon Activity Card - Asymmetric Offset -->
+<div class="group relative flex flex-col bg-surface-container rounded-xl overflow-hidden hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 md:mt-12">
+<div class="h-80 relative overflow-hidden">
+<img alt="Hiking Trail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="hikers on a scenic alpine trail surrounded by wildflowers with dramatic jagged mountain peaks under bright blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDio6Ka9JSdcDBgt2pQrFpFu9eyekFD_bDfCbUPXEuQWNNrXVGl8dVzxCSb0bfdPvSAO6nWx4ujV5QhHcdRsygCeU9_WP9_ABRXNs_dZmOzadiqNGGiG97qjPr_DUjN8ZbJxhpXpkTjzIp9N4uvvvuiZnS6kdGFAwb38jZNIbRM9arVqR0I7Fd2jxa9Ap4vjFNYSkeimKqFCrBRh8AmC7285i9nyZpDC32o6TyOQrzAQeBxbFo7f7nUx2-PokkMTveTAlyrTmxMSfU"/>
+<div class="absolute top-4 left-4 scrapbook-tape px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-on-background">11:00 AM</div>
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-xl font-headline font-bold">Muottas Muragl Hike</h3>
+<button class="flex items-center gap-1 text-xs font-bold text-primary hover:underline">
+<span class="material-symbols-outlined text-sm">swap_horiz</span>
+                                    Swap
+                                </button>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Ascend the funicular for a panoramic ridge walk. The view encompasses all four lakes of the Upper Engadine.</p>
+<div class="flex items-center gap-4 text-xs font-medium text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">distance</span> 4.2 km</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">terrain</span> Moderate</span>
+</div>
+</div>
+</div>
+<!-- Map Snippet Component (Scrapbook Style) -->
+<div class="relative bg-surface-container-highest rounded-xl p-6 md:col-span-2 overflow-hidden flex flex-col md:flex-row gap-8 items-center border border-outline-variant/10">
+<div class="w-full md:w-1/2 aspect-square md:aspect-video rounded-lg overflow-hidden border-4 border-white shadow-lg transform -rotate-1 relative">
+<img alt="Itinerary Map" class="w-full h-full object-cover" data-alt="close-up of a luxury travel map with handwritten notes and a red ink path connecting villages in the swiss alps" data-location="St. Moritz" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm8tHSwwudAko8g61tg7aDw97XfS0eevjyotQRDI7IC7nHzW3ZxujGyCWMwn2CiMKKHou_TLOUv3SEnTIdsaYEWvK-pt8iyjXUHhDHeh1aasNf8GVMiXMVC7xZHCO6dtGacUMuQtb4pT6MFoiDzy55K3-0GombP4pTERzxNV6rIHquxsLaR_BXfcAoKoo0xoXGrqWWYkcrci0p8sxxdkUHBlG25u1PIPPzTP4N71fnvvao00Nw25ffg9kHGghmVYjrzI2Sp9VEmvY"/>
+</div>
+<div class="w-full md:w-1/2">
+<span class="material-symbols-outlined text-primary text-4xl mb-4">location_searching</span>
+<h4 class="font-headline text-2xl font-bold mb-2">Navigating the Peaks</h4>
+<p class="text-on-surface-variant text-sm mb-6 font-body leading-relaxed">The route from Badrutt's to Muottas involves a short scenic train ride. Keep your camera ready for the crossing at the Punutresch Gorge.</p>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest shadow-md hover:scale-105 transition-transform">Expand Route</button>
+</div>
+</div>
+<!-- Evening Selection -->
+<div class="group relative flex flex-col bg-surface-container-low rounded-xl overflow-hidden hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1">
+<div class="h-64 relative overflow-hidden">
+<img alt="Alpine Dinner" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="cozy high end alpine restaurant interior with warm candlelight soft fur throws on wooden chairs and steaming fondue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLXBhe07AgRKtO7uItMobYVT2QiNo64owYpceitu0a-AXzYSyBAhIlCFk8yGgc5RzSgrQYdpf7GCD3tQxdNEaVnExDxVLcyTZfxi8RojXHhEIR3geKtYYmHSzMDl23PNRc9UKafLwoiETvsid6sK_L4s9O9sqUesfdDmN3EQVibgAB9ba9QVw2xUG6bUm4GqtGToGf8UVmstB-NsBpDk8IH5F4CuH-GcTncaTmZHlUgO6bMDS8X_cAQUaSSeXmfdi1hq_go0TPVI4"/>
+<div class="absolute top-4 left-4 scrapbook-tape px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-on-background">07:30 PM</div>
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-xl font-headline font-bold">Chesa Veglia Dinner</h3>
+<button class="flex items-center gap-1 text-xs font-bold text-primary hover:underline">
+<span class="material-symbols-outlined text-sm">swap_horiz</span>
+                                    Swap
+                                </button>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">A 17th-century farmhouse turned into a gourmet destination. The truffle pizza is a legendary local favorite.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#f4eedb] dark:bg-[#25231a] w-full mt-auto pt-12 pb-8 border-t-0 bg-[#f4eedb] dark:bg-[#25231a] px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col gap-2">
+<span class="font-serif newsreader text-lg italic text-[#363323] dark:text-[#fff9eb]">Globe Trekker Editorial</span>
+<p class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50">© 2024 Globe Trekker Editorial</p>
+</div>
+<div class="flex gap-8">
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Instagram</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Pinterest</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#b6271a] underline underline-offset-4 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Journal</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Archives</a>
+</div>
+</footer>
+<!-- Mobile Nav Bar -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-lg px-8 py-3 flex justify-between items-center z-50 border-t border-outline-variant/10">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Itinerary</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Journal</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">location_on</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Places</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Me</span>
+</button>
+</nav>
+</body></html>

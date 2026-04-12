@@ -29,10 +29,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "docker:dev": "docker-compose -f docker-compose.dev.yaml up",
     "docker:build": "docker-compose -f docker-compose.yaml up -d",
     "docker:start": "docker run -p 80:80 --name mnb mnb-prod"
@@ -57,7 +56,13 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-private-property-in-object": "^7.22.11",
+    "@tailwindcss/postcss": "^4.2.2",
     "@testing-library/react": "^14.0.0",
+    "@vitejs/plugin-react": "4",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.9",
+    "tailwindcss": "^4.2.2",
+    "vite": "5",
     "webpack-node-externals": "^3.0.0"
   }
 }

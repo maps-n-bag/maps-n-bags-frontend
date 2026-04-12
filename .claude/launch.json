@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Vite Dev Server",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["start"],
+      "port": 3000
+    },
+    {
+      "name": "Docker Dev",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["docker:dev"],
+      "port": 3000
+    },
+    {
+      "name": "Docker Production",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["docker:build"],
+      "port": 80
+    }
+  ]
+}

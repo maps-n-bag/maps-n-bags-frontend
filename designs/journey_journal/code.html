@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Plus+Jakarta+Sans:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#ffac9f",
+                    "on-tertiary": "#e9ffe6",
+                    "secondary-fixed": "#ffe088",
+                    "inverse-primary": "#fb5945",
+                    "primary-fixed-dim": "#ff9787",
+                    "primary-container": "#ffac9f",
+                    "on-primary-fixed": "#580000",
+                    "error-container": "#f76a80",
+                    "surface-tint": "#b6271a",
+                    "on-secondary-fixed": "#4e3d00",
+                    "on-tertiary-container": "#3e5e42",
+                    "secondary-container": "#ffe088",
+                    "inverse-on-surface": "#a19d90",
+                    "on-background": "#363323",
+                    "outline": "#807b68",
+                    "inverse-surface": "#100e07",
+                    "surface-dim": "#e1dac1",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#fff7f6",
+                    "on-secondary": "#fff8ef",
+                    "tertiary-fixed": "#d0f5cf",
+                    "on-surface-variant": "#635f4d",
+                    "surface": "#fff9eb",
+                    "surface-container-highest": "#e9e2cc",
+                    "error-dim": "#770326",
+                    "tertiary": "#47674a",
+                    "surface-container-low": "#faf3e3",
+                    "tertiary-dim": "#3b5a3e",
+                    "on-secondary-container": "#644f00",
+                    "error": "#ac3149",
+                    "surface-variant": "#e9e2cc",
+                    "on-primary-fixed-variant": "#900502",
+                    "secondary": "#745c00",
+                    "tertiary-container": "#d0f5cf",
+                    "on-surface": "#363323",
+                    "on-error-container": "#68001f",
+                    "primary-dim": "#a4190f",
+                    "on-tertiary-fixed": "#2c4b31",
+                    "secondary-fixed-dim": "#f8d056",
+                    "tertiary-fixed-dim": "#c2e6c2",
+                    "on-secondary-fixed-variant": "#705900",
+                    "primary": "#b6271a",
+                    "surface-container": "#f4eedb",
+                    "on-primary-container": "#800000",
+                    "surface-container-high": "#efe8d3",
+                    "secondary-dim": "#665100",
+                    "background": "#fff9eb",
+                    "surface-bright": "#fff9eb",
+                    "on-tertiary-fixed-variant": "#48684b",
+                    "on-error": "#fff7f7",
+                    "outline-variant": "#b8b29d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Newsreader", "serif"],
+                    "body": ["Plus Jakarta Sans", "sans-serif"],
+                    "label": ["Plus Jakarta Sans", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .newsreader { font-family: 'Newsreader', serif; }
+        .plus-jakarta-sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #efe8d3; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container/30">
+<!-- TopNavBar -->
+<nav class="fixed top-0 z-50 w-full px-8 py-4 flex justify-between items-center bg-[#fff9eb] dark:bg-[#100e07] backdrop-blur-xl bg-opacity-80 transition-colors duration-500 max-w-[100vw]">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-serif newsreader italic text-[#363323] dark:text-[#fff9eb]">The Editorial Explorer</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-[#363323]/60 dark:text-[#fff9eb]/60 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-all duration-300 font-serif newsreader italic tracking-tight" href="#">Expeditions</a>
+<a class="text-[#b6271a] dark:text-[#ffac9f] border-b-2 border-[#b6271a] pb-1 font-serif newsreader italic tracking-tight" href="#">Journal</a>
+<a class="text-[#363323]/60 dark:text-[#fff9eb]/60 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-all duration-300 font-serif newsreader italic tracking-tight" href="#">Archives</a>
+</div>
+</div>
+<div class="flex items-center gap-4 text-[#b6271a] dark:text-[#ffac9f]">
+<span class="material-symbols-outlined cursor-pointer hover:scale-95 duration-200 ease-in-out">palette</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-95 duration-200 ease-in-out">search</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-95 duration-200 ease-in-out">account_circle</span>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 flex flex-col pt-24 bg-[#faf3e3] dark:bg-[#1c1a12] shadow-[40px_0_60px_-15px_rgba(54,51,35,0.05)] z-40 hidden md:flex">
+<div class="px-6 mb-8">
+<h3 class="font-serif newsreader text-xl text-on-surface">Current Expedition</h3>
+<p class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px] text-on-surface-variant">Alpine Discovery</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-4 text-[#363323]/70 dark:text-[#fff9eb]/70 py-3 px-6 hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px]">Itinerary</span>
+</a>
+<a class="flex items-center gap-4 text-[#b6271a] dark:text-[#ffac9f] font-bold py-3 px-6 bg-[#f4eedb] dark:bg-[#25231a] rounded-r-full hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px]">Journal</span>
+</a>
+<a class="flex items-center gap-4 text-[#363323]/70 dark:text-[#fff9eb]/70 py-3 px-6 hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px]">Places</span>
+</a>
+</nav>
+<div class="mt-auto p-6">
+<button class="w-full py-3 px-4 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg active:opacity-80 transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Entry
+            </button>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="md:ml-64 pt-24 min-h-screen px-6 md:px-12 pb-20 overflow-x-hidden">
+<!-- Editor Header -->
+<header class="max-w-4xl mx-auto mb-16 text-center">
+<div class="mb-4 inline-flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full">
+<span class="material-symbols-outlined text-[16px] text-tertiary">calendar_today</span>
+<span class="text-[11px] font-bold uppercase tracking-tighter text-on-surface-variant">October 14, 2023 — Day 4</span>
+</div>
+<h1 class="text-5xl md:text-7xl font-headline italic tracking-tight leading-[0.9] text-on-surface mb-6 relative">
+                Whispers of the <br/>
+<span class="text-primary italic">Zermatt Mist</span>
+</h1>
+<p class="font-body text-lg text-on-surface-variant max-w-xl mx-auto leading-relaxed">
+                Capturing the early morning ascent through the larch forests and the first glimpse of the Matterhorn's jagged silhouette.
+            </p>
+</header>
+<!-- Editor Toolbar (Floating Glassmorphism) -->
+<div class="sticky top-24 z-30 flex justify-center mb-12">
+<div class="bg-surface-container-low/80 backdrop-blur-md px-6 py-3 rounded-full flex items-center gap-6 shadow-sm border border-outline-variant/10">
+<div class="flex items-center gap-3 border-r border-outline-variant/30 pr-6">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined">format_h1</span></button>
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined">format_italic</span></button>
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined">format_quote</span></button>
+</div>
+<div class="flex items-center gap-3 border-r border-outline-variant/30 pr-6">
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">image</span></button>
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined">location_on</span></button>
+<button class="p-1 hover:text-primary transition-colors"><span class="material-symbols-outlined">link</span></button>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-1 hover:text-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Enhance</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Editorial Content -->
+<article class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-y-12 gap-x-8">
+<!-- Left Text Block -->
+<div class="md:col-span-7 space-y-8">
+<div class="relative">
+<span class="absolute -left-12 top-0 text-6xl font-headline text-primary-container/40 select-none">“</span>
+<p class="text-xl md:text-2xl font-body leading-relaxed first-letter:text-5xl first-letter:font-headline first-letter:mr-3 first-letter:float-left first-letter:text-primary">
+                        The air at five thousand feet is different. It tastes of crisp pine and the ancient silence of stone. I started the trek long before the first café opened in the village, following the scent of the damp earth as the stars began to pale.
+                    </p>
+</div>
+<div class="bg-surface-container p-8 rounded-xl relative overflow-hidden group">
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl text-on-surface/5 rotate-12">notes</span>
+<h4 class="font-sans font-bold uppercase tracking-widest text-[11px] text-secondary mb-4">Notes from the Road</h4>
+<p class="font-body text-on-surface leading-relaxed relative z-10">
+                        Don't forget to pack the extra layer for the descent. The temperature drops sharply once the sun dips behind the North face. Met an old mountaineer named Klaus at the mid-station. He told me about the 1974 blizzard.
+                    </p>
+</div>
+<p class="text-xl font-body leading-relaxed text-on-surface/80">
+                    By mid-morning, the valley was a sea of clouds. I sat on a limestone outcrop, the world below hidden under a wooly blanket, feeling like an inhabitant of some floating island. This is why we climb—not for the summit, but for the clarity of the vertical perspective.
+                </p>
+</div>
+<!-- Right Visual Block (Asymmetric Grid) -->
+<div class="md:col-span-5 flex flex-col gap-8">
+<div class="relative group">
+<div class="absolute -top-4 -left-4 w-24 h-24 bg-tertiary-container/30 rounded-full blur-2xl"></div>
+<img alt="Alpine landscape" class="w-full h-[400px] object-cover rounded-xl shadow-lg transform group-hover:rotate-1 transition-transform duration-500" data-alt="dramatic view of the Matterhorn peak shrouded in morning mist with evergreen trees in the foreground" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsXoQSYxOHMXSPS2WlAD-Rig6CgdPI8NP3iMJE419CJhR50T-siNQPyqydgwg-RdUmeuovWIUPaahprzNi5bDXrz6WEbj-wkvhgUPDNqFKrEO61z7gYbhIqnHjFMkgXjNEeGJGDkJ94Ox98MCHAsRW2v49fFGI3run1FLZy1f83C5Ubn6Eho4MZWpTJ84ohSS17hP5WB1jf5wy0GgkB3Bgrj1GLQ-eB67xg9knwtzymxXbDfNdh6id0EDWozKB8jGkm8hlnQl2BCU"/>
+<div class="mt-4 flex justify-between items-start">
+<div>
+<p class="font-headline italic text-lg">The Summit Watch</p>
+<p class="font-body text-[11px] uppercase tracking-wider text-on-surface-variant">8:42 AM • Hasselblad 500CM</p>
+</div>
+<span class="material-symbols-outlined text-primary cursor-pointer">favorite</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<img alt="Hiking boots" class="w-full h-48 object-cover rounded-xl shadow-md" data-alt="close up of weathered leather hiking boots on a rocky mountain path with golden sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb0BvpFAkz_ZrvPBIjTQzUEQxwpd4KM55W4NGkS7y1hyHx2gX2KlIdCEWyvIiD0Vum7PyUCGsfswpZ0cUs36j3u4FxctXLvIAlGvdqul2lwYnIAJaiCAO5VZCTh_R9KOXq5jyGeCm5wyTGKFg5pZ89hwOfwene2KmAPzC2xFKkbutwQ89y_GMw1HG2iSdk07iTjBuK9O90vllg9lQeVtaGLSjMPkpHQB9NElsawxQv2SLfwDJYEoNVPTb1067Q8I-cP2d9317erfw"/>
+<div class="bg-surface-dim rounded-xl p-4 flex flex-col justify-center items-center text-center border border-outline-variant/20">
+<span class="material-symbols-outlined text-3xl mb-2 text-tertiary">photo_library</span>
+<p class="text-[10px] font-bold uppercase tracking-widest leading-tight">View Full<br/>Gallery (12)</p>
+</div>
+</div>
+</div>
+<!-- Full Width Interactive Section -->
+<div class="md:col-span-12 mt-12 bg-white/20 dark:bg-black/20 p-1 rounded-2xl">
+<div class="bg-surface-container-low border border-outline-variant/10 rounded-xl p-8 md:p-12 overflow-hidden relative">
+<div class="absolute right-0 top-0 w-1/3 h-full opacity-10 pointer-events-none">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,50 Q25,0 50,50 T100,50" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+<path d="M0,60 Q25,10 50,60 T100,60" fill="none" stroke="currentColor" stroke-width="0.5"></path>
+</svg>
+</div>
+<div class="flex flex-col md:flex-row gap-12 items-center">
+<div class="md:w-1/2">
+<h3 class="text-3xl font-headline italic mb-4">Annotate Your Map</h3>
+<p class="font-body text-on-surface-variant mb-6 leading-relaxed">
+                                Link this journal entry to a specific waypoint on your Alpine Discovery route. This will automatically pin your photos and notes to the 'Riffelalp' marker.
+                            </p>
+<div class="flex flex-wrap gap-3">
+<button class="px-5 py-2 bg-surface rounded-full border border-primary/20 text-primary font-bold text-[10px] uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Select Waypoint</button>
+<button class="px-5 py-2 bg-secondary/10 rounded-full text-secondary font-bold text-[10px] uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">near_me</span>
+                                    Riffelalp Station
+                                </button>
+</div>
+</div>
+<div class="md:w-1/2 relative">
+<div class="bg-surface p-2 rounded-xl shadow-xl transform -rotate-2">
+<img alt="Journal concept" class="w-full h-64 object-cover rounded-lg" data-alt="overhead shot of an open travel journal with sketches, a vintage compass, and a film camera on a wooden table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfS7jFwU67tqZ4K_ajGvXH7btVVzO4SQ4NmeNx82y4NJJeHQtn3iTzN_xLgH9ZtvelpFzPbZvlzbtJ1geCis2BAdsAGkxUuhVoOo_EhZveIRXBd2VdmhtHzXVR4LUJP6SxVUELiSTmV0HR-O1-yMXQcoI8QGKqHAjmv7aGNSr8nPBH8y0EGRJjSbfL5HwWIkF-Dl9kS2dvdbnGSniExthqICPf1G68RMxcLo5ymRTFCJhZjJVQsd5CLfI2tu4l4UrMJrtWNiR0NJA"/>
+</div>
+<div class="absolute -bottom-6 -right-6 bg-primary text-on-primary p-4 rounded-full shadow-2xl">
+<span class="material-symbols-outlined text-3xl">draw</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Editorial Quote -->
+<div class="md:col-span-12 py-16 text-center max-w-2xl mx-auto">
+<hr class="w-24 border-primary/20 mx-auto mb-12"/>
+<blockquote class="text-3xl md:text-4xl font-headline italic text-on-surface leading-snug">
+                    "The journey is the story we tell ourselves before we've even reached the end."
+                </blockquote>
+<p class="mt-6 font-sans font-bold uppercase tracking-[0.2em] text-[10px] text-on-surface-variant">— Editorial Note</p>
+</div>
+</article>
+</main>
+<!-- Footer -->
+<footer class="w-full px-12 pt-12 pb-8 bg-[#f4eedb] dark:bg-[#25231a] flex flex-col md:flex-row justify-between items-center gap-6 z-10 relative">
+<div class="flex flex-col gap-2 items-center md:items-start">
+<span class="font-serif newsreader text-lg italic text-[#363323] dark:text-[#fff9eb]">The Editorial Explorer</span>
+<p class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50">© 2024 Globe Trekker Editorial</p>
+</div>
+<div class="flex gap-8 items-center">
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Instagram</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Pinterest</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#b6271a] underline underline-offset-4" href="#">Journal</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Archives</a>
+</div>
+</footer>
+<!-- Mobile BottomNavBar (Simplified) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low/90 backdrop-blur-lg flex justify-around items-center py-4 px-6 border-t border-outline-variant/10 z-50">
+<span class="material-symbols-outlined text-on-surface-variant">map</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+<span class="material-symbols-outlined text-on-surface-variant">location_on</span>
+<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+</nav>
+</body></html>

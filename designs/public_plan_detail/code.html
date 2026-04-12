@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Editorial Explorer | Public Plan Detail</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Plus+Jakarta+Sans:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#ffac9f",
+                    "on-tertiary": "#e9ffe6",
+                    "secondary-fixed": "#ffe088",
+                    "inverse-primary": "#fb5945",
+                    "primary-fixed-dim": "#ff9787",
+                    "primary-container": "#ffac9f",
+                    "on-primary-fixed": "#580000",
+                    "error-container": "#f76a80",
+                    "surface-tint": "#b6271a",
+                    "on-secondary-fixed": "#4e3d00",
+                    "on-tertiary-container": "#3e5e42",
+                    "secondary-container": "#ffe088",
+                    "inverse-on-surface": "#a19d90",
+                    "on-background": "#363323",
+                    "outline": "#807b68",
+                    "inverse-surface": "#100e07",
+                    "surface-dim": "#e1dac1",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#fff7f6",
+                    "on-secondary": "#fff8ef",
+                    "tertiary-fixed": "#d0f5cf",
+                    "on-surface-variant": "#635f4d",
+                    "surface": "#fff9eb",
+                    "surface-container-highest": "#e9e2cc",
+                    "error-dim": "#770326",
+                    "tertiary": "#47674a",
+                    "surface-container-low": "#faf3e3",
+                    "tertiary-dim": "#3b5a3e",
+                    "on-secondary-container": "#644f00",
+                    "error": "#ac3149",
+                    "surface-variant": "#e9e2cc",
+                    "on-primary-fixed-variant": "#900502",
+                    "secondary": "#745c00",
+                    "tertiary-container": "#d0f5cf",
+                    "on-surface": "#363323",
+                    "on-error-container": "#68001f",
+                    "primary-dim": "#a4190f",
+                    "on-tertiary-fixed": "#2c4b31",
+                    "secondary-fixed-dim": "#f8d056",
+                    "tertiary-fixed-dim": "#c2e6c2",
+                    "on-secondary-fixed-variant": "#705900",
+                    "primary": "#b6271a",
+                    "surface-container": "#f4eedb",
+                    "on-primary-container": "#800000",
+                    "surface-container-high": "#efe8d3",
+                    "secondary-dim": "#665100",
+                    "background": "#fff9eb",
+                    "surface-bright": "#fff9eb",
+                    "on-tertiary-fixed-variant": "#48684b",
+                    "on-error": "#fff7f7",
+                    "outline-variant": "#b8b29d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Newsreader"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+        }
+        .newsreader { font-family: 'Newsreader', serif; }
+        .plus-jakarta-sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col overflow-x-hidden">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 z-50 w-full flex justify-between items-center px-8 py-4 bg-[#fff9eb] dark:bg-[#100e07] backdrop-blur-xl bg-opacity-80 transition-colors duration-500">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-serif newsreader italic text-[#363323] dark:text-[#fff9eb]">The Editorial Explorer</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-serif newsreader italic tracking-tight text-[#b6271a] dark:text-[#ffac9f] border-b-2 border-[#b6271a] pb-1 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-all duration-300" href="#">Itineraries</a>
+<a class="font-serif newsreader italic tracking-tight text-[#363323]/60 dark:text-[#fff9eb]/60 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-all duration-300" href="#">Journal</a>
+<a class="font-serif newsreader italic tracking-tight text-[#363323]/60 dark:text-[#fff9eb]/60 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-all duration-300" href="#">Archives</a>
+</div>
+</div>
+<div class="flex items-center gap-4 text-[#b6271a] dark:text-[#ffac9f]">
+<span class="material-symbols-outlined cursor-pointer hover:scale-95 duration-200">palette</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-95 duration-200">search</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-95 duration-200">account_circle</span>
+</div>
+</nav>
+<!-- SideNavBar (Shared Component) - Hidden on mobile, visible on desktop -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-64 bg-[#faf3e3] dark:bg-[#1c1a12] flex-col pt-20 shadow-[40px_0_60px_-15px_rgba(54,51,35,0.05)] bg-gradient-to-r from-[#faf3e3] to-[#f4eedb] dark:from-[#1c1a12] dark:to-[#25231a] z-40">
+<div class="px-6 mb-8">
+<h2 class="font-serif newsreader text-xl text-on-surface">Current Expedition</h2>
+<p class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px] text-primary">Alpine Discovery</p>
+</div>
+<nav class="flex flex-col">
+<a class="flex items-center gap-4 text-[#363323]/70 dark:text-[#fff9eb]/70 py-3 px-6 hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px]">Itinerary</span>
+</a>
+<a class="flex items-center gap-4 text-[#b6271a] dark:text-[#ffac9f] font-bold py-3 px-6 bg-[#f4eedb] dark:bg-[#25231a] rounded-r-full hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">edit_note</span>
+<span class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px]">Journal</span>
+</a>
+<a class="flex items-center gap-4 text-[#363323]/70 dark:text-[#fff9eb]/70 py-3 px-6 hover:translate-x-2 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-[10px]">Places</span>
+</a>
+</nav>
+<div class="mt-auto p-6">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-3 rounded-xl font-bold plus-jakarta-sans shadow-lg hover:opacity-90 transition-opacity">
+                New Entry
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-12 md:pl-72 px-4 md:px-8 max-w-7xl mx-auto w-full">
+<!-- Hero Section: Asymmetric Editorial Layout -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-16 items-center">
+<div class="md:col-span-7 relative">
+<div class="rounded-xl overflow-hidden shadow-2xl z-10 relative">
+<img alt="Scenic view of Santorini white buildings" class="w-full h-[500px] object-cover" data-alt="stunning wide shot of santorini white washed architecture at twilight with deep blue domes and warm golden lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOyMqlwHcFkf-gDc5FI0eQChiOGzER23Ih87lOGEWy0DPht59HmLrsR-h5zwIxOui3MqXT2xZKXfmIjh3iXGpihzynjSmDq2o2hj7UOj48I1L4V_b3q8OaCQ0pMbucO3c82cdJ3nuUaIG0dImfqUQYpNNeNSbvahEYj7ZgI81vezYuZuAmNvtH2zI7CVs9W7UU6E8PRc6CA93CYNc20UqJJbLSRbiCjHBotJuS1J_4fLq587pXDBH0OPq5y3d5duPE-N60tyDNOLg"/>
+</div>
+<!-- Abstract Overlap Decoration -->
+<div class="absolute -bottom-6 -left-6 w-48 h-48 bg-tertiary-container rounded-full mix-blend-multiply opacity-30 -z-10"></div>
+<div class="absolute -top-10 -right-4 w-64 h-64 bg-primary-container rounded-full mix-blend-multiply opacity-20 -z-10"></div>
+</div>
+<div class="md:col-span-5 flex flex-col gap-6">
+<div>
+<span class="font-sans plus-jakarta-sans font-medium uppercase tracking-widest text-xs text-primary mb-2 block">Curated by Elena Rossi</span>
+<h1 class="text-5xl md:text-6xl font-serif newsreader italic tracking-tight text-on-surface leading-[1.1]">The Aegean <br/>Odyssey</h1>
+</div>
+<p class="font-body text-on-surface-variant leading-relaxed italic text-lg">
+                    "A 14-day slow travel exploration of the Cyclades, focusing on hidden artisans, volcanic soil vineyards, and the quiet rhythms of the sea."
+                </p>
+<div class="flex flex-wrap gap-4 mt-4">
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-4 rounded-xl font-bold plus-jakarta-sans shadow-lg hover:opacity-90 transition-opacity flex items-center gap-2">
+<span class="material-symbols-outlined">auto_fix_high</span>
+                        Copy to My Journeys
+                    </button>
+<div class="flex items-center gap-2">
+<button class="p-4 bg-surface-container rounded-full text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<button class="p-4 bg-surface-container rounded-full text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="p-4 bg-surface-container rounded-full text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-6 pt-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="text-2xl font-serif italic text-primary">1.2k</span>
+<span class="text-xs uppercase tracking-widest font-bold opacity-60">Loves</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-2xl font-serif italic text-primary">342</span>
+<span class="text-xs uppercase tracking-widest font-bold opacity-60">Remixes</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Grid: Bento Style -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+<!-- Highlights Section -->
+<div class="md:col-span-2 bg-surface-container-low p-8 rounded-xl relative overflow-hidden">
+<div class="flex justify-between items-end mb-8">
+<h3 class="text-3xl font-serif newsreader italic">Top Highlights</h3>
+<span class="font-sans text-xs uppercase tracking-widest text-on-surface-variant">The Must-Sees</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="group cursor-pointer">
+<div class="rounded-lg overflow-hidden mb-3 aspect-video">
+<img alt="Sunset at Oia" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="dramatic sunset over oia santorini with purple and orange sky reflecting on the white buildings" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBzNjJm3d0HHXPo5jfgWYBICHpsdoRKo_LZhVrFB2FXNMBU2X3C1VNf7dszMequF8s4KlqK533_qBF_qFKNbM2UGsEmJ1-ygQicnMh-tEP_1bi289BHk6oyVIY_TsMGPI_idI01TBlsSAhz1AKoOY0kbldAJ2oIL6liyabLpkAV_fTda7RnKj_lfVCJ0Ygh7nROhLh5UHMt4nYKyQikCZ1RGAB_rawefe5Yug9wI9DVYZbxCMWNoHv6f3-jK42oulR5bpJ4jTjWZc"/>
+</div>
+<h4 class="font-bold plus-jakarta-sans text-sm">Oia's Golden Hour</h4>
+<p class="text-xs text-on-surface-variant">Best viewed from the Byzantine Castle ruins.</p>
+</div>
+<div class="group cursor-pointer">
+<div class="rounded-lg overflow-hidden mb-3 aspect-video">
+<img alt="Greek Food" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="authentic greek salad with large block of feta cheese and kalamata olives on a rustic blue table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwBCuvWAMNNx4BAeTrHKs9t-u7L55wQWdoZ9ZjIUW6R4zrvnZVwTxg9pKvuoCO-g9PbPl6de7vfwo7SNKpfM0CGtwHyMg5YfiQeE9cjRYiE8or1f8Bf8wt3qGNSamN5aT5Pju2l0EdgiFhLId2DdGXJbC9qltCU7-ZqFGTpPiy5oRncRYzFZozQFXOprY9XD3jtYR5l29m6kPY2_CVHpEQpENmveR2NsfC80gZyksX7Gamv3w5Qtb1NYEjnb7QWIS5k68tjQ0O-kM"/>
+</div>
+<h4 class="font-bold plus-jakarta-sans text-sm">Naxos Gastronomy</h4>
+<p class="text-xs text-on-surface-variant">Organic farm-to-table in the mountains.</p>
+</div>
+<div class="group cursor-pointer">
+<div class="rounded-lg overflow-hidden mb-3 aspect-video">
+<img alt="Hidden Beach" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="turquoise crystal clear water at a hidden cove beach in milos surrounded by white volcanic rocks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_5_pt07kM783kl33wyIHC0P0lIxbowOuYfYsHY8boTKNVkLduLbLUPszvdSnalj2wL2SDJglwD4H8X7anItbMFwnTxyTZofq3r5ksvj9TIqQ3bBWXQK-aHOGOH_FkRODF1HS960e5vyOKTGw5f0GtDMi2Itm8lSw3R4tEo9OyLwqtsNhYKmQWr5bzmXmG_s-Y7MqidVl0Qvw3YNEXC26dkQO2ItS216LuN1vyXfkMqxYc6hLCWTN8V0A5En6k1wvOhfJg_rBXXPk"/>
+</div>
+<h4 class="font-bold plus-jakarta-sans text-sm">The Moonscape of Sarakiniko</h4>
+<p class="text-xs text-on-surface-variant">Unreal volcanic formations in Milos.</p>
+</div>
+<div class="group cursor-pointer">
+<div class="rounded-lg overflow-hidden mb-3 aspect-video">
+<img alt="Ancient Temple" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="majestic ancient greek temple pillars standing tall against a bright blue sky at golden hour" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjSHU0HQ0R2li3DZTY0Dc4J6K5TCRfiKGxd8JE6cCgj1J7_H4xk9hSlKG7DT9E8YVvLmTqJeorVuHqr_Mw0IiLXoV-Tf85w2hukV4YDpdtEkIndDF9QkQ5D2elNfaNldQrOjz0yZSCmv63XVrTKj6foyP2VzuWmFyDHlYSDhQwu1LCSdC4jnG1w0LgCoOAC_bIktp_7SOszqIyPDRJpt8-AL1En2OZvLaIb5kXk86-sQFX3tKzA1pLFXzWxNjFDDJpsYk-9hOfM9Y"/>
+</div>
+<h4 class="font-bold plus-jakarta-sans text-sm">Delos Archeology</h4>
+<p class="text-xs text-on-surface-variant">Private sunset boat tour to the sacred isle.</p>
+</div>
+</div>
+</div>
+<!-- Journal Snippet -->
+<div class="bg-primary-container/10 p-8 rounded-xl border border-primary/5 flex flex-col gap-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">format_quote</span>
+</div>
+<h3 class="text-xl font-serif newsreader italic">Creator's Notes</h3>
+</div>
+<div class="relative">
+<p class="font-body text-sm leading-relaxed text-on-surface italic">
+                        "The trick to Santorini isn't the sunset crowds, it's the morning hikes between Fira and Oia. We started at 6 AM, the air was crisp and smelled of wild sage..."
+                    </p>
+<div class="mt-4 pt-4 border-t border-primary/10">
+<p class="font-body text-sm leading-relaxed text-on-surface italic">
+                            "In Naxos, don't miss the citron distillery in Halki. The shop owners have stories that span four generations."
+                        </p>
+</div>
+</div>
+<button class="mt-auto text-primary font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:gap-3 transition-all">
+                    Read Full Journal
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Itinerary Timeline: Narrative & Organic -->
+<section class="mb-16">
+<h3 class="text-4xl font-serif newsreader italic mb-12 text-center">The Journey Path</h3>
+<div class="relative space-y-12">
+<!-- Vertical Decorative Line (Organic) -->
+<div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-tertiary/50 to-primary/10 hidden md:block"></div>
+<!-- Day 1-3 -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div class="text-right hidden md:block">
+<h4 class="text-5xl font-serif italic text-primary/20">01—03</h4>
+</div>
+<div class="md:hidden">
+<h4 class="text-3xl font-serif italic text-primary mb-2">Days 01—03</h4>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl shadow-sm relative group hover:bg-surface-container transition-colors">
+<div class="absolute -left-3 md:-left-1.5 top-8 w-3 h-3 rounded-full bg-primary border-4 border-surface z-10"></div>
+<h5 class="text-xl font-serif newsreader mb-2">Arrival &amp; The Cliffside</h5>
+<p class="font-sans text-xs uppercase tracking-widest text-primary font-bold mb-4">Santorini</p>
+<ul class="space-y-3 text-sm text-on-surface-variant">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5">check_circle</span>
+                                Private transfer to Imerovigli boutique hotel.
+                            </li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5">check_circle</span>
+                                Sunset wine tasting at Venetsanos Winery.
+                            </li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5">check_circle</span>
+                                Morning caldera hike (10km).
+                            </li>
+</ul>
+</div>
+</div>
+<!-- Day 4-7 -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div class="bg-surface-container-low p-8 rounded-xl shadow-sm relative group hover:bg-surface-container transition-colors md:order-1 order-2">
+<div class="absolute -right-3 md:-right-1.5 top-8 w-3 h-3 rounded-full bg-tertiary border-4 border-surface z-10"></div>
+<h5 class="text-xl font-serif newsreader mb-2">The Emerald Coast</h5>
+<p class="font-sans text-xs uppercase tracking-widest text-tertiary font-bold mb-4">Milos</p>
+<ul class="space-y-3 text-sm text-on-surface-variant">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-tertiary text-sm mt-0.5">check_circle</span>
+                                High-speed ferry transition.
+                            </li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-tertiary text-sm mt-0.5">check_circle</span>
+                                Full-day catamaran tour to Kleftiko Caves.
+                            </li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-tertiary text-sm mt-0.5">check_circle</span>
+                                Traditional dinner in Plaka's labyrinth.
+                            </li>
+</ul>
+</div>
+<div class="text-left hidden md:block order-1">
+<h4 class="text-5xl font-serif italic text-tertiary/20">04—07</h4>
+</div>
+<div class="md:hidden order-1">
+<h4 class="text-3xl font-serif italic text-tertiary mb-2">Days 04—07</h4>
+</div>
+</div>
+<!-- Day 8-14 -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div class="text-right hidden md:block">
+<h4 class="text-5xl font-serif italic text-primary/20">08—14</h4>
+</div>
+<div class="md:hidden">
+<h4 class="text-3xl font-serif italic text-primary mb-2">Days 08—14</h4>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl shadow-sm relative group hover:bg-surface-container transition-colors">
+<div class="absolute -left-3 md:-left-1.5 top-8 w-3 h-3 rounded-full bg-primary border-4 border-surface z-10"></div>
+<h5 class="text-xl font-serif newsreader mb-2">The Heart of the Cyclades</h5>
+<p class="font-sans text-xs uppercase tracking-widest text-primary font-bold mb-4">Naxos &amp; Delos</p>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                            Deep dive into rural island life. Cheesemaking workshops in Apeiranthos and a spiritual conclusion at the ruins of Delos.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Social Engagement Section -->
+<section class="mt-20 pt-16 border-t border-outline-variant/30">
+<div class="flex flex-col md:flex-row gap-12">
+<!-- Comments Form -->
+<div class="flex-grow">
+<h3 class="text-2xl font-serif newsreader mb-8">Traveler Dialogue (24)</h3>
+<div class="space-y-8">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden shrink-0">
+<img alt="Avatar" data-alt="portrait of a young man with a beard smiling warmly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAivdTVaRDqKPL4ysEl3gdsbqFzNgzgIAkFeGVDdQR-DpeVqekMWI7J7Q0deJKKRLfoSppzhRFzUFeb-v8teLHCqSPSjbbGGT4jTnzYiHrnAKqWSZMJqLSJqnRV6XowMqKurEBZTBv-zebADFYi-XZOuM7lGW7ASJXzELL-3_P4Mf2uv-s2mr3Jnnz6sryZ6b9oUy6f0ShEML3Qx-WwF_tRJZBCX-v87ErD0S0_SLYlyi_xztqosAALvEBxTEmwkP5patab0h_jFwM"/>
+</div>
+<div class="flex-grow space-y-2">
+<div class="bg-surface-container p-4 rounded-xl">
+<div class="flex justify-between mb-2">
+<span class="font-bold text-sm">Marcus Thorne</span>
+<span class="text-[10px] uppercase opacity-50">2 days ago</span>
+</div>
+<p class="text-sm text-on-surface-variant">Did you find the catamaran tour crowded? I'm planning for August and worried about the peak season rush.</p>
+</div>
+<div class="flex gap-4 text-[10px] uppercase font-bold tracking-widest text-primary px-2">
+<button class="hover:underline">Reply</button>
+<button class="hover:underline">Helpful (4)</button>
+</div>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden shrink-0">
+<img alt="Avatar" data-alt="portrait of a smiling woman with glasses and curly hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjEwJVBr6OOVuyoXfpdapi0a7qiA7apk4ZTcE4kZ266eMG7CeWvWfN9E1i5bFHvCc63gkNw2Ejfn2rxjcy6PA-v6F-YqYKWC2qwYHOHDbIw6uoSLe_3s7oL3O1modb42nknjKy1gmHmkdt62iY7qp8N8LQLtNg92I4l1P_ASl4l72E1422VTywX2SobE9dg3dl7IM5cga_RTwcXDjtvoajQd-AAjjWpnb1mUeU77umZAqSipaG-Y4jhePGYDB9vibwZNf68yazYUA"/>
+</div>
+<div class="flex-grow">
+<textarea class="w-full bg-surface-container border-none focus:ring-1 focus:ring-primary rounded-xl p-4 text-sm plus-jakarta-sans min-h-[100px]" placeholder="Share your thoughts or ask a question..."></textarea>
+<div class="flex justify-end mt-2">
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-bold text-xs uppercase tracking-widest hover:opacity-90">Post Comment</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Side: Recommended Reads -->
+<div class="md:w-80 shrink-0">
+<h3 class="text-xl font-serif newsreader italic mb-6">Similar Journeys</h3>
+<div class="space-y-6">
+<div class="group flex gap-4 cursor-pointer">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+<img alt="Venice" class="w-full h-full object-cover" data-alt="misty morning view of a venetian canal with a gondola and historic palaces" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx-NGmRmjra6q3t7vPkGHBWEGPfOnEDUsUzoYmfcp1IuU_khaaB9Zpqd8PgozEUCpkSlfqMNf4dhwoIx1oikyvIcQQmsbG-5YVDqBiRsJcjVYkvWzxXsBXg7DyENGfczDb1yz-W9k5AQGd5NxZf-V0Fqn8GpvQCgzTpgB_8G10FQdiSElBIov-g_YfOAaOOQnRttwdESwTfbSrg_eQlPfdpzZXR5aM6OoXx1nskbzSkz92fXDFG_hWNczrqGi1IHcg2ccdQt5W6N0"/>
+</div>
+<div>
+<h4 class="text-sm font-bold leading-snug group-hover:text-primary transition-colors">Venetian Serenade: A Canal Journal</h4>
+<span class="text-[10px] uppercase opacity-50">7 Days • Italy</span>
+</div>
+</div>
+<div class="group flex gap-4 cursor-pointer">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+<img alt="Tuscany" class="w-full h-full object-cover" data-alt="rolling hills of tuscany with cypress trees and golden light at sunrise" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv9d6ifmXz6jdxijUWEpaRR4XPoY4Eio17gZfnVa02EyS-HpV_PzQeQmCyj7N0AmzyS6fQ8rInM4aGaoL3crmoBF3HPf6OcYJL_2kr4rjDDOsnYfJBNrZ7phDANDrN_MOVepa91KE5p-KpAwRtD9DjksfPr_FN8oqlaZdk89DagMne_r8Gsc73lGNxno5LNuQtfJDmp_5Sg17hgPXDGvFxoF68RjwXhpKTaXjw2-r25sbkfgTQiST4OQXgAeTo9UoC48C1JTvrRA8"/>
+</div>
+<div>
+<h4 class="text-sm font-bold leading-snug group-hover:text-primary transition-colors">Sun-Drenched Valleys of Tuscany</h4>
+<span class="text-[10px] uppercase opacity-50">10 Days • Italy</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full mt-auto pt-12 pb-8 bg-[#f4eedb] dark:bg-[#25231a] px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col gap-2">
+<span class="font-serif newsreader text-lg italic text-[#363323] dark:text-[#fff9eb]">The Editorial Explorer</span>
+<p class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50">© 2024 Globe Trekker Editorial</p>
+</div>
+<div class="flex gap-8">
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Instagram</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Pinterest</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#b6271a] underline underline-offset-4 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Journal</a>
+<a class="font-sans plus-jakarta-sans text-sm leading-relaxed text-[#363323]/50 dark:text-[#fff9eb]/50 hover:text-[#b6271a] dark:hover:text-[#ffac9f] transition-colors" href="#">Archives</a>
+</div>
+</footer>
+</body></html>
