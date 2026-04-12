@@ -1,92 +1,50 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import { Grid, Divider } from "@mui/material";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import SouthIcon from "@mui/icons-material/South";
-import plane from "../photos/icon/plane.png";
-import beach from "../photos/icon/um.png";
-import { makeStyles } from '../utils/makeStylesShim';
 import SideBar from "../App drawer/sideBar";
-import { Link } from "react-router-dom";
-import noteIcon from "../photos/icon/note.png";
-import { useParams } from "react-router-dom";
-import BloglistCard from "../Blog-all-event/blogListCard";
-import { CardActionArea } from "@mui/material";
+import BloglistCard from "./blogListCard";
 import { useThemeContext } from "../ThemeContext";
-import * as dateformat from "../formatDate";
+
 const baseURL = import.meta.env.VITE_BASE_URL;
-const useStyles = makeStyles({
-  places: {
-    height: "100%",
-    width: "100%",
-    backgroundColor: "rgba(0, 0, 0 ,0.05)",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    minHeight: "100vh",
-  },
-  postcard: {
-    marginTop: "2%",
-    marginLeft: "15%",
-  },
-});
 
 const Bloglist = () => {
   const user_id = localStorage.getItem("userId");
   const { theme, toggleThemeMode } = useThemeContext();
   const [itemBasic, setItemBasic] = useState([]);
+
   useEffect(() => {
     axios
       .get(`${baseURL}plan/all?user_id=${user_id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
+        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
       })
-      .then((resp) => {
-        setItemBasic(resp.data);
-      })
-      .catch((rejected) => {
-        console.log(rejected);
-      });
+      .then((resp) => setItemBasic(resp.data))
+      .catch(console.error);
   }, [user_id]);
 
-  const classes = useStyles();
-
   return (
-    <div className={classes.places}>
-      <SideBar  theme={theme} toggleTheme={toggleThemeMode} />
+    <div className="min-h-screen bg-surface dark:bg-[#100e07] text-on-surface dark:text-[#fff9eb]">
+      <SideBar theme={theme} toggleTheme={toggleThemeMode} />
 
-      <Typography
-        variant="h4"
-        style={{
-          fontFamily: "Special Elite",
-          fontSize: "200%",
-          color: "black",
-          textAlign: "center",
-          marginTop: "80px",
-        }}
-      >
-        Your Blogs
-      </Typography>
+      <main className="pt-24 pb-16 px-6 md:px-12 max-w-4xl mx-auto">
+        <div className="mb-10">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-3">Journey Journal</p>
+          <h1 className="text-5xl font-light tracking-tight" style={{ fontFamily: "'Newsreader', serif" }}>
+            Your <span className="italic text-primary">Blogs</span>
+          </h1>
+        </div>
 
-      <div className={classes.postcard}>
-        <Grid
-          container
-          spacing={2}
-          justifyContent="left"
-          style={{ width: "80%" }}
-        >
-          {itemBasic.map((item, index) => (
-            <BloglistCard item={item} />
-          ))}
-        </Grid>
-      </div>
+        {itemBasic.length === 0 ? (
+          <div className="text-center py-20 text-on-surface-variant">
+            <span className="material-symbols-outlined text-5xl opacity-30 block mb-4">menu_book</span>
+            <p className="text-sm">No blogs yet. Complete a plan to generate your first journal entry.</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {itemBasic.map((item) => (
+              <BloglistCard key={item.id} item={item} />
+            ))}
+          </div>
+        )}
+      </main>
     </div>
   );
 };

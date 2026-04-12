@@ -1,248 +1,159 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import { Grid, Divider } from "@mui/material";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import SouthIcon from "@mui/icons-material/South";
-import plane from "../photos/icon/plane.png";
-import beach from "../photos/icon/um.png";
-import map from "../photos/map.jpg";
-import { makeStyles } from '../utils/makeStylesShim';
 import SideBar from "../App drawer/sideBar";
-import { Link } from "react-router-dom";
-import noteIcon from "../photos/icon/note.png";
-import { useParams } from "react-router-dom";
-import { useThemeContext } from '../ThemeContext';
+import { useThemeContext } from "../ThemeContext";
 import * as dateformat from "../formatDate";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
-const useStyles = makeStyles({
-  places: {
-
-    backgroundColor: "rgba(0, 0, 0 ,0.05)",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    minHeight: "100vh",
-
-  },
-
-  postcard: {
-
-    marginLeft: "20%",
-    marginTop: "7%",
-  },
-
-});
 
 const FullTour = () => {
   const { theme, toggleThemeMode } = useThemeContext();
-  const day = 1;
-  const [itemBasic, setItemBasic] = useState([]);
   const { plan_id } = useParams();
+  const [plan, setPlan] = useState(null);
+
   useEffect(() => {
-    axios.get(`${baseURL}plan?id=${plan_id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
-      .then((resp) => {
-        setItemBasic(resp.data);
+    axios
+      .get(`${baseURL}plan?id=${plan_id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
       })
-      .catch((rejected) => {
-        console.log(rejected);
-      });
-  }, []);
+      .then((resp) => setPlan(resp.data))
+      .catch(console.error);
+  }, [plan_id]);
 
-  const name_arr = itemBasic.title;
-  const date_st = dateformat.formatDate(itemBasic.start_date);
-  const date_end = dateformat.formatDate(itemBasic.end_date);
-  const des_arr = itemBasic.description;
-  const img_arr = itemBasic.image;
-  const classes = useStyles();
+  const dateStart = plan ? dateformat.formatDate(plan.start_date) : "";
+  const dateEnd = plan ? dateformat.formatDate(plan.end_date) : "";
 
-  const timeDifference = Math.abs(new Date(date_end) - new Date(date_st));
-  const daysdifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-  const daysTotal = parseInt(daysdifference) + 1;
-  console.log(daysTotal);
+  const daysTotal = plan
+    ? Math.ceil(Math.abs(new Date(dateEnd) - new Date(dateStart)) / (1000 * 60 * 60 * 24)) + 1
+    : 0;
 
   return (
-    <div className={classes.places}>
+    <div className="min-h-screen bg-surface dark:bg-[#100e07] text-on-surface dark:text-[#fff9eb]">
       <SideBar theme={theme} toggleTheme={toggleThemeMode} />
 
-      <div className={classes.postcard}>
+      <main className="pt-24 pb-16 px-6 md:px-12 max-w-5xl mx-auto">
+        {!plan ? (
+          <div className="text-center py-24 text-on-surface-variant">
+            <span className="material-symbols-outlined text-5xl opacity-30 block mb-4 animate-spin">autorenew</span>
+            <p className="text-sm italic">Loading plan…</p>
+          </div>
+        ) : (
+          <>
+            {/* ── Hero ── */}
+            <section className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-14 items-start">
+              {/* Cover image */}
+              <div className="md:col-span-7 relative">
+                <div className="rounded-xl overflow-hidden shadow-xl aspect-[4/3]">
+                  <img
+                    src={plan.image}
+                    alt={plan.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {/* Decorative blobs */}
+                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-tertiary-container rounded-full mix-blend-multiply opacity-30 -z-10" />
+                <div className="absolute -top-6 -right-2 w-48 h-48 bg-primary-container rounded-full mix-blend-multiply opacity-20 -z-10" />
+              </div>
 
-        <Card
-
-          style={{
-            width: "70%",
-            maxWidth: "1000px",
-            color: "ffffff",
-
-          }}
-        >
-          <CardContent>
-            <Grid container spacing={2}>
-
-
-              <Grid item xs>
-
-                <Typography
-                  variant="head"
-                  style={{
-                    fontFamily: "Special Elite",
-                    fontSize: "150%",
-                    padding: "5px",
-                  }}
-                >
-                  {name_arr}
-                </Typography>
-
-                <Typography
-                  variant="body2"
-                  style={{
-                    fontSize: "100%",
-                    padding: "5px",
-                  }}
-                >
-                  {des_arr}
-                </Typography>
-
-                <img
-                  src={img_arr}
-                  alt={name_arr}
-                  style={{
-                    width: "90%",
-                    height: "70%",
-                    // marginLeft: "14%",
-                    marginTop: "7%",
-                  }}
-                />
-              </Grid>
-              <Grid item xs={5} marginTop={"5%"}>
-
-                <Typography
-                  variant="h6"
-                  style={{
-
-                    fontSize: "150%",
-
-
-                    // marginLeft: "20%",
-                    marginTop: "5%",
-                  }}
-                >
-                  <b>Overview of Tour Plan</b>
-                </Typography>
-                <Typography
-                  variant="h6"
-                  style={{
-                    fontSize: "100%",
-
-
-                    // marginLeft: "40%",
-                    marginTop: "5%",
-                  }}
-                >
-                  <b>{date_st}</b>
-                  <br /> Starting From Dhaka
-                </Typography>
-                <img
-                  src={plane}
-                  alt={name_arr}
-                  style={{
-                    width: "10%",
-                    height: "7%",
-                    // marginLeft: "30%",
-                    marginTop: "0%",
-                  }}
-                />
-
-                <SouthIcon
-                  style={{
-                    width: "20%",
-                    height: "15%",
-
-                  }}
-                />
-                <Typography
-                  variant="h6"
-                  style={{
-                    fontSize: "100%",
-
-
-                    // marginLeft: "35%",
-                    marginTop: "5%",
-                  }}
-                >
-                  <b>
-                    {date_st} to {date_end}{" "}
-                  </b>
-                  <br /> Staying At {name_arr}
-                </Typography>
-                <img
-                  src={plane}
-                  alt={name_arr}
-                  style={{
-                    width: "10%",
-                    height: "7%",
-                    // marginLeft: "30%",
-                    marginTop: "5%",
-                  }}
-
-                />{" "}
-
-                <SouthIcon
-                  style={{
-                    width: "20%",
-                    height: "15%",
-
-                  }}
-                />
-                <Typography
-                  variant="h6"
-                  style={{
-                    fontSize: "100%",
-                    // marginLeft: "40%",
-                    marginTop: "5%",
-                  }}
-                >
-                  <b>{date_end}</b>
-                  <br />
-                  Back To Dhaka
-                </Typography>
-
-                <Link to={`/DaywisePlan/${plan_id}/${itemBasic.start_date}/${daysTotal}/${day}`}>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    style={{
-                      fontSize: "100%",
-                    // marginLeft: "40%",
-                    marginTop: "5%",
-                    }}
+              {/* Meta */}
+              <div className="md:col-span-5 flex flex-col gap-5">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-2">
+                    {plan.public ? "Public Plan" : "Private Plan"}
+                  </p>
+                  <h1
+                    className="text-4xl md:text-5xl font-light tracking-tight leading-tight italic"
+                    style={{ fontFamily: "'Newsreader', serif" }}
                   >
-                    View Day By Day Plan
-                  </Button>
+                    {plan.title}
+                  </h1>
+                </div>
 
-                </Link>
+                <p className="text-sm text-on-surface-variant leading-relaxed italic">
+                  {plan.description}
+                </p>
 
-              </Grid>
-            </Grid>
+                {/* Date range */}
+                <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+                  <span className="material-symbols-outlined text-primary text-[16px]">calendar_today</span>
+                  {dateStart} — {dateEnd}
+                  <span className="text-primary">·</span>
+                  {daysTotal} {daysTotal === 1 ? "day" : "days"}
+                </div>
 
+                {/* Journey path summary */}
+                <div className="bg-surface-container-low rounded-xl p-5 space-y-3">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">Journey Path</p>
+                  <div className="flex items-start gap-3">
+                    <span className="material-symbols-outlined text-primary text-[18px] mt-0.5">flight_takeoff</span>
+                    <div>
+                      <p className="text-xs font-bold">{dateStart}</p>
+                      <p className="text-xs text-on-surface-variant">Departure</p>
+                    </div>
+                  </div>
+                  <div className="w-px h-6 bg-outline/20 ml-[9px]" />
+                  <div className="flex items-start gap-3">
+                    <span className="material-symbols-outlined text-tertiary text-[18px] mt-0.5">hotel</span>
+                    <div>
+                      <p className="text-xs font-bold">{dateStart} — {dateEnd}</p>
+                      <p className="text-xs text-on-surface-variant">Staying at {plan.title}</p>
+                    </div>
+                  </div>
+                  <div className="w-px h-6 bg-outline/20 ml-[9px]" />
+                  <div className="flex items-start gap-3">
+                    <span className="material-symbols-outlined text-primary text-[18px] mt-0.5">flight_land</span>
+                    <div>
+                      <p className="text-xs font-bold">{dateEnd}</p>
+                      <p className="text-xs text-on-surface-variant">Return</p>
+                    </div>
+                  </div>
+                </div>
 
+                {/* Actions */}
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <Link
+                    to={`/DaywisePlan/${plan_id}/${plan.start_date}/${daysTotal}/1`}
+                    className="inline-flex items-center gap-2 px-5 py-3 bg-primary text-on-primary font-bold rounded-xl text-xs uppercase tracking-widest hover:bg-primary-dim transition-colors no-underline shadow-lg shadow-primary/20"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">calendar_view_day</span>
+                    View Day by Day Plan
+                  </Link>
+                  <Link
+                    to={`/Blog/${plan_id}`}
+                    className="inline-flex items-center gap-2 px-4 py-3 border border-outline/30 rounded-xl text-xs font-bold uppercase tracking-widest hover:border-primary hover:text-primary transition-colors no-underline"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">menu_book</span>
+                    Blog
+                  </Link>
+                  <Link
+                    to={`/Explore/${plan_id}`}
+                    className="inline-flex items-center gap-2 px-4 py-3 border border-outline/30 rounded-xl text-xs font-bold uppercase tracking-widest hover:border-primary hover:text-primary transition-colors no-underline"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">explore</span>
+                    Explore
+                  </Link>
+                </div>
+              </div>
+            </section>
 
-          </CardContent>
-          <CardActions>
-
-          </CardActions>
-        </Card>
-      </div>
+            {/* ── Stats bar ── */}
+            <div className="flex flex-wrap gap-8 py-6 border-t border-b border-outline/10 mb-14">
+              {[
+                { label: "Duration", value: `${daysTotal} days` },
+                { label: "From", value: dateStart },
+                { label: "To", value: dateEnd },
+                { label: "Visibility", value: plan.public ? "Public" : "Private" },
+              ].map(({ label, value }) => (
+                <div key={label}>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{label}</p>
+                  <p className="text-lg italic" style={{ fontFamily: "'Newsreader', serif" }}>{value}</p>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </main>
     </div>
   );
 };

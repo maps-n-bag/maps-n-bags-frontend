@@ -16,9 +16,19 @@ export default function LoginPage() {
     axios
       .post(`${baseURL}user/login`, values)
       .then((response) => {
-        localStorage.setItem("accessToken", response.data.token);
-        localStorage.setItem("userId", response.data.user_id);
-        navigate(`/Profile/${response.data.user_id}`);
+        const token = response.data.token;
+        const userId = response.data.user_id;
+        localStorage.setItem("accessToken", token);
+        localStorage.setItem("userId", userId);
+        // Prefetch user info so navbar can show name immediately
+        axios.get(`${baseURL}user?id=${userId}`, { headers: { Authorization: `Bearer ${token}` } })
+          .then((r) => {
+            localStorage.setItem("userImage", r.data.profile_pic || "");
+            localStorage.setItem("userName", r.data.username || "");
+            localStorage.setItem("firstName", r.data.first_name || "");
+            localStorage.setItem("lastName", r.data.last_name || "");
+          }).catch(() => {});
+        navigate(`/Profile/${userId}`);
       })
       .catch((error) => {
         if (error.response?.status == "401") setLoginFailed(true);

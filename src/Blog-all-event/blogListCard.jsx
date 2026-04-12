@@ -1,68 +1,55 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import DayCards from "./daycards2";
-import CardActions from "@mui/material/CardActions";
-import { Grid, Card, CardContent, Typography, CardActionArea } from "@mui/material";
 import { Link } from "react-router-dom";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-
-import axios from "axios";
-
-import { makeStyles } from '../utils/makeStylesShim';
-import SideBar from "../App drawer/sideBar";
+import * as dateformat from "../formatDate";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
-import * as dateformat from "../formatDate";
-import * as timeformat from "../formatTime";
 
-const BloglistCard = (props) => {
-  const cardsData = props.item;
-  const startDate = dateformat.formatDate(cardsData.start_date);
-  const endDate = dateformat.formatDate(cardsData.end_date);
+const BloglistCard = ({ item }) => {
+  const startDate = dateformat.formatDate(item.start_date);
+  const endDate = dateformat.formatDate(item.end_date);
+
   return (
-    <Grid item xs={12} sm={6} md={4}>
-      <Card sx={{ maxWidth: 345 }}>
-        <CardActionArea component={Link} to={`/Blog/${cardsData.id}`}>
-          <CardMedia
-            component="img"
-            height="200"
-            image={cardsData.image}
-            alt={cardsData.title}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
-              {cardsData.title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {cardsData.description}
-            </Typography>
-          </CardContent>
-          <CardContent style={{ textAlign: "right" }}>
-            <Typography variant="body2" color="text.secondary">
-              {startDate}
-              <br />to<br /> 
-              {endDate}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
+    <div className="flex gap-5 p-4 bg-surface-container-low rounded-xl hover:bg-surface-container transition-colors duration-200 group">
+      {/* Thumbnail */}
+      <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+        <img
+          src={item.image}
+          alt={item.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+      </div>
 
-        <Grid container sx={{ marginBottom: "10px" }}>
-          <Grid item xs={6} sx={{ textAlign: "center" }}>
-            <Button size="small" color="primary" href={`/FullTour/${cardsData.id}`} sx={{ width: "90%" }} variant="contained">
-              View Plan
-            </Button>
-          </Grid>
-          <Grid item xs={6} sx={{ textAlign: "center" }}>
-            <Button size="small" color="primary" href={`/ShareBlog/${cardsData.id}/false`} sx={{ width: "90%" }} variant="contained">
-              Share
-            </Button>
-          </Grid>
-        </Grid>
-
-      </Card>
-    </Grid>
+      {/* Content */}
+      <div className="flex-1 min-w-0 flex flex-col justify-between">
+        <div>
+          <Link to={`/Blog/${item.id}`} className="no-underline">
+            <h4 className="font-headline text-lg leading-snug text-on-surface hover:text-primary transition-colors line-clamp-1">
+              {item.title}
+            </h4>
+          </Link>
+          <p className="text-xs text-on-surface-variant mt-0.5 italic line-clamp-2">{item.description}</p>
+        </div>
+        <div className="flex items-center justify-between mt-2 flex-wrap gap-2">
+          <span className="text-[10px] text-on-surface-variant">
+            {startDate} — {endDate}
+          </span>
+          <div className="flex gap-2">
+            <a
+              href={`/FullTour/${item.id}`}
+              className="text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded border border-outline/30 text-on-surface-variant hover:border-primary hover:text-primary transition-colors no-underline"
+            >
+              Plan
+            </a>
+            <a
+              href={`/ShareBlog/${item.id}/false`}
+              className="text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded bg-primary text-on-primary hover:bg-primary-dim transition-colors no-underline"
+            >
+              Blog
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

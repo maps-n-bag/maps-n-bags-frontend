@@ -1,124 +1,136 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PlanMarkdown from './PlanMarkdown';
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import SideBar from "../App drawer/sideBar";
-import { makeStyles } from '../utils/makeStylesShim';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import axios from "axios";
 import { useThemeContext } from "../ThemeContext";
-// firebase
 import { storage } from "../Firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
-const useStyles = makeStyles(() => ({
-  root: {
-    display: 'flex',
-  },
-  container: {
-    flexGrow: 1,
-    padding: '5rem',
-  },
-}));
-
-const MarkdownDisplay = ({ markdownContent }) => {
-  return (
-    <div>
-      <ReactMarkdown
-        children={markdownContent}
-        rehypePlugins={[rehypeHighlight]}
-        remarkPlugins={[remarkGfm]}
-        components={{
-          img: ({ node, ...props }) => <img style={{ maxHeight: '100px' }} {...props} />,
-        }}
-      />
-    </div>
-  );
-};
-
 const handleMarkdownUpload = (md, plan_id) => {
   const newFile = new File([md], `${plan_id}.md`, { type: 'text/markdown' });
-
   const storageRef = ref(storage, `blogs/${plan_id}.md`);
-  const metaData = { contentType: 'text/markdown' };
-  uploadBytes(storageRef, newFile, metaData)
-    .then((snapshot) => {
-      console.log('Uploaded a blob or file!');
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
+  uploadBytes(storageRef, newFile, { contentType: 'text/markdown' }).catch(console.error);
+};
 
 const GenerateBlog = () => {
-  const classes = useStyles();
   const { theme, toggleThemeMode } = useThemeContext();
   const { plan_id, publish } = useParams();
-  const [planData, setPlanData] = useState(null);
   const [markdownBlog, setMarkdownBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
-
-    axios.get(`${baseURL}plan/generateBlog?plan_id=${plan_id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    })
+    axios
+      .get(`${baseURL}plan/generateBlog?plan_id=${plan_id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+      })
       .then((resp) => {
         const md = PlanMarkdown({ planData: resp.data });
-
         if (publish === "true") {
-
           setMarkdownBlog(md);
           handleMarkdownUpload(md, plan_id);
-
+          setLoading(false);
         } else {
-
           const storageRef = ref(storage, `blogs/${plan_id}.md`);
           getDownloadURL(storageRef)
-            .then((url) => {
-              console.log("file exists");
-              axios.get(url)
-                .then((resp) => {
-                  setMarkdownBlog(resp.data);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            })
-            .catch((error) => {
-              console.log("file does not exist");
-
+            .then((url) => axios.get(url))
+            .then((r) => { setMarkdownBlog(r.data); setLoading(false); })
+            .catch(() => {
               setMarkdownBlog(md);
               handleMarkdownUpload(md, plan_id);
+              setLoading(false);
             });
-
         }
-
       })
-      .catch((error) => {
-        console.log(error);
-      });
-
+      .catch((e) => { console.error(e); setLoading(false); });
   }, []);
 
-  if (!markdownBlog) {
-    return (null);
-  }
-
   return (
-    <div className={classes.root}>
-      <SideBar  theme={theme} toggleTheme={toggleThemeMode} />
-      <div className={classes.container}>
-        <div className="markdown-body">
-          <MarkdownDisplay markdownContent={markdownBlog} />
+    <div className="min-h-screen bg-surface dark:bg-[#100e07] text-on-surface dark:text-[#fff9eb]">
+      <SideBar theme={theme} toggleTheme={toggleThemeMode} />
+
+      <main className="pt-24 pb-16 px-6 md:px-12 max-w-4xl mx-auto">
+        {/* Header */}
+        <header className="mb-12 text-center">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-3">Journey Journal</p>
+          <h1 className="text-5xl md:text-6xl font-light tracking-tight italic mb-4" style={{ fontFamily: "'Newsreader', serif" }}>
+            Travel <span className="text-primary">Chronicle</span>
+          </h1>
+          <hr className="w-16 border-primary/20 mx-auto" />
+        </header>
+
+        {loading ? (
+          <div className="text-center py-20 text-on-surface-variant">
+            <span className="material-symbols-outlined text-4xl opacity-30 block mb-4 animate-spin">autorenew</span>
+            <p className="text-sm italic">Generating your chronicle…</p>
+          </div>
+        ) : markdownBlog ? (
+          <article className="prose prose-sm max-w-none
+            prose-headings:font-headline prose-headings:font-light prose-headings:tracking-tight
+            prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-xl
+            prose-p:text-on-surface prose-p:leading-relaxed
+            prose-strong:text-on-surface
+            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+            prose-blockquote:border-l-primary prose-blockquote:text-on-surface-variant prose-blockquote:italic
+            prose-img:rounded-xl prose-img:shadow-md prose-img:max-h-64 prose-img:object-cover
+            dark:prose-invert">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight]}
+              components={{
+                img: ({ node, ...props }) => (
+                  <img className="max-h-64 w-full object-cover rounded-xl shadow-md my-4" {...props} />
+                ),
+                h1: ({ node, ...props }) => (
+                  <h1 className="text-4xl font-light tracking-tight italic mb-6 mt-10" style={{ fontFamily: "'Newsreader', serif" }} {...props} />
+                ),
+                h2: ({ node, ...props }) => (
+                  <h2 className="text-2xl font-light tracking-tight italic mb-4 mt-8 text-primary" style={{ fontFamily: "'Newsreader', serif" }} {...props} />
+                ),
+                h3: ({ node, ...props }) => (
+                  <h3 className="text-lg font-bold uppercase tracking-widest mb-3 mt-6 text-on-surface-variant text-sm" {...props} />
+                ),
+                p: ({ node, ...props }) => (
+                  <p className="text-base leading-relaxed text-on-surface mb-4" {...props} />
+                ),
+                blockquote: ({ node, ...props }) => (
+                  <blockquote className="border-l-2 border-primary/40 pl-6 italic text-on-surface-variant my-6" {...props} />
+                ),
+              }}
+            >
+              {markdownBlog}
+            </ReactMarkdown>
+          </article>
+        ) : (
+          <div className="text-center py-20 text-on-surface-variant">
+            <span className="material-symbols-outlined text-5xl opacity-30 block mb-4">menu_book</span>
+            <p className="text-sm italic">Could not load blog content.</p>
+          </div>
+        )}
+
+        {/* Actions */}
+        <div className="flex gap-3 mt-12 pt-6 border-t border-outline/10 flex-wrap">
+          <Link
+            to={`/Blog/${plan_id}`}
+            className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-4 py-2 border border-outline/30 rounded-full hover:border-primary hover:text-primary transition-colors no-underline"
+          >
+            <span className="material-symbols-outlined text-[14px]">arrow_back</span>
+            All Blogs
+          </Link>
+          <Link
+            to={`/ShareBlog/${plan_id}/true`}
+            className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-4 py-2 bg-primary text-on-primary rounded-full hover:bg-primary-dim transition-colors no-underline"
+          >
+            <span className="material-symbols-outlined text-[14px]">publish</span>
+            Publish
+          </Link>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

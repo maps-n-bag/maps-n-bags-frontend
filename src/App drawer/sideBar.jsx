@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useThemeContext } from "../ThemeContext";
 
 const NAV_LINKS = [
   { label: "Discover", to: "/" },
-  { label: "Others' Plans", to: "/OthersPlan" },
   { label: "Blog", to: "/AllBlog" },
   { label: "Create Plan", to: "/CreatePlan" },
 ];
@@ -20,12 +19,39 @@ const THEMES = [
 export default function SideBar() {
   const { isDark, toggleThemeMode } = useThemeContext();
   const [themeModalOpen, setThemeModalOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+
   const userId = localStorage.getItem("userId");
   const userImage = localStorage.getItem("userImage");
 
+  // Read fresh from localStorage whenever dropdown opens
+  const getUserDisplay = () => {
+    const username = localStorage.getItem("userName") || "";
+    const first = localStorage.getItem("firstName") || "";
+    const last = localStorage.getItem("lastName") || "";
+    if (first) return { name: `${first}${last ? " " + last : ""}`, sub: username ? `@${username}` : null };
+    if (username) return { name: username, sub: null };
+    return { name: "Traveller", sub: null };
+  };
+  const userDisplay = getUserDisplay();
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handler = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setProfileDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
   const handleLogout = () => {
     localStorage.clear();
+    setProfileDropdownOpen(false);
+    navigate("/Login");
   };
 
   return (
@@ -75,79 +101,67 @@ export default function SideBar() {
             {isDark ? "light_mode" : "dark_mode"}
           </button>
 
-          {/* Profile avatar */}
+          {/* Profile avatar / dropdown */}
           {userId ? (
-            <Link to={`/Profile/${userId}`} className="flex items-center" title="Profile">
-              {userImage ? (
-                <img
-                  src={userImage}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full object-cover border-2 border-primary/30 hover:border-primary transition-colors"
-                />
-              ) : (
-                <span className="material-symbols-outlined text-primary dark:text-[#ffac9f] p-1 text-[26px]">
-                  account_circle
-                </span>
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setProfileDropdownOpen((v) => !v)}
+                className="flex items-center focus:outline-none ml-1"
+                title="Account"
+              >
+                {userImage ? (
+                  <img
+                    src={userImage}
+                    alt="Profile"
+                    className="w-8 h-8 rounded-full object-cover border-2 border-primary/30 hover:border-primary transition-colors"
+                  />
+                ) : (
+                  <span className="material-symbols-outlined text-primary dark:text-[#ffac9f] text-[26px]">
+                    account_circle
+                  </span>
+                )}
+              </button>
+
+              {/* Dropdown */}
+              {profileDropdownOpen && (
+                <div className="absolute right-0 top-full mt-2 w-52 bg-[#fff9eb] dark:bg-[#1a1710] rounded-xl shadow-2xl border border-[#807b68]/10 overflow-hidden z-50">
+                  {/* User info */}
+                  <div className="px-4 py-3 border-b border-[#807b68]/10">
+                    <p className="text-sm font-semibold text-on-surface dark:text-[#fff9eb] truncate">{userDisplay.name}</p>
+                    {userDisplay.sub && (
+                      <p className="text-[11px] text-on-surface-variant dark:text-[#fff9eb]/50 truncate">{userDisplay.sub}</p>
+                    )}
+                  </div>
+                  {/* Profile link */}
+                  <Link
+                    to={`/Profile/${userId}`}
+                    onClick={() => setProfileDropdownOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-sm text-on-surface dark:text-[#fff9eb] hover:bg-surface-container dark:hover:bg-[#25231a] transition-colors no-underline"
+                  >
+                    <span className="material-symbols-outlined text-[18px] text-primary">person</span>
+                    My Profile
+                  </Link>
+                  {/* Logout */}
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-sm text-error hover:bg-error/5 transition-colors border-t border-[#807b68]/10"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">logout</span>
+                    Logout
+                  </button>
+                </div>
               )}
-            </Link>
+            </div>
           ) : (
             <Link
               to="/Login"
-              className="text-sm font-semibold text-primary dark:text-[#ffac9f] hover:underline"
+              className="text-sm font-semibold text-primary dark:text-[#ffac9f] hover:underline ml-1"
             >
               Sign in
             </Link>
           )}
-
-          {/* Logout (only when logged in) */}
-          {userId && (
-            <Link
-              to="/"
-              onClick={handleLogout}
-              className="hidden md:inline-flex items-center gap-1 text-xs text-on-surface/50 dark:text-[#fff9eb]/50 hover:text-primary dark:hover:text-[#ffac9f] transition-colors ml-1"
-              title="Logout"
-            >
-              <span className="material-symbols-outlined text-[18px]">logout</span>
-            </Link>
-          )}
-
-          {/* Mobile burger */}
-          <button
-            className="md:hidden material-symbols-outlined text-on-surface dark:text-[#fff9eb] p-2 text-[22px]"
-            onClick={() => setMobileMenuOpen((v) => !v)}
-          >
-            {mobileMenuOpen ? "close" : "menu"}
-          </button>
         </div>
       </nav>
-
-      {/* ── Mobile Menu ── */}
-      {mobileMenuOpen && (
-        <div className="fixed top-[57px] left-0 right-0 z-40 bg-[#fff9eb]/95 dark:bg-[#100e07]/95 backdrop-blur-xl border-b border-[#807b68]/10 py-4 px-6 flex flex-col gap-3 md:hidden">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              onClick={() => setMobileMenuOpen(false)}
-              className="font-headline italic text-on-surface dark:text-[#fff9eb] hover:text-primary dark:hover:text-[#ffac9f] transition-colors py-1 text-lg"
-              style={{ fontFamily: "'Newsreader', serif" }}
-            >
-              {link.label}
-            </Link>
-          ))}
-          {userId && (
-            <Link
-              to="/"
-              onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
-              className="font-headline italic text-on-surface/60 dark:text-[#fff9eb]/60 hover:text-primary transition-colors py-1 text-lg flex items-center gap-2"
-              style={{ fontFamily: "'Newsreader', serif" }}
-            >
-              <span className="material-symbols-outlined text-[18px]">logout</span>
-              Logout
-            </Link>
-          )}
-        </div>
-      )}
 
       {/* ── Theme Switcher Modal ── */}
       {themeModalOpen && (
