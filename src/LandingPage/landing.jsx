@@ -68,6 +68,12 @@ export default function Landingpage() {
   const [checkedRegions, setCheckedRegions] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Pagination
+  const CHRONICLES_PAGE = 6;
+  const PLANS_PAGE = 8;
+  const [visibleChronicles, setVisibleChronicles] = useState(CHRONICLES_PAGE);
+  const [visiblePlans, setVisiblePlans] = useState(PLANS_PAGE);
+
   // Copy-plan modal
   const [copyModalPlan, setCopyModalPlan] = useState(null); // plan object or null
   const [copyDate, setCopyDate] = useState(new Date());
@@ -100,6 +106,8 @@ export default function Landingpage() {
       )
       .then((r) => {
         setPlans(Array.isArray(r.data) ? r.data : []);
+        setVisibleChronicles(CHRONICLES_PAGE);
+        setVisiblePlans(PLANS_PAGE);
         setLoading(false);
       })
       .catch(() => { setPlans([]); setLoading(false); });
@@ -263,7 +271,7 @@ export default function Landingpage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {plans.slice(0, 6).map((item) => (
+              {plans.slice(0, visibleChronicles).map((item) => (
                 <Link
                   key={item.id}
                   to={`/ShareBlog/${item.id}/false`}
@@ -301,6 +309,19 @@ export default function Landingpage() {
                 </Link>
               ))}
             </div>
+
+            {/* Show more chronicles */}
+            {visibleChronicles < plans.length && (
+              <div className="mt-8 flex justify-center">
+                <button
+                  onClick={() => setVisibleChronicles((n) => n + CHRONICLES_PAGE)}
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-[#807b68]/30 text-sm font-bold text-on-surface-variant dark:text-[#fff9eb]/50 hover:border-primary hover:text-primary dark:hover:text-[#ffac9f] transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[16px]">expand_more</span>
+                  Show more stories
+                </button>
+              </div>
+            )}
           </div>
         </section>
       )}
@@ -372,11 +393,29 @@ export default function Landingpage() {
               )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {plans.map((item) => (
-                <PlanCard key={item.id} item={item} onSavePlan={handleSavePlan} isLoggedIn={isLoggedIn} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {plans.slice(0, visiblePlans).map((item) => (
+                  <PlanCard key={item.id} item={item} onSavePlan={handleSavePlan} isLoggedIn={isLoggedIn} />
+                ))}
+              </div>
+
+              {/* Show more plans */}
+              {visiblePlans < plans.length && (
+                <div className="mt-10 flex flex-col items-center gap-2">
+                  <button
+                    onClick={() => setVisiblePlans((n) => n + PLANS_PAGE)}
+                    className="flex items-center gap-2 px-8 py-3 rounded-full bg-primary/10 hover:bg-primary hover:text-on-primary text-primary dark:text-[#ffac9f] dark:hover:bg-[#ffac9f] dark:hover:text-[#100e07] font-bold text-sm transition-all duration-200"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">expand_more</span>
+                    Show more plans
+                  </button>
+                  <p className="text-xs text-on-surface-variant dark:text-[#fff9eb]/40">
+                    Showing {Math.min(visiblePlans, plans.length)} of {plans.length}
+                  </p>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
