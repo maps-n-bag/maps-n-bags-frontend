@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { v4 } from "uuid";
 import axios from "axios";
-import { supabase } from "../Supabase/supabase";
+import { uploadFiles } from "../utils/upload";
 import SideBar from "../App drawer/sideBar";
 import ShowReview from "./showreview";
 import { useThemeContext } from "../ThemeContext";
@@ -22,8 +21,6 @@ const PlaceDetails = () => {
   const [showReviews, setShowReviews] = useState(false);
   const [uploading, setUploading] = useState(false);
 
-  const directory = `review-images/place-${place_id}/`;
-
   useEffect(() => {
     axios
       .get(`${baseURL}public/place?id=${place_id}`, {
@@ -37,14 +34,14 @@ const PlaceDetails = () => {
     const image = e.target.files[0];
     if (!image) return;
     setUploading(true);
-    const filePath = `${directory}${v4()}`;
-    const { error } = await supabase.storage
-      .from("images")
-      .upload(filePath, image, { contentType: image.type });
-    if (error) { console.error(error); setUploading(false); return; }
-    const { data: { publicUrl } } = supabase.storage.from("images").getPublicUrl(filePath);
-    setNewReview((prev) => ({ ...prev, images: [publicUrl] }));
-    setUploading(false);
+    try {
+      const [url] = await uploadFiles([image], "reviews");
+      setNewReview((prev) => ({ ...prev, images: [url] }));
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setUploading(false);
+    }
   };
 
   const onSubmit = (data, e) => {

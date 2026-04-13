@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { supabase } from "../Supabase/supabase";
+import { uploadFiles } from "../utils/upload";
 import SideBar from "../App drawer/sideBar";
 import PlanCard from "../Plan/planCard";
 import { useThemeContext } from "../ThemeContext";
@@ -70,17 +70,16 @@ const Profile = () => {
   const handleImageUpload = async (type, event) => {
     const image = event.target.files[0];
     if (!image) return;
-    const filePath = `${type}/${user_id}/${type}`;
-    const { error } = await supabase.storage
-      .from("images")
-      .upload(filePath, image, { contentType: image.type, upsert: true });
-    if (error) { console.error(error); return; }
-    const { data: { publicUrl } } = supabase.storage.from("images").getPublicUrl(filePath);
-    if (type === "cover") {
-      setCoverUrl(publicUrl);
-      setItemBasic((p) => ({ ...p, cover_pic: publicUrl }));
-    } else {
-      setItemBasic((p) => ({ ...p, profile_pic: publicUrl }));
+    try {
+      const [url] = await uploadFiles([image], "profiles");
+      if (type === "cover") {
+        setCoverUrl(url);
+        setItemBasic((p) => ({ ...p, cover_pic: url }));
+      } else {
+        setItemBasic((p) => ({ ...p, profile_pic: url }));
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 

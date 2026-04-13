@@ -7,16 +7,8 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import axios from "axios";
 import { useThemeContext } from "../ThemeContext";
-import { supabase } from "../Supabase/supabase";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
-
-const handleMarkdownUpload = async (md, plan_id) => {
-  const newFile = new File([md], `${plan_id}.md`, { type: 'text/markdown' });
-  await supabase.storage
-    .from("images")
-    .upload(`blogs/${plan_id}.md`, newFile, { contentType: 'text/markdown', upsert: true });
-};
 
 const GenerateBlog = () => {
   const { theme, toggleThemeMode } = useThemeContext();
@@ -28,13 +20,12 @@ const GenerateBlog = () => {
     const load = async () => {
       try {
         if (publish === "true") {
-          // Owner is publishing — fetch via authenticated endpoint, generate & upload markdown
+          // Owner publishing — fetch via authenticated endpoint
           const resp = await axios.get(`${baseURL}plan/generateBlog?plan_id=${plan_id}`, {
             headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
           });
           const md = PlanMarkdown({ planData: resp.data });
           setMarkdownBlog(md);
-          await handleMarkdownUpload(md, plan_id);
         } else {
           // Public view — use the unauthenticated public endpoint
           const resp = await axios.get(`${baseURL}public/blog?plan_id=${plan_id}`);

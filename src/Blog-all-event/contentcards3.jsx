@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { v4 } from "uuid";
-import { supabase } from "../Supabase/supabase";
+import { uploadFiles } from "../utils/upload";
 import PlaceCard from "./placecard4";
 import * as timeformat from "../formatTime";
 
@@ -11,7 +10,6 @@ const baseURL = import.meta.env.VITE_BASE_URL;
 const ContentCards = (props) => {
   const eventID = props.item.event.id;
   const planId = props.item.event.plan_id;
-  const directory = `blog-images/plan-${planId}/event-${eventID}/`;
 
   const [inputError, setInputError] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -31,32 +29,23 @@ const ContentCards = (props) => {
     const image = e.target.files[0];
     if (!image || !image.type.startsWith("image/")) return;
     const idx = parseInt(e.target.dataset.id);
-    const filePath = `${directory}${v4()}`;
-    const { error } = await supabase.storage
-      .from("images")
-      .upload(filePath, image, { contentType: image.type });
-    if (error) { console.error(error); return; }
-    const { data: { publicUrl } } = supabase.storage.from("images").getPublicUrl(filePath);
-    setItemBasic((prev) => {
-      const imgs = [...prev.images];
-      imgs[idx] = publicUrl;
-      return { ...prev, images: imgs };
-    });
+    try {
+      const [url] = await uploadFiles([image], "blog-images");
+      setItemBasic((prev) => {
+        const imgs = [...prev.images];
+        imgs[idx] = url;
+        return { ...prev, images: imgs };
+      });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handleRemoveImage = async (imageUrl, idx) => {
-    // Extract path from public URL
-    try {
-      const url = new URL(imageUrl);
-      const parts = url.pathname.split("/object/public/images/");
-      if (parts[1]) {
-        await supabase.storage.from("images").remove([parts[1]]);
-      }
-    } catch (e) { console.error(e); }
-    setItemBasic((prev) => {
-      const imgs = prev.images.filter((_, i) => i !== idx);
-      return { ...prev, images: imgs };
-    });
+  const handleRemoveImage = (imageUrl, idx) => {
+    setItemBasic((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== idx),
+    }));
   };
 
   const handleAddImage = () => {

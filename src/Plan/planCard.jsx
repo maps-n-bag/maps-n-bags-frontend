@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { v4 } from "uuid";
-import { supabase } from "../Supabase/supabase";
+import { uploadFiles } from "../utils/upload";
 import * as dateformat from "../formatDate";
 import { PLAN_PLACEHOLDER } from "../utils/placeholders";
 
@@ -15,18 +14,14 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
     const image = e.target.files[0];
     if (!image) return;
     setUploading(true);
-    const filePath = `plan-images/${v4()}`;
-    const { error } = await supabase.storage
-      .from("images")
-      .upload(filePath, image, { contentType: image.type });
-    if (error) {
-      console.error(error);
+    try {
+      const [url] = await uploadFiles([image], "plans");
+      setPlanDetails((prev) => ({ ...prev, image: url }));
+    } catch (err) {
+      console.error(err);
+    } finally {
       setUploading(false);
-      return;
     }
-    const { data: { publicUrl } } = supabase.storage.from("images").getPublicUrl(filePath);
-    setPlanDetails((prev) => ({ ...prev, image: publicUrl }));
-    setUploading(false);
   };
 
   const handleSave = () => {
