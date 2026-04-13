@@ -65,6 +65,7 @@ export default function Landingpage() {
 
   const [regions, setRegions] = useState([]);
   const [plans, setPlans] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [checkedRegions, setCheckedRegions] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -91,6 +92,14 @@ export default function Landingpage() {
       .catch(console.error);
   }, []);
 
+  // Fetch public blogs (no auth required)
+  useEffect(() => {
+    axios
+      .get(`${baseURL}public/blogs`)
+      .then((r) => setBlogs(Array.isArray(r.data) ? r.data : []))
+      .catch(console.error);
+  }, []);
+
   // Fetch plans whenever filters change
   useEffect(() => {
     setLoading(true);
@@ -106,7 +115,6 @@ export default function Landingpage() {
       )
       .then((r) => {
         setPlans(Array.isArray(r.data) ? r.data : []);
-        setVisibleChronicles(CHRONICLES_PAGE);
         setVisiblePlans(PLANS_PAGE);
         setLoading(false);
       })
@@ -248,7 +256,7 @@ export default function Landingpage() {
       )}
 
       {/* ── Community Chronicles (blog teasers) ── */}
-      {plans.length > 0 && (
+      {blogs.length > 0 && (
         <section className="px-8 md:px-16 py-14 bg-surface dark:bg-[#100e07]">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-end justify-between mb-8">
@@ -271,7 +279,7 @@ export default function Landingpage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {plans.slice(0, visibleChronicles).map((item) => (
+              {blogs.slice(0, visibleChronicles).map((item) => (
                 <Link
                   key={item.id}
                   to={`/ShareBlog/${item.id}/false`}
@@ -311,7 +319,7 @@ export default function Landingpage() {
             </div>
 
             {/* Show more chronicles */}
-            {visibleChronicles < plans.length && (
+            {visibleChronicles < blogs.length && (
               <div className="mt-8 flex justify-center">
                 <button
                   onClick={() => setVisibleChronicles((n) => n + CHRONICLES_PAGE)}

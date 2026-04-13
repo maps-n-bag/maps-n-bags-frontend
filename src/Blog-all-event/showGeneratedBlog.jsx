@@ -27,29 +27,23 @@ const GenerateBlog = () => {
   useEffect(() => {
     const load = async () => {
       try {
-        const resp = await axios.get(`${baseURL}plan/generateBlog?plan_id=${plan_id}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-        });
-        const md = PlanMarkdown({ planData: resp.data });
         if (publish === "true") {
+          // Owner is publishing — fetch via authenticated endpoint, generate & upload markdown
+          const resp = await axios.get(`${baseURL}plan/generateBlog?plan_id=${plan_id}`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+          });
+          const md = PlanMarkdown({ planData: resp.data });
           setMarkdownBlog(md);
           await handleMarkdownUpload(md, plan_id);
-          setLoading(false);
         } else {
-          const { data: blob, error } = await supabase.storage
-            .from("images")
-            .download(`blogs/${plan_id}.md`);
-          if (!error && blob) {
-            const text = await blob.text();
-            setMarkdownBlog(text);
-          } else {
-            setMarkdownBlog(md);
-            await handleMarkdownUpload(md, plan_id);
-          }
-          setLoading(false);
+          // Public view — use the unauthenticated public endpoint
+          const resp = await axios.get(`${baseURL}public/blog?plan_id=${plan_id}`);
+          const md = PlanMarkdown({ planData: resp.data });
+          setMarkdownBlog(md);
         }
       } catch (e) {
         console.error(e);
+      } finally {
         setLoading(false);
       }
     };
