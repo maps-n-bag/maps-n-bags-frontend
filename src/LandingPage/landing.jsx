@@ -10,16 +10,7 @@ const baseURL = import.meta.env.VITE_BASE_URL;
 
 // ── Plan Card ────────────────────────────────────────────────────────────────
 
-function PlanCard({ item, onCopy, isLoggedIn }) {
-  const [copying, setCopying] = useState(false);
-
-  const handleCopy = async () => {
-    if (!isLoggedIn) { onCopy(); return; }
-    setCopying(true);
-    await onCopy(item);
-    setCopying(false);
-  };
-
+function PlanCard({ item, onSavePlan, isLoggedIn }) {
   return (
     <div className="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-low dark:bg-[#1a1710] border border-[#807b68]/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all duration-300 hover:-translate-y-1">
       {/* Image */}
@@ -52,12 +43,11 @@ function PlanCard({ item, onCopy, isLoggedIn }) {
             {item.copy_count ?? 0} copies
           </span>
           <button
-            onClick={handleCopy}
-            disabled={copying}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-primary/10 hover:bg-primary hover:text-on-primary text-primary dark:text-[#ffac9f] dark:hover:bg-[#ffac9f] dark:hover:text-[#100e07] text-xs font-bold transition-all duration-200 disabled:opacity-50"
+            onClick={() => onSavePlan(item)}
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-primary/10 hover:bg-primary hover:text-on-primary text-primary dark:text-[#ffac9f] dark:hover:bg-[#ffac9f] dark:hover:text-[#100e07] text-xs font-bold transition-all duration-200"
           >
-            <span className="material-symbols-outlined text-[14px]">{copying ? "hourglass_empty" : "bookmark_add"}</span>
-            {copying ? "Saving…" : "Save Plan"}
+            <span className="material-symbols-outlined text-[14px]">bookmark_add</span>
+            Save Plan
           </button>
         </div>
       </div>
@@ -76,8 +66,12 @@ export default function Landingpage() {
   const [regions, setRegions] = useState([]);
   const [plans, setPlans] = useState([]);
   const [checkedRegions, setCheckedRegions] = useState([]);
-  const [copyDate, setCopyDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
+
+  // Copy-plan modal
+  const [copyModalPlan, setCopyModalPlan] = useState(null); // plan object or null
+  const [copyDate, setCopyDate] = useState(new Date());
+  const [copying, setCopying] = useState(false);
 
   // Fetch regions (public endpoint)
   useEffect(() => {
@@ -116,17 +110,29 @@ export default function Landingpage() {
       prev.includes(id) ? prev.filter((r) => r !== id) : [...prev, id]
     );
 
-  const handleCopy = async (item) => {
+  // Called when user clicks "Save Plan" on any card
+  const handleSavePlan = (item) => {
     if (!isLoggedIn) { navigate("/Register"); return; }
+    setCopyDate(new Date());
+    setCopyModalPlan(item);
+  };
+
+  // Called when user confirms the date in the modal
+  const handleConfirmCopy = async () => {
+    if (!copyModalPlan) return;
+    setCopying(true);
     try {
       const r = await axios.post(
         `${baseURL}plan/copy`,
-        { plan_id: item.id, user_id: userId, start_date: copyDate },
+        { plan_id: copyModalPlan.id, user_id: userId, start_date: copyDate },
         { headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` } }
       );
       if (r.status === 201) navigate(`/FullTour/${r.data.id}`);
     } catch (e) {
       console.error(e);
+    } finally {
+      setCopying(false);
+      setCopyModalPlan(null);
     }
   };
 
@@ -233,6 +239,72 @@ export default function Landingpage() {
         </section>
       )}
 
+      {/* ── Community Chronicles (blog teasers) ── */}
+      {plans.length > 0 && (
+        <section className="px-8 md:px-16 py-14 bg-surface dark:bg-[#100e07]">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-2">Community Chronicles</p>
+                <h2
+                  className="text-3xl font-light tracking-tight text-on-surface dark:text-[#fff9eb]"
+                  style={{ fontFamily: "'Newsreader', serif" }}
+                >
+                  Travel stories from the community
+                </h2>
+              </div>
+              <Link
+                to="/Register"
+                className="hidden md:inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-primary no-underline hover:underline"
+              >
+                Start your own
+                <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {plans.slice(0, 6).map((item) => (
+                <Link
+                  key={item.id}
+                  to={`/ShareBlog/${item.id}/false`}
+                  className="group no-underline flex gap-4 p-4 rounded-xl border border-[#807b68]/10 hover:border-primary/30 hover:shadow-md transition-all duration-200 bg-surface-container dark:bg-[#1a1710]"
+                >
+                  {/* Thumbnail */}
+                  <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden">
+                    <img
+                      src={item.image || PLAN_PLACEHOLDER}
+                      alt={item.title}
+                      onError={(e) => { e.target.src = PLAN_PLACEHOLDER; }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  {/* Text */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-between">
+                    <div>
+                      <p
+                        className="text-sm font-semibold text-on-surface group-hover:text-primary transition-colors line-clamp-2 leading-snug"
+                        style={{ fontFamily: "'Newsreader', serif" }}
+                      >
+                        {item.title}
+                      </p>
+                      {item.description && (
+                        <p className="text-xs text-on-surface-variant mt-1 line-clamp-2 leading-relaxed">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-primary mt-2 flex items-center gap-1">
+                      Read Chronicle
+                      <span className="material-symbols-outlined text-[12px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── Plans Section ── */}
       <section
         ref={plansRef}
@@ -253,17 +325,6 @@ export default function Landingpage() {
               </p>
             </div>
 
-            {/* Copy date picker (logged-in only) */}
-            {isLoggedIn && (
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="text-xs font-semibold text-on-surface-variant dark:text-[#fff9eb]/50 uppercase tracking-widest">Copy start date</span>
-                <DatePicker
-                  selected={copyDate}
-                  onChange={(d) => setCopyDate(d)}
-                  className="border border-[#807b68]/30 rounded-lg px-3 py-2 text-sm bg-surface dark:bg-[#100e07] text-on-surface dark:text-[#fff9eb] focus:outline-none focus:ring-2 focus:ring-primary/30"
-                />
-              </div>
-            )}
           </div>
 
           {/* Region filter chips */}
@@ -313,7 +374,7 @@ export default function Landingpage() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {plans.map((item) => (
-                <PlanCard key={item.id} item={item} onCopy={handleCopy} isLoggedIn={isLoggedIn} />
+                <PlanCard key={item.id} item={item} onSavePlan={handleSavePlan} isLoggedIn={isLoggedIn} />
               ))}
             </div>
           )}
@@ -351,6 +412,71 @@ export default function Landingpage() {
             </div>
           </div>
         </section>
+      )}
+
+      {/* ── Copy-Plan Modal ── */}
+      {copyModalPlan && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+          style={{ backgroundColor: "rgba(16,14,7,0.6)", backdropFilter: "blur(4px)" }}
+          onClick={(e) => { if (e.target === e.currentTarget) setCopyModalPlan(null); }}
+        >
+          <div className="w-full max-w-sm rounded-2xl bg-surface dark:bg-[#1a1710] border border-[#807b68]/20 shadow-2xl p-8 flex flex-col gap-6">
+            {/* Header */}
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-1">Save Plan</p>
+                <h3
+                  className="text-xl font-light text-on-surface dark:text-[#fff9eb] leading-snug"
+                  style={{ fontFamily: "'Newsreader', serif" }}
+                >
+                  {copyModalPlan.title}
+                </h3>
+              </div>
+              <button
+                onClick={() => setCopyModalPlan(null)}
+                className="text-on-surface-variant hover:text-on-surface transition-colors mt-0.5"
+              >
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+
+            {/* Date picker */}
+            <div className="flex flex-col gap-2">
+              <label className="text-xs font-semibold uppercase tracking-widest text-on-surface-variant dark:text-[#fff9eb]/50">
+                When does your trip start?
+              </label>
+              <DatePicker
+                selected={copyDate}
+                onChange={(d) => setCopyDate(d)}
+                dateFormat="dd MMM yyyy"
+                className="w-full border border-[#807b68]/30 rounded-xl px-4 py-3 text-sm bg-surface-container dark:bg-[#100e07] text-on-surface dark:text-[#fff9eb] focus:outline-none focus:ring-2 focus:ring-primary/30"
+                wrapperClassName="w-full"
+                minDate={new Date()}
+              />
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-3">
+              <button
+                onClick={() => setCopyModalPlan(null)}
+                className="flex-1 py-3 rounded-xl border border-[#807b68]/30 text-sm font-bold text-on-surface-variant dark:text-[#fff9eb]/50 hover:border-primary/50 hover:text-primary transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmCopy}
+                disabled={copying}
+                className="flex-1 py-3 rounded-xl bg-primary text-on-primary text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {copying
+                  ? <><span className="material-symbols-outlined text-[16px] animate-spin">progress_activity</span> Saving…</>
+                  : <><span className="material-symbols-outlined text-[16px]">bookmark_add</span> Confirm</>
+                }
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* ── Footer ── */}
