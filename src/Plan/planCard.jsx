@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { uploadFiles } from "../utils/upload";
 import * as dateformat from "../formatDate";
 import { PLAN_PLACEHOLDER } from "../utils/placeholders";
+
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
   const [isEditing, setIsEditing] = React.useState(false);
@@ -16,7 +19,12 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
     setUploading(true);
     try {
       const [url] = await uploadFiles([image], "plans");
-      setPlanDetails((prev) => ({ ...prev, image: url }));
+      const updated = { ...planDetails, image: url };
+      setPlanDetails(updated);
+      // Auto-save to DB immediately after upload
+      await axios.put(`${baseURL}plan/edit?plan_id=${plan.id}`, updated, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+      });
     } catch (err) {
       console.error(err);
     } finally {
