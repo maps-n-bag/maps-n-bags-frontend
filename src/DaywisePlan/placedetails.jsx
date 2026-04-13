@@ -1,328 +1,175 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import CardActions from "@mui/material/CardActions";
-import { Grid, Card, CardContent, Typography, TextField } from "@mui/material";
-import ShowReview from "./showreview";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import { v4 } from "uuid";
 import { useForm } from "react-hook-form";
-import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
-import {
-  getDownloadURL,
-  listAll,
-  ref,
-  uploadBytes,
-  deleteObject,
-} from "firebase/storage";
+import { v4 } from "uuid";
 import axios from "axios";
-import { storage } from "../Firebase/firebase";
-import { makeStyles } from '../utils/makeStylesShim';
-import { styled } from "@mui/material/styles";
+import { supabase } from "../Supabase/supabase";
 import SideBar from "../App drawer/sideBar";
-import { useThemeContext } from '../ThemeContext'; 
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import ShowReview from "./showreview";
+import { useThemeContext } from "../ThemeContext";
+
 const baseURL = import.meta.env.VITE_BASE_URL;
 
-const useStyles = makeStyles({
-  places: {
-    backgroundColor: "rgba(0, 0, 0 ,0.05)",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    minHeight: "100vh",
-  },
-
-  postcard: {
-    marginLeft: "20%",
-    marginTop: "5%",
-  },
-});
-
 const PlaceDetails = () => {
-
-  const VisuallyHiddenInput = styled('input')`
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    height: 1px;
-    overflow: hidden;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    white-space: nowrap;
-    width: 1px;
-  `;
-
-  const classes = useStyles();
   const { place_id } = useParams();
-  const [addReview, setAddReview] = useState(false);
-  const [itemBasic, setItemBasic] = useState([]);
-  const { handleSubmit } = useForm();
-  const directory = `review-images/place-${place_id}/`;
-  const [newItemBasic, setNewItemBasic] = useState([]);
   const { theme, toggleThemeMode } = useThemeContext();
-  const [showReview, setShowReview] = useState(false);
+  const { handleSubmit } = useForm();
+
+  const [place, setPlace] = useState(null);
+  const [newReview, setNewReview] = useState({ comment: "", images: [] });
+  const [addReview, setAddReview] = useState(false);
+  const [showReviews, setShowReviews] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const directory = `review-images/place-${place_id}/`;
 
   useEffect(() => {
     axios
       .get(`${baseURL}public/place?id=${place_id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
+        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
       })
-      .then((resp) => {
-        setItemBasic(resp.data);
-      })
-      .catch((rejected) => {
-        console.log(rejected);
-      });
-  }, [ place_id ]);
+      .then((resp) => setPlace(resp.data))
+      .catch(console.error);
+  }, [place_id]);
 
-  const onError = (errors, e) => console.log(errors, e);
-
-  useEffect(() => {
-    axios
-      .get(`${baseURL}public/place/review?place_id=${place_id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      })
-      .then((resp) => {
-        setShowReview(resp.data);
-      })
-      .catch((rejected) => {
-        console.log(rejected);
-      });
-  }, []);
+  const handleImageChange = async (e) => {
+    const image = e.target.files[0];
+    if (!image) return;
+    setUploading(true);
+    const filePath = `${directory}${v4()}`;
+    const { error } = await supabase.storage
+      .from("images")
+      .upload(filePath, image, { contentType: image.type });
+    if (error) { console.error(error); setUploading(false); return; }
+    const { data: { publicUrl } } = supabase.storage.from("images").getPublicUrl(filePath);
+    setNewReview((prev) => ({ ...prev, images: [publicUrl] }));
+    setUploading(false);
+  };
 
   const onSubmit = (data, e) => {
     e.preventDefault();
-    console.log("data", data)
-
-    const toBeSubmitted = { ...newItemBasic };
-    toBeSubmitted.user_id = localStorage.getItem("userId");
-    toBeSubmitted.images = [];
-    if (newItemBasic.images != null) {
-      newItemBasic.images.forEach((image) => {
-        if (image != null) {
-          toBeSubmitted.images.push(image);
-        }
-      });
-    }
-    toBeSubmitted.comment = newItemBasic.comment;
-    setNewItemBasic(toBeSubmitted);
-    console.log(toBeSubmitted);
-
+    const payload = {
+      ...newReview,
+      user_id: localStorage.getItem("userId"),
+    };
     axios
-      .post(`${baseURL}public/place/review?place_id=${place_id}`, toBeSubmitted, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
+      .post(`${baseURL}public/place/review?place_id=${place_id}`, payload, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
       })
-      .then((response) => {
+      .then(() => {
         setAddReview(false);
         window.location.reload();
       })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleImageChange = (event) => {
-    event.preventDefault();
-
-    // upload to firebase
-    const image = event.target.files[0];
-    const newMetadata = { contentType: image.type };
-    const storageRef = ref(storage, `${directory}${v4()}`);
-    uploadBytes(storageRef, image, newMetadata)
-      .then((snapshot) => {
-        console.log("Uploaded a blob or file!");
-
-        getDownloadURL(ref(storage, snapshot.metadata.fullPath)).then((url) => {
-          console.log("url after download", url);
-
-          setNewItemBasic((prev) => {
-            return {
-              ...prev,
-              images: [url],
-            };
-          });
-        });
-      })
-      .catch((error) => {
-        console.log("Uh-oh, an error occurred!", error);
-      });
+      .catch(console.error);
   };
 
   return (
-    <div className={classes.places}>
+    <div className="min-h-screen bg-surface dark:bg-[#100e07] text-on-surface dark:text-[#fff9eb]">
       <SideBar theme={theme} toggleTheme={toggleThemeMode} />
-      <div className={classes.postcard}>
-        <Card
-          style={{
-            width: "80%",
-            marginLeft: "7%",
-            color: "ffffff",
-            marginTop: "4.5%",
-          }}
-        >
-          <CardContent>
-            <Grid container spacing={5}>
-              <Grid item xs={10} sm container>
+
+      <main className="pt-24 pb-20 px-6 md:px-12 max-w-5xl mx-auto">
+        {!place ? (
+          <div className="flex items-center justify-center py-32 text-on-surface-variant text-sm italic">
+            Loading place details…
+          </div>
+        ) : (
+          <>
+            {/* Hero */}
+            <div className="grid md:grid-cols-2 gap-8 mb-10">
+              <div className="rounded-2xl overflow-hidden bg-surface-container aspect-[4/3]">
                 <img
-                  src={itemBasic.images}
-                  style={{ width: "90%", height: "80%", marginLeft: "2%" }}
+                  src={place.images}
+                  alt={place.title}
+                  className="w-full h-full object-cover"
                 />
+              </div>
 
-                <Typography
-                  variant="head"
-                  style={{
-                    fontSize: "150%",
-                  
-
-                    textAlign: "center",
-                  }}
+              <div className="flex flex-col justify-center">
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-2">
+                  Place Details
+                </p>
+                <h1
+                  className="text-4xl md:text-5xl font-light tracking-tight leading-none mb-4"
+                  style={{ fontFamily: "'Newsreader', serif" }}
                 >
-                  {itemBasic.title}
-                </Typography>
-              </Grid>
-              <Grid item xs={5}>
-                {itemBasic.description && (
-                  <Typography variant="subtitle1">
-                    Description: {itemBasic.description}
-                  </Typography>
-                )}
-                <br />
-                {itemBasic.address && (
-                  <Typography variant="body1" >
-                    Address: {itemBasic.address}
-                  </Typography>
-                )}
-                <br />
+                  {place.title}
+                </h1>
 
-                {itemBasic.region_name && (
-                  <Typography variant="body1" >
-                    Region Name: {itemBasic.region_name}
-                  </Typography>
-                )}
-                <br />
+                <div className="space-y-2 text-sm text-on-surface-variant mb-6">
+                  {place.description && (
+                    <p className="text-on-surface leading-relaxed">{place.description}</p>
+                  )}
+                  {place.address && <p>📍 {place.address}</p>}
+                  {place.region_name && <p>🗺️ {place.region_name}</p>}
+                  {place.contact && <p>📞 {place.contact}</p>}
+                  {place.website && (
+                    <a
+                      href={place.website}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block text-primary hover:underline"
+                    >
+                      🌐 {place.website}
+                    </a>
+                  )}
+                  <p>⭐ {place.rating}/5.0 · {place.rating_count} votes</p>
+                </div>
 
-                {itemBasic.contact && (
-                  <Typography variant="body1" >
-                    Contact: {itemBasic.contact}
-                  </Typography>
-                )}
-                <br />
-
-                {itemBasic.website && (
-                  <Typography variant="body1">
-                    Website: {itemBasic.website}
-                  </Typography>
-                )}
-
-                <Button
-                  variant="outlined"
-                  size="small"
-                  style={{ marginLeft: "5%", marginTop: "5%" }}
-                  onClick={() => setShowReview(!showReview)}
-                  color="info"
-                >
-                  <Typography
-                 
-                    style={{
-                      fontFamily: "Special Elite",
-                      fontSize: "20px",
-                      textAlign: "center",
-                    }}
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setShowReviews(!showReviews)}
+                    className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-4 py-2 border border-outline/30 rounded-full hover:border-primary hover:text-primary transition-colors"
                   >
-                    {showReview ? "Hide" : "Show"} Review
-                  </Typography>
-                </Button>
-
-                <Button
-                  variant="outlined"
-                  size="small"
-                  style={{ marginLeft: "5%", marginTop: "5%" }}
-                  onClick={() => setAddReview(!addReview)}
-                  color="info"
-                >
-                  <Typography
-                   
-                    style={{
-                      fontFamily: "Special Elite",
-                      fontSize: "20px",
-                      textAlign: "center",
-                    }}
+                    {showReviews ? "Hide Reviews" : "Show Reviews"}
+                  </button>
+                  <button
+                    onClick={() => setAddReview(!addReview)}
+                    className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-4 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-colors"
                   >
-                    {addReview ? "Cancel" : "Add A Review"}
-                  </Typography>
-                </Button>
+                    {addReview ? "Cancel" : "Write a Review"}
+                  </button>
+                </div>
+              </div>
+            </div>
 
-                {addReview && (
-                  <form onSubmit={handleSubmit(onSubmit, onError)}>
-                    <>
-                      <TextField variant="outlined" value={newItemBasic.comment}
-                        label="Write Review" minRows={2} multiline={true} fullWidth={true}
-                        id="comment"
-                        name="comment"
-                        onChange={(e) => {
-                          setNewItemBasic((prev) => {
-                            return {
-                              ...prev,
-                              comment: e.target.value,
-                            };
-                          });
-                        }}
-                      />
-                      <div>
-                        <Button
-                          // style={{ position: "relative", top: "25%", left: "50%", transform: "translate(-50%, -50%)" }}
-                          component="label"
-                          variant="contained"
-                          startIcon={<CloudUploadIcon />}
-                        >
-                          Upload Image
-                          <VisuallyHiddenInput type="file" accept="image/*" onChange={handleImageChange} />
-                        </Button>
+            {/* Add Review Form */}
+            {addReview && (
+              <div className="mb-8 rounded-2xl bg-surface-container border border-outline/10 p-6">
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-4">Your Review</p>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <textarea
+                    className="w-full bg-surface border border-outline/30 rounded-xl px-4 py-3 text-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:border-primary resize-none mb-4"
+                    rows={3}
+                    placeholder="Share your experience…"
+                    value={newReview.comment}
+                    onChange={(e) => setNewReview((prev) => ({ ...prev, comment: e.target.value }))}
+                  />
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <label className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-4 py-2 border border-outline/30 rounded-full hover:border-primary hover:text-primary transition-colors cursor-pointer">
+                      {uploading ? "Uploading…" : "📷 Upload Photo"}
+                      <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+                    </label>
+                    {newReview.images[0] && (
+                      <div className="w-10 h-10 rounded-lg overflow-hidden border border-outline/20">
+                        <img src={newReview.images[0]} className="w-full h-full object-cover" alt="preview" />
                       </div>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={uploading}
+                      className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-5 py-2 bg-primary text-on-primary rounded-full hover:opacity-90 transition-colors disabled:opacity-50"
+                    >
+                      Save Review
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
 
-                      <div>
-                        <Button
-                          className="btn"
-                          type="submit"
-                          style={{
-                            backgroundColor: "transparent",
-                            borderWidth: "2px",
-                            borderColor: "black",
-                          }}
-                          variant="outlined"
-                          color="success"
-                        >
-                          <Typography
-                       
-                            style={{
-                              fontFamily: "Special Elite",
-                              fontSize: "20px",
-                              textAlign: "center",
-                            }}
-                          >
-                            Save
-                          </Typography>
-                        </Button>
-                      </div>
-                    </>
-                  </form>
-                )}
-              </Grid>
-            </Grid>
-          </CardContent>
-          <CardActions></CardActions>
-        </Card>
-
-        {showReview && <ShowReview place_id={place_id} />}
-      </div>
+            {showReviews && <ShowReview place_id={place_id} />}
+          </>
+        )}
+      </main>
     </div>
   );
 };

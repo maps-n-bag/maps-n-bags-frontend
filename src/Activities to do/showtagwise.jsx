@@ -1,36 +1,26 @@
 import React from "react";
-import { Grid, Typography } from "@mui/material";
-
 import ContentForActivity from "./contentforactivitycard";
 
-const TagWise = (props) => {
-  const placesOfATag = props.item.places;
+const TagWise = ({ item, addedList, removedList }) => {
+  const placesOfATag = item.places;
 
   return (
-    <Grid item container direction="column">
-      <Grid item xs>
-        <Typography
-          variant="h4"
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "130%",
-
-            paddingBottom: "10px",
-          }}
-        >
-          {props.item.tag_name}:
-        </Typography>
-      </Grid>
-      <Grid item container spacing={1}>
-        {placesOfATag.map((pl) => (
+    <div className="mb-6">
+      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-3">
+        {item.tag_name}
+      </p>
+      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        {placesOfATag.map((pl, idx) => (
           <ContentForActivity
+            key={idx}
             item={pl}
-            addList={props.addedList}
-            removeList={props.removedList}
+            addList={addedList}
+            removeList={removedList}
           />
         ))}
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
+
 export default TagWise;

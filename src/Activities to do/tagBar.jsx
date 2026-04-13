@@ -1,34 +1,41 @@
 import React from "react";
-import { Typography, FormGroup, FormControlLabel, Switch } from "@mui/material";
 
-const TagBar = (item) => {
-  const tags = item.tags
-  const setTags = item.setTags
-  console.log(tags);
-
-  const Handler = (event) => {
-    let id = event.currentTarget.id;
-    let temp;
-    temp = tags.map((tag) => {
-      if (tag.id == id) {
-        tag.isShow = !tag.isShow;
-      }
-      return tag;
-    });
-    setTags(temp);
+const TagBar = ({ tags, setTags }) => {
+  const toggleTag = (id) => {
+    setTags((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, isShow: !t.isShow } : t))
+    );
   };
 
   return (
-    <>
-      <Typography variant="h5" style={{ fontFamily: "Special Elite", color: "black" }}>
-        Filter By: Tags
-      </Typography>
-      <FormGroup>
+    <div>
+      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-3">Filter by Tag</p>
+      <div className="space-y-1.5">
         {tags.map((tag) => (
-          <FormControlLabel control={<Switch checked={tag.isShow} onChange={Handler} id={tag.id} />} label={tag.name} />
+          <label
+            key={tag.id}
+            className="flex items-center gap-2.5 cursor-pointer group"
+          >
+            <div
+              onClick={() => toggleTag(tag.id)}
+              className={`w-8 h-4 rounded-full transition-colors flex-shrink-0 cursor-pointer ${
+                tag.isShow ? "bg-primary" : "bg-outline/30"
+              }`}
+            >
+              <div
+                className={`w-3.5 h-3.5 rounded-full bg-white shadow transition-transform ${
+                  tag.isShow ? "translate-x-[18px]" : "translate-x-0.5"
+                }`}
+                style={{ marginTop: "1px" }}
+              />
+            </div>
+            <span className="text-xs text-on-surface group-hover:text-primary transition-colors">
+              {tag.name}
+            </span>
+          </label>
         ))}
-      </FormGroup>
-    </>
+      </div>
+    </div>
   );
 };
 

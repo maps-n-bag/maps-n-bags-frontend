@@ -1,82 +1,34 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import { Link } from "react-router-dom";
-import CardActions from "@mui/material/CardActions";
-import { Box } from "@mui/material";
-import {
-  Grid,
-  Card,
-  ButtonBase,
-  Paper,
-  CardContent,
-  Typography,
-} from "@mui/material";
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react";
 
+const ActivityCard = ({ item: activity, place_id, setAddList, setRegions, region_id }) => {
+  const [inPlan, setInPlan] = useState(activity.in_plan);
 
-import SideBar from "../App drawer/sideBar";
-import { ScheduleOutlined } from "@mui/icons-material";
-import { set } from "date-fns";
-
-const baseURL = import.meta.env.VITE_BASE_URL;
-import * as timeformat from "../formatTime";
-
-const ActivityCard = (item) => {
-
-  const place_id = item.place_id;
-  const setAddList = item.setAddList;
-  const activity = item.item;
-  const setRegions = item.setRegions;
-
-  const [in_plan, setInPlan] = useState(activity.in_plan);
-  const Handler = (event) => {
-    if (event.target.id === "add") {
-      setAddList((previous) => {
-        return [
-          ...previous,
-          { place_id: place_id, activity_id: parseInt(event.target.value) },
-        ];
-      });
-      setRegions((previous) => {
-        if (previous.includes(item.region_id)) {
-          return previous;
-        } else {
-          return [...previous, item.region_id];
-        }
-      });
-    } else if (event.target.id === "remove") {
-      setAddList((previous) => {
-        let temp = previous.filter((item) => {
-          return item.activity_id !== parseInt(event.target.value);
-        });
-        return temp;
-      });
+  const handleToggle = () => {
+    if (!inPlan) {
+      setAddList((prev) => [...prev, { place_id, activity_id: activity.id }]);
+      setRegions((prev) =>
+        prev.includes(region_id) ? prev : [...prev, region_id]
+      );
+    } else {
+      setAddList((prev) => prev.filter((a) => a.activity_id !== activity.id));
     }
-    setInPlan(!in_plan);
+    setInPlan(!inPlan);
   };
 
   return (
-    <>
-      <Typography
-        variant="body2"
+    <div className="flex items-center justify-between gap-2 py-1">
+      <span className="text-xs text-on-surface">{activity.title}</span>
+      <button
+        onClick={handleToggle}
+        className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full transition-colors flex-shrink-0 ${
+          inPlan
+            ? "bg-primary/10 text-primary border border-primary/30 hover:bg-primary hover:text-on-primary"
+            : "border border-outline/30 text-on-surface-variant hover:border-primary hover:text-primary"
+        }`}
       >
-        {activity.title}
-        {in_plan ? (
-          <Button onClick={Handler} id="remove" value={activity.id} size="small" color="error">
-            Remove
-          </Button>
-        ) : (
-          <Button onClick={Handler} id="add" value={activity.id} size="small" color="success">
-            Add
-          </Button>
-        )}
-      </Typography>
-    </>
+        {inPlan ? "✕ Remove" : "+ Add"}
+      </button>
+    </div>
   );
 };
 

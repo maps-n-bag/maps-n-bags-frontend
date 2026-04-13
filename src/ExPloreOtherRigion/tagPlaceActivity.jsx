@@ -1,70 +1,30 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import { Link } from "react-router-dom";
-import CardActions from "@mui/material/CardActions";
-import { Box } from "@mui/material";
-import {
-  Grid,
-  Card,
-  ButtonBase,
-  Paper,
-  CardContent,
-  Typography,
-} from "@mui/material";
-
 import TagWise from "./showtagwise";
-import TagBar from "./tagBar";
 
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+const getTagBool = (filter, tag_id) => {
+  const match = filter.find((item) => item.id === tag_id);
+  return match?.isShow ?? false;
+};
 
-import { makeStyles } from '../utils/makeStylesShim';
-import SideBar from "../App drawer/sideBar";
-import { ScheduleOutlined } from "@mui/icons-material";
-
-const baseURL = import.meta.env.VITE_BASE_URL;
-import * as timeformat from "../formatTime";
-
-const TagPlaceActivity = (props) => {
-  const { plan_id } = useParams();
-  const placeItem = props.item.tags_places_activities;
-  const currentRegions = props.item.currentRegions;
-
-  const setAddList = props.addedList;
-  const setRemoveList = props.removedList;
-  const filter = props.filter;
+const TagPlaceActivity = ({ item, filter, addedList, setRegions }) => {
+  const placeItem = item.tags_places_activities;
 
   return (
     <>
-      {placeItem.map((pl) => (
-        <Grid
-          item
-          // xs={12}
-          container
-          direction="column"
-        >
-          {getTagBool(filter, pl.tag_id) && (
-            <TagWise
-              item={pl}
-              addedList={setAddList}
-              region_id={props.item.region_id}
-              region_name={props.item.region_name}
-              setRegions={props.setRegions}
-            />
-          )}
-        </Grid>
-      ))}
+      {placeItem.map((pl, idx) =>
+        getTagBool(filter, pl.tag_id) ? (
+          <TagWise
+            key={idx}
+            item={pl}
+            addedList={addedList}
+            region_id={item.region_id}
+            region_name={item.region_name}
+            setRegions={setRegions}
+          />
+        ) : null
+      )}
     </>
   );
-};
-
-const getTagBool = (filter, tag_id) => {
-  let temp = filter.filter((item) => item.id === tag_id);
-  return temp[0].isShow;
 };
 
 export default TagPlaceActivity;

@@ -1,124 +1,75 @@
 import React from "react";
-import Img from "../photos/tt.jpg";
-import { makeStyles } from '../utils/makeStylesShim';
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import { useForm } from "react-hook-form";
-import axios from "axios";
-import { Typography } from "@mui/material";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import HouseOutlinedIcon from "@mui/icons-material/HouseOutlined";
-import ConnectWithoutContactOutlinedIcon from "@mui/icons-material/ConnectWithoutContactOutlined";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import SideBar from "../App drawer/sideBar";
-import TimeLine from "../Profile/timeline";
-import cp from "../photos/c.png";
-import pp from "../photos/para.png";
-import cr from "../photos/cr.png";
-import { useThemeContext } from '../ThemeContext'; 
 import { useParams } from "react-router-dom";
-const baseURL = import.meta.env.VITE_BASE_URL;
-const useStyles = makeStyles((theme) => ({
-  bx: {
-    alignContent: "center",
-    marginTop: "-20rem",
-    //marginBottom: "50rem",
-  },
+import SideBar from "../App drawer/sideBar";
+import { useThemeContext } from "../ThemeContext";
 
-  root: {
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    backgroundImage: `url(${Img})`,
-    backgroundPosition: "center center",
-    backgroundAttachment: "fixed",
-    alignContent: "center",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    //marginBottom: "10%",
-    marginLeft: "-1rem",
-    marginRight: "-2rem",
-    height: "100vh",
-    fontFamily: "Special Elite",
-  },
-
-  boxrow: {
-    marginBottom: "10%",
-  },
-}));
-export default function ExploreMain() {
-  const classes = useStyles();
+const ExploreMain = () => {
   const { theme, toggleThemeMode } = useThemeContext();
   const { plan_id } = useParams();
-  const navigate = useNavigate();
-  const RowOfBoxes = () => {
-    return (  
-      <Box display="flex" justifyContent="center">
-        <Link to={`/ExploreNearbyRegions/${plan_id}`}>
-          <Box width="100%" bgcolor="rgba(245, 230, 83, 0.8)" m={5} p={6}>
-            <div>
-              <img
-                src={cp}
-                style={{
-                  fontFamily: "Special Elite",
-                  //fontSize: "20px",
-                  width: "200px",
-                  marginLeft: "2%",
-                  marginRight: "2%",
-                  //color: "white",
-                }}
-              />
-              <Typography
-                color="black"
-                style={{
-                  fontFamily: "Special Elite",
-                  fontSize: "150%",
-                  textAlign: "center",
-                }}
-              >
-                Explore Nearby Regions
-              </Typography>
-            </div>
-          </Box>
-        </Link>
-        <Link to={`/ThingsToDo/${plan_id}`}>
-          <Box width="100%" bgcolor="rgba(300, 77, 0, 0.8)" m={5} p={6}>
-            <div>
-              <img
-                src={pp}
-                style={{
-                  fontFamily: "Special Elite",
-                  //fontSize: "20px",
-                  width: "130px",
-                  marginLeft: "10%",
-                  //color: "white",
-                }}
-              />
-              <Typography
-                color="black"
-                style={{
-                  fontFamily: "Special Elite",
-                  fontSize: "150%",
-                  // textAlign: "center",
-                }}
-              >
-                Things to Do Here
-              </Typography>
-            </div>
-          </Box>
-        </Link>
-      </Box>
-    );
-  };
 
   return (
-    <div className={classes.root}>
-       <SideBar theme={theme} toggleTheme={toggleThemeMode} />
-      <div className={classes.boxrow}>
-        <RowOfBoxes />
-      </div>
+    <div className="min-h-screen bg-surface dark:bg-[#100e07] text-on-surface dark:text-[#fff9eb]">
+      <SideBar theme={theme} toggleTheme={toggleThemeMode} />
+
+      <main className="pt-24 pb-20 px-6 md:px-12 max-w-4xl mx-auto">
+        <div className="mb-12">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-2">Explore</p>
+          <h1
+            className="text-5xl md:text-6xl font-light tracking-tight leading-none"
+            style={{ fontFamily: "'Newsreader', serif" }}
+          >
+            Discover <span className="italic text-primary">More</span>
+          </h1>
+          <p className="text-sm text-on-surface-variant mt-3">
+            Expand your journey — find activities at your destination or explore what's nearby.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          <Link
+            to={`/ExploreNearbyRegions/${plan_id}`}
+            className="group no-underline rounded-2xl bg-surface-container border border-outline/10 p-8 hover:border-primary/40 hover:shadow-lg transition-all duration-200"
+          >
+            <div className="text-4xl mb-4">🗺️</div>
+            <h2
+              className="text-2xl font-light text-on-surface group-hover:text-primary transition-colors mb-2"
+              style={{ fontFamily: "'Newsreader', serif" }}
+            >
+              Explore Nearby Regions
+            </h2>
+            <p className="text-sm text-on-surface-variant leading-relaxed">
+              Discover places and activities in regions close to your destination and add them to your plan.
+            </p>
+            <div className="mt-6 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-primary">
+              Explore
+              <span className="material-symbols-outlined text-[13px]">arrow_forward</span>
+            </div>
+          </Link>
+
+          <Link
+            to={`/ThingsToDo/${plan_id}`}
+            className="group no-underline rounded-2xl bg-surface-container border border-outline/10 p-8 hover:border-primary/40 hover:shadow-lg transition-all duration-200"
+          >
+            <div className="text-4xl mb-4">🎯</div>
+            <h2
+              className="text-2xl font-light text-on-surface group-hover:text-primary transition-colors mb-2"
+              style={{ fontFamily: "'Newsreader', serif" }}
+            >
+              Things to Do Here
+            </h2>
+            <p className="text-sm text-on-surface-variant leading-relaxed">
+              Browse activities and experiences available at your current destination and customise your itinerary.
+            </p>
+            <div className="mt-6 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-primary">
+              Browse
+              <span className="material-symbols-outlined text-[13px]">arrow_forward</span>
+            </div>
+          </Link>
+        </div>
+      </main>
     </div>
   );
-}
+};
+
+export default ExploreMain;

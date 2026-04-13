@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useThemeContext } from "../ThemeContext";
 
 const NAV_LINKS = [
-  { label: "Discover", to: "/" },
-  { label: "Blog", to: "/AllBlog" },
-  { label: "Create Plan", to: "/CreatePlan" },
+  { label: "Discover", to: "/", icon: "explore" },
+  { label: "Blog", to: "/AllBlog", icon: "menu_book" },
+  { label: "Create Plan", to: "/CreatePlan", icon: "add_circle" },
 ];
 
 const THEMES = [
@@ -161,6 +161,33 @@ export default function SideBar() {
             </Link>
           )}
         </div>
+      </nav>
+
+      {/* ── Mobile Bottom Nav ── */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#fff9eb]/95 dark:bg-[#100e07]/95 backdrop-blur-xl border-t border-[#807b68]/10 flex items-center justify-around px-2 py-1">
+        {NAV_LINKS.map((link) => (
+          <Link
+            key={link.to}
+            to={link.to}
+            className="flex flex-col items-center gap-0.5 px-4 py-2 text-on-surface/60 dark:text-[#fff9eb]/60 hover:text-primary dark:hover:text-[#ffac9f] no-underline transition-colors"
+          >
+            <span className="material-symbols-outlined text-[22px]">{link.icon}</span>
+            <span className="text-[9px] font-bold uppercase tracking-wide">{link.label}</span>
+          </Link>
+        ))}
+        {userId && (
+          <Link
+            to={`/Profile/${userId}`}
+            className="flex flex-col items-center gap-0.5 px-4 py-2 text-on-surface/60 dark:text-[#fff9eb]/60 hover:text-primary dark:hover:text-[#ffac9f] no-underline transition-colors"
+          >
+            {userImage ? (
+              <img src={userImage} alt="" className="w-6 h-6 rounded-full object-cover" />
+            ) : (
+              <span className="material-symbols-outlined text-[22px]">account_circle</span>
+            )}
+            <span className="text-[9px] font-bold uppercase tracking-wide">Profile</span>
+          </Link>
+        )}
       </nav>
 
       {/* ── Theme Switcher Modal ── */}

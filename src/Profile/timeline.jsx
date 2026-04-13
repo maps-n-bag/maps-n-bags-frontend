@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { storage } from "../Firebase/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { supabase } from "../Supabase/supabase";
 import SideBar from "../App drawer/sideBar";
 import PlanCard from "../Plan/planCard";
 import { useThemeContext } from "../ThemeContext";
@@ -68,20 +67,21 @@ const Profile = () => {
     }).catch(console.error);
   };
 
-  const handleImageUpload = (type, event) => {
+  const handleImageUpload = async (type, event) => {
     const image = event.target.files[0];
     if (!image) return;
-    const storageRef = ref(storage, `${type}/${user_id}/${type}`);
-    uploadBytes(storageRef, image).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((downloadURL) => {
-        if (type === "cover") {
-          setCoverUrl(downloadURL);
-          setItemBasic((p) => ({ ...p, cover_pic: downloadURL }));
-        } else {
-          setItemBasic((p) => ({ ...p, profile_pic: downloadURL }));
-        }
-      });
-    }).catch(console.error);
+    const filePath = `${type}/${user_id}/${type}`;
+    const { error } = await supabase.storage
+      .from("images")
+      .upload(filePath, image, { contentType: image.type, upsert: true });
+    if (error) { console.error(error); return; }
+    const { data: { publicUrl } } = supabase.storage.from("images").getPublicUrl(filePath);
+    if (type === "cover") {
+      setCoverUrl(publicUrl);
+      setItemBasic((p) => ({ ...p, cover_pic: publicUrl }));
+    } else {
+      setItemBasic((p) => ({ ...p, profile_pic: publicUrl }));
+    }
   };
 
   const handleSave = () => {

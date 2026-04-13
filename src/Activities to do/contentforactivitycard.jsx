@@ -1,53 +1,41 @@
 import React from "react";
-import {
-  Grid,
-  Card,
-  Typography,
-  CardMedia,
-  CardContent,
-} from "@mui/material";
+import { Link } from "react-router-dom";
 import ActivityCard from "./activityCard";
 
-
-const ContentForActivity = (item) => {
-  const id = item.item.id;
-  const title = item.item.title;
-  const rating = item.item.rating;
-  const rating_count = item.item.rating_count;
-  const images = item.item.images;
-  const activities = item.item.activities;
+const ContentForActivity = ({ item, addList, removeList }) => {
+  const { id, title, rating, rating_count, images, activities } = item;
 
   return (
-    <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-      <Card style={{ maxWidth: 345 }}>
-      <CardMedia
-          component="img"
-          height="150"
-          image={images[0]}
+    <div className="rounded-xl bg-surface-container border border-outline/10 overflow-hidden w-52 flex-shrink-0">
+      <div className="h-32 overflow-hidden bg-surface">
+        <img
+          src={images?.[0]}
+          alt={title}
+          className="w-full h-full object-cover"
         />
-        <CardContent>
-          <Typography variant="subtitle1">
+      </div>
+      <div className="p-3">
+        <Link to={`/PlaceDetails/${id}`} className="no-underline">
+          <h4 className="text-sm font-semibold text-on-surface hover:text-primary transition-colors leading-tight mb-1">
             {title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Rating: {rating} ( count: {rating_count})
-          </Typography>
-        </CardContent>
-        <CardContent>
-          <Typography variant="body1">
-            Activity:
-          </Typography>
-          {activities.map((ac) => (
+          </h4>
+        </Link>
+        <p className="text-xs text-on-surface-variant mb-2">
+          ⭐ {rating} ({rating_count})
+        </p>
+        <div className="border-t border-outline/10 pt-2 space-y-0.5">
+          {activities?.map((ac, idx) => (
             <ActivityCard
+              key={idx}
               item={ac}
               place_id={id}
-              setAddList={item.addList}
-              setRemoveList={item.removeList}
+              setAddList={addList}
+              setRemoveList={removeList}
             />
           ))}
-        </CardContent>
-      </Card>
-    </Grid>
+        </div>
+      </div>
+    </div>
   );
 };
 

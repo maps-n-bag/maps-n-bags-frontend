@@ -1,149 +1,99 @@
 import React from "react";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-    Grid,
-    Card,
-    ButtonBase,
-    Typography,
-    Paper,
-    Button,
-} from "@mui/material";
-import { styled } from '@mui/material/styles';
 
 const activityIcons = {
-    "Sight-seeing": "🏛️",
-    "Shopping": "🛍️",
-    "Eating": "🍽️",
-    "Drinking": "🍺",
-    "Clubbing": "🎉",
-    "Gambling": "🎰",
-    "Relaxing": "🛀",
-    "Golfing": "⛳",
-    "Hiking": "🥾",
-    "Swimming": "🏊",
-    "Fishing": "🎣",
-    "Boating": "⛵",
-    "Skiing": "🎿",
-    "Hunting": "🔫",
-    "Biking": "🚴",
+  "Sight-seeing": "🏛️",
+  "Shopping": "🛍️",
+  "Eating": "🍽️",
+  "Drinking": "🍺",
+  "Clubbing": "🎉",
+  "Gambling": "🎰",
+  "Relaxing": "🛀",
+  "Golfing": "⛳",
+  "Hiking": "🥾",
+  "Swimming": "🏊",
+  "Fishing": "🎣",
+  "Boating": "⛵",
+  "Skiing": "🎿",
+  "Hunting": "🔫",
+  "Biking": "🚴",
 };
 
-const Img = styled('img')({
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
-});
+const getActivityBool = (place_id, activity_name, activityList) => {
+  return !!activityList.find((a) => a.place_id === place_id && a.name === activity_name)?.is_selected;
+};
 
 const SuggestionPlace = (props) => {
-    const placeItem = props.item;
+  const placeItem = props.item;
+  const { setNeedToUpdate, setAddList, setRemoveList, setActivityList, activityList } = props;
 
-    const setNeedToUpdate = props.setNeedToUpdate;
-    const setAddList = props.setAddList;
-    const setRemoveList = props.setRemoveList;
-    const setActivityList = props.setActivityList;
+  if (!placeItem) return null;
 
-    const handleActivityClick = (event) => {
-        const place_id = parseInt(event.target.id);
-        const activity_name = event.target.name;
-        console.log(place_id, activity_name);
-        let inAddList = false;
-        setActivityList((prev) => {
-            let temp = prev.map((activity) => {
-                if (activity.place_id === place_id && activity.name === activity_name) {
-                    activity.is_selected = !activity.is_selected;
-                    inAddList = activity.is_selected;
-                }
-                return activity;
-            });
-            return temp;
-        });
-        props.setNeedToUpdate(true);
-        if (inAddList) {
-            setRemoveList((previous) => {
-                let temp = previous.filter((activity) => {
-                    return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
-                });
-                return temp;
-            });
-
-            props.setAddList((previous) => {
-                return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
-            });
+  const handleToggle = (place_id, activity_name, activity_id) => {
+    let willBeSelected = false;
+    setActivityList((prev) =>
+      prev.map((a) => {
+        if (a.place_id === place_id && a.name === activity_name) {
+          const next = { ...a, is_selected: !a.is_selected };
+          willBeSelected = next.is_selected;
+          return next;
         }
-        else {
-            setAddList((previous) => {
-                let temp = previous.filter((activity) => {
-                  return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
-                });
-                return temp;
-              });
-
-            props.setRemoveList((previous) => {
-                return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
-            });
-        }
-    }
-    return (
-
-        <Paper
-            sx={{
-                p: 2,
-                margin: 'auto',
-                maxWidth: 800,
-                flexGrow: 1,
-                marginBottom: '30px',
-                backgroundColor: (theme) =>
-                    theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-            }}
-        >
-            <Grid container spacing={2} alignSelf={"right"}>
-
-                <Grid item xs={2.2}>
-                    <Link to={`/PlaceDetails/${placeItem.id}`}>
-                        <ButtonBase sx={{ width: 128, height: 128 }}>
-                            <Img alt="Restaurant" src={placeItem.image} />
-                        </ButtonBase>
-                    </Link>
-                </Grid>
-
-                <Grid item xs>
-                    <Typography gutterBottom variant="h6" component="div">
-                        {placeItem.title}
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                        Rating: {placeItem.rating}/5.0
-                        <br />
-                        Votes: {placeItem.rating_count}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {placeItem.description}
-                    </Typography>
-                </Grid>
-
-                {/* </Grid> */}
-                {/* <Grid container spacing={2}> */}
-                <Grid item xs={6}>
-                    {placeItem.activities.map((activity) => (
-                        <Typography variant="body2">
-                            {activityIcons[activity.title]} {activity.title}
-                            <Button variant="text" size="small" onClick={handleActivityClick} id={placeItem.id} name={activity.title} value={activity.id}
-                                color={getPlaceActivityBool(placeItem.id, activity.title, props.activityList) ? "error" : "success"}>
-                                {getPlaceActivityBool(placeItem.id, activity.title, props.activityList) ? "Remove" : "Add"}
-                            </Button>
-                        </Typography>
-                    ))}
-                </Grid>
-            </Grid>
-        </Paper>
+        return a;
+      })
     );
+    setNeedToUpdate(true);
+    if (willBeSelected) {
+      setRemoveList((prev) => prev.filter((a) => !(a.place_id === place_id && a.activity_id === activity_id)));
+      setAddList((prev) => [...prev, { place_id, activity_id }]);
+    } else {
+      setAddList((prev) => prev.filter((a) => !(a.place_id === place_id && a.activity_id === activity_id)));
+      setRemoveList((prev) => [...prev, { place_id, activity_id }]);
+    }
+  };
+
+  return (
+    <div className="rounded-xl bg-surface border border-outline/20 overflow-hidden ml-4">
+      <div className="flex gap-4 p-4">
+        <Link to={`/PlaceDetails/${placeItem.id}`} className="flex-shrink-0">
+          <div className="w-20 h-20 rounded-lg overflow-hidden bg-surface-container">
+            <img src={placeItem.image} alt={placeItem.title} className="w-full h-full object-cover" />
+          </div>
+        </Link>
+        <div className="flex-1 min-w-0">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-primary mb-1">📍 Nearby Place</p>
+          <Link to={`/PlaceDetails/${placeItem.id}`} className="no-underline">
+            <h4 className="text-sm font-bold text-on-surface hover:text-primary transition-colors">{placeItem.title}</h4>
+          </Link>
+          <p className="text-xs text-on-surface-variant mt-0.5">
+            ⭐ {placeItem.rating}/5 · {placeItem.rating_count} votes
+          </p>
+          <p className="text-xs text-on-surface-variant mt-0.5 line-clamp-2">{placeItem.description}</p>
+        </div>
+      </div>
+
+      {placeItem.activities?.length > 0 && (
+        <div className="px-4 pb-3 flex flex-wrap gap-1.5 border-t border-outline/10 pt-3">
+          {placeItem.activities.map((activity, idx) => {
+            const isActive = getActivityBool(placeItem.id, activity.title, activityList);
+            return (
+              <button
+                key={idx}
+                onClick={() => handleToggle(placeItem.id, activity.title, activity.id)}
+                className={`inline-flex items-center gap-1 text-[11px] font-semibold px-3 py-1 rounded-full transition-all ${
+                  isActive
+                    ? "bg-primary text-on-primary"
+                    : "bg-surface-container border border-outline/30 text-on-surface-variant hover:border-primary hover:text-primary"
+                }`}
+              >
+                {activityIcons[activity.title] || "🎯"} {activity.title}
+                <span className="ml-0.5 opacity-70">{isActive ? "✕" : "+"}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
 };
-const getPlaceActivityBool = (place_id, activity_name, activityList) => {
-    console.log(place_id, activity_name, activityList);
-    let activity = activityList.find((activity) => {
-        return activity.place_id === place_id && activity.name === activity_name;
-    });
-    return activity?.is_selected;
-}
+
 export default SuggestionPlace;

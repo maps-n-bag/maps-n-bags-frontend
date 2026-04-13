@@ -2,9 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { v4 } from "uuid";
 
-// firebase
-import { storage } from "../Firebase/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { supabase } from "../Supabase/supabase";
 
 import * as dateformat from "../formatDate";
 
@@ -14,17 +12,22 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
   const [hovered, setHovered] = React.useState(false);
   const [uploading, setUploading] = React.useState(false);
 
-  const handlePlanImageUpload = (e) => {
+  const handlePlanImageUpload = async (e) => {
     const image = e.target.files[0];
     if (!image) return;
     setUploading(true);
-    const storageRef = ref(storage, `plan-images/${v4()}`);
-    uploadBytes(storageRef, image).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((downloadURL) => {
-        setPlanDetails((prev) => ({ ...prev, image: downloadURL }));
-        setUploading(false);
-      });
-    }).catch(() => setUploading(false));
+    const filePath = `plan-images/${v4()}`;
+    const { error } = await supabase.storage
+      .from("images")
+      .upload(filePath, image, { contentType: image.type });
+    if (error) {
+      console.error(error);
+      setUploading(false);
+      return;
+    }
+    const { data: { publicUrl } } = supabase.storage.from("images").getPublicUrl(filePath);
+    setPlanDetails((prev) => ({ ...prev, image: publicUrl }));
+    setUploading(false);
   };
 
   const handleSave = () => {

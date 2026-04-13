@@ -1,61 +1,26 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import { Link } from "react-router-dom";
-import CardActions from "@mui/material/CardActions";
-import { Box } from "@mui/material";
-import {
-  Grid,
-  Card,
-  ButtonBase,
-  Paper,
-  CardContent,
-  Typography,
-} from "@mui/material";
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-
-import { makeStyles } from '../utils/makeStylesShim';
-import SideBar from "../App drawer/sideBar";
-import { ScheduleOutlined } from "@mui/icons-material";
 import ContentForActivity from "./contentforactivitycard";
-const baseURL = import.meta.env.VITE_BASE_URL;
-import * as timeformat from "../formatTime";
 
-const TagWise = (item) => {
-  const tag_title = item.item.tag_name;
-
-  const placesOfATag = item.item.places;
+const TagWise = ({ item, addedList, region_id, region_name, setRegions }) => {
+  const placesOfATag = item.places;
 
   return (
-    <Grid item container direction="column">
-      <Grid item xs>
-        <Typography
-          variant="h4"
-          style={{
-            fontFamily: "Special Elite",
-            fontSize: "130%",
-            color: "black",
-            padding: "1%",
-          }}
-        >
-          {tag_title} at {item.region_name}
-        </Typography>
-      </Grid>
-      <Grid item container direction="row" spacing={2}>
-        {placesOfATag.map((place) => (
+    <div className="mb-6">
+      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-3">
+        {item.tag_name} <span className="text-on-surface-variant font-normal normal-case tracking-normal">at {region_name}</span>
+      </p>
+      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        {placesOfATag.map((place, idx) => (
           <ContentForActivity
+            key={idx}
             item={place}
-            addList={item.addedList}
-            region_id={item.region_id}
-            setRegions={item.setRegions}
+            addList={addedList}
+            region_id={region_id}
+            setRegions={setRegions}
           />
         ))}
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 

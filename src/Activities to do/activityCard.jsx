@@ -1,61 +1,37 @@
-import React from "react";
-import { useState } from "react";
-import { Typography } from "@mui/material";
+import React, { useState } from "react";
 
-import Button from "@mui/material/Button";
+const ActivityCard = ({ item: activity, place_id, setAddList, setRemoveList }) => {
+  const [inPlan, setInPlan] = useState(activity.in_plan);
 
-const ActivityCard = (item) => {
-  const place_id = item.place_id;
-  const setAddList = item.setAddList;
-  const setRemoveList = item.setRemoveList;
-  const activity = item.item;
-
-  const [in_plan, setInPlan] = useState(activity.in_plan);
-  const Handler = (event) => {
-    if (event.target.id === "add") {
-      setRemoveList((previous) => {
-        let temp = previous.filter((activity) => {
-          return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
-        });
-        return temp;
-      });
-
-      setAddList((previous) => {
-        return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
-      });
+  const handleToggle = () => {
+    if (!inPlan) {
+      setRemoveList((prev) =>
+        prev.filter((a) => !(a.place_id === place_id && a.activity_id === activity.id))
+      );
+      setAddList((prev) => [...prev, { place_id, activity_id: activity.id }]);
+    } else {
+      setAddList((prev) =>
+        prev.filter((a) => !(a.place_id === place_id && a.activity_id === activity.id))
+      );
+      setRemoveList((prev) => [...prev, { place_id, activity_id: activity.id }]);
     }
-    else if (event.target.id === "remove") {
-      setAddList((previous) => {
-        let temp = previous.filter((activity) => {
-          return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
-        });
-        return temp;
-      });
-
-      setRemoveList((previous) => {
-        return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
-      });
-    }
-    setInPlan(!in_plan);
+    setInPlan(!inPlan);
   };
 
   return (
-    <>
-      <Typography
-        variant="body2"
+    <div className="flex items-center justify-between gap-2 py-1">
+      <span className="text-xs text-on-surface">{activity.title}</span>
+      <button
+        onClick={handleToggle}
+        className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full transition-colors flex-shrink-0 ${
+          inPlan
+            ? "bg-primary/10 text-primary border border-primary/30 hover:bg-primary hover:text-on-primary"
+            : "border border-outline/30 text-on-surface-variant hover:border-primary hover:text-primary"
+        }`}
       >
-        {activity.title}
-        {in_plan ? (
-          <Button onClick={Handler} id="remove" value={activity.id} size="small" color="error">
-            Remove
-          </Button>
-        ) : (
-          <Button onClick={Handler} id="add" value={activity.id} size="small" color="success">
-            Add
-          </Button>
-        )}
-      </Typography>
-    </>
+        {inPlan ? "✕ Remove" : "+ Add"}
+      </button>
+    </div>
   );
 };
 

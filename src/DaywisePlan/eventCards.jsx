@@ -1,31 +1,11 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Grid,
-  ButtonBase,
-  Paper,
-  Typography,
-  Divider,
-  Button,
-} from "@mui/material";
-import CommuteOutlinedIcon from '@mui/icons-material/CommuteOutlined';
-import { styled } from '@mui/material/styles';
-import MovingIcon from '@mui/icons-material/Moving';
-import ScheduleOutlined from '@mui/icons-material/ScheduleOutlined';
-import NearbyRestaurant from "./nearbyRestaurant";
 import axios from "axios";
+import NearbyRestaurant from "./nearbyRestaurant";
 import SuggestionPlace from "./SuggetionPlace";
-
-const baseURL = import.meta.env.VITE_BASE_URL;
 import * as timeformat from "../formatTime";
 
-const Img = styled('img')({
-  margin: 'auto',
-  display: 'block',
-  maxWidth: '100%',
-  maxHeight: '100%',
-});
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 const activityIcons = {
   "Sight-seeing": "🏛️",
@@ -45,293 +25,197 @@ const activityIcons = {
   "Biking": "🚴",
 };
 
-const timeIcon = "🕒"
+const getActivityBool = (place_id, activity_name, activityList, addList, removeList) => {
+  if (!activityList.length) return false;
+  if (addList.find((a) => a.place_id === place_id && a.name === activity_name)) return true;
+  if (removeList.find((a) => a.place_id === place_id && a.name === activity_name)) return false;
+  return !!activityList.find((a) => a.place_id === place_id && a.name === activity_name)?.is_selected;
+};
 
 const EventCards = (props) => {
-
   const cardsData = props.item;
   const plan_id = props.plan_id;
-  const [placeItem, setPlaceItem] = useState([]);
+  const [placeItem, setPlaceItem] = useState({});
   const [restaurantSuggestion, setRestaurantSuggestion] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState({});
   const [activityList, setActivityList] = useState([]);
   const [placeSuggestion, setPlaceSuggestion] = useState(false);
 
-  const setNeedToUpdate = props.setNeedToUpdate;
-  const setAddList = props.setAddList;
-  const setRemoveList = props.setRemoveList;
-  const addList = props.addList;
-  const removeList = props.removeList;
+  const { setNeedToUpdate, setAddList, setRemoveList, addList, removeList } = props;
 
-
-  const handleActivityClick = (event) => {
-    const place_id = parseInt(event.target.id);
-    const activity_name = event.target.name;
-    console.log(place_id, activity_name);
-    let inAddList = false;
-    setActivityList((prev) => {
-      let temp = prev.map((activity) => {
-        if (activity.place_id === place_id && activity.name === activity_name) {
-          activity.is_selected = !activity.is_selected;
-          inAddList = activity.is_selected;
+  const handleActivityToggle = (place_id, activity_name, activity_id) => {
+    let willBeSelected = false;
+    setActivityList((prev) =>
+      prev.map((a) => {
+        if (a.place_id === place_id && a.name === activity_name) {
+          const next = { ...a, is_selected: !a.is_selected };
+          willBeSelected = next.is_selected;
+          return next;
         }
-        return activity;
-      });
-      return temp;
-    });
+        return a;
+      })
+    );
     setNeedToUpdate(true);
-    if (inAddList) {
-      setRemoveList((previous) => {
-        let temp = previous.filter((activity) => {
-          return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
-        });
-        return temp;
-      });
-
-      setAddList((previous) => {
-        return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
-      });
+    if (willBeSelected) {
+      setRemoveList((prev) => prev.filter((a) => !(a.place_id === place_id && a.activity_id === activity_id)));
+      setAddList((prev) => [...prev, { place_id, activity_id }]);
+    } else {
+      setAddList((prev) => prev.filter((a) => !(a.place_id === place_id && a.activity_id === activity_id)));
+      setRemoveList((prev) => [...prev, { place_id, activity_id }]);
     }
-    else {
-      setAddList((previous) => {
-        let temp = previous.filter((activity) => {
-          return activity.place_id != place_id || activity.activity_id != parseInt(event.target.value);
-        });
-        return temp;
-      });
-
-      setRemoveList((previous) => {
-        return [...previous, { place_id: place_id, activity_id: parseInt(event.target.value) }];
-      });
-    }
-  }
+  };
 
   useEffect(() => {
-    if (cardsData.event?.place_id) {
-      axios.get(`${baseURL}public/place?id=${cardsData.event.place_id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
+    if (!cardsData.event?.place_id) return;
+    axios
+      .get(`${baseURL}public/place?id=${cardsData.event.place_id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
       })
-        .then((resp) => {
-          setPlaceItem(resp.data);
-          setActivityList(
-            [{
-              name: (cardsData.event != null ? cardsData.event.activity : ""),
-              place_id: (cardsData.event != null ? cardsData.event.place_id : 0),
-              is_selected: true,
-            }]);
-
-          // console.log(cardsData)
-          // console.log(resp.data);
-          
-          setPlaceSuggestion(false);
-
-        })
-        .catch((rejected) => {
-          console.log(rejected);
-        });
-    }
+      .then((resp) => {
+        setPlaceItem(resp.data);
+        setActivityList([{
+          name: cardsData.event.activity ?? "",
+          place_id: cardsData.event.place_id,
+          activity_id: cardsData.event.activity_id,
+          is_selected: true,
+        }]);
+        setPlaceSuggestion(false);
+      })
+      .catch(console.error);
   }, [cardsData.event?.place_id]);
 
   useEffect(() => {
-    if (cardsData.event?.place_id) {
-      axios.get(`${baseURL}event/suggestion?plan_id=${plan_id}&event_id=${cardsData.event.id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
+    if (!cardsData.event?.place_id) return;
+    axios
+      .get(`${baseURL}event/suggestion?plan_id=${plan_id}&event_id=${cardsData.event.id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
       })
-        .then((resp) => {
-          console.log(resp.data);
-          setSuggestions(resp.data);
-
-          let activityList1 = [];
-          resp.data.activities.forEach((activity) => {
-            activityList1.push({
-              name: activity.title,
-              place_id: cardsData.event.place_id,
-              is_selected: false,
-            })
-          });
-
-
-          resp.data.place?.activities.forEach((activity) => {
-            activityList1.push({
-              name: activity.title,
-              place_id: resp.data.place.id,
-              is_selected: false,
-            })
-          });
-          setActivityList((prev) => {
-            let temp = activityList1.map((activity1) => {
-              let activity = prev.find((activity) => {
-                return activity.place_id === activity1.place_id && activity.name === activity1.name;
-              });
-              if (activity) {
-                return;
-              }
-              return activity1;
-            });
-            temp = temp.filter((activity) => activity != null);
-            return [...prev, ...temp];
-          });
-        })
-        .catch((rejected) => {
-          console.log(rejected);
+      .then((resp) => {
+        setSuggestions(resp.data);
+        const list = [];
+        resp.data.activities?.forEach((a) =>
+          list.push({ name: a.title, place_id: cardsData.event.place_id, activity_id: a.id, is_selected: false })
+        );
+        resp.data.place?.activities?.forEach((a) =>
+          list.push({ name: a.title, place_id: resp.data.place.id, activity_id: a.id, is_selected: false })
+        );
+        setActivityList((prev) => {
+          const newOnes = list.filter(
+            (a1) => !prev.find((a) => a.place_id === a1.place_id && a.name === a1.name)
+          );
+          return [...prev, ...newOnes];
         });
-    }
+      })
+      .catch(console.error);
   }, [cardsData.event?.place_id]);
 
   return (
-    <div>
+    <div className="space-y-2">
+      {/* Journey card */}
       {cardsData.journey && (
-        <Paper
-          sx={{
-            p: 2,
-            margin: 'auto',
-            maxWidth: 900,
-            flexGrow: 1,
-            marginBottom: '10px',
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-          }}
-        >
-          <Grid container spacing={2}>
-
-            <Grid item xs={2}>
-              {cardsData.journey.journey_type === "car" ? (
-                <CommuteOutlinedIcon sx={{ width: 128, height: 128 }} />
-              ) : (
-                <MovingIcon sx={{ width: 128, height: 128 }} />
-              )}
-            </Grid>
-
-            <Grid item xs>
-              <Typography gutterBottom variant="subtitle1" component="div">
-                From {cardsData.journey.from} to {cardsData.journey.to}
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                Approx Distance: {cardsData.journey.distance} km
-                <br />
-                Approx Time: {cardsData.journey.est_time} mins
-              </Typography>
-            </Grid>
-
-          </Grid>
-        </Paper>
+        <div className="flex items-center gap-4 px-4 py-3 rounded-xl bg-surface-container border border-outline/10">
+          <span className="text-2xl flex-shrink-0">
+            {cardsData.journey.journey_type === "car" ? "🚗" : "✈️"}
+          </span>
+          <div>
+            <p className="text-sm font-semibold text-on-surface">
+              {cardsData.journey.from} → {cardsData.journey.to}
+            </p>
+            <p className="text-xs text-on-surface-variant mt-0.5">
+              ~{cardsData.journey.distance} km · ~{cardsData.journey.est_time} mins
+            </p>
+          </div>
+        </div>
       )}
 
-      {cardsData.event && placeItem && (
+      {/* Event card */}
+      {cardsData.event && (
+        <div className="rounded-xl bg-surface-container border border-outline/10 overflow-hidden">
+          <div className="flex gap-4 p-4">
+            {/* Thumbnail */}
+            <Link to={`/PlaceDetails/${cardsData.event.place_id}`} className="flex-shrink-0">
+              <div className="w-20 h-20 rounded-lg overflow-hidden bg-surface border border-outline/10">
+                <img
+                  src={placeItem.images}
+                  alt={placeItem.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </Link>
 
-        <Paper
-          sx={{
-            p: 2,
-            margin: 'auto',
-            maxWidth: 900,
-            flexGrow: 1,
-            marginBottom: '10px',
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-          }}
-        >
-          <Grid container spacing={2}>
-
-            <Grid item xs={2}>
-              <Link to={`/PlaceDetails/${cardsData.event.place_id}`}>
-                <ButtonBase sx={{ width: 128, height: 128 }}>
-                  <Img alt="place_image" src={placeItem.images} />
-                </ButtonBase>
-              </Link>
-            </Grid>
-
-            <Grid item xs>
-              <Typography gutterBottom variant="h5" component="div">
-                <Link to={`/PlaceDetails/${cardsData.event.place_id}`} style={{ textDecoration: 'none', color: props.theme.palette.primary.main }}>
+            {/* Info */}
+            <div className="flex-1 min-w-0">
+              <Link to={`/PlaceDetails/${cardsData.event.place_id}`} className="no-underline">
+                <h3 className="text-sm font-bold text-on-surface hover:text-primary transition-colors leading-snug">
                   {placeItem.title}
-                </Link>
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                {placeItem.description}
-                <br />
-                Rating: {placeItem.rating}/5.0
-                <br />
-                Votes: {placeItem.rating_count}
-              </Typography>
-            </Grid>
+                </h3>
+              </Link>
+              <p className="text-xs text-on-surface-variant mt-0.5 line-clamp-2">{placeItem.description}</p>
+              <p className="text-xs text-on-surface-variant mt-1">
+                ⭐ {placeItem.rating}/5 · {placeItem.rating_count} votes
+              </p>
+            </div>
 
-            <Grid item xs={4}>
-              <Typography variant="body1" gutterBottom>
-                {activityIcons[cardsData.event.activity]} {cardsData.event.activity}
-                <Button variant="text" size="small" onClick={handleActivityClick} id={cardsData.event.place_id} name={cardsData.event.activity} value={cardsData.event.activity_id} 
-                  color={getPlaceActivityBool(cardsData.event.place_id, cardsData.event.activity, activityList,addList,removeList) ? "error" : "success"}>
-                  {getPlaceActivityBool(cardsData.event.place_id, cardsData.event.activity, activityList,addList,removeList) ? "Remove" : "Add"}
-                </Button>
-              </Typography>
-              <Typography variant="body2">
-                Other Activities:
-              </Typography>
-              {suggestions.activities?.map((activity) => (
-                <Typography variant="body2" gutterBottom>
-                  {activityIcons[activity.title]} {activity.title}
-                  <Button variant="text" size="small" onClick={handleActivityClick} id={cardsData.event.place_id} name={activity.title} value={activity.id}>
-                    {getPlaceActivityBool(cardsData.event.place_id, activity.title, activityList,addList,removeList) ? "Remove" : "Add"}
-                  </Button>
-                </Typography>
-              ))}
-              <Button variant="outlined" size="small" onClick={() => setPlaceSuggestion(!placeSuggestion)} color="info">
-                {placeSuggestion ? "Hide" : "Show"} Nearby Place
-              </Button>
-            </Grid>
+            {/* Time + toggles */}
+            <div className="flex-shrink-0 flex flex-col items-end gap-1.5 text-right">
+              <p className="text-xs font-mono text-on-surface-variant whitespace-nowrap">
+                🕒 {timeformat.formatTime(cardsData.event.start_time)}–{timeformat.formatTime(cardsData.event.end_time)}
+              </p>
+              <button
+                onClick={() => setRestaurantSuggestion(!restaurantSuggestion)}
+                className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border border-outline/30 hover:border-primary hover:text-primary transition-colors"
+              >
+                {restaurantSuggestion ? "Hide" : "🍽"} Restaurant
+              </button>
+              <button
+                onClick={() => setPlaceSuggestion(!placeSuggestion)}
+                className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border border-outline/30 hover:border-primary hover:text-primary transition-colors"
+              >
+                {placeSuggestion ? "Hide" : "📍"} Nearby Place
+              </button>
+            </div>
+          </div>
 
-            <Grid item xs={3} direction={"column"} container>
-
-              <Grid item xs>
-                <Typography variant="body2">
-                  {timeIcon} {timeformat.formatTime(cardsData.event.start_time)} to {timeformat.formatTime(cardsData.event.end_time)}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={2}>
-                <Button variant="outlined" size="small" onClick={() => setRestaurantSuggestion(!restaurantSuggestion)} color="info">
-                  {restaurantSuggestion ? "Hide" : "Show"} Nearby Restaurant
-                </Button>
-              </Grid>
-
-            </Grid>
-
-          </Grid>
-        </Paper>
+          {/* Activity pills */}
+          {activityList.length > 0 && (
+            <div className="px-4 pb-3 flex flex-wrap gap-1.5 border-t border-outline/10 pt-3">
+              {activityList.map((activity, idx) => {
+                const isActive = getActivityBool(activity.place_id, activity.name, activityList, addList, removeList);
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => handleActivityToggle(activity.place_id, activity.name, activity.activity_id)}
+                    className={`inline-flex items-center gap-1 text-[11px] font-semibold px-3 py-1 rounded-full transition-all ${
+                      isActive
+                        ? "bg-primary text-on-primary"
+                        : "bg-surface border border-outline/30 text-on-surface-variant hover:border-primary hover:text-primary"
+                    }`}
+                  >
+                    {activityIcons[activity.name] || "🎯"} {activity.name}
+                    <span className="ml-0.5 opacity-70">{isActive ? "✕" : "+"}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
       )}
 
       {restaurantSuggestion && cardsData.event && (
         <NearbyRestaurant place_id={cardsData.event.place_id} />
       )}
-      {placeSuggestion && cardsData.event && (
-        <SuggestionPlace item={suggestions.place} setActivityList={setActivityList} activityList={activityList} setNeedToUpdate={setNeedToUpdate} setAddList={setAddList} setRemoveList={setRemoveList}/>
+      {placeSuggestion && cardsData.event && suggestions.place && (
+        <SuggestionPlace
+          item={suggestions.place}
+          activityList={activityList}
+          setActivityList={setActivityList}
+          setNeedToUpdate={setNeedToUpdate}
+          setAddList={setAddList}
+          setRemoveList={setRemoveList}
+        />
       )}
-
     </div>
   );
 };
 
-const getPlaceActivityBool = (place_id, activity_name, activityList, addList,removeList) => {
-  console.log(place_id, activity_name, activityList);
-  if (activityList.length === 0) {
-    return false;
-  }
-  if(addList.find((activity) => {
-    return activity.place_id === place_id && activity.name === activity_name;
-  })) {
-    return true;
-  }
-  if(removeList.find((activity) => {
-    return activity.place_id === place_id && activity.name === activity_name;
-  })) {
-    return false;
-  }
-  let activity = activityList.find((activity) => {
-    return activity.place_id === place_id && activity.name === activity_name;
-  });
-  return activity?.is_selected;
-}
 export default EventCards;

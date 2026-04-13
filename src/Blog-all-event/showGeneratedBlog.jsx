@@ -7,15 +7,15 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import axios from "axios";
 import { useThemeContext } from "../ThemeContext";
-import { storage } from "../Firebase/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { supabase } from "../Supabase/supabase";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
-const handleMarkdownUpload = (md, plan_id) => {
+const handleMarkdownUpload = async (md, plan_id) => {
   const newFile = new File([md], `${plan_id}.md`, { type: 'text/markdown' });
-  const storageRef = ref(storage, `blogs/${plan_id}.md`);
-  uploadBytes(storageRef, newFile, { contentType: 'text/markdown' }).catch(console.error);
+  await supabase.storage
+    .from("images")
+    .upload(`blogs/${plan_id}.md`, newFile, { contentType: 'text/markdown', upsert: true });
 };
 
 const GenerateBlog = () => {
@@ -25,29 +25,35 @@ const GenerateBlog = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`${baseURL}plan/generateBlog?plan_id=${plan_id}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
-      })
-      .then((resp) => {
+    const load = async () => {
+      try {
+        const resp = await axios.get(`${baseURL}plan/generateBlog?plan_id=${plan_id}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+        });
         const md = PlanMarkdown({ planData: resp.data });
         if (publish === "true") {
           setMarkdownBlog(md);
-          handleMarkdownUpload(md, plan_id);
+          await handleMarkdownUpload(md, plan_id);
           setLoading(false);
         } else {
-          const storageRef = ref(storage, `blogs/${plan_id}.md`);
-          getDownloadURL(storageRef)
-            .then((url) => axios.get(url))
-            .then((r) => { setMarkdownBlog(r.data); setLoading(false); })
-            .catch(() => {
-              setMarkdownBlog(md);
-              handleMarkdownUpload(md, plan_id);
-              setLoading(false);
-            });
+          const { data: blob, error } = await supabase.storage
+            .from("images")
+            .download(`blogs/${plan_id}.md`);
+          if (!error && blob) {
+            const text = await blob.text();
+            setMarkdownBlog(text);
+          } else {
+            setMarkdownBlog(md);
+            await handleMarkdownUpload(md, plan_id);
+          }
+          setLoading(false);
         }
-      })
-      .catch((e) => { console.error(e); setLoading(false); });
+      } catch (e) {
+        console.error(e);
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
 
   return (
