@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#f4eedb"/>
+  <!-- sky gradient band -->
+  <rect x="0" y="0" width="800" height="340" fill="#ece5d0"/>
+  <!-- sun -->
+  <circle cx="580" cy="160" r="52" fill="#f4eedb" stroke="#d4c9a8" stroke-width="2"/>
+  <circle cx="580" cy="160" r="38" fill="#e8dfc8"/>
+  <!-- distant mountains -->
+  <path d="M 0 340 L 160 180 L 300 280 L 420 160 L 540 260 L 640 200 L 800 320 L 800 600 L 0 600 Z" fill="#d8d0ba"/>
+  <!-- mid mountains -->
+  <path d="M 0 420 L 120 290 L 240 370 L 380 250 L 500 340 L 620 270 L 740 360 L 800 330 L 800 600 L 0 600 Z" fill="#cfc7b0"/>
+  <!-- foreground hill -->
+  <path d="M 0 520 Q 200 440, 400 480 Q 600 520, 800 470 L 800 600 L 0 600 Z" fill="#c4bb9e"/>
+  <!-- label -->
+  <text x="400" y="570" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#9e967e" font-style="italic">No photo yet</text>
+</svg>

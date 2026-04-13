@@ -4,6 +4,7 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import SideBar from "../App drawer/sideBar";
+import { PLAN_PLACEHOLDER } from "../utils/placeholders";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -23,17 +24,12 @@ function PlanCard({ item, onCopy, isLoggedIn }) {
     <div className="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-low dark:bg-[#1a1710] border border-[#807b68]/10 hover:shadow-xl hover:shadow-on-surface/5 transition-all duration-300 hover:-translate-y-1">
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
-        {item.image ? (
-          <img
-            src={item.image}
-            alt={item.title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-        ) : (
-          <div className="w-full h-full bg-surface-container flex items-center justify-center">
-            <span className="material-symbols-outlined text-5xl text-on-surface/20">landscape</span>
-          </div>
-        )}
+        <img
+          src={item.image || PLAN_PLACEHOLDER}
+          alt={item.title}
+          onError={(e) => { e.target.src = PLAN_PLACEHOLDER; }}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
@@ -191,13 +187,12 @@ export default function Landingpage() {
                   }}
                 >
                   <div className="aspect-[4/3] overflow-hidden bg-surface">
-                    {plan.image ? (
-                      <img src={plan.image} alt={plan.title} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="material-symbols-outlined text-5xl text-on-surface/20">landscape</span>
-                      </div>
-                    )}
+                    <img
+                      src={plan.image || PLAN_PLACEHOLDER}
+                      alt={plan.title}
+                      onError={(e) => { e.target.src = PLAN_PLACEHOLDER; }}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div className="p-4">
                     <p className="text-sm font-semibold text-on-surface truncate" style={{ fontFamily: "'Newsreader', serif" }}>{plan.title}</p>

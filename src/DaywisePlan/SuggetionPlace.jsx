@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { PLACE_PLACEHOLDER } from "../utils/placeholders";
 
 const activityIcons = {
   "Sight-seeing": "🏛️",
@@ -56,7 +57,7 @@ const SuggestionPlace = (props) => {
       <div className="flex gap-4 p-4">
         <Link to={`/PlaceDetails/${placeItem.id}`} className="flex-shrink-0">
           <div className="w-20 h-20 rounded-lg overflow-hidden bg-surface-container">
-            <img src={placeItem.image} alt={placeItem.title} className="w-full h-full object-cover" />
+            <img src={placeItem.image || PLACE_PLACEHOLDER} alt={placeItem.title} onError={(e) => { e.target.src = PLACE_PLACEHOLDER; }} className="w-full h-full object-cover" />
           </div>
         </Link>
         <div className="flex-1 min-w-0">

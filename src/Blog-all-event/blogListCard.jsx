@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import * as dateformat from "../formatDate";
+import { PLAN_PLACEHOLDER } from "../utils/placeholders";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -13,8 +14,9 @@ const BloglistCard = ({ item }) => {
       {/* Thumbnail */}
       <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
         <img
-          src={item.image}
+          src={item.image || PLAN_PLACEHOLDER}
           alt={item.title}
+          onError={(e) => { e.target.src = PLAN_PLACEHOLDER; }}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>

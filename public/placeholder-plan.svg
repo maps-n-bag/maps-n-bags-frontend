@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#f4eedb"/>
+  <!-- subtle grid -->
+  <line x1="0" y1="150" x2="800" y2="150" stroke="#e0d9c7" stroke-width="1"/>
+  <line x1="0" y1="300" x2="800" y2="300" stroke="#e0d9c7" stroke-width="1"/>
+  <line x1="0" y1="450" x2="800" y2="450" stroke="#e0d9c7" stroke-width="1"/>
+  <line x1="200" y1="0" x2="200" y2="600" stroke="#e0d9c7" stroke-width="1"/>
+  <line x1="400" y1="0" x2="400" y2="600" stroke="#e0d9c7" stroke-width="1"/>
+  <line x1="600" y1="0" x2="600" y2="600" stroke="#e0d9c7" stroke-width="1"/>
+  <!-- map paper -->
+  <rect x="180" y="140" width="440" height="280" rx="6" fill="#ece5d0" stroke="#cdc5ae" stroke-width="1.5"/>
+  <!-- fold corner -->
+  <path d="M 580 140 L 620 140 L 580 180 Z" fill="#d8d0ba" stroke="#cdc5ae" stroke-width="1"/>
+  <!-- dotted route path -->
+  <path d="M 240 360 C 280 280, 340 320, 400 240 S 500 200, 560 260" stroke="#b6271a" stroke-width="2.5" stroke-dasharray="6 5" fill="none" stroke-linecap="round"/>
+  <!-- start pin -->
+  <circle cx="240" cy="360" r="9" fill="#b6271a"/>
+  <circle cx="240" cy="360" r="4" fill="#fff9eb"/>
+  <!-- end pin body -->
+  <path d="M 560 260 C 560 240, 545 228, 560 218 C 575 228, 560 240, 560 260 Z" fill="#b6271a"/>
+  <circle cx="560" cy="222" r="7" fill="#b6271a"/>
+  <circle cx="560" cy="222" r="3" fill="#fff9eb"/>
+  <!-- small waypoint -->
+  <circle cx="400" cy="240" r="5" fill="#b6271a" opacity="0.6"/>
+  <!-- label -->
+  <text x="400" y="490" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#9e967e" font-style="italic">No cover photo yet</text>
+</svg>

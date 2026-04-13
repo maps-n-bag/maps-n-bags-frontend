@@ -1,10 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { v4 } from "uuid";
-
 import { supabase } from "../Supabase/supabase";
-
 import * as dateformat from "../formatDate";
+import { PLAN_PLACEHOLDER } from "../utils/placeholders";
 
 const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
   const [isEditing, setIsEditing] = React.useState(false);
@@ -44,7 +43,8 @@ const PlanCard = ({ plan, togglePublic, deletePlan, editPlan }) => {
         onMouseLeave={() => setHovered(false)}
       >
         <img
-          src={planDetails.image}
+          src={planDetails.image || PLAN_PLACEHOLDER}
+          onError={(e) => { e.target.src = PLAN_PLACEHOLDER; }}
           alt={planDetails.title}
           className={`w-full h-full object-cover transition-all duration-300 ${hovered ? "opacity-40 scale-105" : ""}`}
         />

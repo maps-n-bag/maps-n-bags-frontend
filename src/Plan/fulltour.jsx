@@ -4,6 +4,7 @@ import axios from "axios";
 import SideBar from "../App drawer/sideBar";
 import { useThemeContext } from "../ThemeContext";
 import * as dateformat from "../formatDate";
+import { PLAN_PLACEHOLDER } from "../utils/placeholders";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -46,8 +47,9 @@ const FullTour = () => {
               <div className="md:col-span-7 relative">
                 <div className="rounded-xl overflow-hidden shadow-xl aspect-[4/3]">
                   <img
-                    src={plan.image}
+                    src={plan.image || PLAN_PLACEHOLDER}
                     alt={plan.title}
+                    onError={(e) => { e.target.src = PLAN_PLACEHOLDER; }}
                     className="w-full h-full object-cover"
                   />
                 </div>

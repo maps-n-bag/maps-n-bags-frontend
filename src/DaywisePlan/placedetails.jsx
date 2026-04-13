@@ -7,6 +7,7 @@ import { supabase } from "../Supabase/supabase";
 import SideBar from "../App drawer/sideBar";
 import ShowReview from "./showreview";
 import { useThemeContext } from "../ThemeContext";
+import { PLACE_PLACEHOLDER } from "../utils/placeholders";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -78,8 +79,9 @@ const PlaceDetails = () => {
             <div className="grid md:grid-cols-2 gap-8 mb-10">
               <div className="rounded-2xl overflow-hidden bg-surface-container aspect-[4/3]">
                 <img
-                  src={place.images}
+                  src={place.images || PLACE_PLACEHOLDER}
                   alt={place.title}
+                  onError={(e) => { e.target.src = PLACE_PLACEHOLDER; }}
                   className="w-full h-full object-cover"
                 />
               </div>

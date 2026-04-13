@@ -4,6 +4,7 @@ import axios from "axios";
 import NearbyRestaurant from "./nearbyRestaurant";
 import SuggestionPlace from "./SuggetionPlace";
 import * as timeformat from "../formatTime";
+import { PLACE_PLACEHOLDER } from "../utils/placeholders";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -136,8 +137,9 @@ const EventCards = (props) => {
             <Link to={`/PlaceDetails/${cardsData.event.place_id}`} className="flex-shrink-0">
               <div className="w-20 h-20 rounded-lg overflow-hidden bg-surface border border-outline/10">
                 <img
-                  src={placeItem.images}
+                  src={placeItem.images || PLACE_PLACEHOLDER}
                   alt={placeItem.title}
+                  onError={(e) => { e.target.src = PLACE_PLACEHOLDER; }}
                   className="w-full h-full object-cover"
                 />
               </div>

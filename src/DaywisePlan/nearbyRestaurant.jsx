@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { PLACE_PLACEHOLDER } from "../utils/placeholders";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -25,7 +26,7 @@ const NearbyRestaurant = ({ place_id }) => {
       </div>
       <Link to={`/PlaceDetails/${place_id}`} className="flex-shrink-0">
         <div className="w-14 h-14 rounded-lg overflow-hidden bg-surface-container">
-          <img src={place.images} alt={place.title} className="w-full h-full object-cover" />
+          <img src={place.images || PLACE_PLACEHOLDER} alt={place.title} onError={(e) => { e.target.src = PLACE_PLACEHOLDER; }} className="w-full h-full object-cover" />
         </div>
       </Link>
       <div className="flex-1 min-w-0">

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ActivityCard from "./activityCard";
+import { PLACE_PLACEHOLDER } from "../utils/placeholders";
 
 const ContentForActivity = ({ item, addList, removeList }) => {
   const { id, title, rating, rating_count, images, activities } = item;
@@ -9,8 +10,9 @@ const ContentForActivity = ({ item, addList, removeList }) => {
     <div className="rounded-xl bg-surface-container border border-outline/10 overflow-hidden w-52 flex-shrink-0">
       <div className="h-32 overflow-hidden bg-surface">
         <img
-          src={images?.[0]}
+          src={images?.[0] || PLACE_PLACEHOLDER}
           alt={title}
+          onError={(e) => { e.target.src = PLACE_PLACEHOLDER; }}
           className="w-full h-full object-cover"
         />
       </div>
