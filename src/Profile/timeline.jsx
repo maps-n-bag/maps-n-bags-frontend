@@ -75,8 +75,16 @@ const Profile = () => {
       if (type === "cover") {
         setCoverUrl(url);
         setItemBasic((p) => ({ ...p, cover_pic: url }));
+        // Auto-save cover photo to DB
+        await axios.put(`${baseURL}user?id=${itemBasic.id}`, { ...itemBasic, cover_pic: url }, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+        });
       } else {
         setItemBasic((p) => ({ ...p, profile_pic: url }));
+        // Auto-save profile photo to DB
+        await axios.put(`${baseURL}user?id=${itemBasic.id}`, { ...itemBasic, profile_pic: url }, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+        });
       }
     } catch (err) {
       console.error(err);
