@@ -147,33 +147,89 @@ export default function Landingpage() {
             <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, #b6271a 1px, transparent 0)", backgroundSize: "32px 32px" }} />
           </div>
 
-          <div className="relative z-10 max-w-3xl py-24">
-            <span className="font-body uppercase tracking-[0.3em] text-primary text-xs font-bold mb-6 block">
-              Curated Expeditions
-            </span>
-            <h1
-              className="text-6xl md:text-8xl leading-tight text-on-surface dark:text-[#fff9eb] font-headline"
-              style={{ fontFamily: "'Newsreader', serif", letterSpacing: "-0.02em" }}
-            >
-              Plan the trip <span className="italic text-primary font-medium">you've always</span> dreamed of
-            </h1>
-            <p className="mt-8 text-lg leading-relaxed text-on-surface-variant dark:text-[#fff9eb]/60 max-w-lg font-body">
-              Browse real itineraries crafted by fellow travellers. Copy any plan, customise it day by day, and hit the road.
-            </p>
-            <div className="mt-12 flex flex-wrap items-center gap-6">
-              <Link
-                to="/Register"
-                className="px-8 py-4 rounded-xl bg-primary text-on-primary font-bold shadow-xl shadow-primary/20 hover:-translate-y-0.5 transition-transform"
+          <div className="relative z-10 w-full max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center py-24">
+            {/* Left: copy */}
+            <div>
+              <span className="font-body uppercase tracking-[0.3em] text-primary text-xs font-bold mb-6 block">
+                Curated Expeditions
+              </span>
+              <h1
+                className="text-6xl md:text-7xl xl:text-8xl leading-tight text-on-surface dark:text-[#fff9eb] font-headline"
+                style={{ fontFamily: "'Newsreader', serif", letterSpacing: "-0.02em" }}
               >
-                Start Planning
-              </Link>
-              <button
-                onClick={() => plansRef.current?.scrollIntoView({ behavior: "smooth" })}
-                className="flex items-center gap-2 font-bold text-primary group"
-              >
-                <span className="border-b border-primary">Browse Plans</span>
-                <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform text-[18px]">arrow_forward</span>
-              </button>
+                Plan the trip <span className="italic text-primary font-medium">you've always</span> dreamed of
+              </h1>
+              <p className="mt-8 text-lg leading-relaxed text-on-surface-variant dark:text-[#fff9eb]/60 max-w-lg font-body">
+                Browse real itineraries crafted by fellow travellers. Copy any plan, customise it day by day, and hit the road.
+              </p>
+              <div className="mt-12 flex flex-wrap items-center gap-6">
+                <Link
+                  to="/Register"
+                  className="px-8 py-4 rounded-xl bg-primary text-on-primary font-bold shadow-xl shadow-primary/20 hover:-translate-y-0.5 transition-transform"
+                >
+                  Start Planning
+                </Link>
+                <button
+                  onClick={() => plansRef.current?.scrollIntoView({ behavior: "smooth" })}
+                  className="flex items-center gap-2 font-bold text-primary group"
+                >
+                  <span className="border-b border-primary">Browse Plans</span>
+                  <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform text-[18px]">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Right: stacked plan card previews */}
+            <div className="hidden lg:flex items-center justify-center relative h-[480px]">
+              {plans.slice(0, 3).map((plan, i) => (
+                <div
+                  key={plan.id}
+                  className="absolute w-72 rounded-2xl overflow-hidden shadow-2xl border border-[#807b68]/10 bg-surface-container transition-all duration-500"
+                  style={{
+                    transform: `rotate(${[-7, 4, -1][i]}deg) translate(${[-55, 55, 0][i]}px, ${[30, -30, 0][i]}px)`,
+                    zIndex: [1, 2, 3][i],
+                  }}
+                >
+                  <div className="aspect-[4/3] overflow-hidden bg-surface">
+                    {plan.image ? (
+                      <img src={plan.image} alt={plan.title} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="material-symbols-outlined text-5xl text-on-surface/20">landscape</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <p className="text-sm font-semibold text-on-surface truncate" style={{ fontFamily: "'Newsreader', serif" }}>{plan.title}</p>
+                    <p className="text-xs text-on-surface-variant mt-1 line-clamp-1">{plan.description}</p>
+                  </div>
+                </div>
+              ))}
+
+              {/* Placeholder cards if plans haven't loaded yet */}
+              {plans.length === 0 && [0, 1, 2].map((i) => (
+                <div
+                  key={i}
+                  className="absolute w-72 rounded-2xl overflow-hidden shadow-2xl border border-[#807b68]/10 bg-surface-container"
+                  style={{
+                    transform: `rotate(${[-7, 4, -1][i]}deg) translate(${[-55, 55, 0][i]}px, ${[30, -30, 0][i]}px)`,
+                    zIndex: [1, 2, 3][i],
+                  }}
+                >
+                  <div className="aspect-[4/3] bg-surface-container animate-pulse" />
+                  <div className="p-4 space-y-2">
+                    <div className="h-3 bg-surface rounded-full w-3/4 animate-pulse" />
+                    <div className="h-2 bg-surface rounded-full w-1/2 animate-pulse" />
+                  </div>
+                </div>
+              ))}
+
+              {/* Floating stat badge */}
+              <div className="absolute top-4 right-0 bg-[#100e07] text-[#fff9eb] rounded-2xl px-5 py-3 shadow-xl z-10">
+                <p className="text-[10px] uppercase tracking-widest text-[#fff9eb]/50 mb-1">Community</p>
+                <p className="text-2xl font-bold" style={{ fontFamily: "'Newsreader', serif" }}>{plans.length}+</p>
+                <p className="text-xs text-[#fff9eb]/60">itineraries</p>
+              </div>
             </div>
           </div>
 
